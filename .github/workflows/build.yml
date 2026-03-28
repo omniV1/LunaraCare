@@ -1,0 +1,63 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and analyze
+    # Re-enabled after codebase quality pass
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      # SonarQube analysis - continues on error if server is unavailable
+      # To enable: configure SONAR_HOST_URL secret with a publicly accessible SonarQube server
+      - name: Install SonarQube Scanner
+        continue-on-error: true
+        run: npm install -g @sonar/scan
+      
+      - name: Run SonarQube analysis (Backend)
+        continue-on-error: true
+        working-directory: backend
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ -n "$SONAR_HOST_URL" ] && [ -n "$SONAR_TOKEN" ]; then
+            sonar \
+              -Dsonar.host.url=$SONAR_HOST_URL \
+              -Dsonar.token=$SONAR_TOKEN \
+              -Dsonar.projectKey=AQC-Backend
+          else
+            echo "SonarQube secrets not configured, skipping analysis"
+          fi
+      
+      - name: Run SonarQube analysis (Frontend)
+        continue-on-error: true
+        working-directory: Lunara
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ -n "$SONAR_HOST_URL" ] && [ -n "$SONAR_TOKEN" ]; then
+            sonar \
+              -Dsonar.host.url=$SONAR_HOST_URL \
+              -Dsonar.token=$SONAR_TOKEN \
+              -Dsonar.projectKey=AQC-Frontend
+          else
+            echo "SonarQube secrets not configured, skipping analysis"
+          fi
+

@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# TypeScript generated files
+*.d.ts
+!src/**/*.d.ts
+vite.config.js
+vite.config.d.ts
+
+# Test output
+jest-results.json
+coverage/
+
+# npm artifacts
+*@*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

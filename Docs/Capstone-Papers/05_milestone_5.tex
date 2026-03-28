@@ -1,0 +1,2336 @@
+% ============================================================
+% LUNARA Capstone Project — Milestone 5: Development Phase (Coding and Testing)
+% CST-452 Senior Capstone — Grand Canyon University
+% Authors: Owen Lindsey, Andrew Mack, Carter Wright
+% Compile: xelatex (requires MiKTeX with fontspec)
+% ============================================================
+\documentclass[12pt,letterpaper]{article}
+
+% ── Page Geometry ──
+\usepackage[paperwidth=11in, paperheight=17in, top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+
+% ── Typography ──
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}[Scale=0.85]
+\usepackage{setspace}
+\onehalfspacing
+\widowpenalty=10000
+\clubpenalty=10000
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+
+% ── Color & Graphics ──
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\definecolor{GCUNavy}{HTML}{2D3748}
+\definecolor{LunaraBlue}{HTML}{4A90D9}
+\definecolor{CodeBG}{HTML}{F7F8FA}
+\definecolor{TableHeader}{HTML}{2D3748}
+\definecolor{TableHeaderText}{HTML}{FFFFFF}
+\definecolor{TableRowAlt}{HTML}{F0F4F8}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+
+% ── Tables ──
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{colortbl}
+\renewcommand{\arraystretch}{1.3}
+
+% ── Longtable page-break settings ──
+\setlength{\LTpre}{0.8em}
+\setlength{\LTpost}{0.8em}
+
+% ── Code Listings ──
+\usepackage{listings}
+\lstdefinelanguage{TypeScript}{
+  keywords={import, from, export, default, const, let, var, function, return, if, else, for, of, in, new, try, catch, async, await, class, extends, implements, interface, type, enum, as, typeof, instanceof, void, null, undefined, true, false, this, super, switch, case, break, continue, throw, while, do, with, yield, static, public, private, protected, readonly, abstract, get, set},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={string, number, boolean, any, never, unknown, Promise, Array, Record, Date, Document, Schema, Express, Request, Response, NextFunction},
+  ndkeywordstyle=\color{teal}\bfseries,
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{orange!80!black},
+  string=[b]',
+  morestring=[b]",
+  morestring=[b]`,
+}
+\lstset{
+  language=TypeScript,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{CodeBG},
+  frame=single,
+  framerule=0.5pt,
+  rulecolor=\color{gray!40},
+  breaklines=true,
+  breakatwhitespace=false,
+  showstringspaces=false,
+  tabsize=2,
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=8pt,
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em,
+  aboveskip=1em,
+  belowskip=1em,
+  captionpos=b,
+  escapeinside={(*@}{@*)},
+  literate={=>}{{\textcolor{blue}{=>}}}{2}
+           {===}{{\textcolor{blue}{===}}}{3}
+           {!==}{{\textcolor{blue}{!==}}}{3}
+           {??}{{\textcolor{blue}{??}}}{2},
+}
+
+% ── Hyperlinks ──
+\usepackage[colorlinks=true, linkcolor=GCUNavy, urlcolor=LunaraBlue, citecolor=GCUNavy, bookmarks=true, bookmarksnumbered=true]{hyperref}
+\urlstyle{same}
+
+% ── Headers & Footers ──
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\addtolength{\topmargin}{-2pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{GCUNavy}{\textsc{LUNARA Capstone Project}}}
+\fancyhead[R]{\small\textcolor{GCUNavy}{\textsc{Milestone 5 --- Coding and Testing}}}
+\fancyfoot[L]{\small\textcolor{gray}{Grand Canyon University}}
+\fancyfoot[C]{\small\textcolor{gray}{CST-452}}
+\fancyfoot[R]{\small\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.2pt}
+
+% ── Section Formatting ──
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{GCUNavy}}{\thesection}{1em}{}[\vspace{0.3em}{\color{LunaraBlue!40}\rule{\textwidth}{0.75pt}}\vspace{0.2em}]
+\titleformat{\subsection}{\large\bfseries\color{GCUNavy}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{GCUNavy}}{\thesubsubsection}{1em}{}
+
+% ── Math ──
+\usepackage{amsmath}
+
+% ── Captions ──
+\usepackage{caption}
+\captionsetup{font=small, labelfont={bf,color=GCUNavy}, textfont={color=black}, skip=8pt}
+
+% ── Enumerate / Itemize ──
+\usepackage{enumitem}
+
+% ── Page-break helpers ──
+\usepackage{needspace}
+
+% ── Prevent orphaned headings ──
+\usepackage{etoolbox}
+\pretocmd{\section}{\needspace{6\baselineskip}}{}{}
+\pretocmd{\subsection}{\needspace{5\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\needspace{4\baselineskip}}{}{}
+\pretocmd{\paragraph}{\needspace{3\baselineskip}}{}{}
+
+% ── PDF Metadata ──
+\hypersetup{
+  pdftitle={LUNARA Postpartum Support Platform --- Milestone 5: Development Phase (Coding and Testing)},
+  pdfauthor={Owen Lindsey, Andrew Mack, Carter Wright},
+  pdfsubject={CST-452 Senior Capstone --- Grand Canyon University},
+  pdfkeywords={capstone, postpartum, LUNARA, full-stack, React, Node.js, MongoDB, testing, Jest},
+}
+
+% ── Custom Commands ──
+\newcommand{\screenshotfig}[3]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth,height=0.75\textheight,keepaspectratio]{#1}
+    \caption{#2}
+    \label{fig:#3}
+  \end{figure}
+}
+
+% ============================================================
+\begin{document}
+
+% ── TITLE PAGE ──
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  % Navy background
+  \fill[GCUNavy] (current page.south west) rectangle (current page.north east);
+  % Subtle accent line below title block
+  \draw[LunaraBlue!60, line width=2pt] ([xshift=1.5in, yshift=-14.5cm]current page.north west) -- ([xshift=-1.5in, yshift=-14.5cm]current page.north east);
+\end{tikzpicture}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\color{white}\fontsize{32}{38}\selectfont\textbf{LUNARA}}
+
+\vspace{0.4cm}
+
+{\color{LunaraBlue!70}\fontsize{14}{18}\selectfont\textsc{Postpartum Support Platform}}
+
+\vspace{1.2cm}
+
+{\color{white}\Large Milestone 5: Development Phase --- Coding and Testing}
+
+\vspace{0.3cm}
+
+{\color{white!80}\large Capstone Project Paper Packet}
+
+\vspace{3cm}
+
+{\color{white}\large\textbf{Owen Lindsey}}
+
+\vspace{0.15cm}
+
+{\color{white!80}\normalsize Development Lead}
+
+\vspace{0.8cm}
+
+{\color{white}\large\textbf{Andrew Mack}}
+
+\vspace{0.15cm}
+
+{\color{white!80}\normalsize Backend Developer}
+
+\vspace{0.8cm}
+
+{\color{white}\large\textbf{Carter Wright}}
+
+\vspace{0.15cm}
+
+{\color{white!80}\normalsize Frontend Developer}
+
+\vspace{2cm}
+
+{\color{white!90}\normalsize Grand Canyon University}
+
+{\color{white!90}\normalsize College of Science, Engineering and Technology}
+
+{\color{white!90}\normalsize CST-452: Senior Capstone Project II}
+
+{\color{white!90}\normalsize Professor Amr Elchouemi}
+
+\vspace{0.5cm}
+
+{\color{LunaraBlue}\normalsize March 29, 2026}
+
+\vspace{0.6cm}
+
+{\color{LunaraBlue!80}\normalsize \url{https://www.lunaracare.org/}}
+
+\vspace{0.3cm}
+
+{\color{LunaraBlue!80}\normalsize Video Demo: \url{https://www.youtube.com/watch?v=EY6ncwOMFUQ}}
+
+\end{center}
+
+\newpage
+
+% ── TABLE OF CONTENTS ──
+\thispagestyle{fancy}
+\tableofcontents
+\newpage
+
+% ============================================================
+% SECTION 1: CODING OBJECTIVE
+% ============================================================
+\section{Coding Objective}
+
+The main objective of the development phase is to build the project code and create documentation based on the requirements and analysis decisions. This phase transforms the design documents into an executable program. System entities such as objects, data tables, classes, and components are developed, integrated, and tested to create a working application. The coding objective for Milestone~5 continues the work established in Milestone~4, where the approved requirements from the CST-451 Project Requirements document (FR1--FR15, NFR1--NFR10) and Architecture Plan were transformed into integrated, executable software modules. Milestone~5 represents the third code iteration with a primary focus on comprehensive testing --- validating the integrated codebase through unit tests, integration tests, component tests, and system-level verification to ensure all functional requirements are met and the application is ready for final release packaging in Milestone~6.
+
+\section{Development Deliverables}
+
+This document provides the complete submission of the Implementation Plan with detailed task breakdown, the Functional Requirements Mapping (Traceability Matrix), Module Test Cases with testing framework context, the Source Code Listing with architectural documentation, and the Application Demonstration plan. Additionally, this milestone includes comprehensive test plans, test case specifications, automated test execution results with code coverage analysis, and the Test Analysis Approval Form. The code repository is hosted on GitHub at \url{https://github.com/omniV1/AQC}.
+
+\newpage
+
+% ============================================================
+% SECTION 2: IMPLEMENTATION PLAN
+% ============================================================
+\section{Implementation Plan}
+
+\subsection{Methodology and Execution Framework}
+
+\textbf{Formal Methodology Adopted:} Agile Scrum with iterative coding loops\\
+\textbf{Planning Tools:} GitHub Project Boards, sprint planning documents in \texttt{Docs/Planning/SPRINT\_PLAN.md}\\
+\textbf{Code Review Process:} GitHub Pull Request workflow with peer review\\
+\textbf{Testing Integration:} Continuous integration with automated test execution
+
+Each iteration cycle followed a consistent pattern: define a scoped story objective, implement the backend route/service/model path, build the frontend consumption layer and UI behavior, integrate and validate in the running environment, and refine based on testability and usability constraints.
+
+\subsection{Implementation Plan Matrix --- CST-452 Development Iterations}
+
+{\small
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{6.5cm}|c|c|c|}
+\caption{Implementation Plan Matrix --- CST-452 Development Iterations}\label{tab:impl-plan}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Use Case / User Story}} & \textcolor{TableHeaderText}{\textbf{Detailed Development Tasks}} & \textcolor{TableHeaderText}{\textbf{Est.}} & \textcolor{TableHeaderText}{\textbf{Act.}} & \textcolor{TableHeaderText}{\textbf{\%}} \\
+\hline
+\endfirsthead
+\multicolumn{5}{l}{\small\itshape\color{gray} Table~\ref{tab:impl-plan} continued from previous page}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Use Case / User Story}} & \textcolor{TableHeaderText}{\textbf{Detailed Development Tasks}} & \textcolor{TableHeaderText}{\textbf{Est.}} & \textcolor{TableHeaderText}{\textbf{Act.}} & \textcolor{TableHeaderText}{\textbf{\%}} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\small\itshape\color{gray} Continued on next page}\\
+\endfoot
+\hline
+\endlastfoot
+
+\textbf{FR1: Public Website} & Landing page with hero, offerings accordion, inquiry form; contact POST endpoint & 12 & 12 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{FR2: Authentication \& Registration} & JWT + Passport.js local/JWT strategies; register, login, email verify, password reset, token refresh, MFA (TOTP) & 24 & 26 & 100\% \\
+\hline
+\textbf{FR3: User Dashboards} & Provider dashboard (overview, clients, schedule, blog, profile, createProvider tabs); Client dashboard (overview, messages, appointments, profile tabs) with embedded check-ins, documents, resources, intake, and care plan views & 32 & 34 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{FR4: Dynamic Intake Forms} & Five-step wizard (personal, birth, feeding, support, health); Zod validation per step; auto-save; section-level PATCH & 16 & 18 & 100\% \\
+\hline
+\textbf{FR5: Real-time Messaging} & Socket.IO server with JWT auth; user rooms; conversation rooms; send/receive/deliver events; message rate limiter; MongoDB persistence; MessageCenter and ClientMessageProvider components & 20 & 22 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{FR6: Appointment Scheduling} & CRUD endpoints; upcoming/request/confirm/cancel flows; appointment notification service; reminder service; provider calendar and client scheduling modal & 16 & 16 & 100\% \\
+\hline
+\textbf{FR7: Resource Library} & Resource CRUD with versioning; category management; client-side browsable library with detail modal; resource interactions (favorites, stats) & 12 & 12 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{FR8: Daily Check-ins} & Check-in model (mood 1--10, 10 symptoms, notes, share toggle); trend service; alert service; provider review panel; client check-in form with history and trend visualization & 16 & 18 & 100\% \\
+\hline
+\textbf{FR9: Provider Client Management} & Client listing with assign/unassign; client creation with auto-generated password; provider profile editing; reports and analytics & 12 & 14 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{FR10: Care Plan System} & Care plan templates with sections and milestones; plan creation and CRUD; milestone status tracking; auto-progress calculation; CarePlanManager component & 16 & 16 & 100\% \\
+\hline
+\textbf{FR11: Blog Platform} & Rich text editor; draft/publish workflow; blog versioning; public blog list and detail pages; blog management interface & 10 & 10 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{Documents \& Files} & Document CRUD with type and privacy levels; status workflow (draft\textrightarrow submitted\textrightarrow reviewed\textrightarrow completed); GridFS file storage; bulk upload; provider document review with feedback & 14 & 16 & 100\% \\
+\hline
+\textbf{Push Notifications} & Web Push with VAPID keys; subscription management; test notification endpoint & 6 & 6 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{Security Middleware} & Helmet, CORS, rate limiting, input validation (express-validator), compression, morgan logging & 8 & 8 & 100\% \\
+\hline
+\textbf{Administrative} & Provider account creation; admin route module & 4 & 4 & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{FR12: Digital Journaling} & --- & --- & --- & Deferred \\
+\hline
+\textbf{FR13: Daily Insights} & --- & --- & --- & Deferred \\
+\hline
+\rowcolor{TableRowAlt}
+\textbf{FR14: Sleep \& Feeding Trackers} & --- & --- & --- & Deferred \\
+\hline
+\textbf{FR15: AI Note Summarization} & --- & --- & --- & Deferred \\
+\hline
+\end{longtable}
+}
+
+\textbf{Percent of user stories complete for this iteration:} 100\% of in-scope stories (15/15)\\
+\textbf{Percent of user stories complete for entire project:} 73\% (11 of 15 total FRs; 4 deferred to post-launch)
+
+\begin{align}
+\text{Iteration Completion Rate} &= \frac{\text{Completed Stories}}{\text{Planned Stories}} \times 100\% = \frac{15}{15} \times 100\% = 100\% \\[1em]
+\text{Project Completion Rate} &= \frac{11}{15} \times 100\% \approx 73\%
+\end{align}
+
+\newpage
+
+% ============================================================
+% SECTION 3: TRACEABILITY MATRIX
+% ============================================================
+\section{Functional Requirements Mapping (Traceability Matrix)}
+
+For each requirement $R_i$, at least one implementation artifact and one validation artifact are identified:
+\[
+R_i \Rightarrow \{M_i, T_i\}
+\]
+where $M_i$ represents the module(s) implementing requirement $R_i$ and $T_i$ represents the test case(s) validating requirement $R_i$.
+
+{\scriptsize
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{2.5cm}|}
+\caption{Functional Requirements Traceability Matrix}\label{tab:trace-matrix}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Functional Requirement}} & \textcolor{TableHeaderText}{\textbf{Architecture Section}} & \textcolor{TableHeaderText}{\textbf{Code Module(s)}} & \textcolor{TableHeaderText}{\textbf{Test Case(s)}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Table~\ref{tab:trace-matrix} continued from previous page}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Functional Requirement}} & \textcolor{TableHeaderText}{\textbf{Architecture Section}} & \textcolor{TableHeaderText}{\textbf{Code Module(s)}} & \textcolor{TableHeaderText}{\textbf{Test Case(s)}} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\
+\endfoot
+\hline
+\endlastfoot
+
+FR1.1: Responsive landing page & Frontend Architecture & \texttt{Lunara/src/pages/LandingPage.tsx}, \texttt{Lunara/src/components/layout/MainLayout.tsx} & TC-001 \\
+\hline
+\rowcolor{TableRowAlt}
+FR1.3: Contact/inquiry form & Form Handling & \texttt{Lunara/src/pages/LandingPage.tsx}, \texttt{backend/src/routes/public.ts} & TC-002 \\
+\hline
+FR2.1: Email/password registration & Authentication Service & \texttt{backend/src/routes/auth.ts}, \texttt{backend/src/services/authService.ts}, \texttt{backend/src/config/passport.ts} & TC-003 \\
+\hline
+\rowcolor{TableRowAlt}
+FR2.2: JWT token management & Security Architecture & \texttt{backend/src/utils/tokenUtils.ts}, \texttt{backend/src/config/passport.ts} & TC-004, TC-005 \\
+\hline
+FR2.3: MFA (TOTP) & Authentication & \texttt{backend/src/routes/mfa.ts} & TC-006 \\
+\hline
+\rowcolor{TableRowAlt}
+FR3.1: Provider dashboard & Dashboard Architecture & \texttt{Lunara/src/pages/ProviderDashboard.tsx}, \texttt{Lunara/src/components/provider/*} & TC-007 \\
+\hline
+FR3.2: Client dashboard & Dashboard Architecture & \texttt{Lunara/src/pages/ClientDashboard.tsx}, \texttt{Lunara/src/components/client/*} & TC-008 \\
+\hline
+\rowcolor{TableRowAlt}
+FR4.1: Dynamic intake & Intake Form & \texttt{Lunara/src/components/intake/ClientIntakeWizard.tsx}, \texttt{backend/src/routes/intake.ts} & TC-009 \\
+\hline
+FR5.1: Real-time messaging & Real-time Communication & \texttt{backend/src/server.ts} (Socket.IO), \texttt{Lunara/src/components/MessageCenter.tsx} & TC-010 \\
+\hline
+\rowcolor{TableRowAlt}
+FR6.1: Appointment scheduling & Scheduling Architecture & \texttt{backend/src/routes/appointments.ts}, \texttt{backend/src/services/appointmentService.ts}, \texttt{Lunara/src/components/provider/ProviderCalendar.tsx} & TC-011 \\
+\hline
+FR7.1: Resource library & Content Management & \texttt{backend/src/routes/resources.ts}, \texttt{backend/src/services/resourceService.ts}, \texttt{Lunara/src/components/resource/ResourceLibrary.tsx} & TC-012 \\
+\hline
+\rowcolor{TableRowAlt}
+FR8.1: Daily check-ins & Wellness Tracking & \texttt{backend/src/routes/checkins.ts}, \texttt{backend/src/services/checkinService.ts}, \texttt{backend/src/services/checkinTrendService.ts} & TC-013, TC-014 \\
+\hline
+FR9.1: Client management & Provider Dashboard & \texttt{backend/src/routes/client.ts}, \texttt{backend/src/routes/providers.ts} & TC-015 \\
+\hline
+\rowcolor{TableRowAlt}
+FR10.1: Care plan templates & Care Plan Architecture & \texttt{backend/src/routes/carePlans.ts}, \texttt{backend/src/models/CarePlan.ts} & TC-016 \\
+\hline
+FR11.1: Blog publishing & Content Management & \texttt{backend/src/routes/blog.ts}, \texttt{backend/src/services/blogService.ts}, \texttt{Lunara/src/components/blog/BlogEditor.tsx} & TC-017 \\
+\hline
+\rowcolor{TableRowAlt}
+NFR1.1: Password hashing & Security Architecture & \texttt{backend/src/models/User.ts} (bcrypt 12 rounds, pre-save hook) & TC-018 \\
+\hline
+NFR1.2: Input validation & Validation Architecture & \texttt{backend/src/routes/*.ts} (express-validator), Zod schemas & TC-019 \\
+\hline
+\rowcolor{TableRowAlt}
+NFR4.1: WebSocket management & Real-time Architecture & \texttt{backend/src/services/socketConnectionManager.ts} & TC-020 \\
+\hline
+\end{longtable}
+}
+
+\newpage
+
+% ============================================================
+% SECTION 4: SOURCE CODE LISTING
+% ============================================================
+\section{Source Code Listing \& Architectural Implementation}
+
+\subsection{System Architecture Overview}
+
+The LUNARA platform implements a layered full-stack architecture with clear separation of concerns. The backend follows an Express.js \textbf{route \textrightarrow{} middleware \textrightarrow{} service \textrightarrow{} model} pattern, while the frontend follows a React \textbf{page \textrightarrow{} component \textrightarrow{} context \textrightarrow{} service} pattern. Both layers are written entirely in TypeScript for end-to-end type safety.
+
+During the Milestone~5 quality hardening phase, all eight major route files were refactored to extract business logic into dedicated service modules, reducing route handlers to thin HTTP controllers that validate input, delegate to a service, and send responses. This yielded 17 service files (up from 9) and eliminated all \texttt{any} type annotations from backend production code.
+
+\subsection{Backend Architecture Implementation (\texttt{/backend})}
+
+\subsubsection{Core Application Layer --- \texttt{src/server.ts}}
+
+The Express application entry point configures the middleware stack, database connection, route registration, Socket.IO real-time messaging, and Swagger API documentation. The security-first middleware pipeline applies Helmet HTTP header hardening (with CSP intentionally disabled for JSON-only API endpoints), CORS policy enforcement with a configurable allowed-origins list, compression, and rate limiting differentiated between development (1,000 requests per 15~minutes) and production (100 requests per 15~minutes).
+
+\begin{lstlisting}[caption={Server initialization and security middleware (\texttt{server.ts})}]
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
+import http from 'node:http';
+import { Server as SocketIOServer } from 'socket.io';
+import passport from 'passport';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+
+const app = express();
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
+
+// Security Middleware
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(compression());
+app.use(cors({ origin: allowedOriginsSet, credentials: true }));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isProduction ? 100 : 1000,
+  message: 'Too many requests from this IP, please try again later.',
+});
+\end{lstlisting}
+
+Twenty route modules are registered under the \texttt{/api} prefix:
+
+\begin{lstlisting}[caption={API route registration (\texttt{server.ts})}]
+app.use('/api/auth', authRouter);
+app.use('/api/auth/mfa', mfaRouter);
+app.use('/api/appointments', appointmentsRouter);
+app.use('/api/messages', messagesRouter);
+app.use('/api/resources', resourcesRouter);
+app.use('/api/categories', categoriesRouter);
+app.use('/api/checkins', checkinsRouter);
+app.use('/api/intake', intakeRouter);
+app.use('/api/care-plans', carePlansRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/blog', blogRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/providers', providersRouter);
+app.use('/api/client', clientRouter);
+app.use('/api/public', publicRouter);
+app.use('/api/documents', documentsRouter);
+app.use('/api/recommendations', recommendationsRouter);
+app.use('/api/files', filesRouter);
+app.use('/api/push', pushNotificationsRouter);
+app.use('/api/interactions', interactionsRouter);
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{Authentication \& Authorization Layer --- \texttt{src/config/passport.ts}}
+
+Authentication uses Passport.js with JWT, Local, and Google OAuth strategies. The JWT strategy extracts the bearer token from the Authorization header, verifies it against the JWT secret, and retrieves the corresponding user from MongoDB:
+
+\begin{lstlisting}[caption={Passport.js authentication strategies (\texttt{passport.ts})}]
+import passport from 'passport';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { Strategy as LocalStrategy } from 'passport-local';
+import bcrypt from 'bcryptjs';
+import User from '../models/User';
+
+// JWT Strategy
+passport.use(
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.JWT_SECRET ?? 'your-secret-key',
+    },
+    async (jwt_payload, done) => {
+      try {
+        const user = await User.findById(jwt_payload.id);
+        if (user) return done(null, user);
+        return done(null, false);
+      } catch (error) {
+        return done(error, false);
+      }
+    }
+  )
+);
+
+// Local Strategy (Email/Password) with bcrypt comparison
+passport.use(
+  new LocalStrategy(
+    { usernameField: 'email', passwordField: 'password' },
+    async (email, password, done) => {
+      const user = await User.findOne({
+        email: email.toLowerCase()
+      }).select('+password');
+      if (!user || !user.password)
+        return done(null, false, { message: 'Invalid credentials' });
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch)
+        return done(null, false, { message: 'Invalid credentials' });
+      return done(null, user);
+    }
+  )
+);
+\end{lstlisting}
+
+Protected routes use \texttt{passport.authenticate('jwt', \{ session: false \})} as middleware, ensuring every request is verified before reaching the handler.
+
+\newpage
+
+\subsubsection{Data Access Layer --- Database Schema Design}
+
+Nineteen Mongoose models define the domain. Representative schemas are shown below.
+
+\paragraph{Users Collection --- \texttt{src/models/User.ts}}
+\mbox{}\\
+The User model represents all users in the system (clients, providers, admins) and stores authentication data, MFA configuration, and refresh tokens:
+
+\begin{lstlisting}[caption={User model interface (\texttt{User.ts})}]
+export interface IUser extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password?: string;
+  role: 'client' | 'provider' | 'admin';
+  isEmailVerified: boolean;
+  oauthProviders: IOAuthProvider[];
+  profile: IProfile;
+  mfaEnabled: boolean;
+  mfaSecret?: string;
+  mfaBackupCodes: string[];
+  refreshTokens: IRefreshToken[];
+  intakeCompleted?: boolean;
+  intakeCompletedAt?: Date;
+  comparePassword(candidatePassword: string): Promise<boolean>;
+  canLogin(): boolean;
+  getPermissions(): string[];
+}
+\end{lstlisting}
+
+\paragraph{CheckIn Collection --- \texttt{src/models/CheckIn.ts}}
+\mbox{}\\
+The CheckIn model captures daily wellness self-assessments with mood rating, physical symptoms, and provider-sharing controls:
+
+\begin{lstlisting}[caption={CheckIn model with symptom tracking (\texttt{CheckIn.ts})}]
+export const PHYSICAL_SYMPTOMS = [
+  'fatigue', 'sleep_issues', 'appetite_changes', 'anxiety', 'pain',
+  'headache', 'nausea', 'dizziness', 'breast_soreness', 'bleeding',
+] as const;
+
+const checkInSchema = new Schema<ICheckInDocument>({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  date: { type: Date, required: true },
+  moodScore: { type: Number, required: true, min: 1, max: 10 },
+  physicalSymptoms: [{ type: String, enum: PHYSICAL_SYMPTOMS }],
+  notes: { type: String, maxlength: 2000 },
+  sharedWithProvider: { type: Boolean, default: false },
+  providerReviewed: { type: Boolean, default: false },
+}, { timestamps: true });
+
+checkInSchema.index({ userId: 1, date: -1 }, { unique: true });
+\end{lstlisting}
+
+\paragraph{Appointments Collection --- \texttt{src/models/Appointment.ts}}
+
+\begin{lstlisting}[caption={Appointment model (\texttt{Appointment.ts})}]
+export interface IAppointmentDocument extends Document {
+  clientId: mongoose.Types.ObjectId;
+  providerId: mongoose.Types.ObjectId;
+  startTime: Date;
+  endTime: Date;
+  status: 'requested' | 'confirmed' | 'scheduled'
+        | 'completed' | 'cancelled';
+  type?: 'virtual' | 'in_person';
+  notes?: string;
+  requestedBy: mongoose.Types.ObjectId;
+  reminderSentAt?: Date;
+}
+
+appointmentSchema.index({ clientId: 1, startTime: -1 });
+appointmentSchema.index({ providerId: 1, startTime: -1 });
+appointmentSchema.index({ status: 1 });
+\end{lstlisting}
+
+\paragraph{Messages Collection --- \texttt{src/models/Message.ts}}
+
+\begin{lstlisting}[caption={Message model (\texttt{Message.ts})}]
+const messageSchema = new Schema<IMessageDocument>({
+  conversationId: {
+    type: Schema.Types.ObjectId, required: true, index: true
+  },
+  sender: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  receiver: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  content: { type: String, required: true },
+  read: { type: Boolean, default: false },
+  type: {
+    type: String,
+    enum: ['text', 'image', 'file', 'system'],
+    default: 'text'
+  },
+}, { timestamps: { createdAt: true, updatedAt: false } });
+\end{lstlisting}
+
+\paragraph{CarePlan Collection --- \texttt{src/models/CarePlan.ts}}
+\mbox{}\\
+The CarePlan model includes a pre-save hook that automatically computes progress as the percentage of completed milestones:
+
+\begin{lstlisting}[caption={CarePlan model with auto-progress hook (\texttt{CarePlan.ts})}]
+export interface IMilestone {
+  title: string;
+  description?: string;
+  weekOffset: number;
+  category: 'physical' | 'emotional' | 'feeding'
+           | 'self_care' | 'general';
+  status: 'pending' | 'in_progress' | 'completed' | 'skipped';
+}
+
+const carePlanSchema = new Schema<ICarePlanDocument>({
+  clientId: {
+    type: Schema.Types.ObjectId, ref: 'User', required: true
+  },
+  providerId: {
+    type: Schema.Types.ObjectId, ref: 'User', required: true
+  },
+  title: { type: String, required: true, maxlength: 200 },
+  sections: [sectionSchema],
+  status: {
+    type: String,
+    enum: ['active', 'completed', 'paused', 'archived'],
+    default: 'active'
+  },
+  progress: { type: Number, default: 0, min: 0, max: 100 },
+}, { timestamps: true });
+
+carePlanSchema.pre('save', function (next) {
+  const allMilestones = this.sections.flatMap(s => s.milestones);
+  if (allMilestones.length === 0) this.progress = 0;
+  else {
+    const done = allMilestones.filter(
+      m => m.status === 'completed' || m.status === 'skipped'
+    ).length;
+    this.progress = Math.round(
+      (done / allMilestones.length) * 100
+    );
+  }
+  next();
+});
+\end{lstlisting}
+
+\paragraph{ClientDocument Collection --- \texttt{src/models/ClientDocument.ts}}
+\mbox{}\\
+Documents support type classification, privacy levels, and a status workflow:
+
+\begin{lstlisting}[caption={ClientDocument model (\texttt{ClientDocument.ts})}]
+export interface IClientDocument extends Document {
+  title: string;
+  documentType: 'emotional-survey' | 'health-assessment'
+    | 'personal-assessment' | 'progress-photo' | 'other';
+  uploadedBy: mongoose.Types.ObjectId;
+  assignedProvider?: mongoose.Types.ObjectId;
+  files: IFileAttachment[];
+  submissionStatus: 'draft' | 'submitted-to-provider'
+    | 'reviewed-by-provider' | 'completed';
+  privacyLevel: 'client-only' | 'client-and-provider'
+    | 'care-team';
+}
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{API Layer \& Business Services}
+
+\paragraph{Authentication Endpoints --- \texttt{src/routes/auth.ts}}
+\mbox{}\\
+The auth router exposes registration with express-validator input validation, login via Passport Local strategy, token refresh, email verification, password reset, and logout with token revocation. A rate limiter restricts sensitive endpoints to 5 requests per 15~minutes:
+
+\begin{lstlisting}[caption={Auth route registration endpoint (\texttt{auth.ts})}]
+const sensitiveEndpointLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Too many attempts, please try again later.',
+});
+
+router.post('/register', [
+  body('firstName').notEmpty(),
+  body('lastName').notEmpty(),
+  body('email').isEmail().normalizeEmail(),
+  body('password').isLength({ min: 8 }),
+  body('role').isIn(['client', 'provider']),
+], async (req, res) => { /* registration logic */ });
+\end{lstlisting}
+
+\paragraph{Check-in Endpoints --- \texttt{src/routes/checkins.ts}}
+\mbox{}\\
+The check-in router validates mood scores (1--10), symptom values against the predefined enum, and note length, then saves and triggers alert analysis:
+
+\begin{lstlisting}[caption={Check-in creation endpoint (\texttt{checkins.ts})}]
+router.post('/', authenticate, [
+  body('date').isISO8601(),
+  body('moodScore').isInt({ min: 1, max: 10 }),
+  body('physicalSymptoms').optional().isArray()
+    .custom((arr) => arr.every(
+      s => PHYSICAL_SYMPTOMS.includes(s)
+    )),
+  body('notes').optional().isString().isLength({ max: 2000 }),
+  body('sharedWithProvider').optional().isBoolean(),
+], async (req, res) => {
+  const checkIn = new CheckIn({
+    userId: user._id, ...req.body
+  });
+  await checkIn.save();
+  const alerts = await getCheckInAlerts(
+    user._id.toString()
+  );
+  return res.status(201).json({
+    message: 'Check-in recorded', checkIn, alerts
+  });
+});
+\end{lstlisting}
+
+\paragraph{Check-in Trend Service --- \texttt{src/services/checkinTrendService.ts}}
+\mbox{}\\
+The trend service computes mood averages, daily mood mappings, symptom frequency distributions, mood direction (improving/stable/declining), and clinical alerts for low mood streaks, declining trends, and persistent symptoms:
+
+\begin{lstlisting}[caption={Clinical alert thresholds and detection (\texttt{checkinTrendService.ts})}]
+const ALERT_THRESHOLDS = {
+  LOW_MOOD_SCORE: 3,
+  LOW_MOOD_STREAK: 3,
+  DECLINING_WINDOW: 7,
+  PERSISTENT_SYMPTOM_DAYS: 5,
+};
+
+export async function getCheckInAlerts(
+  userId: string
+): Promise<AlertInfo[]> {
+  const alerts: AlertInfo[] = [];
+  const recent = await CheckIn.find({ userId })
+    .sort({ date: -1 })
+    .limit(ALERT_THRESHOLDS.DECLINING_WINDOW);
+
+  // Low mood streak detection
+  let lowStreak = 0;
+  for (const c of recent) {
+    if (c.moodScore <= ALERT_THRESHOLDS.LOW_MOOD_SCORE)
+      lowStreak++;
+    else break;
+  }
+  if (lowStreak >= ALERT_THRESHOLDS.LOW_MOOD_STREAK) {
+    alerts.push({
+      type: 'low_mood',
+      message: `Mood has been ${
+        ALERT_THRESHOLDS.LOW_MOOD_SCORE
+      } or below for ${lowStreak} consecutive check-ins`,
+      severity: lowStreak >= 5 ? 'critical' : 'warning',
+    });
+  }
+  // ... declining trend and persistent symptom detection
+}
+\end{lstlisting}
+
+\paragraph{Real-time Messaging --- Socket.IO in \texttt{src/server.ts}}
+\mbox{}\\
+Socket.IO connections are authenticated with the same JWT strategy. After verification, users join private rooms keyed to their user ID. Message delivery persists to MongoDB, broadcasts to the conversation room, sends a notification to the receiver's user room, and confirms delivery to the sender:
+
+\begin{lstlisting}[caption={Socket.IO authentication and message delivery (\texttt{server.ts})}]
+io.use((socket, next) => {
+  const token = socket.handshake.auth?.token
+    || socket.handshake.query?.token;
+  if (!token)
+    return next(
+      new Error('Authentication error: missing token')
+    );
+  const payload = verifyAccessToken(token);
+  socket.data.userId = payload.id;
+  socket.data.role = payload.role;
+  next();
+});
+
+io.on('connection', socket => {
+  socket.on('send_message', async (messageData) => {
+    if (isRateLimited(socket.data.userId)) {
+      socket.emit('rate_limit', {
+        error: 'Too many messages'
+      });
+      return;
+    }
+    const doc = new Message({
+      ...messageData, read: false
+    });
+    await doc.save();
+    io.to(doc.conversationId).emit(
+      'new_message', payload
+    );
+    io.to(doc.receiver).emit(
+      'new_message_notification', payload
+    );
+    socket.emit('message_delivered', {
+      messageId: doc._id
+    });
+  });
+});
+\end{lstlisting}
+
+\newpage
+
+\subsection{Frontend Architecture Implementation (\texttt{/Lunara})}
+
+\subsubsection{Application Root --- \texttt{src/App.tsx}}
+
+The React~18 application wraps all routes in an \texttt{AuthProvider} context for global authentication state, a \texttt{ResourceProvider} for resource library data, and a \texttt{PageErrorBoundary} for graceful error recovery. Role-based route protection ensures providers and clients are directed to separate dashboards:
+
+\begin{lstlisting}[caption={Role-based route protection (\texttt{App.tsx})}]
+<ProtectedRoute allowedRoles={['provider']}>
+  <ErrorBoundary>
+    <ProviderDashboard />
+  </ErrorBoundary>
+</ProtectedRoute>
+
+<ProtectedRoute allowedRoles={['client']}>
+  <ErrorBoundary>
+    <ClientDashboard />
+  </ErrorBoundary>
+</ProtectedRoute>
+\end{lstlisting}
+
+\subsubsection{Client Check-in Component --- \texttt{src/components/client/ClientCheckIns.tsx}}
+
+The check-in form captures mood via a slider (1--10), physical symptoms via a checkbox list of ten predefined options, optional notes, and a provider-sharing toggle:
+
+\begin{lstlisting}[caption={Symptom definitions (\texttt{ClientCheckIns.tsx})}]
+const SYMPTOMS: Array<{
+  id: PhysicalSymptom; label: string
+}> = [
+  { id: 'fatigue', label: 'Fatigue / low energy' },
+  { id: 'sleep_issues', label: 'Sleep challenges' },
+  { id: 'appetite_changes', label: 'Appetite changes' },
+  { id: 'anxiety', label: 'Anxiety / worry' },
+  { id: 'pain', label: 'Pain' },
+  { id: 'headache', label: 'Headache' },
+  { id: 'nausea', label: 'Nausea' },
+  { id: 'dizziness', label: 'Dizziness' },
+  { id: 'breast_soreness',
+    label: 'Breast / chest soreness' },
+  { id: 'bleeding', label: 'Bleeding' },
+];
+\end{lstlisting}
+
+\subsubsection{Intake Wizard --- \texttt{src/components/intake/ClientIntakeWizard.tsx}}
+
+The five-step wizard validates each section with Zod schemas before allowing progression:
+
+\begin{lstlisting}[caption={Intake wizard Zod validation schemas (\texttt{ClientIntakeWizard.tsx})}]
+type StepId = 'personal' | 'birth' | 'feeding'
+            | 'support' | 'health';
+
+const schemas: Record<StepId, z.ZodTypeAny> = {
+  personal: z.object({
+    partnerName: optionalShort(120),
+    address: z.object({
+      street, city, state, zipCode
+    }).optional(),
+    emergencyContact: z.object({
+      name, phone, relationship
+    }).optional(),
+    communicationPreferences: z.object({
+      preferredContactMethod, bestTimeToContact
+    }).optional(),
+  }),
+  birth: z.object({
+    isFirstBaby: z.boolean().optional(),
+    birthExperience: z.object({
+      birthType, birthLocation, laborDuration
+    }).optional(),
+  }),
+  // feeding, support, health schemas follow same pattern
+};
+\end{lstlisting}
+
+\newpage
+
+\subsection{Source Code File Inventory}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Layer}} & \textcolor{TableHeaderText}{\textbf{Directory}} & \textcolor{TableHeaderText}{\textbf{Files}} & \textcolor{TableHeaderText}{\textbf{Description}} \\
+\hline
+Backend Routes & \texttt{backend/src/routes/} & 20 & API endpoint handlers for all domains \\
+\hline
+\rowcolor{TableRowAlt}
+Backend Models & \texttt{backend/src/models/} & 19 & Mongoose schemas and interfaces \\
+\hline
+Backend Services & \texttt{backend/src/services/} & 17 & Domain service layer (auth, resource, appointment, blog, document, checkin, provider, user) plus GridFS, email, push, trends, cache, appointment notifications, reminders, rate limiter, socket manager \\
+\hline
+\rowcolor{TableRowAlt}
+Backend Config & \texttt{backend/src/config/} & 1 & Passport authentication strategies \\
+\hline
+Backend Utils & \texttt{backend/src/utils/} & 4 & Token utils, logger, query optimization, error helpers \\
+\hline
+\rowcolor{TableRowAlt}
+Frontend Pages & \texttt{Lunara/src/pages/} & 10 & Route-level entry points \\
+\hline
+Frontend Components & \texttt{Lunara/src/components/} & 47 & Provider, client, documents, intake, blog, resource, UI \\
+\hline
+\rowcolor{TableRowAlt}
+Frontend Contexts & \texttt{Lunara/src/contexts/} & 4 & AuthContext, ResourceContext, useAuth, useResource \\
+\hline
+Frontend Services & \texttt{Lunara/src/services/} & 13 & API service layer for each domain \\
+\hline
+\end{tabularx}
+\caption{Source code file inventory by architectural layer}
+\end{table}
+
+\newpage
+
+% ============================================================
+% SECTION 5: SCOPE ADJUSTMENT
+% ============================================================
+\section{Scope Adjustment Context}
+
+As documented in sprint planning, four planned features were formally deferred to a post-launch roadmap after discussion with the mentor and instructor: FR12 (Digital Journaling), FR13 (Daily Insights / Horoscopes), FR14 (Sleep \& Feeding Trackers), and FR15 (AI-Powered Note Summarization). The justification for each deferral was recorded in the sprint documentation. These were lower-priority features from the original requirements that fell outside the timeline after the core functional requirements (FR1--FR11) consumed more development effort than initially estimated due to the depth of integration required across the full stack. Where scope changed, execution focused on preserving the core functional requirements and delivery quality. The coding baseline established in Milestone~4 enabled the formal testing phase documented in the following sections.
+
+% ============================================================
+% SECTION 6: DATA DICTIONARY
+% ============================================================
+\section{Data Dictionary}
+
+The data dictionary defines every persistent entity in the LUNARA MongoDB database. Each table lists the field name, data type, constraints (required, unique, default, min/max), and references to other collections. All models use Mongoose and reside in \texttt{backend/src/models/}.
+
+% ---------- User ----------
+\subsection{User}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{User --- \texttt{users} collection (\texttt{models/User.ts})}\label{tab:dd-user}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} User (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+firstName & String & Yes & Max 50 characters \\ \hline
+lastName & String & Yes & Max 50 characters \\ \hline
+email & String & Yes & Unique, lowercase, validated \\ \hline
+password & String & No & Min 8 chars, bcrypt-hashed \\ \hline
+role & Enum & Yes & client $\vert$ provider $\vert$ admin; default \texttt{client} \\ \hline
+isEmailVerified & Boolean & No & Default \texttt{false} \\ \hline
+oauthProviders & Array & No & Google OAuth data \\ \hline
+profile.phone & String & No & Phone validation \\ \hline
+profile.timezone & String & No & Default \texttt{America/Phoenix} \\ \hline
+mfaEnabled & Boolean & No & Default \texttt{false} \\ \hline
+mfaSecret & String & No & TOTP secret \\ \hline
+mfaBackupCodes & [String] & No & One-time recovery codes \\ \hline
+refreshTokens & [Object] & No & Token + createdAt; 7-day TTL \\ \hline
+failedLoginAttempts & Number & No & Default 0 \\ \hline
+lockUntil & Date & No & Account lock expiry \\ \hline
+intakeCompleted & Boolean & No & Default \texttt{false} \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- Client ----------
+\subsection{Client}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{Client --- \texttt{clients} collection (\texttt{models/Client.ts})}\label{tab:dd-client}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Client (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+userId & ObjectId & Yes & Ref: \texttt{User}; unique \\ \hline
+birthDate & Date & No & Client date of birth \\ \hline
+babyBirthDate & Date & No & Baby's date of birth \\ \hline
+dueDate & Date & No & Expected due date \\ \hline
+assignedProvider & ObjectId & No & Ref: \texttt{User} \\ \hline
+status & Enum & No & active $\vert$ inactive $\vert$ completed \\ \hline
+intakeCompleted & Boolean & No & Default \texttt{false} \\ \hline
+intakeData & Object & No & Nested: address, emergency contact, birth experience, feeding preferences, support needs, medical history, postpartum goals \\ \hline
+postpartumWeek & Number & No & Default 0 \\ \hline
+carePlans & [Object] & No & planId (Ref: \texttt{CarePlan}), assignedDate, status \\ \hline
+onboardingSteps & Object & No & Booleans: profileCreated, intakeCompleted, providerAssigned, firstContactMade, careplanAssigned \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- Provider ----------
+\subsection{Provider}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{Provider --- \texttt{providers} collection (\texttt{models/Provider.ts})}\label{tab:dd-provider}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Provider (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+userId & ObjectId & Yes & Ref: \texttt{User}; unique \\ \hline
+professionalInfo & Object & No & certifications (enum array), yearsExperience (0--50), specialties (enum array), bio (max 1000), education, languages \\ \hline
+contactInfo & Object & No & businessPhone, businessEmail, website, socialMedia \\ \hline
+serviceAreas & [String] & No & Cities, zip codes, regions \\ \hline
+services & [Enum] & No & prenatal\_support, birth\_support, postpartum\_support, overnight\_care, meal\_preparation, etc. \\ \hline
+availability & Object & No & isAcceptingClients (default true), maxClients (1--20, default 8), weekly schedule, holidays, vacation dates \\ \hline
+clients & [Object] & No & clientId (Ref: \texttt{User}), assignedDate, status, serviceType \\ \hline
+pricing & Object & No & hourlyRate, packageRates[], currency (default USD) \\ \hline
+status & Enum & No & active $\vert$ inactive $\vert$ pending\_approval $\vert$ suspended \\ \hline
+metrics & Object & No & totalClients, averageRating (0--5), totalReviews, responseTime (hrs) \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- Appointment ----------
+\subsection{Appointment}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{Appointment --- \texttt{appointments} collection (\texttt{models/Appointment.ts})}\label{tab:dd-appointment}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Appointment (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+clientId & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+providerId & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+startTime & Date & Yes & --- \\ \hline
+endTime & Date & Yes & --- \\ \hline
+status & Enum & No & requested $\vert$ confirmed $\vert$ scheduled $\vert$ completed $\vert$ cancelled \\ \hline
+type & Enum & No & virtual $\vert$ in\_person; default \texttt{virtual} \\ \hline
+notes & String & No & Free-text notes \\ \hline
+requestedBy & ObjectId & No & Ref: \texttt{User} \\ \hline
+cancellationReason & String & No & Max 500 characters \\ \hline
+cancelledBy & ObjectId & No & Ref: \texttt{User} \\ \hline
+availabilitySlotId & ObjectId & No & Ref: \texttt{AvailabilitySlot} \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- AvailabilitySlot ----------
+\subsection{AvailabilitySlot}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{AvailabilitySlot --- \texttt{availabilityslots} collection (\texttt{models/AvailabilitySlot.ts})}\label{tab:dd-avail}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} AvailabilitySlot (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+providerId & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+date & Date & Yes & Slot date \\ \hline
+startTime & String & Yes & HH:mm format \\ \hline
+endTime & String & Yes & HH:mm format \\ \hline
+isBooked & Boolean & No & Default \texttt{false} \\ \hline
+appointmentId & ObjectId & No & Ref: \texttt{Appointment} \\ \hline
+recurring & Boolean & No & Default \texttt{false} \\ \hline
+dayOfWeek & Number & No & 0--6 (Sun--Sat) \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- CarePlan ----------
+\subsection{CarePlan}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{CarePlan --- \texttt{careplans} collection (\texttt{models/CarePlan.ts})}\label{tab:dd-careplan}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} CarePlan (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+clientId & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+providerId & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+templateId & ObjectId & No & Ref: \texttt{CarePlanTemplate} \\ \hline
+title & String & Yes & Max 200 characters \\ \hline
+description & String & No & Max 2000 characters \\ \hline
+sections & [Object] & Yes & Each section: title, description, milestones[] \\ \hline
+status & Enum & No & active $\vert$ completed $\vert$ paused $\vert$ archived \\ \hline
+startDate & Date & No & Default \texttt{Date.now} \\ \hline
+endDate & Date & No & --- \\ \hline
+progress & Number & No & 0--100 (percentage) \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- CheckIn ----------
+\subsection{CheckIn}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{CheckIn --- \texttt{checkins} collection (\texttt{models/CheckIn.ts})}\label{tab:dd-checkin}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} CheckIn (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+userId & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+date & Date & Yes & Check-in date \\ \hline
+moodScore & Number & Yes & 1--10 scale \\ \hline
+physicalSymptoms & [Enum] & No & fatigue, sleep\_issues, appetite\_changes, anxiety, pain, headache, nausea, dizziness, breast\_soreness, bleeding \\ \hline
+notes & String & No & Max 2000 characters \\ \hline
+sharedWithProvider & Boolean & No & Default \texttt{false} \\ \hline
+providerReviewed & Boolean & No & Default \texttt{false} \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- Message ----------
+\subsection{Message}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{Message --- \texttt{messages} collection (\texttt{models/Message.ts})}\label{tab:dd-message}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Message (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+conversationId & ObjectId & Yes & Groups messages in a thread \\ \hline
+sender & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+receiver & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+content & String & Yes & Max 10\,000 characters \\ \hline
+title & String & No & Optional subject line \\ \hline
+read & Boolean & No & Default \texttt{false} \\ \hline
+type & Enum & No & text $\vert$ image $\vert$ file $\vert$ system \\ \hline
+createdAt & Date & Auto & Mongoose timestamp \\ \hline
+\end{longtable}
+}
+
+% ---------- ClientDocument ----------
+\subsection{ClientDocument}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{ClientDocument --- \texttt{clientdocuments} collection (\texttt{models/ClientDocument.ts})}\label{tab:dd-clientdoc}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} ClientDocument (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+title & String & Yes & Max 200 characters \\ \hline
+documentType & Enum & Yes & emotional-survey, health-assessment, personal-assessment, feeding-log, sleep-log, mood-check-in, recovery-notes, progress-photo, other \\ \hline
+uploadedBy & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+assignedProvider & ObjectId & No & Ref: \texttt{User} \\ \hline
+files & [Object] & No & cloudinaryUrl, originalFileName, fileType, fileSize, uploadDate \\ \hline
+submissionStatus & Enum & No & draft $\vert$ submitted-to-provider $\vert$ reviewed-by-provider $\vert$ completed \\ \hline
+formData & Mixed & No & Survey responses, assessment scores \\ \hline
+privacyLevel & Enum & No & client-only $\vert$ client-and-provider $\vert$ care-team \\ \hline
+dueDate & Date & No & --- \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- BlogPost ----------
+\subsection{BlogPost}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{BlogPost --- \texttt{blogposts} collection (\texttt{models/BlogPost.ts})}\label{tab:dd-blog}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} BlogPost (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+title & String & Yes & Max 200 characters \\ \hline
+slug & String & Yes & Unique, lowercase \\ \hline
+excerpt & String & Yes & Max 500 characters \\ \hline
+content & String & Yes & Max 500\,KB \\ \hline
+author & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+featuredImage & String & No & Cloudinary URL \\ \hline
+tags & [String] & No & Indexed for search \\ \hline
+category & String & Yes & Indexed \\ \hline
+isPublished & Boolean & No & Default \texttt{false} \\ \hline
+publishDate & Date & No & --- \\ \hline
+readTime & Number & No & 1--60 minutes \\ \hline
+viewCount & Number & No & Default 0 \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- Resource ----------
+\subsection{Resource}
+
+{\small
+\begin{longtable}{|>{\ttfamily\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
+\caption{Resource --- \texttt{resources} collection (\texttt{models/Resources.ts})}\label{tab:dd-resource}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Resource (continued)}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Field}} & \textcolor{TableHeaderText}{\textbf{Type}} & \textcolor{TableHeaderText}{\textbf{Required}} & \textcolor{TableHeaderText}{\textbf{Notes}} \\
+\hline
+\endhead
+\hline \multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\ \endfoot
+\hline \endlastfoot
+title & String & Yes & Max 200 characters \\ \hline
+description & String & Yes & Max 1000 characters \\ \hline
+content & String & Yes & Max 500\,KB \\ \hline
+category & String & Yes & Indexed \\ \hline
+tags & [String] & No & Max 50 tags \\ \hline
+author & ObjectId & Yes & Ref: \texttt{User} \\ \hline
+targetWeeks & [Number] & No & Postpartum weeks 1--52 \\ \hline
+targetPregnancyWeeks & [Number] & No & Pregnancy weeks 1--42 \\ \hline
+difficulty & Enum & No & beginner $\vert$ intermediate $\vert$ advanced \\ \hline
+isPublished & Boolean & No & Default \texttt{false} \\ \hline
+createdAt / updatedAt & Date & Auto & Mongoose timestamps \\ \hline
+\end{longtable}
+}
+
+% ---------- Remaining models ----------
+\subsection{Supporting Models}
+
+The following additional models support version history, public inquiries, push notifications, and user interactions:
+
+\begin{itemize}[nosep]
+  \item \textbf{CarePlanTemplate} --- Reusable care plan blueprints with sections and milestone definitions. Fields: name, description, targetCondition, sections[], isActive, createdBy (Ref: User).
+  \item \textbf{BlogPostVersion} --- Immutable audit trail for blog edits. Fields: blogPostId (Ref: BlogPost), versionNumber, full content snapshot, changedBy (Ref: User), changeReason.
+  \item \textbf{ClientDocumentVersion} --- Version history for client documents. Fields: documentId (Ref: ClientDocument), versionNumber, full document snapshot, changedBy (Ref: User).
+  \item \textbf{ResourceVersion} --- Version history for resources. Fields: resourceId (Ref: Resource), versionNumber, full content snapshot, changedBy (Ref: User).
+  \item \textbf{Category} --- Hierarchical taxonomy with self-referential parent/subcategory structure. Fields: name, description, parentCategory (Ref: Category), subcategories[].
+  \item \textbf{Inquiry} --- Public contact-form submissions. Fields: name, email, phone, message, dueDate, status (new $\vert$ contacted $\vert$ converted $\vert$ closed), respondedBy (Ref: User).
+  \item \textbf{PushSubscription} --- Web Push API subscription records. Fields: userId (Ref: User), endpoint (unique), keys (p256dh, auth).
+  \item \textbf{UserResourceInteraction} --- Tracks views, downloads, favorites, and ratings. Fields: user (Ref: User), resource (Ref: Resource), interactionType, rating.
+\end{itemize}
+
+\subsection{Entity Relationship Summary}
+
+\textbf{19 collections total.} The \texttt{User} model serves as the central identity entity referenced by nearly every other collection. Key relationships:
+
+\begin{itemize}[nosep]
+  \item \texttt{User} $\longleftrightarrow$ \texttt{Client} / \texttt{Provider} (1:1 via \texttt{userId})
+  \item \texttt{Client} $\longrightarrow$ \texttt{Provider} (M:1 via \texttt{assignedProvider})
+  \item \texttt{Provider.clients[]} $\longrightarrow$ \texttt{User} (embedded reference array)
+  \item \texttt{Appointment} $\longrightarrow$ \texttt{User} $\times$ 2 (clientId, providerId)
+  \item \texttt{Appointment} $\longrightarrow$ \texttt{AvailabilitySlot} (optional link)
+  \item \texttt{CarePlan} $\longrightarrow$ \texttt{User} $\times$ 2 + optional \texttt{CarePlanTemplate}
+  \item \texttt{Message} $\longrightarrow$ \texttt{User} $\times$ 2 (sender, receiver)
+  \item Version models $\longrightarrow$ parent document + \texttt{User} (changedBy)
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% SECTION 7: APPLICATION DEMONSTRATION
+% ============================================================
+\section{Application Demonstration}
+
+The application demonstration is a screencast (5--10 minutes per GCU policies) that demonstrates the functionality working up to this point. The demonstration covers the public landing page, authentication flows (register, login, MFA), the provider dashboard with client management and messaging, the client dashboard with intake wizard and check-ins, appointment scheduling, document upload and review, and the resource library.
+
+\subsection{Video Demonstration}
+
+The full video demonstration is available at the following link:
+
+\begin{center}
+\url{https://www.youtube.com/watch?v=EY6ncwOMFUQ}
+\end{center}
+
+\newpage
+
+% ============================================================
+% SECTION 8: MODULE TEST CASES
+% ============================================================
+\section{Module Test Cases (Test Plan)}
+
+The following test cases were developed and executed during the Milestone~4 and Milestone~5 coding iterations. Each test case maps to one or more functional requirements from the Traceability Matrix. Testing was performed manually against the deployed staging environment (\texttt{lunara.onrender.com}) and locally via \texttt{npm run dev}. Automated unit tests supplement manual verification and are maintained in the repository under \texttt{backend/tests/} and \texttt{Lunara/src/tests/}.
+
+\subsection{Test Case Summary}
+
+{\small
+\begin{longtable}{|c|c|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{6.5cm}|}
+\caption{Module Test Case Summary (TC-001 through TC-020)}\label{tab:test-summary}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{ID}} & \textcolor{TableHeaderText}{\textbf{Priority}} & \textcolor{TableHeaderText}{\textbf{Module}} & \textcolor{TableHeaderText}{\textbf{Test Objective}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Table~\ref{tab:test-summary} continued from previous page}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{ID}} & \textcolor{TableHeaderText}{\textbf{Priority}} & \textcolor{TableHeaderText}{\textbf{Module}} & \textcolor{TableHeaderText}{\textbf{Test Objective}} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\
+\endfoot
+\hline
+\endlastfoot
+
+TC-001 & P1 & Landing Page & Verify the public landing page loads with hero, offerings accordion, inquiry form, and footer \\
+\hline
+\rowcolor{TableRowAlt}
+TC-002 & P1 & Contact Form & Verify the inquiry form validates required fields and submits to \texttt{POST /api/public/contact} \\
+\hline
+TC-003 & P1 & User Registration & Verify a new user can register with valid email, password (8+ chars), first/last name, and role \\
+\hline
+\rowcolor{TableRowAlt}
+TC-004 & P1 & Token Refresh & Verify an expired access token is replaced via \texttt{POST /api/auth/refresh-token} \\
+\hline
+TC-005 & P1 & Protected Route & Verify requests without a valid JWT return \texttt{401 Unauthorized} \\
+\hline
+\rowcolor{TableRowAlt}
+TC-006 & P2 & MFA Setup & Verify TOTP setup returns a QR code and that a valid 6-digit code completes enrollment \\
+\hline
+TC-007 & P1 & Provider Dashboard & Verify the provider dashboard renders overview metrics, quick actions, upcoming appointments \\
+\hline
+\rowcolor{TableRowAlt}
+TC-008 & P1 & Client Dashboard & Verify the client dashboard renders mood orb, document count, resource count \\
+\hline
+TC-009 & P1 & Intake Wizard & Verify the five-step wizard validates each section (Zod) and submits the complete intake \\
+\hline
+\rowcolor{TableRowAlt}
+TC-010 & P1 & Messaging & Verify real-time messaging via Socket.IO between client and provider \\
+\hline
+TC-011 & P1 & Appointment CRUD & Verify appointments can be created, approved, confirmed, and cancelled \\
+\hline
+\rowcolor{TableRowAlt}
+TC-012 & P1 & Resource Library & Verify resources are browsable, filterable, and display full content \\
+\hline
+TC-013 & P1 & Check-in Submit & Verify a daily check-in with mood, symptoms, and notes saves and returns alerts \\
+\hline
+\rowcolor{TableRowAlt}
+TC-014 & P2 & Trend Compute & Verify the trend service computes mood averages, direction, and streak alerts \\
+\hline
+TC-015 & P1 & Client Management & Verify a provider can create, assign, and unassign clients \\
+\hline
+\rowcolor{TableRowAlt}
+TC-016 & P2 & Care Plan CRUD & Verify care plans can be created, milestones completed, and progress auto-computes \\
+\hline
+TC-017 & P1 & Blog Publish & Verify blog posts can be created and published posts appear publicly \\
+\hline
+\rowcolor{TableRowAlt}
+TC-018 & P1 & Password Hashing & Verify passwords are stored as bcrypt hashes and never returned in plaintext \\
+\hline
+TC-019 & P1 & Validation Reject & Verify malformed input is rejected with \texttt{422} \\
+\hline
+\rowcolor{TableRowAlt}
+TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are rejected \\
+\hline
+\end{longtable}
+}
+
+\newpage
+
+\subsection{Detailed Test Case Specifications}
+
+\needspace{8\baselineskip}
+\subsubsection*{TC-001: Landing Page Load}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}X|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Step}} & \textcolor{TableHeaderText}{\textbf{Action}} & \textcolor{TableHeaderText}{\textbf{Test Data}} & \textcolor{TableHeaderText}{\textbf{Expected Result}} & \textcolor{TableHeaderText}{\textbf{P/F}} \\
+\hline
+1 & Navigate to \texttt{https://www.lunaracare.org} & --- & Page loads with hero section, navigation, and footer & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+2 & Scroll to offerings section & --- & Accordion items expand/collapse on click & Pass \\
+\hline
+3 & Scroll to inquiry form & --- & Form displays First Name, Last Name, Email, Message fields & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+4 & Resize browser to 375px width & --- & Layout adapts to mobile; no horizontal scroll & Pass \\
+\hline
+\end{tabularx}
+\end{table}
+
+\needspace{8\baselineskip}
+\subsubsection*{TC-003: User Registration Flow}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Step}} & \textcolor{TableHeaderText}{\textbf{Action}} & \textcolor{TableHeaderText}{\textbf{Test Data}} & \textcolor{TableHeaderText}{\textbf{Expected Result}} & \textcolor{TableHeaderText}{\textbf{P/F}} \\
+\hline
+1 & Navigate to \texttt{/register} & --- & Registration form renders with all fields & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+2 & Submit with missing email & \texttt{firstName: "Test", lastName: "User", password: "Test1234!"} & Validation error displayed; form not submitted & Pass \\
+\hline
+3 & Submit with password < 8 chars & \texttt{email: "test@ex.com", password: "short"} & Validation error: ``Password must be at least 8 characters'' & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+4 & Submit with valid data & \texttt{firstName: "New", lastName: "Client", role: "client"} & Account created; verification email sent; redirect to login & Pass \\
+\hline
+\end{tabularx}
+\end{table}
+
+\needspace{8\baselineskip}
+\subsubsection*{TC-010: Message Send/Receive}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Step}} & \textcolor{TableHeaderText}{\textbf{Action}} & \textcolor{TableHeaderText}{\textbf{Test Data}} & \textcolor{TableHeaderText}{\textbf{Expected Result}} & \textcolor{TableHeaderText}{\textbf{P/F}} \\
+\hline
+1 & Client logs in and navigates to Messages & Valid credentials & Chat interface loads; Socket.IO ``Connected'' indicator & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+2 & Client sends a message & ``Im feeling a bit tired today!'' & Message appears in client chat with timestamp & Pass \\
+\hline
+3 & Provider opens Message Center & Valid credentials & Provider sees client in sidebar; message in conversation & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+4 & Provider replies & ``hello'' & Reply appears in both views in real time & Pass \\
+\hline
+\end{tabularx}
+\end{table}
+
+\needspace{8\baselineskip}
+\subsubsection*{TC-011: Appointment CRUD}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Step}} & \textcolor{TableHeaderText}{\textbf{Action}} & \textcolor{TableHeaderText}{\textbf{Test Data}} & \textcolor{TableHeaderText}{\textbf{Expected Result}} & \textcolor{TableHeaderText}{\textbf{P/F}} \\
+\hline
+1 & Client selects a date on calendar & March 19, 2026 & Date panel shows ``Request time'' option & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+2 & Client fills and submits request & 7:02--9:02 PM, Virtual, ``Casual check in'' & Request submitted; ``Pending approval'' & Pass \\
+\hline
+3 & Provider views Schedule tab & --- & Pending request with Approve/Decline actions & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+4 & Provider approves the request & --- & Status changes to ``Confirmed''; client sees confirmation & Pass \\
+\hline
+\end{tabularx}
+\end{table}
+
+\needspace{8\baselineskip}
+\subsubsection*{TC-013: Check-in Submit}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Step}} & \textcolor{TableHeaderText}{\textbf{Action}} & \textcolor{TableHeaderText}{\textbf{Test Data}} & \textcolor{TableHeaderText}{\textbf{Expected Result}} & \textcolor{TableHeaderText}{\textbf{P/F}} \\
+\hline
+1 & Client selects mood on orb & ``Doing well'' (score 9--10) & Orb turns green; mood label displayed & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+2 & System records check-in & --- & \texttt{POST /api/checkins} returns 201 with data and alerts & Pass \\
+\hline
+3 & Client selects ``Need support now'' & Score 1--2 & Orb turns red; provider alert generated if streak met & Pass \\
+\hline
+\end{tabularx}
+\end{table}
+
+\needspace{8\baselineskip}
+\subsubsection*{TC-017: Blog Publish}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Step}} & \textcolor{TableHeaderText}{\textbf{Action}} & \textcolor{TableHeaderText}{\textbf{Test Data}} & \textcolor{TableHeaderText}{\textbf{Expected Result}} & \textcolor{TableHeaderText}{\textbf{P/F}} \\
+\hline
+1 & Provider navigates to Blog > Create & --- & Blog editor form renders & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+2 & Provider fills in details & Title, category, excerpt, content & All fields accept input; image upload works & Pass \\
+\hline
+3 & Provider clicks ``Publish'' & --- & Success toast; post in list with ``Published'' status & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+4 & Client navigates to \texttt{/blog} & --- & Published post appears in public blog list & Pass \\
+\hline
+\end{tabularx}
+\end{table}
+
+\newpage
+
+% ============================================================
+% SECTION 9: APPLICATION SCREENSHOTS
+% ============================================================
+\section{Application Screenshots}
+
+The following screenshots document the working application as demonstrated in the screencast. They are organized by access level: public pages, provider dashboard workflows, and client dashboard workflows.
+
+% ── Public Website ──
+\subsection{Public Website (FR1)}
+
+\screenshotfig{Photos/public/HomePage.png}{Landing Page --- The public homepage features a hero section, the ``Dear Parent'' introduction, client login access, an interactive offerings accordion, and an inquiry contact form.}{landing-page}
+
+\screenshotfig{Photos/public/loginPage.png}{Login Page --- The login page supports email/password authentication with role-based redirection to the appropriate dashboard.}{login-page}
+
+\screenshotfig{Photos/public/publicBlog_page.png}{Public Blog List --- The public-facing blog displays published posts with excerpts, dates, and ``Read More'' links.}{public-blog}
+
+\screenshotfig{Photos/public/publicBlog_detailed.png}{Public Blog Post Detail --- A full blog post view with category tags, author attribution, read time, and view count.}{public-blog-detail}
+
+\newpage
+
+% ── Provider Dashboard ──
+\subsection{Provider Dashboard (FR3, FR9, FR11)}
+
+\screenshotfig{Photos/provider/provider_dashboard_overview.png}{Provider Dashboard Overview --- Active client count, pending inquiries, check-ins needing attention, quick action buttons, upcoming appointments, and personal to-do list.}{provider-dashboard}
+
+\screenshotfig{Photos/provider/provider_recent_activity.png}{Provider Recent Activity --- Upcoming appointments, document submissions from clients, and client assignment history.}{provider-activity}
+
+\screenshotfig{Photos/provider/provider_clients_page_names_resolved.png}{Provider Clients Page --- ``My clients'' (assigned) and ``All created clients'' with names, emails, provider assignments, and actions.}{provider-clients}
+
+\screenshotfig{Photos/provider/provider_invite_client_form.png}{Invite New Client Form --- Providers invite new clients by entering first name, last name, and email.}{invite-client}
+
+\screenshotfig{Photos/provider/provider_client_created.png}{New Client Created --- The new client appears in ``All created clients'' with an ``Add to my list'' option.}{client-created}
+
+\newpage
+
+\screenshotfig{Photos/provider/provider_schedule_appointment_complete.png}{Schedule Appointment Modal --- Client and provider selected, start/end times, type (Virtual), and notes.}{schedule-modal}
+
+\screenshotfig{Photos/provider/provider_schedule_calendar.png}{Provider Schedule Calendar --- Monthly calendar view with color-coded appointments and sidebar details.}{provider-calendar}
+
+\screenshotfig{Photos/provider/provider_schedule_availability_slots.png}{Provider Availability Slots --- Providers add availability time slots for specific dates.}{availability-slots}
+
+\newpage
+
+\screenshotfig{Photos/provider/provider_client_document_found.png}{Client Documents Search and Filter --- Search, filter by type, status, and date range with ``Review Now'' action.}{provider-docs}
+
+\screenshotfig{Photos/provider/provider_document_review_panel.png}{Document Review Panel --- Title, author, attached files, internal notes, client-facing feedback, and review status.}{doc-review}
+
+\screenshotfig{Photos/provider/provider_file_view_success.png}{Authenticated File Viewer --- Client-uploaded files viewed through an authenticated blob URL.}{file-viewer}
+
+\screenshotfig{Photos/provider/provider_document_review_completed.png}{Document Review Completed --- Status updates to ``Completed'' and the client is notified.}{review-done}
+
+\newpage
+
+\screenshotfig{Photos/provider/provider_blog_manage_empty.png}{Blog Management --- Manage Blog Posts page with search, filter by category/tag/author, and tabs.}{blog-manage}
+
+\screenshotfig{Photos/provider/provider_blog_create_post.png}{Create New Blog Post --- Blog editor with title, category, excerpt, featured image, tags, and rich text content.}{blog-create}
+
+\screenshotfig{Photos/provider/provider_blog_manage_with_post.png}{Blog Post Published --- Published post in management list with Edit, Publish, and Delete actions.}{blog-published}
+
+\newpage
+
+\screenshotfig{Photos/provider/provider_resource_create_blank.png}{Create New Resource (Blank Form) --- Title, category, description, content, difficulty, week selectors, tags, and publish.}{resource-blank}
+
+\screenshotfig{Photos/provider/provider_resource_create_filled.png}{Create New Resource (Completed Form) --- ``First Trimester: What to Expect'' with weeks 1--12 selected and content filled.}{resource-filled}
+
+\screenshotfig{Photos/provider/provider_resource_in_library.png}{Resource Published in Library --- Resource in library with detail modal showing content, category, difficulty, and week targeting.}{resource-library}
+
+\newpage
+
+\screenshotfig{Photos/provider/provider_profile_edit.png}{Provider Profile Edit --- Personal information, bio, certifications, specialties, languages, services, and availability.}{provider-profile}
+
+\screenshotfig{Photos/provider/provider_account_settings.png}{Account Settings --- Password change, notification preferences, 2FA toggle, and account deletion.}{account-settings}
+
+\screenshotfig{Photos/provider/provider_create_provider_form.png}{Create Provider Account --- First name, last name, email, and password with complexity requirements.}{create-provider}
+
+\screenshotfig{Photos/provider/provider_create_provider_success.png}{Provider Account Created --- Confirmation toast after successful provider creation.}{provider-created}
+
+\screenshotfig{Photos/provider/provider_messaging_center.png}{Provider Messaging Center --- Client list with real-time connection status, conversation view with message history and system notifications.}{provider-messaging}
+
+\newpage
+
+% ── Client Dashboard ──
+\subsection{Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}
+
+\screenshotfig{Photos/client/client_dashboard_overview.png}{Client Dashboard Overview --- Document count, resource count, upcoming appointments, daily mood check-in orb, suggested reading, and resource filter/search.}{client-dashboard}
+
+\screenshotfig{Photos/client/client_mood_need_support.png}{Mood Orb: ``Need Support Now'' --- The mood orb glows red when the client needs immediate provider attention.}{mood-support}
+
+\screenshotfig{Photos/client/client_mood_tough_day.png}{Mood Orb: ``Having a Tough Day'' --- Warm red-orange tone for the tough day state.}{mood-tough}
+
+\screenshotfig{Photos/client/client_mood_hanging_in_there.png}{Mood Orb: ``Hanging in There'' --- Golden-amber orb for the neutral mood state.}{mood-neutral}
+
+\screenshotfig{Photos/client/client_mood_doing_alright.png}{Mood Orb: ``Doing Alright'' --- Pink-magenta orb for the positive mood state.}{mood-alright}
+
+\screenshotfig{Photos/client/client_mood_doing_well.png}{Mood Orb: ``Doing Well'' --- Bright green orb for the most positive mood state.}{mood-well}
+
+\newpage
+
+\screenshotfig{Photos/client/client_resource_filtered.png}{Resource Library (Filtered) --- Filtered by category ``Postpartum'' and difficulty ``Beginner.''}{resource-filtered}
+
+\screenshotfig{Photos/client/client_resource_detail.png}{Resource Detail View --- ``Postpartum Daily Recovery'' content organized by week.}{resource-detail}
+
+\screenshotfig{Photos/client/client_resource_library_grid.png}{Resource Library Grid --- Full resource grid filtered by the client's postpartum stage.}{resource-grid}
+
+\screenshotfig{Photos/client/client_blog_post_detail.png}{Blog Post Detail (Client View) --- Published blog post with category tags, reading time, and full content.}{client-blog-detail}
+
+\screenshotfig{Photos/client/client_blog_list.png}{Blog List (Client View) --- Authenticated blog list showing published posts.}{client-blog-list}
+
+\newpage
+
+\screenshotfig{Photos/client/client_appointments_calendar.png}{Appointments Calendar --- Monthly calendar with status legend and upcoming appointments list.}{client-calendar}
+
+\screenshotfig{Photos/client/client_request_time_form.png}{Request a Specific Time --- Date picker, type selector, start/end time inputs, and optional notes.}{request-time}
+
+\screenshotfig{Photos/client/client_request_time_filled.png}{Request Time (Completed Form) --- March 19, 2026, 7:02--9:02 PM (Virtual), ``Casual check in.''}{request-filled}
+
+\screenshotfig{Photos/client/client_appointment_approved.png}{Appointment Approved --- Success toast confirms approval; appointment appears on calendar.}{appt-approved}
+
+\screenshotfig{Photos/client/client_appointment_confirmed.png}{Appointment Confirmed --- Confirmed appointment in upcoming list with date, time, type, and status badge.}{appt-confirmed}
+
+\newpage
+
+\screenshotfig{Photos/client/client_notifications_and_chat.png}{Client Notifications and Real-time Chat --- Notification badge with unread messages and real-time chat with provider.}{client-chat}
+
+\screenshotfig{Photos/client/client_messaging_with_notifications.png}{Client Messaging (Full View) --- Full messaging page with notification area and conversation history.}{client-messaging}
+
+\newpage
+
+\screenshotfig{Photos/client/client_profile_edit_and_upload.png}{Client Profile and Document Upload --- Profile edit form with sub-navigation and Upload Documents section.}{client-profile}
+
+\screenshotfig{Photos/client/client_document_upload_form.png}{Document Upload Form --- File selector, title, description, category dropdown, and tags.}{upload-form}
+
+\screenshotfig{Photos/client/client_document_upload_filled.png}{Document Upload (Completed Form) --- Selected image, title ``Intake,'' category ``Other,'' tag ``General.''}{upload-filled}
+
+\screenshotfig{Photos/client/client_document_upload_success.png}{Document Upload Success --- Confirmation toast ``Document uploaded successfully!''}{upload-success}
+
+\screenshotfig{Photos/client/client_profile_security_2fa.png}{Client Security Settings --- Two-Factor Authentication (2FA) status with manage option.}{client-2fa}
+
+\newpage
+
+% ============================================================
+% ============================================================
+%
+%  MILESTONE 5 TESTING PHASE
+%
+% ============================================================
+% ============================================================
+
+\part*{\color{GCUNavy}Milestone 5: Testing Phase}
+\addcontentsline{toc}{part}{Milestone 5: Testing Phase}
+
+\vspace{1cm}
+
+The following sections document the comprehensive testing effort conducted during the Milestone~5 iteration. Building on the integrated codebase established in Milestone~4, this phase focused on formal verification through automated unit tests, integration tests, component tests, and system-level validation. The testing framework, results, coverage analysis, and quality metrics are detailed below.
+
+\newpage
+
+% ============================================================
+% SECTION 10: TESTING OBJECTIVE
+% ============================================================
+\section{Testing Objective}
+
+The testing phase ensures the application functions as requested and encompasses three testing stages: component testing, requirements testing, and system testing. In all testing stages, defects are identified and returned to the development/coding phase for correction. The objective of the Milestone~5 testing effort was to validate the complete LUNARA codebase against all in-scope functional requirements (FR1--FR11) and non-functional requirements (NFR1--NFR10) through a combination of automated and manual test execution.
+
+\subsection{Testing Framework and Tools}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Tool}} & \textcolor{TableHeaderText}{\textbf{Purpose}} \\
+\hline
+Jest & Primary test runner for both backend and frontend; provides assertion library, mocking, and code coverage \\
+\hline
+\rowcolor{TableRowAlt}
+ts-jest & TypeScript transpilation for Jest test files \\
+\hline
+React Testing Library & DOM-based component testing for React components with user-centric queries \\
+\hline
+\rowcolor{TableRowAlt}
+MSW (Mock Service Worker) & API request interception for frontend service tests without a live backend \\
+\hline
+jsdom & Simulated browser environment for frontend tests \\
+\hline
+\rowcolor{TableRowAlt}
+express-validator & Input validation testing on backend route handlers \\
+\hline
+Mongoose (in-memory) & MongoDB mock for backend integration tests \\
+\hline
+\end{tabularx}
+\caption{Testing framework and tools}
+\end{table}
+
+\subsection{Test Organization}
+
+Tests are organized into four categories across the backend and frontend codebases:
+
+\begin{itemize}
+  \item \textbf{Backend Unit Tests} (\texttt{backend/tests/utils/}, \texttt{backend/tests/middleware/}) --- Isolated validation of utility functions, error classes, token management, caching, query optimization, and middleware behavior. \textbf{3 util files + 2 middleware files = 96 tests.}
+  \item \textbf{Backend Integration Tests} (\texttt{backend/tests/integration/}) --- End-to-end API route testing with mocked database connections covering authentication, appointments, messaging, check-ins, intake, care plans, resources, and scheduling. \textbf{7 files = 57 tests.}
+  \item \textbf{Backend Service Tests} (\texttt{backend/tests/services/}) --- Verification of business logic services including appointment notifications, reminders, caching, check-in trends, email delivery, rate limiting, and socket connection management. \textbf{8 files = 57 tests.}
+  \item \textbf{Frontend Tests} (\texttt{Lunara/src/tests/}) --- Component rendering, service API calls, hook behavior, context providers, page-level integration, intake form validation, and utility functions. \textbf{98 files = 715 tests.}
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% SECTION 11: COMPONENT TESTING
+% ============================================================
+\section{Component Testing}
+
+During component testing, all objects are tested to ensure they work together as specified by the physical design. If issues are discovered, the project returns to the implementation phase for corrective action.
+
+\subsection{Backend Unit Testing}
+
+\subsubsection{Error Handling Classes --- \texttt{backend/tests/utils/errors.test.ts}}
+
+The error utility module defines 15 custom error classes extending a base \texttt{APIError}. The test suite validates that each error class produces the correct HTTP status code, error message, and \texttt{isOperational} flag. Utility functions \texttt{isOperationalError}, \texttt{handleMongooseError}, and \texttt{handleJWTError} are tested for correct error transformation. \textbf{35 tests across 20 describe blocks, all passing.}
+
+\subsubsection{Token Utilities --- \texttt{backend/tests/utils/tokenUtils.test.ts}}
+
+The token utility module manages JWT generation, verification, decoding, and lifecycle management. Tests cover access token generation and verification, refresh token generation and verification, token decoding, expiration checking, user ID extraction, time-to-expiry calculation, and full token lifecycle (generate \textrightarrow{} verify \textrightarrow{} decode \textrightarrow{} check expiry). \textbf{26 tests across 11 describe blocks, all passing.} Coverage: 84.28\% statements, 56.09\% branches, 100\% functions, 84.05\% lines.
+
+\subsubsection{Query Optimization --- \texttt{backend/tests/utils/queryOptimization.test.ts}}
+
+Tests validate pagination defaults, field constant definitions, limit clamping behavior, and NaN handling for query parameters. \textbf{10 tests across 2 describe blocks, all passing.} Coverage: 100\% across all metrics.
+
+\subsubsection{Middleware Stack --- \texttt{backend/tests/middleware/index.test.ts}}
+
+The middleware test suite covers 9 middleware functions: \texttt{requestLogger}, \texttt{handleValidationErrors}, \texttt{asyncHandler}, \texttt{errorHandler}, \texttt{notFoundHandler}, \texttt{rateLimitHandler}, \texttt{securityHeaders}, \texttt{sanitizeRequest}, and \texttt{responseFormatter}. Each middleware is tested in isolation with mocked Express request/response objects. \textbf{17 tests across 10 describe blocks, all passing.}
+
+\subsubsection{Cache Middleware --- \texttt{backend/tests/middleware/cacheMiddleware.test.ts}}
+
+Tests verify non-GET request passthrough, cache hit/miss behavior, error response exclusion from cache, and cache key prefix handling. \textbf{5 tests, all passing.} Coverage: 100\% across all metrics.
+
+\newpage
+
+\subsection{Backend Service Testing}
+
+\subsubsection{Check-in Trend Service --- \texttt{backend/tests/services/checkinTrendService.test.ts}}
+
+The trend service is critical to the clinical alert system. Tests validate mood trend computation (improving, declining, stable trajectories), symptom frequency distribution, and alert detection for low mood streaks ($\leq 3$ for 3+ consecutive days) and persistent symptoms ($\geq 5$ days). \textbf{13 tests across 3 describe blocks, all passing.} Coverage: 97.29\% statements, 92.1\% branches, 100\% functions, 97.01\% lines.
+
+\subsubsection{Appointment Notification Service --- \texttt{backend/tests/services/appointmentNotificationService.test.ts}}
+
+Tests cover notification generation for all appointment status transitions (requested, confirmed, cancelled, reminder), email template formatting, and error handling for missing user data. \textbf{7 tests, all passing.} Coverage: 100\% statements, 100\% functions.
+
+\subsubsection{Appointment Reminder Service --- \texttt{backend/tests/services/appointmentReminderService.test.ts}}
+
+Validates scheduler lifecycle (start/stop), reminder processing logic, user lookup for notification delivery, and error resilience when database queries fail. \textbf{10 tests, all passing.} Coverage: 97.72\% statements, 66.66\% functions, 97.72\% lines.
+
+\subsubsection{Cache Service --- \texttt{backend/tests/services/cacheService.test.ts}}
+
+Tests get/set/delete operations, TTL-based expiration, prefix-based invalidation, periodic sweep, full cache clearing, and service destruction. \textbf{8 tests, all passing.} Coverage: 97.29\% statements, 90.9\% branches, 100\% lines.
+
+\subsubsection{Email Service --- \texttt{backend/tests/services/emailService.test.ts}}
+
+Validates environment variable checking, email template rendering (welcome, password-reset, appointment confirmation), email sending via SMTP transport, and connection testing. \textbf{10 tests across 5 describe blocks, all passing.}
+
+\subsubsection{Socket Connection Manager --- \texttt{backend/tests/services/socketConnectionManager.test.ts}}
+
+Tests user socket tracking, multiple simultaneous connections per user, socket removal on disconnect, and cleanup procedures. \textbf{6 tests, all passing.} Coverage: 95.45\% statements, 100\% functions, 95.45\% lines.
+
+\subsubsection{Message Rate Limiter --- \texttt{backend/tests/services/messageRateLimiter.test.ts}}
+
+Validates rate limit enforcement, time window reset behavior, and per-user message counting. \textbf{3 tests, all passing.} Coverage: 100\% statements, 100\% functions, 100\% lines.
+
+\newpage
+
+\subsection{Backend Integration Testing}
+
+Integration tests exercise complete API request/response cycles with mocked database connections, verifying that routes, middleware, validation, and business logic work together correctly.
+
+\subsubsection{Authentication \& Public Routes --- \texttt{backend/tests/integration/auth.public.test.ts}}
+
+Covers user registration (valid, duplicate email, validation failures), login flow, contact form submission, and password reset validation. \textbf{8 tests across 4 describe blocks, all passing.}
+
+\subsubsection{Scheduling \& Booking Workflow --- \texttt{backend/tests/integration/scheduling.test.ts}}
+
+The most comprehensive integration test validates the full scheduling lifecycle: provider availability creation, client appointment request, provider confirmation, client cancellation, and slot management. \textbf{14 tests, all passing.}
+
+\subsubsection{Intake Form --- \texttt{backend/tests/integration/intake.test.ts}}
+
+Tests intake creation, multi-section updates, section-level PATCH operations, authorization enforcement (clients can only access their own intake), and user flag updates upon completion. \textbf{10 tests, all passing.}
+
+\subsubsection{Check-in --- \texttt{backend/tests/integration/checkins.test.ts}}
+
+Validates check-in submission, input validation (mood score range, symptom enum), duplicate date prevention, trend retrieval, and alert generation. \textbf{8 tests, all passing.}
+
+\subsubsection{Care Plans --- \texttt{backend/tests/integration/carePlans.test.ts}}
+
+Tests template listing, care plan creation from template, plan updates, milestone status changes, auto-progress calculation, and provider authorization checks. \textbf{7 tests, all passing.}
+
+\subsubsection{Appointments \& Messages --- \texttt{backend/tests/integration/appointments\_messages.test.ts}}
+
+Validates appointment creation, client appointment listing, message sending, and conversation fetching. \textbf{4 tests, all passing.}
+
+\subsubsection{Resources API --- \texttt{backend/tests/integration/resources-api.test.ts}}
+
+Tests resource CRUD endpoint authorization, 404 handling for non-existent resources, and response structure validation. \textbf{6 tests, all passing.}
+
+\newpage
+
+\subsection{Frontend Component Testing}
+
+The frontend test suite validates React components, service layers, hooks, and utility functions using React Testing Library with a jsdom environment and MSW for API mocking.
+
+\subsubsection{Service Layer Tests (16 files, 120+ tests)}
+
+Each API service module has a corresponding test file that validates request construction, response handling, error transformation, and authentication header injection:
+
+\begin{itemize}[nosep]
+  \item \texttt{authService.test.ts} --- Login, registration, token refresh, logout, MFA verification
+  \item \texttt{appointmentService.test.ts} --- CRUD operations, status transitions, calendar data fetching
+  \item \texttt{blogService.test.ts} --- Post creation, publishing, draft management, public listing
+  \item \texttt{documentService.test.ts} --- Upload, download, status updates, provider review
+  \item \texttt{messageService.test.ts} --- Conversation listing, message sending, read receipts
+  \item \texttt{providerService.test.ts} --- Client management, profile updates, availability
+  \item \texttt{resourceService.test.ts} --- Resource CRUD, category filtering, interaction tracking
+  \item \texttt{userService.test.ts} --- Profile updates, password changes, notification preferences
+  \item \texttt{supportSessionService.test.ts} --- Session management, status tracking
+  \item \texttt{pushService.test.ts} --- Push subscription, notification delivery
+  \item \texttt{recommendationService.test.ts} --- Content recommendations, personalization
+  \item \texttt{serviceFactory.test.ts} --- Generic service creation pattern validation
+\end{itemize}
+
+Service-layer coverage: \textbf{93.99\% statements}, 83.83\% branches, 94.02\% functions, 95.21\% lines.
+
+\subsubsection{Component Tests (50+ files, 400+ tests)}
+
+Key component test areas include:
+
+\begin{itemize}[nosep]
+  \item \textbf{Client Check-ins} (\texttt{ClientCheckIns.test.tsx}) --- 12 tests covering mood selection, symptom toggling, note entry, provider sharing, and form submission
+  \item \textbf{Client Settings} (\texttt{ClientSettings.test.tsx}) --- 42 tests across 9 describe blocks covering profile editing, password changes, notification preferences, and 2FA management
+  \item \textbf{Intake Wizard} (\texttt{IntakeSteps.test.tsx}, \texttt{PersonalBirthSteps.test.tsx}, \texttt{intakeValidation.test.ts}) --- 65 tests covering all 5 wizard steps, Zod schema validation, progress tracking, and form submission
+  \item \textbf{Calendar Components} (\texttt{ClientCalendarGrid.test.tsx}, \texttt{ProviderCalendarGrid.test.tsx}) --- 16 tests covering date navigation, event rendering, and day detail panels
+  \item \textbf{Day Detail Panels} (\texttt{ClientDayDetailPanel.test.tsx}, \texttt{ProviderDayDetailPanel.test.tsx}) --- 28 tests covering appointment display, action buttons, and status indicators
+  \item \textbf{Document Management} (\texttt{DocumentRecommendations.test.tsx}, \texttt{ClientDocumentEdit.test.tsx}) --- 18 tests covering upload, edit, recommendations, and search/filter
+  \item \textbf{Protected Routes} (\texttt{ProtectedRoute.test.tsx}) --- 6 tests covering role-based access control and redirect behavior
+  \item \textbf{Error Boundary} (\texttt{ErrorBoundary.test.tsx}) --- 5 tests covering error capture, fallback UI, and recovery
+\end{itemize}
+
+\subsubsection{Page-Level Tests (10 files)}
+
+Each route-level page component is tested for correct rendering, data loading, and navigation:
+
+\begin{itemize}[nosep]
+  \item \texttt{LoginPage.test.tsx}, \texttt{ForgotPasswordPage.test.tsx}, \texttt{ResetPasswordPage.test.tsx}, \texttt{VerifyEmailPage.test.tsx} --- Authentication page flows
+  \item \texttt{ProviderDashboard.test.tsx}, \texttt{ClientDashboard.test.tsx} --- Dashboard rendering with role-specific content
+  \item \texttt{LandingPage.test.tsx} --- Public page rendering and interaction
+  \item \texttt{BlogPage.test.tsx}, \texttt{BlogPostDetail.test.tsx} --- Blog listing and detail views
+\end{itemize}
+
+\subsubsection{Hook and Context Tests (5 files)}
+
+Custom React hooks and context providers are tested for correct state management:
+
+\begin{itemize}[nosep]
+  \item \texttt{useSocket.test.tsx} --- Socket.IO connection lifecycle, room joining, disconnection
+  \item \texttt{useResourceOperations.test.tsx} --- Resource CRUD hook behavior
+  \item \texttt{useCategoryOperations.test.tsx} --- Category management hook
+  \item \texttt{ResourceContext.test.tsx}, \texttt{useResource.test.tsx} --- Resource provider state and consumer hooks
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% SECTION 12: AUTOMATED TEST EXECUTION RESULTS
+% ============================================================
+\section{Automated Test Execution Results}
+
+The LUNARA project maintains a comprehensive automated test suite covering both the backend API layer and the frontend service/component layer. All tests are executed via Jest and produce coverage reports. The combined suite totals \textbf{118 test suites} and \textbf{1,044 individual tests}, all passing. Additionally, \textbf{32 end-to-end tests} are provided via Playwright covering public page rendering, authentication flows, blog navigation, and route protection.
+
+\subsection{Backend Test Results}
+
+The backend test suite covers middleware, services, and utility modules with \textbf{13 test suites} and \textbf{153 tests}. Overall code coverage is \textbf{90.58\% statements} (510/563), 75.43\% branches (261/346), 87.28\% functions (103/118), and 90.56\% lines (499/551). Execution time: 9.8 seconds.
+
+\screenshotfig{Photos/tests/backend_cli_output.png}{Backend Test Results (CLI) --- 13 suites, 153 tests passing with per-file coverage breakdown showing statements, branches, functions, and lines. All suites pass in 9.8 seconds.}{test-backend-cli}
+
+\screenshotfig{Photos/tests/backend_jest_output.png}{Backend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 90.58\% statement coverage across middleware (87.38\%), services (91.21\%), and utils (91.66\%) directories.}{test-backend-html}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|c|c|c|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Backend Module}} & \textcolor{TableHeaderText}{\textbf{Stmts}} & \textcolor{TableHeaderText}{\textbf{Branch}} & \textcolor{TableHeaderText}{\textbf{Funcs}} & \textcolor{TableHeaderText}{\textbf{Lines}} \\
+\hline
+cacheMiddleware.ts & 100\% & 88.88\% & 100\% & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+index.ts (middleware) & 84.61\% & 67.18\% & 83.33\% & 84.44\% \\
+\hline
+appointmentNotificationService.ts & 100\% & 71.42\% & 100\% & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+appointmentReminderService.ts & 97.72\% & 84\% & 66.66\% & 97.72\% \\
+\hline
+cacheService.ts & 97.29\% & 90\% & 90.9\% & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+checkinTrendService.ts & 97.29\% & 92.1\% & 100\% & 97.01\% \\
+\hline
+emailService.ts & 72\% & 55.55\% & 57.14\% & 71.62\% \\
+\hline
+\rowcolor{TableRowAlt}
+messageRateLimiter.ts & 100\% & 85.71\% & 100\% & 100\% \\
+\hline
+socketConnectionManager.ts & 95.45\% & 90\% & 100\% & 95.45\% \\
+\hline
+\rowcolor{TableRowAlt}
+errors.ts & 97.14\% & 91.42\% & 100\% & 97.1\% \\
+\hline
+logger.ts & 100\% & 81.81\% & 100\% & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+queryOptimization.ts & 100\% & 100\% & 100\% & 100\% \\
+\hline
+tokenUtils.ts & 84.28\% & 56.09\% & 100\% & 84.05\% \\
+\hline
+\end{tabularx}
+\caption{Backend per-file code coverage}
+\end{table}
+
+\newpage
+
+\subsection{Frontend Test Results}
+
+The frontend test suite covers API clients, services, components, pages, hooks, contexts, and utility functions with \textbf{105 test suites} and \textbf{891 tests}. Milestone~5 added 176 deep tests across 7 new test files covering authentication flows, messaging state management, blog editor interactions, document upload validation, and API client retry/refresh logic. Overall code coverage is \textbf{63.35\% statements} (3,701/5,842), 49.9\% branches (1,799/3,605), 57.73\% functions (840/1,455), and 64.79\% lines (3,425/5,286). Execution time: 15.8 seconds.
+
+\screenshotfig{Photos/tests/frontend_cli_output.png}{Frontend Test Results (CLI) --- 98 suites, 715 tests passing with per-file coverage breakdown. All suites pass in 15.8 seconds.}{test-frontend-cli}
+
+\screenshotfig{Photos/tests/Frontend_Jest_output.png}{Frontend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 63.35\% statement coverage across all frontend directories including components, services, pages, hooks, and contexts.}{test-frontend-html}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{5cm}|c|c|c|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Frontend Directory}} & \textcolor{TableHeaderText}{\textbf{Stmts}} & \textcolor{TableHeaderText}{\textbf{Branch}} & \textcolor{TableHeaderText}{\textbf{Funcs}} & \textcolor{TableHeaderText}{\textbf{Lines}} \\
+\hline
+src/services/ & 93.99\% & 83.83\% & 94.02\% & 95.21\% \\
+\hline
+\rowcolor{TableRowAlt}
+src/components/layout/ & 94.11\% & 88.88\% & 80\% & 93.33\% \\
+\hline
+src/components/ui/ & 97.4\% & 60.71\% & 92.3\% & 96.82\% \\
+\hline
+\rowcolor{TableRowAlt}
+src/components/security/ & 97.29\% & 81.48\% & 100\% & 97.18\% \\
+\hline
+src/components/appointments/ & 93.82\% & 67.44\% & 90.9\% & 95.77\% \\
+\hline
+\rowcolor{TableRowAlt}
+src/pages/ & 80.08\% & 66.37\% & 67.9\% & 81.45\% \\
+\hline
+src/components/ (all) & 79.17\% & 57.28\% & 81.72\% & 84.03\% \\
+\hline
+\rowcolor{TableRowAlt}
+src/hooks/ & 76.85\% & 57.69\% & 72.72\% & 78.57\% \\
+\hline
+src/components/intake/steps/ & 72.88\% & 86.48\% & 57.89\% & 71.15\% \\
+\hline
+\rowcolor{TableRowAlt}
+src/contexts/ & 55.52\% & 16.32\% & 46.42\% & 57.79\% \\
+\hline
+src/api/ & 48.64\% & 42.1\% & 50\% & 49.31\% \\
+\hline
+\end{tabularx}
+\caption{Frontend per-directory code coverage}
+\end{table}
+
+\newpage
+
+% ============================================================
+% SECTION 13: REQUIREMENTS TESTING
+% ============================================================
+\section{Requirements Testing}
+
+Once the components are tested and the system operates as designed, the application is tested against the requirements gathered in the requirements phase. The following table maps each functional requirement to its corresponding automated test files and manual test cases, ensuring complete traceability.
+
+{\scriptsize
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{2cm}|c|}
+\caption{Requirements-to-Test Mapping}\label{tab:req-test-map}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Requirement}} & \textcolor{TableHeaderText}{\textbf{Automated Test File(s)}} & \textcolor{TableHeaderText}{\textbf{Manual TC}} & \textcolor{TableHeaderText}{\textbf{Status}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Table~\ref{tab:req-test-map} continued from previous page}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Requirement}} & \textcolor{TableHeaderText}{\textbf{Automated Test File(s)}} & \textcolor{TableHeaderText}{\textbf{Manual TC}} & \textcolor{TableHeaderText}{\textbf{Status}} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\
+\endfoot
+\hline
+\endlastfoot
+
+FR1: Public Website & \texttt{LandingPage.test.tsx}, \texttt{LayoutComponents.test.tsx} & TC-001 & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+FR2: Auth \& Registration & \texttt{auth.public.test.ts}, \texttt{authService.test.ts}, \texttt{tokenUtils.test.ts}, \texttt{LoginPage.test.tsx}, \texttt{authFlow.test.tsx} & TC-003--006 & Pass \\
+\hline
+FR3: Dashboards & \texttt{ProviderDashboard.test.tsx}, \texttt{ClientDashboard.test.tsx}, \texttt{providerDashboardUtils.test.ts} & TC-007, TC-008 & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+FR4: Intake Forms & \texttt{intake.test.ts}, \texttt{ClientIntakeWizard.test.tsx}, \texttt{IntakeSteps.test.tsx}, \texttt{intakeValidation.test.ts}, \texttt{PersonalBirthSteps.test.tsx} & TC-009 & Pass \\
+\hline
+FR5: Messaging & \texttt{appointments\_messages.test.ts}, \texttt{messageService.test.ts}, \texttt{MessageCenter.test.tsx}, \texttt{MessagesList.test.tsx}, \texttt{useSocket.test.tsx} & TC-010 & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+FR6: Scheduling & \texttt{scheduling.test.ts}, \texttt{appointmentService.test.ts}, \texttt{ClientCalendarGrid.test.tsx}, \texttt{ProviderCalendarGrid.test.tsx} & TC-011 & Pass \\
+\hline
+FR7: Resources & \texttt{resources-api.test.ts}, \texttt{resourceService.test.ts}, \texttt{ResourceLibrary.test.tsx}, \texttt{ResourceEditor.test.tsx}, \texttt{useResourceOperations.test.tsx} & TC-012 & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+FR8: Check-ins & \texttt{checkins.test.ts}, \texttt{checkinTrendService.test.ts}, \texttt{ClientCheckIns.test.tsx} & TC-013, TC-014 & Pass \\
+\hline
+FR9: Client Mgmt & \texttt{providerService.test.ts}, \texttt{InviteClient.test.tsx} & TC-015 & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+FR10: Care Plans & \texttt{carePlans.test.ts}, \texttt{CarePlanManager.test.tsx}, \texttt{CarePlanCard.test.tsx} & TC-016 & Pass \\
+\hline
+FR11: Blog & \texttt{blogService.test.ts}, \texttt{BlogComponents.test.tsx}, \texttt{BlogEditor.test.tsx}, \texttt{BlogPage.test.tsx} & TC-017 & Pass \\
+\hline
+\rowcolor{TableRowAlt}
+FR1--FR3: E2E & \texttt{e2e/landing.spec.ts}, \texttt{e2e/auth.spec.ts}, \texttt{e2e/blog.spec.ts}, \texttt{e2e/navigation.spec.ts} & TC-001--008 & Pass \\
+\hline
+NFR1: Security & \texttt{errors.test.ts}, \texttt{tokenUtils.test.ts}, \texttt{index.test.ts} (middleware) & TC-018--020 & Pass \\
+\hline
+\end{longtable}
+}
+
+\newpage
+
+% ============================================================
+% SECTION 14: SYSTEM TESTING
+% ============================================================
+\section{System Testing}
+
+System testing verifies that all components of the functional business requirements, business processes, data flows, and other system criteria are met.
+
+\subsection{Part 1: System Test Plan Overview}
+
+\begin{itemize}
+  \item \textbf{Date:} March 2026
+  \item \textbf{Objectives:} Validate that all in-scope functional requirements (FR1--FR11) and non-functional requirements (NFR1--NFR10) are satisfied by the integrated LUNARA application
+  \item \textbf{Goals:} Achieve $>$90\% backend code coverage, $>$60\% frontend code coverage, 100\% pass rate on all automated tests, successful manual verification of all 20 test cases, and end-to-end validation of critical user flows via Playwright
+  \item \textbf{Duration:} Two-week testing sprint within the Milestone~5 iteration
+\end{itemize}
+
+\subsection{Part 2: System Test Scope and Resources}
+
+\textbf{Features tested:}
+\begin{itemize}[nosep]
+  \item Public website rendering and contact form submission (FR1)
+  \item Complete authentication lifecycle: register, login, MFA, token refresh, logout (FR2)
+  \item Provider and client dashboard rendering with role-based content (FR3)
+  \item Five-step intake wizard with per-section Zod validation (FR4)
+  \item Real-time messaging via Socket.IO with JWT authentication (FR5)
+  \item Appointment scheduling lifecycle: request, confirm, cancel (FR6)
+  \item Resource library with category filtering and interaction tracking (FR7)
+  \item Daily check-in with mood tracking, symptom logging, and clinical alerts (FR8)
+  \item Provider client management: create, assign, unassign (FR9)
+  \item Care plan creation, milestone tracking, and auto-progress computation (FR10)
+  \item Blog publishing with draft/publish workflow and versioning (FR11)
+  \item Security middleware: Helmet, CORS, rate limiting, input validation (NFR1--NFR10)
+  \item End-to-end user flows: page rendering, form validation, route protection, cross-page navigation (Playwright)
+\end{itemize}
+
+\textbf{Features not tested (deferred):} FR12 (Digital Journaling), FR13 (Daily Insights), FR14 (Sleep \& Feeding Trackers), FR15 (AI Note Summarization)
+
+\textbf{System test resources:}
+\begin{itemize}[nosep]
+  \item Local development environment: Node.js 20, MongoDB 7, React 18
+  \item Staging environment: \texttt{lunara.onrender.com} (backend), \texttt{lunaracare.org} (frontend)
+  \item Test execution: Jest CLI with \texttt{--coverage} flag
+  \item Coverage reporting: Istanbul/Jest HTML reports
+\end{itemize}
+
+\subsection{Part 3: System Test Strategy}
+
+\textbf{System test procedures:}
+\begin{enumerate}
+  \item Execute full backend test suite: \texttt{cd backend \&\& npm test -- --coverage}
+  \item Execute full frontend test suite: \texttt{cd Lunara \&\& npm test -- --coverage}
+  \item Review coverage reports and identify gaps below threshold
+  \item Execute manual test cases TC-001 through TC-020 against staging environment
+  \item Document defects, return to development for correction, re-test
+\end{enumerate}
+
+\textbf{System test environment:} Tests run locally against mocked databases (backend integration tests use in-memory MongoDB; frontend tests use MSW for API mocking). Manual tests run against the deployed staging environment which mirrors production configuration.
+
+\textbf{System test tools:} Jest (test runner), Istanbul (coverage), React Testing Library (component assertions), MSW (API mocking), Chrome DevTools (manual testing)
+
+\textbf{System test criteria:}
+\begin{itemize}[nosep]
+  \item \textbf{Entry criteria:} All unit tests passing, all integration tests passing, application deployable to staging
+  \item \textbf{Exit criteria:} 100\% automated test pass rate, backend coverage $>$90\%, frontend coverage $>$60\%, all 20 manual test cases passing
+\end{itemize}
+
+\textbf{Entry criteria status:} All entry criteria met. Unit testing is complete with 153 backend tests and 715 frontend tests passing. Integration tests are complete with 57 backend integration tests passing. The application is deployed and accessible at \texttt{lunara.onrender.com}.
+
+\newpage
+
+% ============================================================
+% SECTION 14.5: CODEBASE QUALITY HARDENING
+% ============================================================
+\section{Codebase Quality Hardening}
+
+In addition to functional testing, a comprehensive quality hardening pass was performed on the entire codebase to improve maintainability, security, performance, and developer experience.
+
+\subsection{Dependency Vulnerability Remediation}
+
+All dependency vulnerabilities were resolved:
+
+\begin{itemize}[nosep]
+  \item \textbf{Backend:} 19 vulnerabilities (1 critical, 6 high) reduced to \textbf{0} by upgrading \texttt{mongoose}, \texttt{cloudinary}, \texttt{nodemailer}, and transitive dependencies.
+  \item \textbf{Frontend:} 20 vulnerabilities (9 high) reduced to \textbf{6 low-severity} (all in dev-only test dependencies). The \texttt{react-quill} package was replaced with \texttt{react-quill-new} and \texttt{quill} pinned to 2.0.2 via npm overrides to eliminate the XSS vulnerability (GHSA-v3m3-f69x-jf25).
+\end{itemize}
+
+\subsection{TypeScript Type Safety}
+
+All \texttt{any} type annotations were eliminated from backend production code (\textasciitilde100 instances across 18 files):
+
+\begin{itemize}[nosep]
+  \item Created \texttt{src/types/express.d.ts} to augment \texttt{Express.User} with the \texttt{IUser} interface, enabling type-safe \texttt{req.user} access across all routes.
+  \item Replaced \texttt{any} in middleware, services, routes, and models with proper types: \texttt{unknown}, \texttt{Record<string, unknown>}, Mongoose document interfaces, and express-validator's \texttt{ValidationError} type.
+  \item Added null guards on \texttt{req.user} in all authenticated handlers, surfacing previously hidden type errors.
+\end{itemize}
+
+\subsection{Service Layer Architecture}
+
+All eight major route files were refactored to extract business logic into dedicated service modules:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|c|c|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Service File}} & \textcolor{TableHeaderText}{\textbf{Route (Before)}} & \textcolor{TableHeaderText}{\textbf{Route (After)}} & \textcolor{TableHeaderText}{\textbf{Functions Extracted}} \\
+\hline
+authService.ts & 1,381 lines & 988 lines & registerUser, loginUser, refreshTokens, logoutUser, verifyEmail, forgotPassword, resetPassword, verifyMfa \\
+\hline
+\rowcolor{TableRowAlt}
+resourceService.ts & 959 lines & \textasciitilde310 lines & listResources, createResource, updateResource, deleteResource, getVersionHistory, restoreVersion \\
+\hline
+appointmentService.ts & 855 lines & thin & 15 functions including request, confirm, cancel, availability management \\
+\hline
+\rowcolor{TableRowAlt}
+blogService.ts & --- & thin & listPublishedPosts, createBlogPost, updateBlogPost, deleteBlogPost, getVersionHistory \\
+\hline
+documentService.ts & --- & thin & listDocuments, createDocument, updateDocument, deleteDocument, submitDocument, reviewDocument \\
+\hline
+\rowcolor{TableRowAlt}
+checkinService.ts & --- & thin & createCheckIn, getUserCheckIns, getUserTrends, getNeedsReview, markCheckInsReviewed \\
+\hline
+providerService.ts & --- & thin & getMyProfile, updateMyProfile, getMyClients, listProviders, inviteClient, getAnalytics \\
+\hline
+\rowcolor{TableRowAlt}
+userService.ts & --- & thin & getProfile, updateProfile, changePassword, deleteAccount, getPreferences, updatePreferences \\
+\hline
+\end{tabularx}
+\caption{Service layer extraction summary}
+\end{table}
+
+\subsection{Frontend Performance Optimization}
+
+Three categories of performance improvements were applied:
+
+\begin{enumerate}[nosep]
+  \item \textbf{Code Splitting:} All 10 page-level components converted to \texttt{React.lazy()} with dynamic imports. The \texttt{MoodOrb} Three.js component (1~MB) is lazy-loaded only when the mood check-in renders. Vite manual chunks isolate \texttt{three} and \texttt{quill} vendor bundles. Result: initial bundle reduced from \textbf{1,877~KB to 115~KB} (94\% reduction).
+  \item \textbf{Memoization:} Added \texttt{useMemo} to 6 map computations across 5 calendar components that were recreated on every render. Added \texttt{React.memo} to 3 child components (\texttt{CalendarGrid}, \texttt{ClientCalendarGrid}, \texttt{ClientDayDetailPanel}).
+  \item \textbf{Polling Reduction:} Dashboard polling interval reduced from 15 seconds to 60 seconds as a fallback behind existing Socket.IO real-time events.
+\end{enumerate}
+
+\subsection{CI/CD and Developer Experience}
+
+\begin{itemize}[nosep]
+  \item \textbf{CI/CD Re-enabled:} All three GitHub Actions workflows (\texttt{backend-ci.yml}, \texttt{frontend-ci.yml}, \texttt{build.yml}) were re-enabled after verifying the codebase passes type-checking, linting, and all tests. The frontend CI pipeline now includes Playwright E2E tests.
+  \item \textbf{Pre-commit Hooks:} Husky and lint-staged configured at the monorepo root. On commit, backend files trigger TypeScript type-checking, frontend files trigger ESLint, and all files are formatted with Prettier.
+  \item \textbf{End-to-End Testing:} Playwright installed with 4 spec files (32 tests) covering landing page, auth forms, blog navigation, and route protection. Tests run against the compiled frontend in Chromium without requiring a backend.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% SECTION 15: QUALITY METRICS
+% ============================================================
+\section{Quality Metrics and Test Summary Report}
+
+\subsection{Combined Test Suite Summary}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|c|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Metric}} & \textcolor{TableHeaderText}{\textbf{Backend}} & \textcolor{TableHeaderText}{\textbf{Frontend}} & \textcolor{TableHeaderText}{\textbf{Combined}} & \textcolor{TableHeaderText}{\textbf{Target}} \\
+\hline
+Test Suites & 13 & 105 & 118 & --- \\
+\hline
+\rowcolor{TableRowAlt}
+Individual Tests & 153 & 891 & 1,044 & --- \\
+\hline
+Pass Rate & 100\% & 100\% & 100\% & 100\% \\
+\hline
+\rowcolor{TableRowAlt}
+Statement Coverage & 90.58\% & 63.35\% & --- & $>$90\% / $>$60\% \\
+\hline
+Branch Coverage & 75.43\% & 49.9\% & --- & --- \\
+\hline
+\rowcolor{TableRowAlt}
+Function Coverage & 87.28\% & 57.73\% & --- & --- \\
+\hline
+Line Coverage & 90.56\% & 64.79\% & --- & $>$90\% / $>$60\% \\
+\hline
+\rowcolor{TableRowAlt}
+Execution Time & 9.8s & 15.8s & 25.6s & --- \\
+\hline
+Manual Test Cases & --- & --- & 20/20 Pass & 20/20 \\
+\hline
+\rowcolor{TableRowAlt}
+E2E Tests (Playwright) & --- & 32 & 32 & --- \\
+\hline
+\end{tabularx}
+\caption{Combined test suite quality metrics}
+\end{table}
+
+\subsection{Coverage Analysis}
+
+\textbf{Backend (90.58\% statements):} The backend exceeds the 90\% coverage target. The highest-coverage modules are cache middleware (100\%), message rate limiter (100\%), query optimization (100\%), and logger (100\%). The lowest-coverage module is email service (72\%) due to SMTP transport mocking complexity; this is acceptable as email delivery is verified through manual testing and staging environment validation.
+
+\textbf{Frontend (63.35\% statements):} The frontend exceeds the 60\% coverage target. The service layer achieves 93.99\% coverage, demonstrating thorough API integration testing. Component coverage varies by complexity: UI primitives (97.4\%), security components (97.29\%), and layout components (94.11\%) are well-covered; larger composite components like the provider dashboard tabs (48.6\%) and intake forms (47.05\%) have lower coverage due to extensive conditional rendering and user interaction paths. These areas are supplemented by the 20 manual test cases.
+
+\textbf{End-to-End Coverage:} 32 Playwright E2E tests validate critical user journeys including landing page rendering, authentication form validation, blog page navigation, and route protection for unauthenticated users. These tests run against the compiled frontend in Chromium and are integrated into the CI/CD pipeline.
+
+\subsection{Defect Summary}
+
+All defects identified during the testing phase were resolved and re-tested prior to this submission. No critical or high-severity defects remain open. The automated test suite runs cleanly with zero failures.
+
+\subsection{Test Analysis Approval}
+
+The testing phase for Milestone~5 has been completed. All automated tests pass (1,044/1,044), 32 Playwright E2E tests validate critical user flows, backend coverage exceeds 90\%, frontend coverage exceeds 60\%, and all 20 manual test cases pass. The application is ready for final release packaging in Milestone~6.
+
+\end{document}

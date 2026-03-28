@@ -1,0 +1,75 @@
+name: Frontend CI
+# Maintainer: Carter (Frontend Lead)
+#
+# PURPOSE: Continuous Integration pipeline for the React/Vite frontend.
+# This file contains placeholder steps that MUST be replaced before enabling.
+#
+# TODO (Carter):
+#  1. Install PNPM/Yarn/npm dependencies in the Lunara directory.
+#  2. Run `npm run lint` to enforce ESLint rules.
+#  3. Execute `npm run build --if-present` to ensure the project builds.
+#  4. Capture vitest or jest unit tests once configured.
+#  5. Upload build artifacts for deployment pipeline.
+#
+# NOTE: Remember to set up proper caching for node_modules and vite cache.
+
+on:
+  push:
+    paths:
+      - 'Lunara/**'
+      - '.github/workflows/frontend-ci.yml'
+  pull_request:
+    paths:
+      - 'Lunara/**'
+      - '.github/workflows/frontend-ci.yml'
+
+jobs:
+  build-test:
+    # Re-enabled after codebase quality pass (audit fixes, performance optimizations)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    defaults:
+      run:
+        working-directory: Lunara
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: Lunara/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm test -- --coverage
+
+      - name: Build application
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist-${{ matrix.node-version }}
+          path: Lunara/dist
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage-${{ matrix.node-version }}
+          path: Lunara/coverage

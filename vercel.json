@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd Lunara && npm ci && npm run build",
+  "outputDirectory": "Lunara/dist",
+  "installCommand": "cd Lunara && npm ci",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

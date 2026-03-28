@@ -1,0 +1,346 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
+\pgfsyspdfmark {pgfid1}{5920358}{74994156}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Coding Objective}{4}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Development Deliverables}{4}{section.2}\protected@file@percent }
+\gdef \LT@i {\LT@entry 
+    {1}{92.46779pt}\LT@entry 
+    {1}{197.3429pt}\LT@entry 
+    {1}{30.3488pt}\LT@entry 
+    {1}{31.5518pt}\LT@entry 
+    {5}{51.30243pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Implementation Plan}{5}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Methodology and Execution Framework}{5}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Implementation Plan Matrix --- CST-452 Development Iterations}{5}{subsection.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Implementation Plan Matrix --- CST-452 Development Iterations}}{5}{table.1}\protected@file@percent }
+\newlabel{tab:impl-plan}{{1}{5}{Implementation Plan Matrix --- CST-452 Development Iterations}{table.1}{}}
+\gdef \LT@ii {\LT@entry 
+    {1}{75.39595pt}\LT@entry 
+    {1}{83.53188pt}\LT@entry 
+    {1}{168.89014pt}\LT@entry 
+    {1}{83.53188pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Functional Requirements Mapping (Traceability Matrix)}{7}{section.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Functional Requirements Traceability Matrix}}{7}{table.2}\protected@file@percent }
+\newlabel{tab:trace-matrix}{{2}{7}{Functional Requirements Traceability Matrix}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Source Code Listing \& Architectural Implementation}{8}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}System Architecture Overview}{8}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Backend Architecture Implementation (\texttt  {/backend})}{8}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Core Application Layer --- \texttt  {src/server.ts}}{8}{subsubsection.5.2.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces Server initialization and security middleware (\texttt  {server.ts})}}{8}{lstlisting.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces API route registration (\texttt  {server.ts})}}{8}{lstlisting.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}Authentication \& Authorization Layer --- \texttt  {src/config/passport.ts}}{10}{subsubsection.5.2.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces Passport.js authentication strategies (\texttt  {passport.ts})}}{10}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}Data Access Layer --- Database Schema Design}{11}{subsubsection.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Users Collection --- \texttt  {src/models/User.ts}}{11}{subsubsection.5.2.3}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces User model interface (\texttt  {User.ts})}}{11}{lstlisting.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{CheckIn Collection --- \texttt  {src/models/CheckIn.ts}}{11}{lstnumber.4.19}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}{\ignorespaces CheckIn model with symptom tracking (\texttt  {CheckIn.ts})}}{11}{lstlisting.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Appointments Collection --- \texttt  {src/models/Appointment.ts}}{11}{lstnumber.5.16}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}{\ignorespaces Appointment model (\texttt  {Appointment.ts})}}{11}{lstlisting.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Messages Collection --- \texttt  {src/models/Message.ts}}{11}{lstnumber.6.16}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}{\ignorespaces Message model (\texttt  {Message.ts})}}{11}{lstlisting.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{CarePlan Collection --- \texttt  {src/models/CarePlan.ts}}{12}{lstnumber.7.14}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}{\ignorespaces CarePlan model with auto-progress hook (\texttt  {CarePlan.ts})}}{12}{lstlisting.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ClientDocument Collection --- \texttt  {src/models/ClientDocument.ts}}{12}{lstnumber.8.39}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}{\ignorespaces ClientDocument model (\texttt  {ClientDocument.ts})}}{12}{lstlisting.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}API Layer \& Business Services}{13}{subsubsection.5.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Authentication Endpoints --- \texttt  {src/routes/auth.ts}}{13}{subsubsection.5.2.4}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}{\ignorespaces Auth route registration endpoint (\texttt  {auth.ts})}}{13}{lstlisting.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Check-in Endpoints --- \texttt  {src/routes/checkins.ts}}{13}{lstnumber.10.13}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}{\ignorespaces Check-in creation endpoint (\texttt  {checkins.ts})}}{13}{lstlisting.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Check-in Trend Service --- \texttt  {src/services/checkinTrendService.ts}}{13}{lstnumber.11.21}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}{\ignorespaces Clinical alert thresholds and detection (\texttt  {checkinTrendService.ts})}}{13}{lstlisting.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Real-time Messaging --- Socket.IO in \texttt  {src/server.ts}}{14}{lstnumber.12.33}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {13}{\ignorespaces Socket.IO authentication and message delivery (\texttt  {server.ts})}}{14}{lstlisting.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Frontend Architecture Implementation (\texttt  {/Lunara})}{15}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Application Root --- \texttt  {src/App.tsx}}{15}{subsubsection.5.3.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {14}{\ignorespaces Role-based route protection (\texttt  {App.tsx})}}{15}{lstlisting.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Client Check-in Component --- \texttt  {src/components/client/ClientCheckIns.tsx}}{15}{subsubsection.5.3.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {15}{\ignorespaces Symptom definitions (\texttt  {ClientCheckIns.tsx})}}{15}{lstlisting.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Intake Wizard --- \texttt  {src/components/intake/ClientIntakeWizard.tsx}}{15}{subsubsection.5.3.3}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {16}{\ignorespaces Intake wizard Zod validation schemas (\texttt  {ClientIntakeWizard.tsx})}}{15}{lstlisting.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Source Code File Inventory}{16}{subsection.5.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Source code file inventory by architectural layer}}{16}{table.caption.1}\protected@file@percent }
+\gdef \LT@iii {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\gdef \LT@iv {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Scope Adjustment Context}{17}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Data Dictionary}{17}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}User}{17}{subsection.7.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces User --- \texttt  {users} collection (\texttt  {models/User.ts})}}{17}{table.4}\protected@file@percent }
+\newlabel{tab:dd-user}{{4}{17}{User --- \texttt {users} collection (\texttt {models/User.ts})}{table.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Client}{17}{subsection.7.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Client --- \texttt  {clients} collection (\texttt  {models/Client.ts})}}{17}{table.5}\protected@file@percent }
+\newlabel{tab:dd-client}{{5}{17}{Client --- \texttt {clients} collection (\texttt {models/Client.ts})}{table.5}{}}
+\gdef \LT@v {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Provider}{18}{subsection.7.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Provider --- \texttt  {providers} collection (\texttt  {models/Provider.ts})}}{18}{table.6}\protected@file@percent }
+\newlabel{tab:dd-provider}{{6}{18}{Provider --- \texttt {providers} collection (\texttt {models/Provider.ts})}{table.6}{}}
+\gdef \LT@vi {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\gdef \LT@vii {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\gdef \LT@viii {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Appointment}{19}{subsection.7.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Appointment --- \texttt  {appointments} collection (\texttt  {models/Appointment.ts})}}{19}{table.7}\protected@file@percent }
+\newlabel{tab:dd-appointment}{{7}{19}{Appointment --- \texttt {appointments} collection (\texttt {models/Appointment.ts})}{table.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}AvailabilitySlot}{19}{subsection.7.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces AvailabilitySlot --- \texttt  {availabilityslots} collection (\texttt  {models/AvailabilitySlot.ts})}}{19}{table.8}\protected@file@percent }
+\newlabel{tab:dd-avail}{{8}{19}{AvailabilitySlot --- \texttt {availabilityslots} collection (\texttt {models/AvailabilitySlot.ts})}{table.8}{}}
+\gdef \LT@ix {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\gdef \LT@x {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.6}CarePlan}{20}{subsection.7.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces CarePlan --- \texttt  {careplans} collection (\texttt  {models/CarePlan.ts})}}{20}{table.9}\protected@file@percent }
+\newlabel{tab:dd-careplan}{{9}{20}{CarePlan --- \texttt {careplans} collection (\texttt {models/CarePlan.ts})}{table.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.7}CheckIn}{20}{subsection.7.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces CheckIn --- \texttt  {checkins} collection (\texttt  {models/CheckIn.ts})}}{20}{table.10}\protected@file@percent }
+\newlabel{tab:dd-checkin}{{10}{20}{CheckIn --- \texttt {checkins} collection (\texttt {models/CheckIn.ts})}{table.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.8}Message}{20}{subsection.7.8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Message --- \texttt  {messages} collection (\texttt  {models/Message.ts})}}{20}{table.11}\protected@file@percent }
+\newlabel{tab:dd-message}{{11}{20}{Message --- \texttt {messages} collection (\texttt {models/Message.ts})}{table.11}{}}
+\gdef \LT@xi {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\gdef \LT@xii {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.9}ClientDocument}{21}{subsection.7.9}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces ClientDocument --- \texttt  {clientdocuments} collection (\texttt  {models/ClientDocument.ts})}}{21}{table.12}\protected@file@percent }
+\newlabel{tab:dd-clientdoc}{{12}{21}{ClientDocument --- \texttt {clientdocuments} collection (\texttt {models/ClientDocument.ts})}{table.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.10}BlogPost}{21}{subsection.7.10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces BlogPost --- \texttt  {blogposts} collection (\texttt  {models/BlogPost.ts})}}{21}{table.13}\protected@file@percent }
+\newlabel{tab:dd-blog}{{13}{21}{BlogPost --- \texttt {blogposts} collection (\texttt {models/BlogPost.ts})}{table.13}{}}
+\gdef \LT@xiii {\LT@entry 
+    {1}{120.92053pt}\LT@entry 
+    {1}{74.99596pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{140.4374pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.11}Resource}{22}{subsection.7.11}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Resource --- \texttt  {resources} collection (\texttt  {models/Resources.ts})}}{22}{table.14}\protected@file@percent }
+\newlabel{tab:dd-resource}{{14}{22}{Resource --- \texttt {resources} collection (\texttt {models/Resources.ts})}{table.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.12}Supporting Models}{22}{subsection.7.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.13}Entity Relationship Summary}{22}{subsection.7.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Application Demonstration}{23}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Video Demonstration}{23}{subsection.8.1}\protected@file@percent }
+\gdef \LT@xiv {\LT@entry 
+    {5}{46.86368pt}\LT@entry 
+    {1}{49.4899pt}\LT@entry 
+    {1}{97.75826pt}\LT@entry 
+    {1}{197.3429pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Module Test Cases (Test Plan)}{24}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Test Case Summary}{24}{subsection.9.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces Module Test Case Summary (TC-001 through TC-020)}}{24}{table.15}\protected@file@percent }
+\newlabel{tab:test-summary}{{15}{24}{Module Test Case Summary (TC-001 through TC-020)}{table.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Detailed Test Case Specifications}{26}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Application Screenshots}{28}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Public Website (FR1)}{28}{subsection.10.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Landing Page --- The public homepage features a hero section, the ``Dear Parent'' introduction, client login access, an interactive offerings accordion, and an inquiry contact form.}}{28}{figure.caption.8}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:landing-page}{{1}{28}{Landing Page --- The public homepage features a hero section, the ``Dear Parent'' introduction, client login access, an interactive offerings accordion, and an inquiry contact form}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Login Page --- The login page supports email/password authentication with role-based redirection to the appropriate dashboard.}}{29}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:login-page}{{2}{29}{Login Page --- The login page supports email/password authentication with role-based redirection to the appropriate dashboard}{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Public Blog List --- The public-facing blog displays published posts with excerpts, dates, and ``Read More'' links.}}{29}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:public-blog}{{3}{29}{Public Blog List --- The public-facing blog displays published posts with excerpts, dates, and ``Read More'' links}{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Public Blog Post Detail --- A full blog post view with category tags, author attribution, read time, and view count.}}{30}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:public-blog-detail}{{4}{30}{Public Blog Post Detail --- A full blog post view with category tags, author attribution, read time, and view count}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}Provider Dashboard (FR3, FR9, FR11)}{31}{subsection.10.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Provider Dashboard Overview --- Active client count, pending inquiries, check-ins needing attention, quick action buttons, upcoming appointments, and personal to-do list.}}{31}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:provider-dashboard}{{5}{31}{Provider Dashboard Overview --- Active client count, pending inquiries, check-ins needing attention, quick action buttons, upcoming appointments, and personal to-do list}{figure.caption.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Provider Recent Activity --- Upcoming appointments, document submissions from clients, and client assignment history.}}{31}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:provider-activity}{{6}{31}{Provider Recent Activity --- Upcoming appointments, document submissions from clients, and client assignment history}{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Provider Clients Page --- ``My clients'' (assigned) and ``All created clients'' with names, emails, provider assignments, and actions.}}{32}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:provider-clients}{{7}{32}{Provider Clients Page --- ``My clients'' (assigned) and ``All created clients'' with names, emails, provider assignments, and actions}{figure.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Invite New Client Form --- Providers invite new clients by entering first name, last name, and email.}}{32}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:invite-client}{{8}{32}{Invite New Client Form --- Providers invite new clients by entering first name, last name, and email}{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces New Client Created --- The new client appears in ``All created clients'' with an ``Add to my list'' option.}}{32}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:client-created}{{9}{32}{New Client Created --- The new client appears in ``All created clients'' with an ``Add to my list'' option}{figure.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Schedule Appointment Modal --- Client and provider selected, start/end times, type (Virtual), and notes.}}{33}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:schedule-modal}{{10}{33}{Schedule Appointment Modal --- Client and provider selected, start/end times, type (Virtual), and notes}{figure.caption.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Provider Schedule Calendar --- Monthly calendar view with color-coded appointments and sidebar details.}}{33}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:provider-calendar}{{11}{33}{Provider Schedule Calendar --- Monthly calendar view with color-coded appointments and sidebar details}{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Provider Availability Slots --- Providers add availability time slots for specific dates.}}{34}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:availability-slots}{{12}{34}{Provider Availability Slots --- Providers add availability time slots for specific dates}{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Client Documents Search and Filter --- Search, filter by type, status, and date range with ``Review Now'' action.}}{35}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:provider-docs}{{13}{35}{Client Documents Search and Filter --- Search, filter by type, status, and date range with ``Review Now'' action}{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Document Review Panel --- Title, author, attached files, internal notes, client-facing feedback, and review status.}}{35}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:doc-review}{{14}{35}{Document Review Panel --- Title, author, attached files, internal notes, client-facing feedback, and review status}{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Authenticated File Viewer --- Client-uploaded files viewed through an authenticated blob URL.}}{36}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:file-viewer}{{15}{36}{Authenticated File Viewer --- Client-uploaded files viewed through an authenticated blob URL}{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Document Review Completed --- Status updates to ``Completed'' and the client is notified.}}{36}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:review-done}{{16}{36}{Document Review Completed --- Status updates to ``Completed'' and the client is notified}{figure.caption.23}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Blog Management --- Manage Blog Posts page with search, filter by category/tag/author, and tabs.}}{37}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:blog-manage}{{17}{37}{Blog Management --- Manage Blog Posts page with search, filter by category/tag/author, and tabs}{figure.caption.24}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Create New Blog Post --- Blog editor with title, category, excerpt, featured image, tags, and rich text content.}}{37}{figure.caption.25}\protected@file@percent }
+\newlabel{fig:blog-create}{{18}{37}{Create New Blog Post --- Blog editor with title, category, excerpt, featured image, tags, and rich text content}{figure.caption.25}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Blog Post Published --- Published post in management list with Edit, Publish, and Delete actions.}}{37}{figure.caption.26}\protected@file@percent }
+\newlabel{fig:blog-published}{{19}{37}{Blog Post Published --- Published post in management list with Edit, Publish, and Delete actions}{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Create New Resource (Blank Form) --- Title, category, description, content, difficulty, week selectors, tags, and publish.}}{38}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:resource-blank}{{20}{38}{Create New Resource (Blank Form) --- Title, category, description, content, difficulty, week selectors, tags, and publish}{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Create New Resource (Completed Form) --- ``First Trimester: What to Expect'' with weeks 1--12 selected and content filled.}}{38}{figure.caption.28}\protected@file@percent }
+\newlabel{fig:resource-filled}{{21}{38}{Create New Resource (Completed Form) --- ``First Trimester: What to Expect'' with weeks 1--12 selected and content filled}{figure.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Resource Published in Library --- Resource in library with detail modal showing content, category, difficulty, and week targeting.}}{39}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:resource-library}{{22}{39}{Resource Published in Library --- Resource in library with detail modal showing content, category, difficulty, and week targeting}{figure.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Provider Profile Edit --- Personal information, bio, certifications, specialties, languages, services, and availability.}}{40}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:provider-profile}{{23}{40}{Provider Profile Edit --- Personal information, bio, certifications, specialties, languages, services, and availability}{figure.caption.30}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Account Settings --- Password change, notification preferences, 2FA toggle, and account deletion.}}{40}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:account-settings}{{24}{40}{Account Settings --- Password change, notification preferences, 2FA toggle, and account deletion}{figure.caption.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Create Provider Account --- First name, last name, email, and password with complexity requirements.}}{41}{figure.caption.32}\protected@file@percent }
+\newlabel{fig:create-provider}{{25}{41}{Create Provider Account --- First name, last name, email, and password with complexity requirements}{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces Provider Account Created --- Confirmation toast after successful provider creation.}}{41}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:provider-created}{{26}{41}{Provider Account Created --- Confirmation toast after successful provider creation}{figure.caption.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces Provider Messaging Center --- Client list with real-time connection status, conversation view with message history and system notifications.}}{41}{figure.caption.34}\protected@file@percent }
+\newlabel{fig:provider-messaging}{{27}{41}{Provider Messaging Center --- Client list with real-time connection status, conversation view with message history and system notifications}{figure.caption.34}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}{42}{subsection.10.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces Client Dashboard Overview --- Document count, resource count, upcoming appointments, daily mood check-in orb, suggested reading, and resource filter/search.}}{42}{figure.caption.35}\protected@file@percent }
+\newlabel{fig:client-dashboard}{{28}{42}{Client Dashboard Overview --- Document count, resource count, upcoming appointments, daily mood check-in orb, suggested reading, and resource filter/search}{figure.caption.35}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces Mood Orb: ``Need Support Now'' --- The mood orb glows red when the client needs immediate provider attention.}}{42}{figure.caption.36}\protected@file@percent }
+\newlabel{fig:mood-support}{{29}{42}{Mood Orb: ``Need Support Now'' --- The mood orb glows red when the client needs immediate provider attention}{figure.caption.36}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces Mood Orb: ``Having a Tough Day'' --- Warm red-orange tone for the tough day state.}}{43}{figure.caption.37}\protected@file@percent }
+\newlabel{fig:mood-tough}{{30}{43}{Mood Orb: ``Having a Tough Day'' --- Warm red-orange tone for the tough day state}{figure.caption.37}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {31}{\ignorespaces Mood Orb: ``Hanging in There'' --- Golden-amber orb for the neutral mood state.}}{43}{figure.caption.38}\protected@file@percent }
+\newlabel{fig:mood-neutral}{{31}{43}{Mood Orb: ``Hanging in There'' --- Golden-amber orb for the neutral mood state}{figure.caption.38}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces Mood Orb: ``Doing Alright'' --- Pink-magenta orb for the positive mood state.}}{44}{figure.caption.39}\protected@file@percent }
+\newlabel{fig:mood-alright}{{32}{44}{Mood Orb: ``Doing Alright'' --- Pink-magenta orb for the positive mood state}{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces Mood Orb: ``Doing Well'' --- Bright green orb for the most positive mood state.}}{44}{figure.caption.40}\protected@file@percent }
+\newlabel{fig:mood-well}{{33}{44}{Mood Orb: ``Doing Well'' --- Bright green orb for the most positive mood state}{figure.caption.40}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces Resource Library (Filtered) --- Filtered by category ``Postpartum'' and difficulty ``Beginner.''}}{45}{figure.caption.41}\protected@file@percent }
+\newlabel{fig:resource-filtered}{{34}{45}{Resource Library (Filtered) --- Filtered by category ``Postpartum'' and difficulty ``Beginner.''}{figure.caption.41}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces Resource Detail View --- ``Postpartum Daily Recovery'' content organized by week.}}{45}{figure.caption.42}\protected@file@percent }
+\newlabel{fig:resource-detail}{{35}{45}{Resource Detail View --- ``Postpartum Daily Recovery'' content organized by week}{figure.caption.42}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces Resource Library Grid --- Full resource grid filtered by the client's postpartum stage.}}{46}{figure.caption.43}\protected@file@percent }
+\newlabel{fig:resource-grid}{{36}{46}{Resource Library Grid --- Full resource grid filtered by the client's postpartum stage}{figure.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces Blog Post Detail (Client View) --- Published blog post with category tags, reading time, and full content.}}{46}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:client-blog-detail}{{37}{46}{Blog Post Detail (Client View) --- Published blog post with category tags, reading time, and full content}{figure.caption.44}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces Blog List (Client View) --- Authenticated blog list showing published posts.}}{47}{figure.caption.45}\protected@file@percent }
+\newlabel{fig:client-blog-list}{{38}{47}{Blog List (Client View) --- Authenticated blog list showing published posts}{figure.caption.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Appointments Calendar --- Monthly calendar with status legend and upcoming appointments list.}}{48}{figure.caption.46}\protected@file@percent }
+\newlabel{fig:client-calendar}{{39}{48}{Appointments Calendar --- Monthly calendar with status legend and upcoming appointments list}{figure.caption.46}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Request a Specific Time --- Date picker, type selector, start/end time inputs, and optional notes.}}{48}{figure.caption.47}\protected@file@percent }
+\newlabel{fig:request-time}{{40}{48}{Request a Specific Time --- Date picker, type selector, start/end time inputs, and optional notes}{figure.caption.47}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces Request Time (Completed Form) --- March 19, 2026, 7:02--9:02 PM (Virtual), ``Casual check in.''}}{49}{figure.caption.48}\protected@file@percent }
+\newlabel{fig:request-filled}{{41}{49}{Request Time (Completed Form) --- March 19, 2026, 7:02--9:02 PM (Virtual), ``Casual check in.''}{figure.caption.48}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Appointment Approved --- Success toast confirms approval; appointment appears on calendar.}}{50}{figure.caption.49}\protected@file@percent }
+\newlabel{fig:appt-approved}{{42}{50}{Appointment Approved --- Success toast confirms approval; appointment appears on calendar}{figure.caption.49}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces Appointment Confirmed --- Confirmed appointment in upcoming list with date, time, type, and status badge.}}{50}{figure.caption.50}\protected@file@percent }
+\newlabel{fig:appt-confirmed}{{43}{50}{Appointment Confirmed --- Confirmed appointment in upcoming list with date, time, type, and status badge}{figure.caption.50}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Client Notifications and Real-time Chat --- Notification badge with unread messages and real-time chat with provider.}}{51}{figure.caption.51}\protected@file@percent }
+\newlabel{fig:client-chat}{{44}{51}{Client Notifications and Real-time Chat --- Notification badge with unread messages and real-time chat with provider}{figure.caption.51}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Client Messaging (Full View) --- Full messaging page with notification area and conversation history.}}{51}{figure.caption.52}\protected@file@percent }
+\newlabel{fig:client-messaging}{{45}{51}{Client Messaging (Full View) --- Full messaging page with notification area and conversation history}{figure.caption.52}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Client Profile and Document Upload --- Profile edit form with sub-navigation and Upload Documents section.}}{52}{figure.caption.53}\protected@file@percent }
+\newlabel{fig:client-profile}{{46}{52}{Client Profile and Document Upload --- Profile edit form with sub-navigation and Upload Documents section}{figure.caption.53}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Document Upload Form --- File selector, title, description, category dropdown, and tags.}}{52}{figure.caption.54}\protected@file@percent }
+\newlabel{fig:upload-form}{{47}{52}{Document Upload Form --- File selector, title, description, category dropdown, and tags}{figure.caption.54}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Document Upload (Completed Form) --- Selected image, title ``Intake,'' category ``Other,'' tag ``General.''}}{53}{figure.caption.55}\protected@file@percent }
+\newlabel{fig:upload-filled}{{48}{53}{Document Upload (Completed Form) --- Selected image, title ``Intake,'' category ``Other,'' tag ``General.''}{figure.caption.55}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Document Upload Success --- Confirmation toast ``Document uploaded successfully!''}}{53}{figure.caption.56}\protected@file@percent }
+\newlabel{fig:upload-success}{{49}{53}{Document Upload Success --- Confirmation toast ``Document uploaded successfully!''}{figure.caption.56}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces Client Security Settings --- Two-Factor Authentication (2FA) status with manage option.}}{54}{figure.caption.57}\protected@file@percent }
+\newlabel{fig:client-2fa}{{50}{54}{Client Security Settings --- Two-Factor Authentication (2FA) status with manage option}{figure.caption.57}{}}
+\@writefile{toc}{\contentsline {part}{Milestone 5: Testing Phase}{55}{part*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}Testing Objective}{56}{section.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.1}Testing Framework and Tools}{56}{subsection.11.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces Testing framework and tools}}{56}{table.caption.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.2}Test Organization}{56}{subsection.11.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {12}Component Testing}{57}{section.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.1}Backend Unit Testing}{57}{subsection.12.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.1.1}Error Handling Classes --- \texttt  {backend/tests/utils/errors.test.ts}}{57}{subsubsection.12.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.1.2}Token Utilities --- \texttt  {backend/tests/utils/tokenUtils.test.ts}}{57}{subsubsection.12.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.1.3}Query Optimization --- \texttt  {backend/tests/utils/queryOptimization.test.ts}}{57}{subsubsection.12.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.1.4}Middleware Stack --- \texttt  {backend/tests/middleware/index.test.ts}}{57}{subsubsection.12.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.1.5}Cache Middleware --- \texttt  {backend/tests/middleware/cacheMiddleware.test.ts}}{57}{subsubsection.12.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.2}Backend Service Testing}{58}{subsection.12.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.1}Check-in Trend Service --- \texttt  {backend/tests/services/checkinTrendService.test.ts}}{58}{subsubsection.12.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.2}Appointment Notification Service --- \texttt  {backend/tests/services/appointmentNotificationService.test.ts}}{58}{subsubsection.12.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.3}Appointment Reminder Service --- \texttt  {backend/tests/services/appointmentReminderService.test.ts}}{58}{subsubsection.12.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.4}Cache Service --- \texttt  {backend/tests/services/cacheService.test.ts}}{58}{subsubsection.12.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.5}Email Service --- \texttt  {backend/tests/services/emailService.test.ts}}{58}{subsubsection.12.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.6}Socket Connection Manager --- \texttt  {backend/tests/services/socketConnectionManager.test.ts}}{58}{subsubsection.12.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.7}Message Rate Limiter --- \texttt  {backend/tests/services/messageRateLimiter.test.ts}}{58}{subsubsection.12.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.3}Backend Integration Testing}{59}{subsection.12.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.3.1}Authentication \& Public Routes --- \texttt  {backend/tests/integration/auth.public.test.ts}}{59}{subsubsection.12.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.3.2}Scheduling \& Booking Workflow --- \texttt  {backend/tests/integration/scheduling.test.ts}}{59}{subsubsection.12.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.3.3}Intake Form --- \texttt  {backend/tests/integration/intake.test.ts}}{59}{subsubsection.12.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.3.4}Check-in --- \texttt  {backend/tests/integration/checkins.test.ts}}{59}{subsubsection.12.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.3.5}Care Plans --- \texttt  {backend/tests/integration/carePlans.test.ts}}{59}{subsubsection.12.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.3.6}Appointments \& Messages --- \texttt  {backend/tests/integration/appointments\_messages.test.ts}}{59}{subsubsection.12.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.3.7}Resources API --- \texttt  {backend/tests/integration/resources-api.test.ts}}{59}{subsubsection.12.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.4}Frontend Component Testing}{60}{subsection.12.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.4.1}Service Layer Tests (16 files, 120+ tests)}{60}{subsubsection.12.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.4.2}Component Tests (50+ files, 400+ tests)}{60}{subsubsection.12.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.4.3}Page-Level Tests (10 files)}{60}{subsubsection.12.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.4.4}Hook and Context Tests (5 files)}{60}{subsubsection.12.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13}Automated Test Execution Results}{61}{section.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.1}Backend Test Results}{61}{subsection.13.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {51}{\ignorespaces Backend Test Results (CLI) --- 13 suites, 153 tests passing with per-file coverage breakdown showing statements, branches, functions, and lines. All suites pass in 9.8 seconds.}}{61}{figure.caption.60}\protected@file@percent }
+\newlabel{fig:test-backend-cli}{{51}{61}{Backend Test Results (CLI) --- 13 suites, 153 tests passing with per-file coverage breakdown showing statements, branches, functions, and lines. All suites pass in 9.8 seconds}{figure.caption.60}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {52}{\ignorespaces Backend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 90.58\% statement coverage across middleware (87.38\%), services (91.21\%), and utils (91.66\%) directories.}}{61}{figure.caption.61}\protected@file@percent }
+\newlabel{fig:test-backend-html}{{52}{61}{Backend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 90.58\% statement coverage across middleware (87.38\%), services (91.21\%), and utils (91.66\%) directories}{figure.caption.61}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces Backend per-file code coverage}}{62}{table.caption.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2}Frontend Test Results}{63}{subsection.13.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {53}{\ignorespaces Frontend Test Results (CLI) --- 98 suites, 715 tests passing with per-file coverage breakdown. All suites pass in 15.8 seconds.}}{63}{figure.caption.63}\protected@file@percent }
+\newlabel{fig:test-frontend-cli}{{53}{63}{Frontend Test Results (CLI) --- 98 suites, 715 tests passing with per-file coverage breakdown. All suites pass in 15.8 seconds}{figure.caption.63}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {54}{\ignorespaces Frontend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 63.35\% statement coverage across all frontend directories including components, services, pages, hooks, and contexts.}}{63}{figure.caption.64}\protected@file@percent }
+\newlabel{fig:test-frontend-html}{{54}{63}{Frontend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 63.35\% statement coverage across all frontend directories including components, services, pages, hooks, and contexts}{figure.caption.64}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces Frontend per-directory code coverage}}{64}{table.caption.65}\protected@file@percent }
+\gdef \LT@xv {\LT@entry 
+    {1}{69.70549pt}\LT@entry 
+    {1}{168.89014pt}\LT@entry 
+    {1}{69.3055pt}\LT@entry 
+    {1}{33.73984pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {14}Requirements Testing}{65}{section.14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {19}{\ignorespaces Requirements-to-Test Mapping}}{65}{table.19}\protected@file@percent }
+\newlabel{tab:req-test-map}{{19}{65}{Requirements-to-Test Mapping}{table.19}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {15}System Testing}{66}{section.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {15.1}Part 1: System Test Plan Overview}{66}{subsection.15.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {15.2}Part 2: System Test Scope and Resources}{66}{subsection.15.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {15.3}Part 3: System Test Strategy}{66}{subsection.15.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {16}Codebase Quality Hardening}{68}{section.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {16.1}Dependency Vulnerability Remediation}{68}{subsection.16.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {16.2}TypeScript Type Safety}{68}{subsection.16.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {16.3}Service Layer Architecture}{68}{subsection.16.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {20}{\ignorespaces Service layer extraction summary}}{68}{table.caption.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {16.4}Frontend Performance Optimization}{68}{subsection.16.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {16.5}CI/CD and Developer Experience}{69}{subsection.16.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {17}Quality Metrics and Test Summary Report}{70}{section.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {17.1}Combined Test Suite Summary}{70}{subsection.17.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {21}{\ignorespaces Combined test suite quality metrics}}{70}{table.caption.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {17.2}Coverage Analysis}{70}{subsection.17.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {17.3}Defect Summary}{70}{subsection.17.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {17.4}Test Analysis Approval}{70}{subsection.17.4}\protected@file@percent }
+\gdef \@abspage@last{70}

@@ -1,0 +1,12 @@
+node_modules
+.git
+.env
+.env.*
+coverage
+dist
+*.log
+.DS_Store
+.vscode
+.cursor
+tests
+__tests__

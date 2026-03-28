@@ -1,0 +1,65 @@
+name: Backend CI
+# Maintainer: Andrew (DevOps Lead)
+#
+# PURPOSE: Continuous Integration pipeline for the backend service.
+# This file is intentionally minimal for Sprint-1.  Replace the PLACEHOLDER
+# steps with real commands when you begin implementation.
+#
+# TODO (Andrew):
+#  1. Add a matrix for Node.js versions 18 and 20 using actions/setup-node.
+#  2. Run `npm ci` inside the backend directory.
+#  3. Execute `npm run test` and fail the build on errors.
+#  4. Run ESLint & Prettier (or other linters) and fail on violations.
+#  5. Build the Docker image and, on main branch, push to the container registry.
+#  6. Upload Jest coverage reports as a workflow artifact and to Codecov/Sonar.
+#  7. (Optional) Cache node_modules to speed up builds.
+#
+# NOTE: This file will NOT run until the TODOs are completed.
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+
+jobs:
+  build-test:
+    # Re-enabled after codebase quality pass (type-safety, service extraction, audit fixes)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: TypeScript type-check
+        run: npm run type-check
+      - name: Run unit tests
+        run: npm test -- --coverage
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage-${{ matrix.node-version }}
+          path: backend/coverage
+      # Build Docker image only on main branch – can be pushed in a separate job once registry credentials are configured
+      - name: Build Docker image (main branch only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Docker repository names must be lowercase
+          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t ghcr.io/${REPO_LOWER}:${{ github.sha }} .

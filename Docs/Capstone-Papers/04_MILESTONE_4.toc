@@ -1,0 +1,53 @@
+\contentsline {section}{\numberline {1}Coding Objective}{5}{section.1}%
+\contentsline {section}{\numberline {2}Development Deliverables}{5}{section.2}%
+\contentsline {section}{\numberline {3}Implementation Plan}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Methodology and Execution Framework}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Implementation Plan Matrix --- CST-452 Development Iterations}{6}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Functional Requirements Mapping (Traceability Matrix)}{10}{section.4}%
+\contentsline {section}{\numberline {5}Source Code Listing \& Architectural Implementation}{12}{section.5}%
+\contentsline {subsection}{\numberline {5.1}System Architecture Overview}{12}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Backend Architecture Implementation (\texttt {/backend})}{12}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Core Application Layer --- \texttt {src/server.ts}}{12}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Authentication \& Authorization Layer --- \texttt {src/config/passport.ts}}{14}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Data Access Layer --- Database Schema Design}{16}{subsubsection.5.2.3}%
+\contentsline {paragraph}{Users Collection --- \texttt {src/models/User.ts}}{16}{subsubsection.5.2.3}%
+\contentsline {paragraph}{CheckIn Collection --- \texttt {src/models/CheckIn.ts}}{16}{lstnumber.4.19}%
+\contentsline {paragraph}{Appointments Collection --- \texttt {src/models/Appointment.ts}}{17}{lstnumber.5.16}%
+\contentsline {paragraph}{Messages Collection --- \texttt {src/models/Message.ts}}{17}{lstnumber.6.16}%
+\contentsline {paragraph}{CarePlan Collection --- \texttt {src/models/CarePlan.ts}}{17}{lstnumber.7.14}%
+\contentsline {paragraph}{ClientDocument Collection --- \texttt {src/models/ClientDocument.ts}}{18}{lstnumber.8.39}%
+\contentsline {subsubsection}{\numberline {5.2.4}API Layer \& Business Services}{20}{subsubsection.5.2.4}%
+\contentsline {paragraph}{Authentication Endpoints --- \texttt {src/routes/auth.ts}}{20}{subsubsection.5.2.4}%
+\contentsline {paragraph}{Check-in Endpoints --- \texttt {src/routes/checkins.ts}}{20}{lstnumber.10.13}%
+\contentsline {paragraph}{Check-in Trend Service --- \texttt {src/services/checkinTrendService.ts}}{21}{lstnumber.11.21}%
+\contentsline {paragraph}{Real-time Messaging --- Socket.IO in \texttt {src/server.ts}}{21}{lstnumber.12.33}%
+\contentsline {subsection}{\numberline {5.3}Frontend Architecture Implementation (\texttt {/Lunara})}{23}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Application Root --- \texttt {src/App.tsx}}{23}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Client Check-in Component --- \texttt {src/components/client/ClientCheckIns.tsx}}{23}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Intake Wizard --- \texttt {src/components/intake/ClientIntakeWizard.tsx}}{23}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}Source Code File Inventory}{25}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Milestone 4 Special Note --- Scope Adjustment Context}{26}{section.6}%
+\contentsline {section}{\numberline {7}Data Dictionary}{26}{section.7}%
+\contentsline {subsection}{\numberline {7.1}User}{27}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Client}{28}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Provider}{29}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Appointment}{30}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}AvailabilitySlot}{31}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}CarePlan}{32}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}CheckIn}{32}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}Message}{33}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}ClientDocument}{34}{subsection.7.9}%
+\contentsline {subsection}{\numberline {7.10}BlogPost}{35}{subsection.7.10}%
+\contentsline {subsection}{\numberline {7.11}Resource}{36}{subsection.7.11}%
+\contentsline {subsection}{\numberline {7.12}Supporting Models}{36}{subsection.7.12}%
+\contentsline {subsection}{\numberline {7.13}Entity Relationship Summary}{37}{subsection.7.13}%
+\contentsline {section}{\numberline {8}Application Demonstration}{38}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Video Demonstration}{38}{subsection.8.1}%
+\contentsline {section}{\numberline {9}Module Test Cases (Test Plan)}{39}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Test Case Summary}{39}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Detailed Test Case Specifications}{41}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Automated Test Execution Results}{44}{subsection.9.3}%
+\contentsline {section}{\numberline {10}Application Screenshots}{46}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Public Website (FR1)}{47}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Provider Dashboard (FR3, FR9, FR11)}{51}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}{69}{subsection.10.3}%

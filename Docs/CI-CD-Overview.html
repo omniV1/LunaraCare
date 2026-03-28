@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Understanding CI/CD in the AQC Project</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --ink-light: #444;
+      --paper: #faf9f7;
+      --paper-alt: #f0eeeb;
+      --accent: #0d5a8a;
+      --accent-soft: #e6f2f9;
+      --warn: #8c5a00;
+      --warn-soft: #faf3e6;
+      --code: #2d3748;
+      --code-bg: #edf2f7;
+      --font-serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+      --measure: 42rem;
+      --space: 1.5rem;
+    }
+    * { box-sizing: border-box; }
+    html { font-size: 18px; }
+    body {
+      font-family: var(--font-serif);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.75;
+      max-width: var(--measure);
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+    h1 {
+      font-family: var(--font-sans);
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 1rem;
+      color: var(--ink-light);
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+    h2 {
+      font-family: var(--font-sans);
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 2.5rem 0 1rem;
+      color: var(--ink);
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--paper-alt);
+    }
+    h3 {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 1.75rem 0 0.6rem;
+      color: var(--accent);
+    }
+    p {
+      margin: 0 0 1rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+    p.lead {
+      font-size: 1.1rem;
+      color: var(--ink-light);
+      margin-bottom: 1.5rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--code-bg);
+      color: var(--code);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+    }
+    pre {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: var(--code-bg);
+      color: var(--code);
+      padding: 1rem 1.25rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-left: 3px solid var(--accent);
+    }
+    pre code { background: none; padding: 0; }
+    .narrative-block {
+      background: var(--paper-alt);
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.25rem 0;
+      border-left: 4px solid var(--accent);
+    }
+    .narrative-block.warn {
+      border-left-color: var(--warn);
+      background: var(--warn-soft);
+    }
+    .narrative-block p:last-child { margin-bottom: 0; }
+    .key-idea {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 1rem 0 0.5rem;
+    }
+    nav.toc {
+      background: var(--accent-soft);
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+    nav.toc h2 { margin-top: 0; border: none; font-size: 1.1rem; }
+    nav.toc ul { list-style: none; padding: 0; margin: 0; }
+    nav.toc li { margin: 0.4rem 0; }
+    nav.toc a { color: var(--accent); font-weight: 500; }
+    hr {
+      border: none;
+      border-top: 1px solid var(--paper-alt);
+      margin: 2.5rem 0;
+    }
+    .step {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--accent);
+    }
+    .step strong { color: var(--ink); }
+    ul, ol { margin: 0.75rem 0 1rem; padding-left: 1.5rem; }
+    li { margin: 0.35rem 0; }
+    .quick-ref {
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+    .quick-ref th, .quick-ref td {
+      padding: 0.4rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid var(--paper-alt);
+    }
+    .quick-ref th { color: var(--ink-light); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<h1>Understanding CI/CD in the AQC Project</h1>
+<p class="subtitle">A narrative guide to how code becomes running software — and how you can run it yourself.</p>
+
+<p class="lead">This guide walks you through the project’s CI/CD and Docker setup as a single story: what runs when, why it’s structured this way, and how to bring the same environments up on your machine with Docker Desktop or the command line. No list-dumping — just explanations you can follow from start to finish.</p>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ul>
+    <li><a href="#story">1. The big picture: what CI/CD is doing</a></li>
+    <li><a href="#when-what-runs">2. When does what run?</a></li>
+    <li><a href="#backend-pipeline">3. The backend pipeline, step by step</a></li>
+    <li><a href="#frontend-pipeline">4. The frontend pipeline, step by step</a></li>
+    <li><a href="#sonar">5. SonarQube and the build workflow</a></li>
+    <li><a href="#docker-story">6. How the app gets packaged: Docker</a></li>
+    <li><a href="#compose-story">7. Running multiple services: Docker Compose</a></li>
+    <li><a href="#you-run-it">8. You run it: spinning up environments</a></li>
+    <li><a href="#secrets">9. Configuration and secrets</a></li>
+    <li><a href="#quick-ref">10. Quick reference</a></li>
+  </ul>
+</nav>
+
+<hr />
+
+<h2 id="story">1. The big picture: what CI/CD is doing</h2>
+
+<p>In this repo, <strong>Continuous Integration (CI)</strong> means: every time someone pushes code or opens a pull request, automated jobs run to install dependencies, check types, lint, test, and build the backend and frontend. That way the team finds breakage quickly instead of discovering it later in production.</p>
+
+<p><strong>Continuous Deployment (CD)</strong> is only partly set up. The backend workflow is prepared to build a Docker image on the <code>main</code> branch and tag it for GitHub’s container registry (GHCR), but nobody has wired in registry login and <code>docker push</code> yet. So today the pipeline stops at “build and optionally tag”; actually pushing and deploying is something you’d add when you’re ready.</p>
+
+<p>The project has two main applications: a <strong>backend</strong> (Node.js, Express, TypeScript, MongoDB) under <code>backend/</code>, and a <strong>frontend</strong> (React, Vite) under <code>Lunara/</code>. The pipelines are split so that changing only backend code doesn’t run frontend tests, and vice versa. That saves time and keeps feedback focused.</p>
+
+<hr />
+
+<h2 id="when-what-runs">2. When does what run?</h2>
+
+<p>GitHub Actions decides whether to run a workflow based on the <strong>event</strong> (push, pull_request, etc.) and, for our workflows, on <strong>which files changed</strong>. You can think of it like this: a workflow runs only if the set of changed files overlaps with the paths it cares about.</p>
+
+<p>In set terms: if <strong>C</strong> is the set of files changed in the push or PR, and <strong>P</strong> is the set of paths the workflow watches, then the workflow runs when <strong>C ∩ P ≠ ∅</strong> (that is, at least one file is in both sets). For the backend workflow, <strong>P</strong> is <code>{ backend/**, .github/workflows/backend-ci.yml }</code>. So editing <code>backend/src/server.ts</code> puts that file in <strong>C</strong>, and since it matches <code>backend/**</code>, the backend CI runs. Editing only <code>Lunara/src/App.tsx</code> does not match <strong>P</strong> for the backend, so backend CI does not run.</p>
+
+<p>The frontend workflow uses the same idea, but with <strong>P</strong> set to <code>{ Lunara/**, .github/workflows/frontend-ci.yml }</code>. The SonarQube workflow (<code>build.yml</code>) doesn’t use path filters; it runs on every push and pull request that targets <code>main</code>.</p>
+
+<div class="narrative-block">
+  <p class="key-idea">Important</p>
+  <p>All three workflows are currently <strong>turned off</strong> with a condition <code>if: false</code> in the YAML (often to save GitHub Actions minutes). To use them, open each workflow file and remove that line so the job actually runs.</p>
+</div>
+
+<hr />
+
+<h2 id="backend-pipeline">3. The backend pipeline, step by step</h2>
+
+<p>File: <code>.github/workflows/backend-ci.yml</code>. When this workflow runs, GitHub spins up a fresh Ubuntu runner and runs one job, but that job is <strong>matrixed</strong>: it runs twice, once with Node 18 and once with Node 20. So you get two parallel pipelines, both doing the same steps in the <code>backend/</code> directory. That way you know the backend works on both LTS versions.</p>
+
+<p>The sequence is designed to fail fast. First the repo is checked out. Then Node is installed with npm’s cache pointed at <code>backend/package-lock.json</code>, so repeated runs reuse the cache when the lockfile hasn’t changed. Next, <code>npm ci</code> installs dependencies exactly as in the lockfile — no floating versions. Then:</p>
+
+<div class="step"><strong>Type-check.</strong> <code>npm run type-check</code> runs TypeScript’s compiler in “no emit” mode (<code>tsc --noEmit</code>). It doesn’t write files; it only checks that types are consistent. If something is mis-typed, the step fails and the rest of the job can be skipped.</div>
+
+<div class="step"><strong>Tests.</strong> <code>npm test -- --coverage</code> runs Jest and produces a coverage report under <code>backend/coverage</code>. That folder is then uploaded as a workflow artifact (e.g. <code>backend-coverage-18.x</code>, <code>backend-coverage-20.x</code>) so you can download it from the Actions run and inspect or send it to a service like Codecov later.</div>
+
+<div class="step"><strong>Docker build (only on main).</strong> If the branch is <code>main</code>, the workflow builds a Docker image from <code>backend/</code>. The tag is <code>ghcr.io/&lt;owner/repo&gt;:&lt;git-sha&gt;</code>, with the repo name lowercased because Docker image names must be lowercase. No <code>docker push</code> is done unless you add a step that logs into GHCR and pushes — so the image exists only on the runner and is discarded when the job ends. Adding that push step is how you’d complete the “CD” part for the backend.</div>
+
+<p>So in one sentence: backend CI installs, type-checks, tests with coverage, saves the coverage artifact, and on <code>main</code> builds a Docker image tagged by commit SHA.</p>
+
+<hr />
+
+<h2 id="frontend-pipeline">4. The frontend pipeline, step by step</h2>
+
+<p>File: <code>.github/workflows/frontend-ci.yml</code>. The structure mirrors the backend: path filter on <code>Lunara/**</code> (and the workflow file itself), matrix on Node 18 and 20, default working directory <code>Lunara</code>.</p>
+
+<p>After checkout and Node setup (with npm cache for <code>Lunara/package-lock.json</code>), the job runs <code>npm ci</code>, then <code>npm run lint</code> (ESLint). If lint fails, the job fails — no point building broken style or patterns. Then <code>npm test -- --coverage</code> runs the frontend test suite and produces coverage under <code>Lunara/coverage</code>. Next, <code>npm run build</code> runs the Vite + TypeScript build and writes the production bundle to <code>Lunara/dist</code>. That directory is the “compiled” frontend: static HTML, JS, and CSS that you could serve with any web server or with the <code>serve</code> package as in the frontend Dockerfile.</p>
+
+<p>The workflow then uploads two artifacts: <code>Lunara/dist</code> as <code>frontend-dist-&lt;node-version&gt;</code> and <code>Lunara/coverage</code> as <code>frontend-coverage-&lt;node-version&gt;</code>. The dist artifact is what a deployment step would use if you later add one (e.g. upload to S3 or deploy to a host). There is no Docker build in the frontend workflow today; the frontend image is only built when you run Docker locally or from another process.</p>
+
+<hr />
+
+<h2 id="sonar">5. SonarQube and the build workflow</h2>
+
+<p>File: <code>.github/workflows/build.yml</code>. This workflow runs on every push and pull request to <code>main</code>, with no path filter. It checks out the repo with full history (for Sonar’s analysis), installs Node 18, and installs the Sonar scanner (<code>@sonar/scan</code>). Then it runs SonarQube analysis twice: once from <code>backend/</code> with project key <code>AQC-Backend</code>, and once from <code>Lunara</code> with project key <code>AQC-Frontend</code>.</p>
+
+<p>Both Sonar steps use <code>continue-on-error: true</code> and only run the scanner when the secrets <code>SONAR_HOST_URL</code> and <code>SONAR_TOKEN</code> are set. If you haven’t configured a SonarQube server and added those secrets in the repo, the steps effectively no-op (they may print “SonarQube secrets not configured, skipping analysis”) and the workflow still succeeds. So the workflow is optional: it becomes useful when you point it at a real SonarQube instance for code quality and security reports.</p>
+
+<hr />
+
+<h2 id="docker-story">6. How the app gets packaged: Docker</h2>
+
+<p>Docker turns your application and its runtime into a single artifact: an image. Anyone with that image can run the same app without installing Node or matching your machine. The repo has two Dockerfiles — one for the backend, one for the frontend — and both use <strong>multi-stage builds</strong> so the final image doesn’t contain build tools or dev dependencies.</p>
+
+<h3>Backend image (<code>backend/Dockerfile</code>)</h3>
+
+<p>The backend is TypeScript, so it must be compiled to JavaScript before Node can run it. The Dockerfile does that in a <strong>build stage</strong> named <code>build</code>: it uses <code>node:18-alpine</code>, copies <code>package*.json</code>, <code>tsconfig.json</code>, and <code>src/</code>, runs <code>npm ci</code> and <code>npm run build</code>, and ends up with compiled output in <code>dist/</code>. That stage is temporary.</p>
+
+<p>The <strong>runtime stage</strong> starts from a fresh <code>node:18-alpine</code>. It copies <code>package*.json</code>, runs <code>npm ci --only=production</code> (no devDependencies), and copies the compiled output from the build stage. One practical detail: the runtime image also includes the <code>src/</code> folder so Swagger can read the <code>@swagger</code> annotations (the API is compiled to <code>dist/</code>, but the docs are generated by scanning <code>src/**/*.ts</code>). The Dockerfile then creates a non-root user <code>lunara</code>, switches to it, exposes port 10000, and declares a health check that hits <code>GET /api/health</code> every 30 seconds. The process is started with <code>CMD ["npm", "start"]</code>, which runs <code>node dist/server.js</code>. So the backend in Docker listens on port 10000 and expects environment variables like <code>MONGODB_URI</code>, <code>JWT_SECRET</code>, and the rest that <code>server.ts</code> reads.</p>
+
+<h3>Frontend image (<code>Lunara/Dockerfile</code>)</h3>
+
+<p>The frontend is a Vite app: you run <code>npm run build</code> and get a <code>dist/</code> folder of static files. The Dockerfile’s build stage uses <code>node:20-alpine</code>, copies the app, and runs the build. Because Vite bakes environment variables into the build output, the Dockerfile supports passing <code>VITE_API_BASE_URL</code> at build time so the built frontend points at the right API. The prod stage copies <code>dist/</code> into a new image, installs the <code>serve</code> package globally, and runs <code>serve -s dist -l 5173</code>. So the container serves the built frontend on port 5173.</p>
+
+<hr />
+
+<h2 id="compose-story">7. Running multiple services: Docker Compose</h2>
+
+<p>Docker Compose is for running several containers together with a single command: the app services (backend + frontend), the app’s database (MongoDB), and optional tooling (SonarQube backed by Postgres). The repo’s <code>docker-compose.yml</code> defines a shared network <code>lunara-net</code> and the services you need for a “pull a PR, run it, test it” workflow.</p>
+
+<p>The <strong>db</strong> service uses the official <code>postgres:17</code> image. In this project it exists to back <strong>SonarQube</strong>, not the application. It exposes 5432 and stores its data in <code>db_data</code> so it survives restarts.</p>
+
+<p>The <strong>mongo</strong> service is the application database. The backend is a Node/Express app that expects <code>MONGODB_URI</code>, and in Compose we point it at <code>mongodb://mongo:27017/lunara</code>.</p>
+
+<p>The <strong>backend</strong> service is built from <code>./backend</code> and exposed on port 10000. A few small “quality of life” values are set automatically in Compose so Docker feels like local dev:</p>
+<ul>
+  <li><strong>Swagger server dropdown</strong>: <code>API_URL</code> is set to <code>http://localhost:10000/api</code>, so <code>/api-docs</code> points at the Docker backend by default.</li>
+  <li><strong>CORS</strong>: the backend allowlist includes <code>http://localhost:10000</code> so “Try it out” works from Swagger when running in Docker.</li>
+  <li><strong>Email placeholders</strong>: <code>EMAIL_USER</code>/<code>EMAIL_PASS</code> are non-empty in Compose so the backend can boot even if you aren’t sending email during local testing.</li>
+</ul>
+
+<p>The <strong>frontend</strong> service builds <code>./Lunara</code> and serves it on port 5173. The build passes <code>VITE_API_BASE_URL</code> so the frontend talks to the Docker backend by default.</p>
+
+<p>The <strong>sonarqube</strong> service runs the community SonarQube image, uses the Postgres <code>db</code> for its database, and exposes 9000. Its data and extensions live in named volumes so they persist.</p>
+
+<hr />
+
+<h2 id="you-run-it">8. You run it: spinning up environments</h2>
+
+<p>You need Docker Desktop (or Docker Engine plus Compose) and the repo cloned. All commands below assume you’re in the repo root (e.g. <code>e:\AQC</code>).</p>
+
+<h3>Run full app (backend + frontend)</h3>
+
+<p>To run only the app services and skip Postgres/SonarQube, set <code>MONGODB_URI</code> (in your shell or in a <code>.env</code> file in the repo root) and start backend and frontend:</p>
+
+<pre>docker compose up -d backend frontend</pre>
+
+<p>The backend uses <code>MONGODB_URI</code> from your environment (e.g. Atlas or <code>mongodb://mongo:27017/lunara</code> if you also start <code>mongo</code>). To bring up the entire stack — mongo, backend, frontend, Postgres, and SonarQube — use:</p>
+
+<pre>docker compose up -d</pre>
+
+<p>After code changes, rebuild the images and start again:</p>
+
+<pre>docker compose build backend frontend
+docker compose up -d backend frontend</pre>
+
+<p><strong>URLs when running:</strong> Frontend <code>http://localhost:5173</code> · Backend health <code>http://localhost:10000/api/health</code> · Swagger <code>http://localhost:10000/api-docs</code> · SonarQube <code>http://localhost:9000</code> (if you started the full stack).</p>
+
+<h3>The standard “pull a PR, run it in containers” loop</h3>
+
+<p>This is the workflow you’ll use again and again as you pull your partner’s PRs:</p>
+
+<pre>git checkout &lt;pr-branch&gt;
+docker compose build backend frontend
+docker compose up -d</pre>
+
+<p>At this point you have a full local environment running your checked-out branch:</p>
+<ul>
+  <li><strong>Frontend</strong>: <code>http://localhost:5173</code></li>
+  <li><strong>Backend health</strong>: <code>http://localhost:10000/api/health</code></li>
+  <li><strong>Swagger UI</strong>: <code>http://localhost:10000/api-docs</code></li>
+  <li><strong>SonarQube</strong>: <code>http://localhost:9000</code></li>
+</ul>
+
+<p>If you want to watch what a service is doing, use Compose logs:</p>
+
+<pre>docker compose ps
+docker compose logs -f backend
+docker compose logs -f frontend</pre>
+
+<h3>Building and running images by hand</h3>
+
+<p>From the repo root you can build the backend and frontend images without Compose:</p>
+
+<pre>docker build -t lunara-backend:local -f backend/Dockerfile backend
+docker build -t lunara-frontend:local -f Lunara/Dockerfile Lunara</pre>
+
+<p>To run the backend alone (e.g. with MongoDB already running on your host), use:</p>
+
+<pre>docker run --rm -p 10000:10000 ^
+  -e MONGODB_URI=mongodb://host.docker.internal:27017/lunara ^
+  -e JWT_SECRET=your-secret ^
+  -e JWT_REFRESH_SECRET=your-refresh-secret ^
+  -e FRONTEND_URL=http://localhost:5173 ^
+  -e EMAIL_USER= ^
+  -e EMAIL_PASS= ^
+  lunara-backend:local</pre>
+
+<p>(On PowerShell you may need to use backticks for line continuation instead of <code>^</code>.) On Linux, if <code>host.docker.internal</code> isn’t available, use your host’s IP or run MongoDB in a container on the same Docker network.</p>
+
+<hr />
+
+<h2 id="secrets">9. Configuration and secrets</h2>
+
+<p>The backend (<code>backend/src/server.ts</code>) requires these environment variables: <code>JWT_SECRET</code>, <code>JWT_REFRESH_SECRET</code>, <code>MONGODB_URI</code>, <code>EMAIL_USER</code>, <code>EMAIL_PASS</code>, <code>FRONTEND_URL</code>. Optional ones include <code>PORT</code> (default 10000), <code>API_URL</code> (used by Swagger’s server dropdown), <code>CORS_ALLOWED_ORIGINS</code> (to override the allowlist), and <code>EMAIL_PORT</code>. The frontend uses <code>VITE_API_BASE_URL</code> to point at the API; in Docker this is passed as a build argument so the built frontend targets the containerized backend.</p>
+
+<h3>Controlled account creation (admin bootstrap)</h3>
+<p>If you don’t want public account creation, you still need a way to create the first admin user. This repo includes a small bootstrap script:</p>
+<pre>cd backend
+npm run create:admin</pre>
+<p>Once you have an admin user, log in via <code>POST /api/auth/login</code> to get a JWT, then create provider accounts via the admin-only endpoint <code>POST /api/admin/providers</code>.</p>
+
+<p>For GitHub Actions: to enable SonarQube in <code>build.yml</code>, add repository secrets <code>SONAR_HOST_URL</code> and <code>SONAR_TOKEN</code>. To push the backend image to GHCR from <code>backend-ci.yml</code>, add a step that logs in (e.g. with <code>GITHUB_TOKEN</code> or a PAT with <code>write:packages</code>) and runs <code>docker push</code> after the build step.</p>
+
+<p>For Docker Compose, use <code>docker-compose.yml.example</code> as a reference and replace placeholders like <code>&lt;YOUR_DB_USER&gt;</code>, <code>&lt;YOUR_DB_PASSWORD&gt;</code>, <code>&lt;YOUR_JWT_SECRET&gt;</code>. You can put overrides in <code>docker-compose.override.yml</code> or in a <code>.env</code> file in the repo root so you don’t edit the main compose file.</p>
+
+<hr />
+
+<h2 id="quick-ref">10. Quick reference</h2>
+
+<p>Once you’ve read the narrative above, this table is a quick way to jump back to the right file or command.</p>
+
+<table class="quick-ref">
+  <thead>
+    <tr><th>What</th><th>Where / Command</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Backend CI</td><td><code>.github/workflows/backend-ci.yml</code> — path filter <code>backend/**</code>, Node 18/20, type-check, test, coverage, Docker build on main</td></tr>
+    <tr><td>Frontend CI</td><td><code>.github/workflows/frontend-ci.yml</code> — path filter <code>Lunara/**</code>, lint, test, build, artifacts</td></tr>
+    <tr><td>SonarQube</td><td><code>.github/workflows/build.yml</code> — needs <code>SONAR_HOST_URL</code>, <code>SONAR_TOKEN</code></td></tr>
+    <tr><td>Backend image</td><td><code>backend/Dockerfile</code> — Node 18, multi-stage, port 10000, health <code>/api/health</code></td></tr>
+    <tr><td>Frontend image</td><td><code>Lunara/Dockerfile</code> — Node 20, <code>serve -s dist -l 5173</code></td></tr>
+    <tr><td>Run full app</td><td><code>docker compose up -d backend frontend</code> (set <code>MONGODB_URI</code>); or <code>docker compose up -d</code> for full stack</td></tr>
+<tr><td>Compose stack</td><td><code>docker compose up -d</code> (mongo + backend + frontend + db + sonarqube)</td></tr>
+    <tr><td>Build backend image</td><td><code>docker build -t lunara-backend:local -f backend/Dockerfile backend</code></td></tr>
+    <tr><td>Build frontend image</td><td><code>docker build -t lunara-frontend:local -f Lunara/Dockerfile Lunara</code></td></tr>
+    <tr><td>Bootstrap admin user</td><td><code>cd backend && npm run create:admin</code></td></tr>
+    <tr><td>Create provider (admin-only)</td><td><code>POST /api/admin/providers</code> (requires admin JWT)</td></tr>
+  </tbody>
+</table>
+
+<p>You now have a full story of how CI runs on push and PR, how the app is packaged in Docker, how Compose ties services together, and how to bring it all up yourself. Use this guide to re-enable workflows, fix Compose for Node/Mongo, and run the environments in Docker Desktop or from the CLI with confidence.</p>
+
+<script>
+  document.querySelectorAll('pre').forEach(function(block) {
+    if (block.querySelector('code') && !block.querySelector('code').innerHTML.trim().match(/^</)) return;
+    block.classList.add('language-text');
+  });
+</script>
+</body>
+</html>

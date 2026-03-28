@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+**/dist/
+**/build/
+
+# Generated files
+*.min.js
+*.min.css
+package-lock.json
+
+# Documentation
+Docs/
+
+# IDE and editor configs
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+
+# Obsidian
+.obsidian/
+**/.obsidian/

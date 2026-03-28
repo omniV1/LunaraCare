@@ -1,0 +1,21 @@
+{
+  "name": "aqc-monorepo",
+  "private": true,
+  "description": "AQC monorepo root. Run coverage/Sonar from here (E:\\AQC), not from Lunara/ or backend/.",
+  "scripts": {
+    "coverage": "node scripts/run-coverage.js",
+    "fix-lcov": "node scripts/fix-lcov-paths.js",
+    "test": "node scripts/run-coverage.js",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "backend/src/**/*.ts": "cd backend && npx tsc --noEmit -p tsconfig.build.json",
+    "Lunara/src/**/*.{ts,tsx}": "cd Lunara && npx eslint --max-warnings 0",
+    "**/*.{ts,tsx,js,jsx,json,css,md}": "prettier --write"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "sonar-scanner": "^3.1.0"
+  }
+}

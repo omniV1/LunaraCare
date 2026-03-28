@@ -1,0 +1,107 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: lunara-mongo
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - lunara-net
+
+  db:
+    image: postgres:17
+    container_name: lunara-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-lunara_db}
+      POSTGRES_USER: ${POSTGRES_USER:-lunara}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-lunara} -d ${POSTGRES_DB:-lunara_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - lunara-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lunara-backend
+    env_file:
+      - backend/.env
+    environment:
+      PORT: "10000"
+      API_URL: https://lunara.onrender.com/api
+      FRONTEND_URL: https://www.lunaracare.org
+      MONGODB_URI: mongodb://mongo:27017/lunara
+    ports:
+      - "10000:10000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:10000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - lunara-net
+
+  frontend:
+    build:
+      context: ./Lunara
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: https://lunara.onrender.com/api
+    container_name: lunara-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - lunara-net
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: lunara-sonarqube
+    ports:
+      - "127.0.0.1:9000:9000"
+    environment:
+      SONARQUBE_JDBC_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-lunara_db}
+      SONARQUBE_JDBC_USERNAME: ${POSTGRES_USER:-lunara}
+      SONARQUBE_JDBC_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - lunara-net
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+
+volumes:
+  mongo_data:
+  db_data:
+  sonarqube_data:
+  sonarqube_extensions:
+
+networks:
+  lunara-net:
+    driver: bridge
