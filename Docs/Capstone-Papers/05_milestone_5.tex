@@ -150,6 +150,9 @@
   \end{figure}
 }
 
+% ── GitHub Repository Links ──
+\newcommand{\ghrepo}{https://github.com/omniV1/lunaraCare}
+
 % ============================================================
 \begin{document}
 
@@ -243,7 +246,7 @@ The main objective of the development phase is to build the project code and cre
 
 \section{Development Deliverables}
 
-This document provides the complete submission of the Implementation Plan with detailed task breakdown, the Functional Requirements Mapping (Traceability Matrix), Module Test Cases with testing framework context, the Source Code Listing with architectural documentation, and the Application Demonstration plan. Additionally, this milestone includes comprehensive test plans, test case specifications, automated test execution results with code coverage analysis, and the Test Analysis Approval Form. The code repository is hosted on GitHub at \url{https://github.com/omniV1/AQC}.
+This document provides the complete submission of the Implementation Plan with detailed task breakdown, the Functional Requirements Mapping (Traceability Matrix), Module Test Cases with testing framework context, the Source Code Listing with architectural documentation, and the Application Demonstration plan. Additionally, this milestone includes comprehensive test plans, test case specifications, automated test execution results with code coverage analysis, and the Test Analysis Approval Form. The code repository is hosted on GitHub at \url{https://github.com/omniV1/lunaraCare}.
 
 \newpage
 
@@ -255,7 +258,7 @@ This document provides the complete submission of the Implementation Plan with d
 \subsection{Methodology and Execution Framework}
 
 \textbf{Formal Methodology Adopted:} Agile Scrum with iterative coding loops\\
-\textbf{Planning Tools:} GitHub Project Boards, sprint planning documents in \texttt{Docs/Planning/SPRINT\_PLAN.md}\\
+\textbf{Planning Tools:} GitHub Project Boards, sprint planning documents in \href{\ghrepo/blob/main/Docs/Planning/SPRINT_PLAN.md}{\texttt{Docs/Planning/SPRINT\_PLAN.md}}\\
 \textbf{Code Review Process:} GitHub Pull Request workflow with peer review\\
 \textbf{Testing Integration:} Continuous integration with automated test execution
 
@@ -370,50 +373,50 @@ where $M_i$ represents the module(s) implementing requirement $R_i$ and $T_i$ re
 \hline
 \endlastfoot
 
-FR1.1: Responsive landing page & Frontend Architecture & \texttt{Lunara/src/pages/LandingPage.tsx}, \texttt{Lunara/src/components/layout/MainLayout.tsx} & TC-001 \\
+FR1.1: Responsive landing page & Frontend Architecture & \href{\ghrepo/blob/main/Lunara/src/pages/LandingPage.tsx}{\texttt{Lunara/src/pages/LandingPage.tsx}}, \href{\ghrepo/blob/main/Lunara/src/components/layout/MainLayout.tsx}{\texttt{Lunara/src/components/layout/MainLayout.tsx}} & TC-001 \\
 \hline
 \rowcolor{TableRowAlt}
-FR1.3: Contact/inquiry form & Form Handling & \texttt{Lunara/src/pages/LandingPage.tsx}, \texttt{backend/src/routes/public.ts} & TC-002 \\
+FR1.3: Contact/inquiry form & Form Handling & \href{\ghrepo/blob/main/Lunara/src/pages/LandingPage.tsx}{\texttt{Lunara/src/pages/LandingPage.tsx}}, \href{\ghrepo/blob/main/backend/src/routes/public.ts}{\texttt{backend/src/routes/public.ts}} & TC-002 \\
 \hline
-FR2.1: Email/password registration & Authentication Service & \texttt{backend/src/routes/auth.ts}, \texttt{backend/src/services/authService.ts}, \texttt{backend/src/config/passport.ts} & TC-003 \\
-\hline
-\rowcolor{TableRowAlt}
-FR2.2: JWT token management & Security Architecture & \texttt{backend/src/utils/tokenUtils.ts}, \texttt{backend/src/config/passport.ts} & TC-004, TC-005 \\
-\hline
-FR2.3: MFA (TOTP) & Authentication & \texttt{backend/src/routes/mfa.ts} & TC-006 \\
+FR2.1: Email/password registration & Authentication Service & \href{\ghrepo/blob/main/backend/src/routes/auth.ts}{\texttt{backend/src/routes/auth.ts}}, \href{\ghrepo/blob/main/backend/src/services/authService.ts}{\texttt{backend/src/services/authService.ts}}, \href{\ghrepo/blob/main/backend/src/config/passport.ts}{\texttt{backend/src/config/passport.ts}} & TC-003 \\
 \hline
 \rowcolor{TableRowAlt}
-FR3.1: Provider dashboard & Dashboard Architecture & \texttt{Lunara/src/pages/ProviderDashboard.tsx}, \texttt{Lunara/src/components/provider/*} & TC-007 \\
+FR2.2: JWT token management & Security Architecture & \href{\ghrepo/blob/main/backend/src/utils/tokenUtils.ts}{\texttt{backend/src/utils/tokenUtils.ts}}, \href{\ghrepo/blob/main/backend/src/config/passport.ts}{\texttt{backend/src/config/passport.ts}} & TC-004, TC-005 \\
 \hline
-FR3.2: Client dashboard & Dashboard Architecture & \texttt{Lunara/src/pages/ClientDashboard.tsx}, \texttt{Lunara/src/components/client/*} & TC-008 \\
-\hline
-\rowcolor{TableRowAlt}
-FR4.1: Dynamic intake & Intake Form & \texttt{Lunara/src/components/intake/ClientIntakeWizard.tsx}, \texttt{backend/src/routes/intake.ts} & TC-009 \\
-\hline
-FR5.1: Real-time messaging & Real-time Communication & \texttt{backend/src/server.ts} (Socket.IO), \texttt{Lunara/src/components/MessageCenter.tsx} & TC-010 \\
+FR2.3: MFA (TOTP) & Authentication & \href{\ghrepo/blob/main/backend/src/routes/mfa.ts}{\texttt{backend/src/routes/mfa.ts}} & TC-006 \\
 \hline
 \rowcolor{TableRowAlt}
-FR6.1: Appointment scheduling & Scheduling Architecture & \texttt{backend/src/routes/appointments.ts}, \texttt{backend/src/services/appointmentService.ts}, \texttt{Lunara/src/components/provider/ProviderCalendar.tsx} & TC-011 \\
+FR3.1: Provider dashboard & Dashboard Architecture & \href{\ghrepo/blob/main/Lunara/src/pages/ProviderDashboard.tsx}{\texttt{Lunara/src/pages/ProviderDashboard.tsx}}, \href{\ghrepo/tree/main/Lunara/src/components/provider}{\texttt{Lunara/src/components/provider/*}} & TC-007 \\
 \hline
-FR7.1: Resource library & Content Management & \texttt{backend/src/routes/resources.ts}, \texttt{backend/src/services/resourceService.ts}, \texttt{Lunara/src/components/resource/ResourceLibrary.tsx} & TC-012 \\
-\hline
-\rowcolor{TableRowAlt}
-FR8.1: Daily check-ins & Wellness Tracking & \texttt{backend/src/routes/checkins.ts}, \texttt{backend/src/services/checkinService.ts}, \texttt{backend/src/services/checkinTrendService.ts} & TC-013, TC-014 \\
-\hline
-FR9.1: Client management & Provider Dashboard & \texttt{backend/src/routes/client.ts}, \texttt{backend/src/routes/providers.ts} & TC-015 \\
+FR3.2: Client dashboard & Dashboard Architecture & \href{\ghrepo/blob/main/Lunara/src/pages/ClientDashboard.tsx}{\texttt{Lunara/src/pages/ClientDashboard.tsx}}, \href{\ghrepo/tree/main/Lunara/src/components/client}{\texttt{Lunara/src/components/client/*}} & TC-008 \\
 \hline
 \rowcolor{TableRowAlt}
-FR10.1: Care plan templates & Care Plan Architecture & \texttt{backend/src/routes/carePlans.ts}, \texttt{backend/src/models/CarePlan.ts} & TC-016 \\
+FR4.1: Dynamic intake & Intake Form & \href{\ghrepo/blob/main/Lunara/src/components/intake/ClientIntakeWizard.tsx}{\texttt{Lunara/src/components/intake/ClientIntakeWizard.tsx}}, \href{\ghrepo/blob/main/backend/src/routes/intake.ts}{\texttt{backend/src/routes/intake.ts}} & TC-009 \\
 \hline
-FR11.1: Blog publishing & Content Management & \texttt{backend/src/routes/blog.ts}, \texttt{backend/src/services/blogService.ts}, \texttt{Lunara/src/components/blog/BlogEditor.tsx} & TC-017 \\
-\hline
-\rowcolor{TableRowAlt}
-NFR1.1: Password hashing & Security Architecture & \texttt{backend/src/models/User.ts} (bcrypt 12 rounds, pre-save hook) & TC-018 \\
-\hline
-NFR1.2: Input validation & Validation Architecture & \texttt{backend/src/routes/*.ts} (express-validator), Zod schemas & TC-019 \\
+FR5.1: Real-time messaging & Real-time Communication & \href{\ghrepo/blob/main/backend/src/server.ts}{\texttt{backend/src/server.ts}} (Socket.IO), \href{\ghrepo/blob/main/Lunara/src/components/MessageCenter.tsx}{\texttt{Lunara/src/components/MessageCenter.tsx}} & TC-010 \\
 \hline
 \rowcolor{TableRowAlt}
-NFR4.1: WebSocket management & Real-time Architecture & \texttt{backend/src/services/socketConnectionManager.ts} & TC-020 \\
+FR6.1: Appointment scheduling & Scheduling Architecture & \href{\ghrepo/blob/main/backend/src/routes/appointments.ts}{\texttt{backend/src/routes/appointments.ts}}, \href{\ghrepo/blob/main/backend/src/services/appointmentService.ts}{\texttt{backend/src/services/appointmentService.ts}}, \href{\ghrepo/blob/main/Lunara/src/components/provider/ProviderCalendar.tsx}{\texttt{Lunara/src/components/provider/ProviderCalendar.tsx}} & TC-011 \\
+\hline
+FR7.1: Resource library & Content Management & \href{\ghrepo/blob/main/backend/src/routes/resources.ts}{\texttt{backend/src/routes/resources.ts}}, \href{\ghrepo/blob/main/backend/src/services/resourceService.ts}{\texttt{backend/src/services/resourceService.ts}}, \href{\ghrepo/blob/main/Lunara/src/components/resource/ResourceLibrary.tsx}{\texttt{Lunara/src/components/resource/ResourceLibrary.tsx}} & TC-012 \\
+\hline
+\rowcolor{TableRowAlt}
+FR8.1: Daily check-ins & Wellness Tracking & \href{\ghrepo/blob/main/backend/src/routes/checkins.ts}{\texttt{backend/src/routes/checkins.ts}}, \href{\ghrepo/blob/main/backend/src/services/checkinService.ts}{\texttt{backend/src/services/checkinService.ts}}, \href{\ghrepo/blob/main/backend/src/services/checkinTrendService.ts}{\texttt{backend/src/services/checkinTrendService.ts}} & TC-013, TC-014 \\
+\hline
+FR9.1: Client management & Provider Dashboard & \href{\ghrepo/blob/main/backend/src/routes/client.ts}{\texttt{backend/src/routes/client.ts}}, \href{\ghrepo/blob/main/backend/src/routes/providers.ts}{\texttt{backend/src/routes/providers.ts}} & TC-015 \\
+\hline
+\rowcolor{TableRowAlt}
+FR10.1: Care plan templates & Care Plan Architecture & \href{\ghrepo/blob/main/backend/src/routes/carePlans.ts}{\texttt{backend/src/routes/carePlans.ts}}, \href{\ghrepo/blob/main/backend/src/models/CarePlan.ts}{\texttt{backend/src/models/CarePlan.ts}} & TC-016 \\
+\hline
+FR11.1: Blog publishing & Content Management & \href{\ghrepo/blob/main/backend/src/routes/blog.ts}{\texttt{backend/src/routes/blog.ts}}, \href{\ghrepo/blob/main/backend/src/services/blogService.ts}{\texttt{backend/src/services/blogService.ts}}, \href{\ghrepo/blob/main/Lunara/src/components/blog/BlogEditor.tsx}{\texttt{Lunara/src/components/blog/BlogEditor.tsx}} & TC-017 \\
+\hline
+\rowcolor{TableRowAlt}
+NFR1.1: Password hashing & Security Architecture & \href{\ghrepo/blob/main/backend/src/models/User.ts}{\texttt{backend/src/models/User.ts}} (bcrypt 12 rounds, pre-save hook) & TC-018 \\
+\hline
+NFR1.2: Input validation & Validation Architecture & \href{\ghrepo/tree/main/backend/src/routes}{\texttt{backend/src/routes/*.ts}} (express-validator), Zod schemas & TC-019 \\
+\hline
+\rowcolor{TableRowAlt}
+NFR4.1: WebSocket management & Real-time Architecture & \href{\ghrepo/blob/main/backend/src/services/socketConnectionManager.ts}{\texttt{backend/src/services/socketConnectionManager.ts}} & TC-020 \\
 \hline
 \end{longtable}
 }
@@ -431,9 +434,9 @@ The LUNARA platform implements a layered full-stack architecture with clear sepa
 
 During the Milestone~5 quality hardening phase, all eight major route files were refactored to extract business logic into dedicated service modules, reducing route handlers to thin HTTP controllers that validate input, delegate to a service, and send responses. This yielded 17 service files (up from 9) and eliminated all \texttt{any} type annotations from backend production code.
 
-\subsection{Backend Architecture Implementation (\texttt{/backend})}
+\subsection{Backend Architecture Implementation (\href{\ghrepo/tree/main/backend}{\texttt{/backend}})}
 
-\subsubsection{Core Application Layer --- \texttt{src/server.ts}}
+\subsubsection{Core Application Layer --- \href{\ghrepo/blob/main/backend/src/server.ts}{\texttt{src/server.ts}}}
 
 The Express application entry point configures the middleware stack, database connection, route registration, Socket.IO real-time messaging, and Swagger API documentation. The security-first middleware pipeline applies Helmet HTTP header hardening (with CSP intentionally disabled for JSON-only API endpoints), CORS policy enforcement with a configurable allowed-origins list, compression, and rate limiting differentiated between development (1,000 requests per 15~minutes) and production (100 requests per 15~minutes).
 
@@ -499,7 +502,7 @@ app.use('/api/interactions', interactionsRouter);
 
 \newpage
 
-\subsubsection{Authentication \& Authorization Layer --- \texttt{src/config/passport.ts}}
+\subsubsection{Authentication \& Authorization Layer --- \href{\ghrepo/blob/main/backend/src/config/passport.ts}{\texttt{src/config/passport.ts}}}
 
 Authentication uses Passport.js with JWT, Local, and Google OAuth strategies. The JWT strategy extracts the bearer token from the Authorization header, verifies it against the JWT secret, and retrieves the corresponding user from MongoDB:
 
@@ -556,7 +559,7 @@ Protected routes use \texttt{passport.authenticate('jwt', \{ session: false \})}
 
 Nineteen Mongoose models define the domain. Representative schemas are shown below.
 
-\paragraph{Users Collection --- \texttt{src/models/User.ts}}
+\paragraph{Users Collection --- \href{\ghrepo/blob/main/backend/src/models/User.ts}{\texttt{src/models/User.ts}}}
 \mbox{}\\
 The User model represents all users in the system (clients, providers, admins) and stores authentication data, MFA configuration, and refresh tokens:
 
@@ -582,7 +585,7 @@ export interface IUser extends Document {
 }
 \end{lstlisting}
 
-\paragraph{CheckIn Collection --- \texttt{src/models/CheckIn.ts}}
+\paragraph{CheckIn Collection --- \href{\ghrepo/blob/main/backend/src/models/CheckIn.ts}{\texttt{src/models/CheckIn.ts}}}
 \mbox{}\\
 The CheckIn model captures daily wellness self-assessments with mood rating, physical symptoms, and provider-sharing controls:
 
@@ -605,7 +608,7 @@ const checkInSchema = new Schema<ICheckInDocument>({
 checkInSchema.index({ userId: 1, date: -1 }, { unique: true });
 \end{lstlisting}
 
-\paragraph{Appointments Collection --- \texttt{src/models/Appointment.ts}}
+\paragraph{Appointments Collection --- \href{\ghrepo/blob/main/backend/src/models/Appointment.ts}{\texttt{src/models/Appointment.ts}}}
 
 \begin{lstlisting}[caption={Appointment model (\texttt{Appointment.ts})}]
 export interface IAppointmentDocument extends Document {
@@ -626,7 +629,7 @@ appointmentSchema.index({ providerId: 1, startTime: -1 });
 appointmentSchema.index({ status: 1 });
 \end{lstlisting}
 
-\paragraph{Messages Collection --- \texttt{src/models/Message.ts}}
+\paragraph{Messages Collection --- \href{\ghrepo/blob/main/backend/src/models/Message.ts}{\texttt{src/models/Message.ts}}}
 
 \begin{lstlisting}[caption={Message model (\texttt{Message.ts})}]
 const messageSchema = new Schema<IMessageDocument>({
@@ -645,7 +648,7 @@ const messageSchema = new Schema<IMessageDocument>({
 }, { timestamps: { createdAt: true, updatedAt: false } });
 \end{lstlisting}
 
-\paragraph{CarePlan Collection --- \texttt{src/models/CarePlan.ts}}
+\paragraph{CarePlan Collection --- \href{\ghrepo/blob/main/backend/src/models/CarePlan.ts}{\texttt{src/models/CarePlan.ts}}}
 \mbox{}\\
 The CarePlan model includes a pre-save hook that automatically computes progress as the percentage of completed milestones:
 
@@ -691,7 +694,7 @@ carePlanSchema.pre('save', function (next) {
 });
 \end{lstlisting}
 
-\paragraph{ClientDocument Collection --- \texttt{src/models/ClientDocument.ts}}
+\paragraph{ClientDocument Collection --- \href{\ghrepo/blob/main/backend/src/models/ClientDocument.ts}{\texttt{src/models/ClientDocument.ts}}}
 \mbox{}\\
 Documents support type classification, privacy levels, and a status workflow:
 
@@ -714,7 +717,7 @@ export interface IClientDocument extends Document {
 
 \subsubsection{API Layer \& Business Services}
 
-\paragraph{Authentication Endpoints --- \texttt{src/routes/auth.ts}}
+\paragraph{Authentication Endpoints --- \href{\ghrepo/blob/main/backend/src/routes/auth.ts}{\texttt{src/routes/auth.ts}}}
 \mbox{}\\
 The auth router exposes registration with express-validator input validation, login via Passport Local strategy, token refresh, email verification, password reset, and logout with token revocation. A rate limiter restricts sensitive endpoints to 5 requests per 15~minutes:
 
@@ -734,7 +737,7 @@ router.post('/register', [
 ], async (req, res) => { /* registration logic */ });
 \end{lstlisting}
 
-\paragraph{Check-in Endpoints --- \texttt{src/routes/checkins.ts}}
+\paragraph{Check-in Endpoints --- \href{\ghrepo/blob/main/backend/src/routes/checkins.ts}{\texttt{src/routes/checkins.ts}}}
 \mbox{}\\
 The check-in router validates mood scores (1--10), symptom values against the predefined enum, and note length, then saves and triggers alert analysis:
 
@@ -762,7 +765,7 @@ router.post('/', authenticate, [
 });
 \end{lstlisting}
 
-\paragraph{Check-in Trend Service --- \texttt{src/services/checkinTrendService.ts}}
+\paragraph{Check-in Trend Service --- \href{\ghrepo/blob/main/backend/src/services/checkinTrendService.ts}{\texttt{src/services/checkinTrendService.ts}}}
 \mbox{}\\
 The trend service computes mood averages, daily mood mappings, symptom frequency distributions, mood direction (improving/stable/declining), and clinical alerts for low mood streaks, declining trends, and persistent symptoms:
 
@@ -802,7 +805,7 @@ export async function getCheckInAlerts(
 }
 \end{lstlisting}
 
-\paragraph{Real-time Messaging --- Socket.IO in \texttt{src/server.ts}}
+\paragraph{Real-time Messaging --- Socket.IO in \href{\ghrepo/blob/main/backend/src/server.ts}{\texttt{src/server.ts}}}
 \mbox{}\\
 Socket.IO connections are authenticated with the same JWT strategy. After verification, users join private rooms keyed to their user ID. Message delivery persists to MongoDB, broadcasts to the conversation room, sends a notification to the receiver's user room, and confirms delivery to the sender:
 
@@ -847,9 +850,9 @@ io.on('connection', socket => {
 
 \newpage
 
-\subsection{Frontend Architecture Implementation (\texttt{/Lunara})}
+\subsection{Frontend Architecture Implementation (\href{\ghrepo/tree/main/Lunara}{\texttt{/Lunara}})}
 
-\subsubsection{Application Root --- \texttt{src/App.tsx}}
+\subsubsection{Application Root --- \href{\ghrepo/blob/main/Lunara/src/App.tsx}{\texttt{src/App.tsx}}}
 
 The React~18 application wraps all routes in an \texttt{AuthProvider} context for global authentication state, a \texttt{ResourceProvider} for resource library data, and a \texttt{PageErrorBoundary} for graceful error recovery. Role-based route protection ensures providers and clients are directed to separate dashboards:
 
@@ -867,7 +870,7 @@ The React~18 application wraps all routes in an \texttt{AuthProvider} context fo
 </ProtectedRoute>
 \end{lstlisting}
 
-\subsubsection{Client Check-in Component --- \texttt{src/components/client/ClientCheckIns.tsx}}
+\subsubsection{Client Check-in Component --- \href{\ghrepo/blob/main/Lunara/src/components/client/ClientCheckIns.tsx}{\texttt{src/components/client/ClientCheckIns.tsx}}}
 
 The check-in form captures mood via a slider (1--10), physical symptoms via a checkbox list of ten predefined options, optional notes, and a provider-sharing toggle:
 
@@ -889,7 +892,7 @@ const SYMPTOMS: Array<{
 ];
 \end{lstlisting}
 
-\subsubsection{Intake Wizard --- \texttt{src/components/intake/ClientIntakeWizard.tsx}}
+\subsubsection{Intake Wizard --- \href{\ghrepo/blob/main/Lunara/src/components/intake/ClientIntakeWizard.tsx}{\texttt{src/components/intake/ClientIntakeWizard.tsx}}}
 
 The five-step wizard validates each section with Zod schemas before allowing progression:
 
@@ -931,27 +934,27 @@ const schemas: Record<StepId, z.ZodTypeAny> = {
 \hline
 \rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Layer}} & \textcolor{TableHeaderText}{\textbf{Directory}} & \textcolor{TableHeaderText}{\textbf{Files}} & \textcolor{TableHeaderText}{\textbf{Description}} \\
 \hline
-Backend Routes & \texttt{backend/src/routes/} & 20 & API endpoint handlers for all domains \\
+Backend Routes & \href{\ghrepo/tree/main/backend/src/routes}{\texttt{backend/src/routes/}} & 20 & API endpoint handlers for all domains \\
 \hline
 \rowcolor{TableRowAlt}
-Backend Models & \texttt{backend/src/models/} & 19 & Mongoose schemas and interfaces \\
+Backend Models & \href{\ghrepo/tree/main/backend/src/models}{\texttt{backend/src/models/}} & 19 & Mongoose schemas and interfaces \\
 \hline
-Backend Services & \texttt{backend/src/services/} & 17 & Domain service layer (auth, resource, appointment, blog, document, checkin, provider, user) plus GridFS, email, push, trends, cache, appointment notifications, reminders, rate limiter, socket manager \\
-\hline
-\rowcolor{TableRowAlt}
-Backend Config & \texttt{backend/src/config/} & 1 & Passport authentication strategies \\
-\hline
-Backend Utils & \texttt{backend/src/utils/} & 4 & Token utils, logger, query optimization, error helpers \\
+Backend Services & \href{\ghrepo/tree/main/backend/src/services}{\texttt{backend/src/services/}} & 17 & Domain service layer (auth, resource, appointment, blog, document, checkin, provider, user) plus GridFS, email, push, trends, cache, appointment notifications, reminders, rate limiter, socket manager \\
 \hline
 \rowcolor{TableRowAlt}
-Frontend Pages & \texttt{Lunara/src/pages/} & 10 & Route-level entry points \\
+Backend Config & \href{\ghrepo/tree/main/backend/src/config}{\texttt{backend/src/config/}} & 1 & Passport authentication strategies \\
 \hline
-Frontend Components & \texttt{Lunara/src/components/} & 47 & Provider, client, documents, intake, blog, resource, UI \\
+Backend Utils & \href{\ghrepo/tree/main/backend/src/utils}{\texttt{backend/src/utils/}} & 4 & Token utils, logger, query optimization, error helpers \\
 \hline
 \rowcolor{TableRowAlt}
-Frontend Contexts & \texttt{Lunara/src/contexts/} & 4 & AuthContext, ResourceContext, useAuth, useResource \\
+Frontend Pages & \href{\ghrepo/tree/main/Lunara/src/pages}{\texttt{Lunara/src/pages/}} & 10 & Route-level entry points \\
 \hline
-Frontend Services & \texttt{Lunara/src/services/} & 13 & API service layer for each domain \\
+Frontend Components & \href{\ghrepo/tree/main/Lunara/src/components}{\texttt{Lunara/src/components/}} & 47 & Provider, client, documents, intake, blog, resource, UI \\
+\hline
+\rowcolor{TableRowAlt}
+Frontend Contexts & \href{\ghrepo/tree/main/Lunara/src/contexts}{\texttt{Lunara/src/contexts/}} & 4 & AuthContext, ResourceContext, useAuth, useResource \\
+\hline
+Frontend Services & \href{\ghrepo/tree/main/Lunara/src/services}{\texttt{Lunara/src/services/}} & 13 & API service layer for each domain \\
 \hline
 \end{tabularx}
 \caption{Source code file inventory by architectural layer}
@@ -971,7 +974,7 @@ As documented in sprint planning, four planned features were formally deferred t
 % ============================================================
 \section{Data Dictionary}
 
-The data dictionary defines every persistent entity in the LUNARA MongoDB database. Each table lists the field name, data type, constraints (required, unique, default, min/max), and references to other collections. All models use Mongoose and reside in \texttt{backend/src/models/}.
+The data dictionary defines every persistent entity in the LUNARA MongoDB database. Each table lists the field name, data type, constraints (required, unique, default, min/max), and references to other collections. All models use Mongoose and reside in \href{\ghrepo/tree/main/backend/src/models}{\texttt{backend/src/models/}}.
 
 % ---------- User ----------
 \subsection{User}
@@ -1370,7 +1373,7 @@ The full video demonstration is available at the following link:
 % ============================================================
 \section{Module Test Cases (Test Plan)}
 
-The following test cases were developed and executed during the Milestone~4 and Milestone~5 coding iterations. Each test case maps to one or more functional requirements from the Traceability Matrix. Testing was performed manually against the deployed staging environment (\texttt{lunara.onrender.com}) and locally via \texttt{npm run dev}. Automated unit tests supplement manual verification and are maintained in the repository under \texttt{backend/tests/} and \texttt{Lunara/src/tests/}.
+The following test cases were developed and executed during the Milestone~4 and Milestone~5 coding iterations. Each test case maps to one or more functional requirements from the Traceability Matrix. Testing was performed manually against the deployed staging environment (\texttt{lunara.onrender.com}) and locally via \texttt{npm run dev}. Automated unit tests supplement manual verification and are maintained in the repository under \href{\ghrepo/tree/main/backend/tests}{\texttt{backend/tests/}} and \href{\ghrepo/tree/main/Lunara/src/tests}{\texttt{Lunara/src/tests/}}.
 
 \subsection{Test Case Summary}
 
@@ -1785,10 +1788,10 @@ Mongoose (in-memory) & MongoDB mock for backend integration tests \\
 Tests are organized into four categories across the backend and frontend codebases:
 
 \begin{itemize}
-  \item \textbf{Backend Unit Tests} (\texttt{backend/tests/utils/}, \texttt{backend/tests/middleware/}) --- Isolated validation of utility functions, error classes, token management, caching, query optimization, and middleware behavior. \textbf{3 util files + 2 middleware files = 96 tests.}
-  \item \textbf{Backend Integration Tests} (\texttt{backend/tests/integration/}) --- End-to-end API route testing with mocked database connections covering authentication, appointments, messaging, check-ins, intake, care plans, resources, and scheduling. \textbf{7 files = 57 tests.}
-  \item \textbf{Backend Service Tests} (\texttt{backend/tests/services/}) --- Verification of business logic services including appointment notifications, reminders, caching, check-in trends, email delivery, rate limiting, and socket connection management. \textbf{8 files = 57 tests.}
-  \item \textbf{Frontend Tests} (\texttt{Lunara/src/tests/}) --- Component rendering, service API calls, hook behavior, context providers, page-level integration, intake form validation, and utility functions. \textbf{98 files = 715 tests.}
+  \item \textbf{Backend Unit Tests} (\href{\ghrepo/tree/main/backend/tests/utils}{\texttt{backend/tests/utils/}}, \href{\ghrepo/tree/main/backend/tests/middleware}{\texttt{backend/tests/middleware/}}) --- Isolated validation of utility functions, error classes, token management, caching, query optimization, and middleware behavior. \textbf{3 util files + 2 middleware files = 96 tests.}
+  \item \textbf{Backend Integration Tests} (\href{\ghrepo/tree/main/backend/tests/integration}{\texttt{backend/tests/integration/}}) --- End-to-end API route testing with mocked database connections covering authentication, appointments, messaging, check-ins, intake, care plans, resources, and scheduling. \textbf{7 files = 57 tests.}
+  \item \textbf{Backend Service Tests} (\href{\ghrepo/tree/main/backend/tests/services}{\texttt{backend/tests/services/}}) --- Verification of business logic services including appointment notifications, reminders, caching, check-in trends, email delivery, rate limiting, and socket connection management. \textbf{8 files = 57 tests.}
+  \item \textbf{Frontend Tests} (\href{\ghrepo/tree/main/Lunara/src/tests}{\texttt{Lunara/src/tests/}}) --- Component rendering, service API calls, hook behavior, context providers, page-level integration, intake form validation, and utility functions. \textbf{98 files = 715 tests.}
 \end{itemize}
 
 \newpage
@@ -1802,23 +1805,23 @@ During component testing, all objects are tested to ensure they work together as
 
 \subsection{Backend Unit Testing}
 
-\subsubsection{Error Handling Classes --- \texttt{backend/tests/utils/errors.test.ts}}
+\subsubsection{Error Handling Classes --- \href{\ghrepo/blob/main/backend/tests/utils/errors.test.ts}{\texttt{backend/tests/utils/errors.test.ts}}}
 
 The error utility module defines 15 custom error classes extending a base \texttt{APIError}. The test suite validates that each error class produces the correct HTTP status code, error message, and \texttt{isOperational} flag. Utility functions \texttt{isOperationalError}, \texttt{handleMongooseError}, and \texttt{handleJWTError} are tested for correct error transformation. \textbf{35 tests across 20 describe blocks, all passing.}
 
-\subsubsection{Token Utilities --- \texttt{backend/tests/utils/tokenUtils.test.ts}}
+\subsubsection{Token Utilities --- \href{\ghrepo/blob/main/backend/tests/utils/tokenUtils.test.ts}{\texttt{backend/tests/utils/tokenUtils.test.ts}}}
 
 The token utility module manages JWT generation, verification, decoding, and lifecycle management. Tests cover access token generation and verification, refresh token generation and verification, token decoding, expiration checking, user ID extraction, time-to-expiry calculation, and full token lifecycle (generate \textrightarrow{} verify \textrightarrow{} decode \textrightarrow{} check expiry). \textbf{26 tests across 11 describe blocks, all passing.} Coverage: 84.28\% statements, 56.09\% branches, 100\% functions, 84.05\% lines.
 
-\subsubsection{Query Optimization --- \texttt{backend/tests/utils/queryOptimization.test.ts}}
+\subsubsection{Query Optimization --- \href{\ghrepo/blob/main/backend/tests/utils/queryOptimization.test.ts}{\texttt{backend/tests/utils/queryOptimization.test.ts}}}
 
 Tests validate pagination defaults, field constant definitions, limit clamping behavior, and NaN handling for query parameters. \textbf{10 tests across 2 describe blocks, all passing.} Coverage: 100\% across all metrics.
 
-\subsubsection{Middleware Stack --- \texttt{backend/tests/middleware/index.test.ts}}
+\subsubsection{Middleware Stack --- \href{\ghrepo/blob/main/backend/tests/middleware/index.test.ts}{\texttt{backend/tests/middleware/index.test.ts}}}
 
 The middleware test suite covers 9 middleware functions: \texttt{requestLogger}, \texttt{handleValidationErrors}, \texttt{asyncHandler}, \texttt{errorHandler}, \texttt{notFoundHandler}, \texttt{rateLimitHandler}, \texttt{securityHeaders}, \texttt{sanitizeRequest}, and \texttt{responseFormatter}. Each middleware is tested in isolation with mocked Express request/response objects. \textbf{17 tests across 10 describe blocks, all passing.}
 
-\subsubsection{Cache Middleware --- \texttt{backend/tests/middleware/cacheMiddleware.test.ts}}
+\subsubsection{Cache Middleware --- \href{\ghrepo/blob/main/backend/tests/middleware/cacheMiddleware.test.ts}{\texttt{backend/tests/middleware/cacheMiddleware.test.ts}}}
 
 Tests verify non-GET request passthrough, cache hit/miss behavior, error response exclusion from cache, and cache key prefix handling. \textbf{5 tests, all passing.} Coverage: 100\% across all metrics.
 
@@ -1826,31 +1829,31 @@ Tests verify non-GET request passthrough, cache hit/miss behavior, error respons
 
 \subsection{Backend Service Testing}
 
-\subsubsection{Check-in Trend Service --- \texttt{backend/tests/services/checkinTrendService.test.ts}}
+\subsubsection{Check-in Trend Service --- \href{\ghrepo/blob/main/backend/tests/services/checkinTrendService.test.ts}{\texttt{backend/tests/services/checkinTrendService.test.ts}}}
 
 The trend service is critical to the clinical alert system. Tests validate mood trend computation (improving, declining, stable trajectories), symptom frequency distribution, and alert detection for low mood streaks ($\leq 3$ for 3+ consecutive days) and persistent symptoms ($\geq 5$ days). \textbf{13 tests across 3 describe blocks, all passing.} Coverage: 97.29\% statements, 92.1\% branches, 100\% functions, 97.01\% lines.
 
-\subsubsection{Appointment Notification Service --- \texttt{backend/tests/services/appointmentNotificationService.test.ts}}
+\subsubsection{Appointment Notification Service --- \href{\ghrepo/blob/main/backend/tests/services/appointmentNotificationService.test.ts}{\texttt{backend/tests/services/appointmentNotificationService.test.ts}}}
 
 Tests cover notification generation for all appointment status transitions (requested, confirmed, cancelled, reminder), email template formatting, and error handling for missing user data. \textbf{7 tests, all passing.} Coverage: 100\% statements, 100\% functions.
 
-\subsubsection{Appointment Reminder Service --- \texttt{backend/tests/services/appointmentReminderService.test.ts}}
+\subsubsection{Appointment Reminder Service --- \href{\ghrepo/blob/main/backend/tests/services/appointmentReminderService.test.ts}{\texttt{backend/tests/services/appointmentReminderService.test.ts}}}
 
 Validates scheduler lifecycle (start/stop), reminder processing logic, user lookup for notification delivery, and error resilience when database queries fail. \textbf{10 tests, all passing.} Coverage: 97.72\% statements, 66.66\% functions, 97.72\% lines.
 
-\subsubsection{Cache Service --- \texttt{backend/tests/services/cacheService.test.ts}}
+\subsubsection{Cache Service --- \href{\ghrepo/blob/main/backend/tests/services/cacheService.test.ts}{\texttt{backend/tests/services/cacheService.test.ts}}}
 
 Tests get/set/delete operations, TTL-based expiration, prefix-based invalidation, periodic sweep, full cache clearing, and service destruction. \textbf{8 tests, all passing.} Coverage: 97.29\% statements, 90.9\% branches, 100\% lines.
 
-\subsubsection{Email Service --- \texttt{backend/tests/services/emailService.test.ts}}
+\subsubsection{Email Service --- \href{\ghrepo/blob/main/backend/tests/services/emailService.test.ts}{\texttt{backend/tests/services/emailService.test.ts}}}
 
 Validates environment variable checking, email template rendering (welcome, password-reset, appointment confirmation), email sending via SMTP transport, and connection testing. \textbf{10 tests across 5 describe blocks, all passing.}
 
-\subsubsection{Socket Connection Manager --- \texttt{backend/tests/services/socketConnectionManager.test.ts}}
+\subsubsection{Socket Connection Manager --- \href{\ghrepo/blob/main/backend/tests/services/socketConnectionManager.test.ts}{\texttt{backend/tests/services/socketConnectionManager.test.ts}}}
 
 Tests user socket tracking, multiple simultaneous connections per user, socket removal on disconnect, and cleanup procedures. \textbf{6 tests, all passing.} Coverage: 95.45\% statements, 100\% functions, 95.45\% lines.
 
-\subsubsection{Message Rate Limiter --- \texttt{backend/tests/services/messageRateLimiter.test.ts}}
+\subsubsection{Message Rate Limiter --- \href{\ghrepo/blob/main/backend/tests/services/messageRateLimiter.test.ts}{\texttt{backend/tests/services/messageRateLimiter.test.ts}}}
 
 Validates rate limit enforcement, time window reset behavior, and per-user message counting. \textbf{3 tests, all passing.} Coverage: 100\% statements, 100\% functions, 100\% lines.
 
@@ -1860,31 +1863,31 @@ Validates rate limit enforcement, time window reset behavior, and per-user messa
 
 Integration tests exercise complete API request/response cycles with mocked database connections, verifying that routes, middleware, validation, and business logic work together correctly.
 
-\subsubsection{Authentication \& Public Routes --- \texttt{backend/tests/integration/auth.public.test.ts}}
+\subsubsection{Authentication \& Public Routes --- \href{\ghrepo/blob/main/backend/tests/integration/auth.public.test.ts}{\texttt{backend/tests/integration/auth.public.test.ts}}}
 
 Covers user registration (valid, duplicate email, validation failures), login flow, contact form submission, and password reset validation. \textbf{8 tests across 4 describe blocks, all passing.}
 
-\subsubsection{Scheduling \& Booking Workflow --- \texttt{backend/tests/integration/scheduling.test.ts}}
+\subsubsection{Scheduling \& Booking Workflow --- \href{\ghrepo/blob/main/backend/tests/integration/scheduling.test.ts}{\texttt{backend/tests/integration/scheduling.test.ts}}}
 
 The most comprehensive integration test validates the full scheduling lifecycle: provider availability creation, client appointment request, provider confirmation, client cancellation, and slot management. \textbf{14 tests, all passing.}
 
-\subsubsection{Intake Form --- \texttt{backend/tests/integration/intake.test.ts}}
+\subsubsection{Intake Form --- \href{\ghrepo/blob/main/backend/tests/integration/intake.test.ts}{\texttt{backend/tests/integration/intake.test.ts}}}
 
 Tests intake creation, multi-section updates, section-level PATCH operations, authorization enforcement (clients can only access their own intake), and user flag updates upon completion. \textbf{10 tests, all passing.}
 
-\subsubsection{Check-in --- \texttt{backend/tests/integration/checkins.test.ts}}
+\subsubsection{Check-in --- \href{\ghrepo/blob/main/backend/tests/integration/checkins.test.ts}{\texttt{backend/tests/integration/checkins.test.ts}}}
 
 Validates check-in submission, input validation (mood score range, symptom enum), duplicate date prevention, trend retrieval, and alert generation. \textbf{8 tests, all passing.}
 
-\subsubsection{Care Plans --- \texttt{backend/tests/integration/carePlans.test.ts}}
+\subsubsection{Care Plans --- \href{\ghrepo/blob/main/backend/tests/integration/carePlans.test.ts}{\texttt{backend/tests/integration/carePlans.test.ts}}}
 
 Tests template listing, care plan creation from template, plan updates, milestone status changes, auto-progress calculation, and provider authorization checks. \textbf{7 tests, all passing.}
 
-\subsubsection{Appointments \& Messages --- \texttt{backend/tests/integration/appointments\_messages.test.ts}}
+\subsubsection{Appointments \& Messages --- \href{\ghrepo/blob/main/backend/tests/integration/appointments_messages.test.ts}{\texttt{backend/tests/integration/appointments\_messages.test.ts}}}
 
 Validates appointment creation, client appointment listing, message sending, and conversation fetching. \textbf{4 tests, all passing.}
 
-\subsubsection{Resources API --- \texttt{backend/tests/integration/resources-api.test.ts}}
+\subsubsection{Resources API --- \href{\ghrepo/blob/main/backend/tests/integration/resources-api.test.ts}{\texttt{backend/tests/integration/resources-api.test.ts}}}
 
 Tests resource CRUD endpoint authorization, 404 handling for non-existent resources, and response structure validation. \textbf{6 tests, all passing.}
 
@@ -2215,7 +2218,7 @@ All dependency vulnerabilities were resolved:
 All \texttt{any} type annotations were eliminated from backend production code (\textasciitilde100 instances across 18 files):
 
 \begin{itemize}[nosep]
-  \item Created \texttt{src/types/express.d.ts} to augment \texttt{Express.User} with the \texttt{IUser} interface, enabling type-safe \texttt{req.user} access across all routes.
+  \item Created \href{\ghrepo/blob/main/backend/src/types/express.d.ts}{\texttt{src/types/express.d.ts}} to augment \texttt{Express.User} with the \texttt{IUser} interface, enabling type-safe \texttt{req.user} access across all routes.
   \item Replaced \texttt{any} in middleware, services, routes, and models with proper types: \texttt{unknown}, \texttt{Record<string, unknown>}, Mongoose document interfaces, and express-validator's \texttt{ValidationError} type.
   \item Added null guards on \texttt{req.user} in all authenticated handlers, surfacing previously hidden type errors.
 \end{itemize}
@@ -2268,7 +2271,7 @@ Three categories of performance improvements were applied:
 \subsection{CI/CD and Developer Experience}
 
 \begin{itemize}[nosep]
-  \item \textbf{CI/CD Re-enabled:} All three GitHub Actions workflows (\texttt{backend-ci.yml}, \texttt{frontend-ci.yml}, \texttt{build.yml}) were re-enabled after verifying the codebase passes type-checking, linting, and all tests. The frontend CI pipeline now includes Playwright E2E tests.
+  \item \textbf{CI/CD Re-enabled:} All three GitHub Actions workflows (\href{\ghrepo/blob/main/.github/workflows/backend-ci.yml}{\texttt{backend-ci.yml}}, \href{\ghrepo/blob/main/.github/workflows/frontend-ci.yml}{\texttt{frontend-ci.yml}}, \href{\ghrepo/blob/main/.github/workflows/build.yml}{\texttt{build.yml}}) were re-enabled after verifying the codebase passes type-checking, linting, and all tests. The frontend CI pipeline now includes Playwright E2E tests.
   \item \textbf{Pre-commit Hooks:} Husky and lint-staged configured at the monorepo root. On commit, backend files trigger TypeScript type-checking, frontend files trigger ESLint, and all files are formatted with Prettier.
   \item \textbf{End-to-End Testing:} Playwright installed with 4 spec files (32 tests) covering landing page, auth forms, blog navigation, and route protection. Tests run against the compiled frontend in Chromium without requiring a backend.
 \end{itemize}
