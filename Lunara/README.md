@@ -1,276 +1,191 @@
-# LUNARA Frontend
+<p align="center">
+  <img src="public/images/lunara%20stamp.png" alt="Lunara" width="180"/>
+</p>
 
-React 18 + TypeScript + Vite frontend for the LUNARA Postpartum Support Platform. This application provides the client-facing and provider-facing interfaces for appointment scheduling, real-time messaging, mood tracking, document management, blog reading and authoring, educational resource browsing, care plan viewing, and client onboarding.
+<h1 align="center">Lunara Frontend</h1>
 
-## Technology Stack
+<p align="center">
+  <em>The storybook-inspired interface where clients and providers meet: dashboards, messaging, mood orb, documents, blog, resources, and care plans in one React application.</em>
+</p>
 
-| Category | Technology |
-|----------|------------|
-| Framework | React 18 with TypeScript |
-| Build Tool | Vite 6 |
-| Styling | Tailwind CSS 3.4 with Typography plugin |
-| Routing | React Router v6 |
-| State Management | React Context API (AuthContext, ResourceContext) |
-| HTTP Client | Axios with token refresh interceptors |
-| Forms | React Hook Form with Zod validation |
-| Rich Text Editor | React Quill |
-| Real-time | Socket.IO client |
-| Calendar | React Big Calendar |
-| 3D Visualization | Three.js with React Three Fiber and Drei |
-| Icons | FontAwesome and React Icons |
-| Sanitization | DOMPurify |
-| Testing | Jest, React Testing Library, Playwright (E2E), MSW (mocking) |
-| Linting | ESLint with TypeScript plugin |
-| Formatting | Prettier |
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite"/>
+  <img src="https://img.shields.io/badge/tests-222_passing-brightgreen?style=flat-square" alt="Tests"/>
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/>
+</p>
 
-## Implemented Features
+<p align="center">
+  <a href="https://www.lunaracare.org">Live site</a> &nbsp;&bull;&nbsp;
+  <a href="../README.md">Monorepo overview</a> &nbsp;&bull;&nbsp;
+  <a href="../backend/README.md">Backend API</a> &nbsp;&bull;&nbsp;
+  <a href="../Docs/DEVELOPMENT_GUIDE.md">Dev guide</a>
+</p>
 
-### Authentication and Authorization
-- Email/password login for both clients and providers
-- Registration flows with role selection
-- JWT access tokens stored in localStorage with automatic refresh
-- Multi-factor authentication challenge during login (TOTP)
-- MFA setup and management page with QR code enrollment
-- Session synchronization across browser tabs
-- Protected routes with role-based guards
-- Password reset and email verification pages
+---
 
-### Provider Dashboard
-- **Overview tab**: client counts, upcoming appointments, pending approvals, quick actions
-- **Clients tab**: client list with filtering, create new client form, email invitation
-- **Schedule tab**: calendar view, availability slot management, appointment approval and scheduling modal
-- **Blog tab**: blog post management, create/edit/publish/unpublish with rich text editor, auto-save, version history
-- **Resources tab**: resource library management, create/edit resources with file uploads, category and difficulty filtering
-- **Profile tab**: edit professional info, specialties, bio, availability, account settings
-- **Messages**: real-time messaging center with conversation list
-- **Check-in review**: view and respond to client wellness check-ins
+## Stack at a glance
 
-### Client Dashboard
-- **Overview tab**: summary widgets for unread messages, documents, upcoming appointments, resources, recent blog posts, mood check-in shortcut
-- **Messages tab**: real-time messaging with assigned provider
-- **Appointments tab**: calendar view, request new appointments, propose alternative times, view appointment status
-- **Documents tab**: upload documents (eight types including emotional survey, health assessment, feeding log, sleep log), view submission status, search and filter
-- **Mood check-in**: five-level mood selector with 3D animated orb visualization (Three.js), one-hour cooldown between submissions, optional provider sharing
-- **Care plans**: view active care plans, track milestones by category
-- **Resources**: browse educational resource library with filters for difficulty, postpartum week, and category
-- **Settings**: edit personal information, update baby birth date, manage profile
+<table>
+  <tr>
+    <td align="center" width="88"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="36" height="36" alt="React"/><br/><sub>React 18</sub></td>
+    <td align="center" width="88"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="36" height="36" alt="TS"/><br/><sub>TypeScript</sub></td>
+    <td align="center" width="88"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg" width="36" height="36" alt="Vite"/><br/><sub>Vite 6</sub></td>
+    <td align="center" width="88"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" width="36" height="36" alt="Tailwind"/><br/><sub>Tailwind</sub></td>
+    <td align="center" width="88"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/threejs/threejs-original.svg" width="36" height="36" alt="Three"/><br/><sub>Three.js R3F</sub></td>
+    <td align="center" width="88"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/socketio/socketio-original.svg" width="36" height="36" alt="Socket"/><br/><sub>Socket.IO</sub></td>
+  </tr>
+</table>
 
-### Client Onboarding
-- Multi-step intake wizard with progress indicator
-- Five steps: personal information, birth details (type, location, date), feeding preferences, health assessment, and support needs
-- Form validation at each step via Zod schemas
+**Also in the box:** React Router 6, Axios (refresh interceptors), React Hook Form + Zod, React Quill, React Big Calendar, DOMPurify, Jest + RTL + MSW, Playwright E2E.
 
-### Blog (Public)
-- Public blog listing page with filtering
-- Individual post detail view with slug-based routing
-- View count tracking
+---
 
-### Push Notifications
-- Browser notification permission request and toggle
-- Web Push API subscription management via service worker
+## What you are looking at
 
-### Security Settings
-- TOTP-based two-factor authentication setup page
-- Enable, disable, and manage MFA
+This package is the **entire browser experience** for Lunara: marketing pages, authenticated client and provider workspaces, public blog, security settings, and the service worker hooks for web push. Everything talks to the Express API through a shared Axios client and opens real-time channels through Socket.IO when users message each other.
 
-## Pages and Routing
+<p align="center">
+  <img src="../Docs/Capstone-Papers/Photos/client/client_dashboard_overview.png" alt="Client dashboard" width="46%"/>
+  &nbsp;
+  <img src="../Docs/Capstone-Papers/Photos/provider/provider_dashboard_overview.png" alt="Provider dashboard" width="46%"/>
+</p>
 
-| Route | Page | Access |
-|-------|------|--------|
-| `/` | Landing page | Public |
-| `/login` | Login | Public |
-| `/forgot-password` | Password reset request | Public |
-| `/reset-password` | Password reset completion | Public |
-| `/verify-email` | Email verification | Public |
-| `/blog` | Blog listing | Public |
-| `/blog/:slug` | Blog post detail | Public |
-| `/provider/dashboard` | Provider dashboard | Provider only |
-| `/client/dashboard` | Client dashboard | Client only |
-| `/settings/security` | MFA settings | Authenticated |
+---
 
-## Project Structure
+## Feature tour (by surface)
+
+<table>
+<tr>
+<td width="52%" valign="top">
+
+### Client home
+
+The dashboard pulls together **unread messages**, **document status**, **upcoming appointments**, **resource picks**, **recent blog posts**, and a shortcut into **mood check-in**. Appointments support requesting slots, proposing new times, and following status through confirmation. Documents cover eight clinical and wellness types with privacy tiers and version history.
+
+**Mood** uses a five-step scale rendered as a **3D orb** (React Three Fiber): color and motion reinforce how the user feels without turning the screen into a clinical form.
+
+</td>
+<td width="48%" valign="top">
+<img src="../Docs/Capstone-Papers/Photos/client/client_mood_doing_well.png" alt="Mood orb" width="100%"/>
+</td>
+</tr>
+<tr>
+<td colspan="2"><hr/></td>
+</tr>
+<tr>
+<td width="48%" valign="top">
+<img src="../Docs/Capstone-Papers/Photos/provider/provider_blog_create_post.png" alt="Provider blog editor" width="100%"/>
+</td>
+<td width="52%" valign="top">
+
+### Provider home
+
+Providers get a **schedule-first** calendar, **availability slots**, client roster with invite flow, **blog authoring** (auto-save, versions, SEO fields), **resource builder** with attachments and filters, **document review**, **check-in review**, and the same **real-time messaging** rail clients use. Profile and account settings round out the professional footprint.
+
+</td>
+</tr>
+</table>
+
+### Public and security
+
+| Area | Notes |
+|------|--------|
+| **Landing** | Hero, services, inquiry capture tied to the public API |
+| **Blog** | Listing and slug-based post detail with view tracking |
+| **Auth** | Login/register, Google OAuth entry point, email verify, password reset |
+| **MFA** | TOTP enrollment on `/settings/security`, challenge during login, tab sync via `localStorage` |
+| **Intake** | Five-step wizard (personal, birth, feeding, health, support) with Zod per step |
+| **Push** | Permission UX and subscription lifecycle via service worker |
+
+---
+
+## Routing map
+
+```mermaid
+flowchart LR
+  subgraph public [Public]
+    A["/"] --> B["/blog"]
+    B --> C["/blog/:slug"]
+    A --> L["/login"]
+    L --> F["/forgot-password"]
+    L --> R["/reset-password"]
+    L --> V["/verify-email"]
+  end
+  subgraph auth [Signed in]
+    P["/provider/dashboard"]
+    CL["/client/dashboard"]
+    S["/settings/security"]
+  end
+```
+
+---
+
+## Project layout (abbreviated)
 
 ```
 src/
-├── api/
-│   └── apiClient.ts              # Singleton Axios client with interceptors
-├── components/
-│   ├── blog/                     # Blog editor, management, content editor,
-│   │                               metadata form, tag input, featured image,
-│   │                               action buttons, auto-save status
-│   ├── client/
-│   │   ├── appointments/         # Calendar, day list, proposed time form,
-│   │   │                           slot booking confirmation, status badge
-│   │   ├── CarePlanCard.tsx       # Care plan display with milestones
-│   │   ├── CarePlanManager.tsx    # Care plan listing and creation
-│   │   ├── ClientAppointments.tsx # Client appointment management
-│   │   ├── ClientCalendarGrid.tsx # Month calendar grid
-│   │   ├── ClientCheckIns.tsx     # Check-in submission and history
-│   │   ├── ClientDashboardLayout.tsx # Tabbed navigation layout
-│   │   ├── ClientDayDetailPanel.tsx  # Day detail sidebar
-│   │   ├── ClientSettings.tsx     # Profile and settings
-│   │   ├── MoodCheckIn.tsx        # Mood selection interface
-│   │   ├── MoodOrb.tsx            # 3D orb visualization (Three.js)
-│   │   ├── ProviderClientProfileEdit.tsx # Provider editing client profile
-│   │   └── UpdateBabyBirthDate.tsx # Birth date editor
-│   ├── documents/                # Document upload, card, list, search/filter,
-│   │                               edit, provider review, recommendations
-│   ├── intake/                   # ClientIntakeWizard, ClientIntakeForm,
-│   │                               IntakeProgressHeader, step components
-│   │                               (Personal, Birth, Feeding, Health, Support)
-│   ├── layout/                   # MainLayout, SimpleHeader, SimpleFooter
-│   ├── messaging/                # MessageCenter, MessagesList,
-│   │                               ClientMessageProvider
-│   ├── provider/                 # ProviderDashboardLayout, OverviewTab,
-│   │                               ClientsTab, BlogTab, ProviderAppointments,
-│   │                               ProviderCalendar, CalendarGrid, DayDetailPanel,
-│   │                               CalendarNavigation, ScheduleAppointmentModal,
-│   │                               ProviderProfileEdit, ProviderClientCheckIns,
-│   │                               CheckInsReviewSection, PushNotificationToggle
-│   ├── resources/                # ResourceLibrary, ResourceEditor,
-│   │                               ResourceViewModal
-│   └── ui/                       # Card, Skeleton, Spinner, ErrorBoundary,
-│                                   ConstructionAlert, ProtectedRoute,
-│                                   RichTextEditor, MfaSetup
-├── contexts/
-│   ├── AuthContext.tsx            # Authentication state, login, MFA, tokens
-│   └── ResourceContext.tsx        # Resource and category state, filtering
-├── hooks/
-│   ├── useAuth.ts                # Access AuthContext
-│   ├── useResource.ts            # Access ResourceContext
-│   └── useSocket.ts              # Socket.IO connection and events
-├── pages/
-│   ├── LandingPage.tsx           # Hero, services accordion, inquiry form
-│   ├── LoginPage.tsx             # Login with MFA challenge support
-│   ├── ForgotPasswordPage.tsx    # Password reset request
-│   ├── ResetPasswordPage.tsx     # Token-based password reset
-│   ├── VerifyEmailPage.tsx       # Email verification
-│   ├── ClientDashboard.tsx       # Client dashboard wrapper
-│   ├── ProviderDashboard.tsx     # Provider dashboard wrapper
-│   ├── BlogPage.tsx              # Public blog listing
-│   ├── BlogPostDetail.tsx        # Blog post view (slug routing)
-│   └── SecuritySettingsPage.tsx  # MFA setup and management
-├── services/
-│   ├── authService.ts            # Registration, login, MFA, token refresh
-│   ├── appointmentService.ts     # Appointment CRUD, availability, calendar
-│   ├── blogService.ts            # Blog post CRUD, publishing, search
-│   ├── documentService.ts        # Document upload, submission, review
-│   ├── messageService.ts         # Messaging, conversations, read status
-│   ├── resourceService.ts        # Resource CRUD, publishing, search
-│   ├── providerService.ts        # Provider profile and availability
-│   ├── userService.ts            # User profile management
-│   ├── recommendationService.ts  # Personalized resource and document suggestions
-│   ├── pushService.ts            # Push notification subscribe/unsubscribe
-│   ├── supportSessionService.ts  # Support session operations
-│   └── serviceFactory.ts         # Service instantiation
-├── styles/                       # Global CSS and Tailwind configuration
-├── tests/                        # Unit and integration tests
-├── types/
-│   ├── models.ts                 # Core domain types
-│   ├── api.ts                    # API request/response types
-│   ├── auth.ts                   # Authentication types
-│   └── user.ts                   # User profile types
-└── utils/                        # Utility functions
+├── api/apiClient.ts       # Axios singleton, 401 refresh, Render 429 backoff
+├── components/            # blog, client, documents, intake, layout, messaging, provider, resources, ui
+├── contexts/              # AuthContext, ResourceContext
+├── hooks/                 # useAuth, useResource, useSocket
+├── pages/                 # 10 route-level screens
+├── services/              # 13 API modules + serviceFactory
+├── types/                 # models, api, auth, user
+└── utils/                 # shared helpers (incl. getBaseApiUrl)
 ```
 
-## Getting Started
+---
 
-### Prerequisites
+## Run it locally
 
-- Node.js 18 or higher
-- npm
-
-### Installation
-
-1. **Install dependencies:**
-   ```bash
-   cd Lunara
-   npm install
-   ```
-
-2. **Environment setup:**
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Required environment variable:**
-   ```env
-   VITE_API_BASE_URL=http://localhost:10000/api
-   ```
-
-4. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-
-5. **Open the application:**
-   - Frontend: http://localhost:5173
-   - The backend must be running at the configured API URL
-
-### Available Scripts
+**Needs:** Node 18+, running backend (see [backend README](../backend/README.md)).
 
 ```bash
-npm run dev            # Start Vite development server
-npm run build          # TypeScript compile and Vite production build
-npm run preview        # Preview production build locally
-npm run lint           # Run ESLint
-npm run lint:fix       # Run ESLint with auto-fix
-npm run format         # Format code with Prettier
-npm run format:check   # Check formatting without writing
-npm run type-check     # TypeScript type checking (no emit)
-npm test               # Run Jest tests
-npm run test:watch     # Run tests in watch mode
-npm run test:coverage  # Run tests with coverage report
-npm run test:e2e       # Run Playwright end-to-end tests
-npm run test:e2e:ui    # Run Playwright tests with UI
+cd Lunara
+npm install
+cp .env.example .env
 ```
 
-## API Integration
+Set the API base to match your backend port (default backend `PORT` is **10000**):
 
-The frontend communicates with the backend through an Axios-based singleton API client (`src/api/apiClient.ts`). Key behaviors:
-
-- Base URL is set from the `VITE_API_BASE_URL` environment variable
-- In development, Vite proxies `/api` requests to `http://localhost:5000`
-- Access tokens are attached to every request automatically
-- When a 401 response is received, the client attempts a token refresh and retries the original request
-- Failed refresh results in automatic logout
-
-### Authentication Flow
-1. User submits credentials through the login form
-2. Backend returns a JWT access token and sets a refresh token as an httpOnly cookie
-3. Access token is stored in localStorage
-4. If MFA is enabled, the login response triggers the MFA challenge UI
-5. Axios interceptors handle token attachment and refresh transparently
-6. Session state syncs across tabs via localStorage events
-
-## Build Configuration
-
-**Vite** is configured with:
-- API proxy: `/api` requests forward to `http://localhost:5000` during development
-- Manual chunk splitting for Three.js (`vendor-three`) and Quill (`vendor-quill`) to optimize bundle size
-- React plugin for JSX transformation
-
-**Tailwind CSS** uses the Typography plugin for rendering rich text content from the blog and resource editors.
-
-## Testing
-
-- **Unit tests**: Jest with React Testing Library for components, services, and hooks
-- **API mocking**: MSW (Mock Service Worker) for intercepting HTTP requests in tests
-- **E2E tests**: Playwright for full browser testing
-- **Coverage**: 222 tests with reporting via Jest coverage
-
-## Deployment
-
-The frontend is deployed to Vercel. The `vercel.json` at the repository root configures:
-- Build command: `cd Lunara && npm ci && npm run build`
-- Output directory: `Lunara/dist`
-- SPA fallback: all routes rewrite to `/index.html`
-
-Production environment variable:
 ```env
-VITE_API_BASE_URL=https://lunara.onrender.com/api
+VITE_API_BASE_URL=http://localhost:10000/api
 ```
+
+If you leave `VITE_API_BASE_URL` empty, the app uses relative `/api` and Vite’s dev proxy (`vite.config.ts` currently forwards `/api` to `http://localhost:5000`). Either align that proxy target with your backend port or use the full URL above.
+
+```bash
+npm run dev
+```
+
+Open **http://localhost:5173**.
+
+### Scripts
+
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Vite dev server |
+| `npm run build` | `tsc` + production bundle |
+| `npm run lint` / `lint:fix` | ESLint |
+| `npm run format` | Prettier |
+| `npm test` / `test:coverage` | Jest |
+| `npm run test:e2e` | Playwright |
+
+---
+
+## How the client talks to the API
+
+1. `getBaseApiUrl()` resolves `VITE_API_BASE_URL` or falls back to `/api` for the proxy.
+2. Every request sends `Authorization: Bearer …` when a token exists in `localStorage`.
+3. Refresh tokens live in **httpOnly** cookies on the API origin; interceptors retry once after refresh on 401.
+4. `getSocketUrl()` strips `/api` for Socket.IO when using an absolute API URL.
+
+Production (Vercel) sets `VITE_API_BASE_URL=https://lunara.onrender.com/api` per root `vercel.json`.
+
+---
 
 ## License
 
-This project is licensed under the MIT License.
+MIT (see repository root).

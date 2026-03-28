@@ -1,117 +1,159 @@
-# LUNARA Documentation
+<h1 align="center">Lunara Documentation</h1>
 
-Project documentation for the LUNARA Postpartum Support Platform.
+<p align="center">
+  <img src="img/Diagrams/SystemArchitecture.png" alt="Architecture" width="72%"/>
+</p>
 
-## Quick Links
+<p align="center">
+  <em>Architecture references, academic capstone papers, diagrams, wireframes, and project planning for the Lunara platform.</em>
+</p>
 
-| Document | Description |
-|----------|-------------|
-| [Development Guide](./DEVELOPMENT_GUIDE.md) | Setup, architecture, API reference, and troubleshooting |
-| [Sprint Plan](./Planning/SPRINT_PLAN.md) | 10-week roadmap, task breakdown, and quality metrics |
-| [Project Requirements (PDF)](./Planning/LUNARA_ProjectRequirements.pdf) | Original requirements specification |
+<p align="center">
+  <img src="https://img.shields.io/badge/diagrams-7-blue?style=flat-square" alt="Diagrams"/>
+  <img src="https://img.shields.io/badge/capstone_papers-12-purple?style=flat-square" alt="Papers"/>
+  <img src="https://img.shields.io/badge/screenshots-69-teal?style=flat-square" alt="Screenshots"/>
+</p>
+
+<p align="center">
+  <a href="./DEVELOPMENT_GUIDE.md">Dev Guide</a> &nbsp;&bull;&nbsp;
+  <a href="./Planning/SPRINT_PLAN.md">Sprint Plan</a> &nbsp;&bull;&nbsp;
+  <a href="./RENDER_DEPLOY.md">Deploy Guide</a> &nbsp;&bull;&nbsp;
+  <a href="https://lunara.onrender.com/api-docs">Live API Docs</a>
+</p>
+
+---
+
+## What's In Here
+
+This directory holds everything that isn't source code: architecture diagrams, formal capstone submissions, wireframes, deployment guides, and the sprint plan driving development.
+
+### Technical References
+
+| Document | Purpose |
+|---|---|
+| [DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md) | Full setup walkthrough, architecture overview, API route reference table covering all 20 route modules, database schema definitions, document upload system details, testing instructions, and troubleshooting |
+| [RENDER_DEPLOY.md](./RENDER_DEPLOY.md) | Production deployment troubleshooting for the Render-hosted backend: JWT debugging, MongoDB connectivity, CORS verification, and a quick test checklist |
+| [SCA_GUIDE.md](./SCA_GUIDE.md) | Software Composition Analysis guide covering `npm audit` and SonarQube for dependency vulnerability scanning |
+| [CI-CD-Overview.html](./CI-CD-Overview.html) | Visual documentation of the GitHub Actions deployment pipeline |
+
+### Planning
+
+| Document | Purpose |
+|---|---|
+| [SPRINT_PLAN.md](./Planning/SPRINT_PLAN.md) | 10-week development roadmap (Feb 5 through Apr 16, 2026) with task breakdown, quality metrics, risk management, and checkpoint schedule |
+| [Project Requirements (PDF)](./Planning/LUNARA_ProjectRequirements.pdf) | Original formal requirements specification |
 | [Development Phase Report (PDF)](./Planning/LUNARA_Development_Phase_Report.pdf) | Sprint 1 completion report |
-| [Render Deployment Guide](./RENDER_DEPLOY.md) | Production deployment troubleshooting |
-| [SCA Guide](./SCA_GUIDE.md) | Software Composition Analysis (dependency vulnerability scanning) |
 
-## Project Overview
+---
 
-LUNARA is a postpartum support platform connecting new mothers with certified doulas and support specialists. It provides real-time messaging, appointment scheduling, mood tracking, document management, a blog, an educational resource library, and care plan tools.
+## Architecture Diagrams
 
-### Tech Stack
+The `img/Diagrams/` directory contains seven diagrams in both PNG and SVG formats. These visualize the system from different angles:
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | React 18, TypeScript, Vite, Tailwind CSS |
-| Backend | Node.js, Express, TypeScript, MongoDB |
-| Auth | JWT with Passport.js, Google OAuth, TOTP-based MFA |
-| Real-time | Socket.IO |
-| File Storage | MongoDB GridFS |
-| Push Notifications | Web Push API (VAPID) |
-| CI/CD | GitHub Actions, Docker, SonarQube |
-| Hosting | Vercel (frontend), Render (backend), MongoDB Atlas |
+<table>
+<tr>
+<td align="center" width="33%">
+<a href="./img/Diagrams/SystemArchitecture.png"><strong>System Architecture</strong></a><br/>
+<sub>High-level service topology: React frontend, Express API, MongoDB, Socket.IO, and external services</sub>
+</td>
+<td align="center" width="33%">
+<a href="./img/Diagrams/ERDUML.png"><strong>Entity-Relationship Diagram</strong></a><br/>
+<sub>All 19 MongoDB collections and their relationships</sub>
+</td>
+<td align="center" width="33%">
+<a href="./img/Diagrams/Topology.png"><strong>Deployment Topology</strong></a><br/>
+<sub>Network layout: Vercel, Render, MongoDB Atlas, and CI pipeline</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="33%">
+<a href="./img/Diagrams/SequenceDiagram.png"><strong>Sequence Diagram</strong></a><br/>
+<sub>Request flows for key user interactions</sub>
+</td>
+<td align="center" width="33%">
+<a href="./img/Diagrams/ActivityDiagram.png"><strong>Activity Diagram</strong></a><br/>
+<sub>User activity workflows across the platform</sub>
+</td>
+<td align="center" width="33%">
+<a href="./img/Diagrams/TDSystemFlowChart.png"><strong>System Flow Chart</strong></a><br/>
+<sub>Top-down data and control flow</sub>
+</td>
+</tr>
+</table>
 
-### Team
+The [Logical Model](./img/Diagrams/SystemLogicalModel.png) provides an additional data-centric view.
 
-- **Owen Lindsey** - Full Stack Developer
-- **Carter Wright** - Full Stack Developer
-- **Andrew Mack** - Full Stack Developer
+---
 
-### Current Status
+## Wireframes
 
-Backend and frontend are feature-complete for all core requirements. Four stretch features (journaling, AI insights, advanced trackers, AI summarization) are deferred to post-launch.
+Early-stage UI mockups live in `img/Wireframes/`. These informed the final design for the landing page, login flows, client and provider dashboards, services page, FAQ, blog, and provider directory.
 
-Quality metrics (as of February 2026):
-- 375 tests (222 frontend, 153 backend)
-- 81.9% code coverage
-- SonarQube A ratings for security, reliability, and maintainability
-
-## Directory Structure
-
-```
-Docs/
-├── README.md                          # This file
-├── DEVELOPMENT_GUIDE.md               # Setup, architecture, and API reference
-├── GCU_CAPSTONE_MAINTENANCE_PAPER.md  # Capstone paper (maintenance stage)
-├── RENDER_DEPLOY.md                   # Production deployment troubleshooting
-├── SCA_GUIDE.md                       # Dependency vulnerability scanning guide
-├── CI-CD-Overview.html                # CI/CD pipeline visual documentation
-├── Capstone-Papers/                   # Academic capstone submission package
-│   ├── 00_INDEX.md                    # Master index for all papers
-│   ├── 01-11 markdown papers          # Purpose, tech reqs, timeline, milestones, etc.
-│   ├── APA_TITLE_PAGE.md              # Title page for submission
-│   ├── Photos/                        # 69 UI screenshots (client, provider, public, tests)
-│   ├── *.pdf                          # Compiled milestone papers
-│   └── *.tex                          # LaTeX source for PDF generation
-├── Planning/
-│   ├── SPRINT_PLAN.md                 # 10-week roadmap with task breakdown
-│   ├── LUNARA_ProjectRequirements.pdf # Original project requirements
-│   └── LUNARA_Development_Phase_Report.pdf # Sprint 1 report
-├── Templates/                         # LaTeX/Pandoc templates for PDF generation
-│   ├── eisvogel.latex                 # Main document template
-│   ├── common.latex                   # Shared macros
-│   ├── font-settings.latex            # Font configuration
-│   └── (7 additional template files)
-└── img/
-    ├── Diagrams/                      # 7 architecture and flow diagrams (PNG + SVG)
-    │   ├── SystemArchitecture
-    │   ├── ERDUML
-    │   ├── SequenceDiagram
-    │   ├── ActivityDiagram
-    │   ├── SystemLogicalModel
-    │   ├── TDSystemFlowChart
-    │   └── Topology
-    ├── Wireframes/                    # 10 UI mockups (PNG)
-    │   ├── LandingPage, ClientDashboard, ClientLogin
-    │   ├── ProviderLogin, Services, Contact
-    │   ├── AboutProviders, FAQ, blogExpanded
-    │   └── Philosophy
-    └── Stats/
-        └── Monitor.png
-```
+---
 
 ## Capstone Papers
 
-The `Capstone-Papers/` directory contains the full academic submission for GCU's CST-451/452 capstone course. The 12-paper set covers:
+The `Capstone-Papers/` directory contains the complete academic submission for GCU's CST-451/452 capstone course. Twelve papers plus an APA title page, organized by a master index at [00_INDEX.md](./Capstone-Papers/00_INDEX.md).
 
-| Paper | Topic |
-|-------|-------|
-| 01 | Purpose of the Capstone Project |
-| 02 | Technology Requirements |
-| 03 | Project Timeline |
-| 04 | Milestone 4: Development Phase (Coding) |
-| 05 | Milestone 5: Development Phase (Testing) |
-| 06 | Milestone 6: Final Completion and Release |
-| 07 | Academic Integrity |
-| 08 | Plagiarism Statement |
-| 09 | Sources of Information and References |
-| 10 | Intellectual Property |
-| 11 | References |
-| APA | Title Page |
+| # | Paper | Covers |
+|---|---|---|
+| 01 | Purpose of Capstone Project | Mission statement, competency demonstration, project vision |
+| 02 | Technology Requirements | Full stack selection rationale with requirement-to-technology mapping |
+| 03 | Project Timeline | Phase breakdown and lifecycle progress model |
+| 04 | Milestone 4: Coding | Implementation plan, 16-feature task breakdown, traceability matrix, test cases |
+| 05 | Milestone 5: Testing | Test suite structure, 375-test coverage report, SonarQube quality metrics |
+| 06 | Milestone 6: Release | Production deployment, security hardening, maintenance handoff |
+| 07-11 | Academic Sections | Integrity, plagiarism, sources, intellectual property, references |
 
-Screenshots supporting these papers are organized under `Photos/` by role: `client/` (34 images), `provider/` (25 images), `public/` (4 images), and `tests/` (6 images).
+### Supporting Materials
 
-## Resources
+The papers reference **69 screenshots** organized by role:
 
-- **Live Application**: https://www.lunaracare.org
-- **API Docs (local)**: http://localhost:10000/api-docs
-- **Repository**: https://github.com/omniV1/AQC
+| Directory | Count | Shows |
+|---|---|---|
+| `Photos/client/` | 34 | Dashboard, appointments, messaging, mood tracking, documents, resources, profile |
+| `Photos/provider/` | 25 | Dashboard, scheduling, client management, blog authoring, document review, resources |
+| `Photos/public/` | 4 | Home page, login, public blog |
+| `Photos/tests/` | 6 | Jest and CLI test output for both frontend and backend |
+
+Compiled PDFs for Milestone 4 and Milestone 5 are included alongside their LaTeX source files.
+
+---
+
+## LaTeX Templates
+
+The `Templates/` directory contains 10 Pandoc/LaTeX template files based on the Eisvogel theme, used to generate the milestone PDFs from Markdown source. Includes font configuration, title page layout, beamer presentation support, and hyperlink setup.
+
+---
+
+## Project Status
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Backend-Complete-brightgreen?style=for-the-badge" alt="Backend Complete"/>
+  <img src="https://img.shields.io/badge/Frontend-Complete-brightgreen?style=for-the-badge" alt="Frontend Complete"/>
+  <img src="https://img.shields.io/badge/Tests-375_Passing-brightgreen?style=for-the-badge" alt="Tests"/>
+  <img src="https://img.shields.io/badge/Coverage-81.9%25-brightgreen?style=for-the-badge" alt="Coverage"/>
+</p>
+
+All core functional requirements are implemented and deployed. Four stretch features (journaling, AI insights, advanced trackers, AI summarization) are deferred to post-launch.
+
+### Team
+
+| | |
+|---|---|
+| **Owen Lindsey** | Full Stack Developer |
+| **Carter Wright** | Full Stack Developer |
+| **Andrew Mack** | Full Stack Developer |
+
+Senior capstone project at Grand Canyon University, advised by Professor Amr Elchouemi.
+
+---
+
+## Quick Links
+
+| Resource | URL |
+|---|---|
+| Live Application | [lunaracare.org](https://www.lunaracare.org) |
+| API Documentation (local) | http://localhost:10000/api-docs |
+| API Documentation (production) | [lunara.onrender.com/api-docs](https://lunara.onrender.com/api-docs) |
+| Repository | [github.com/omniV1/lunaraCare](https://github.com/omniV1/lunaraCare) |

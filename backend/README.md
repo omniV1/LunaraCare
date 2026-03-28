@@ -1,141 +1,100 @@
-# LUNARA Backend API
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="56" height="56" alt="Node"/>
+  &nbsp;&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" width="56" height="56" alt="Express"/>
+  &nbsp;&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" width="56" height="56" alt="MongoDB"/>
+</p>
 
-Express.js backend for the LUNARA Postpartum Support Platform. This server provides a RESTful API with real-time messaging via Socket.IO, JWT-based authentication with MFA support, MongoDB data persistence with GridFS file storage, email notifications, and push notifications.
+<h1 align="center">Lunara Backend API</h1>
 
-## Technology Stack
+<p align="center">
+  <em>Express + TypeScript service layer for Lunara: REST, Socket.IO chat, JWT and MFA, GridFS files, email, and web push. Hosted on Render; documented with Swagger.</em>
+</p>
 
-| Category | Technology |
-|----------|------------|
-| Runtime | Node.js 18+ |
-| Framework | Express.js 4.18 with TypeScript 5.8 |
-| Database | MongoDB with Mongoose 8.15 ODM |
-| Authentication | Passport.js (Local, JWT, Google OAuth strategies) |
-| Tokens | JSON Web Tokens (access + refresh) |
-| MFA | TOTP via otpauth with QR code generation |
-| Real-time | Socket.IO 4.7 |
-| File Storage | MongoDB GridFS (with legacy Cloudinary support) |
-| Email | Nodemailer (SMTP) |
-| Push Notifications | web-push (VAPID) |
-| API Documentation | Swagger/OpenAPI via swagger-jsdoc |
-| Security | Helmet, CORS, express-rate-limit, bcryptjs |
-| Validation | express-validator |
-| Logging | Winston (application), Morgan (HTTP requests) |
-| Testing | Jest, Supertest, mongodb-memory-server |
-| Process Management | Nodemon (development) |
+<p align="center">
+  <a href="https://github.com/omniV1/lunaraCare/actions/workflows/backend-ci.yml"><img src="https://github.com/omniV1/lunaraCare/actions/workflows/backend-ci.yml/badge.svg" alt="Backend CI"/></a>
+  &nbsp;
+  <img src="https://img.shields.io/badge/tests-153_passing-brightgreen?style=flat-square" alt="Tests"/>
+  <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TS"/>
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/>
+</p>
 
-## Project Structure
+<p align="center">
+  <a href="https://lunara.onrender.com/api-docs">Live Swagger</a> &nbsp;&bull;&nbsp;
+  <a href="../README.md">Monorepo</a> &nbsp;&bull;&nbsp;
+  <a href="../Lunara/README.md">Frontend</a> &nbsp;&bull;&nbsp;
+  <a href="../Docs/DEVELOPMENT_GUIDE.md">Dev guide</a>
+</p>
 
-```
-backend/
-├── src/
-│   ├── config/
-│   │   └── passport.ts                # Passport strategy configuration
-│   ├── middleware/
-│   │   ├── index.ts                   # authenticate, requireRole, errorHandler,
-│   │   │                                notFoundHandler, securityHeaders,
-│   │   │                                sanitizeRequest, responseFormatter,
-│   │   │                                requestLogger, asyncHandler,
-│   │   │                                handleValidationErrors
-│   │   └── cacheMiddleware.ts         # TTL-based response caching
-│   ├── models/                        # 19 Mongoose models
-│   │   ├── User.ts                    # Base user (all roles)
-│   │   ├── Client.ts                  # Client profile and intake data
-│   │   ├── Provider.ts                # Provider profile, certs, availability
-│   │   ├── Appointment.ts             # Scheduling with status workflow
-│   │   ├── AvailabilitySlot.ts        # Provider time slots
-│   │   ├── Message.ts                 # Chat messages
-│   │   ├── CheckIn.ts                 # Mood and symptom tracking
-│   │   ├── CarePlan.ts                # Care plans with milestones
-│   │   ├── CarePlanTemplate.ts        # Reusable care plan templates
-│   │   ├── BlogPost.ts               # Blog articles
-│   │   ├── BlogPostVersion.ts        # Blog version history
-│   │   ├── Resources.ts              # Educational resources
-│   │   ├── ResourceVersion.ts        # Resource version history
-│   │   ├── Category.ts               # Hierarchical categories
-│   │   ├── ClientDocument.ts          # Uploaded documents and forms
-│   │   ├── ClientDocumentVersion.ts   # Document version history
-│   │   ├── UserResourceInteraction.ts # Views, likes, bookmarks
-│   │   ├── PushSubscription.ts        # Web Push subscriptions
-│   │   └── Inquiry.ts                 # Public contact form submissions
-│   ├── routes/                        # 20 route modules
-│   │   ├── auth.ts                    # Registration, login, email verify, password reset
-│   │   ├── mfa.ts                     # TOTP setup, verify, disable, backup codes
-│   │   ├── users.ts                   # Profile management, admin user operations
-│   │   ├── providers.ts               # Provider profiles, availability, ratings
-│   │   ├── client.ts                  # Client profiles, provider assignment
-│   │   ├── appointments.ts            # Scheduling, availability, calendar
-│   │   ├── messages.ts                # Conversations, send, read status
-│   │   ├── checkins.ts                # Mood/symptom check-ins, trends, alerts
-│   │   ├── carePlans.ts               # Care plan CRUD, milestones, templates
-│   │   ├── blog.ts                    # Blog CRUD, publishing, versioning
-│   │   ├── resources.ts               # Resource CRUD, publishing, versioning
-│   │   ├── documents.ts               # Document upload, submission, review
-│   │   ├── files.ts                   # GridFS file upload/download/delete
-│   │   ├── categories.ts             # Category hierarchy CRUD
-│   │   ├── intake.ts                  # Client intake forms
-│   │   ├── recommendations.ts         # Personalized resource suggestions
-│   │   ├── interactions.ts            # View/like/bookmark tracking
-│   │   ├── pushNotifications.ts       # Push subscribe/unsubscribe/send
-│   │   ├── admin.ts                   # Provider creation, stats, seeding
-│   │   └── public.ts                  # Platform info, contact, public content
-│   ├── services/                      # 30 business logic services
-│   │   ├── authService.ts             # Register, login, verify, reset, MFA
-│   │   ├── mfaService.ts              # TOTP setup, verification, backup codes
-│   │   ├── userService.ts             # User CRUD, search, preferences
-│   │   ├── clientService.ts           # Client profiles, assignment tracking
-│   │   ├── providerService.ts         # Provider profiles, availability, ratings
-│   │   ├── appointmentService.ts      # Scheduling, calendar, status transitions
-│   │   ├── appointmentNotificationService.ts # Email notifications for appointments
-│   │   ├── appointmentReminderService.ts     # Scheduled reminders (15-min interval)
-│   │   ├── messageService.ts          # Message persistence, conversations
-│   │   ├── messageRateLimiter.ts      # Per-user message rate limiting
-│   │   ├── socketConnectionManager.ts # Socket.IO connection tracking
-│   │   ├── checkinService.ts          # Check-in CRUD
-│   │   ├── checkinTrendService.ts     # Mood/symptom trend analysis and alerts
-│   │   ├── carePlanService.ts         # Care plan CRUD, milestone tracking
-│   │   ├── blogService.ts             # Blog CRUD, versioning, publishing
-│   │   ├── resourceService.ts         # Resource CRUD, versioning, publishing
-│   │   ├── categoryService.ts         # Category hierarchy management
-│   │   ├── documentService.ts         # Document upload, review workflow
-│   │   ├── fileService.ts             # File operation wrapper
-│   │   ├── gridfsService.ts           # MongoDB GridFS integration
-│   │   ├── emailService.ts            # Nodemailer templates and sending
-│   │   ├── pushNotificationService.ts # Web Push sending
-│   │   ├── pushSubscriptionService.ts # Subscription management
-│   │   ├── recommendationService.ts   # Personalized resource recommendations
-│   │   ├── intakeService.ts           # Intake form management
-│   │   ├── inquiryService.ts          # Contact form handling
-│   │   ├── interactionService.ts      # View/like/bookmark tracking
-│   │   ├── adminService.ts            # Admin operations, provider creation
-│   │   ├── cacheService.ts            # In-memory TTL cache
-│   │   └── clientService.ts           # Client operations
-│   ├── seeds/
-│   │   └── seedContent.ts            # Auto-seeds categories, blog posts, and resources on startup
-│   ├── types/
-│   │   ├── index.ts                   # TypeScript interfaces and enums
-│   │   └── express.d.ts              # Express request type extensions
-│   ├── utils/
-│   │   ├── errors.ts                  # Custom error classes (APIError, NotFoundError, etc.)
-│   │   ├── logger.ts                  # Winston logger configuration
-│   │   ├── tokenUtils.ts             # JWT creation and verification helpers
-│   │   └── queryOptimization.ts      # Database query helpers
-│   └── server.ts                      # Application entry point
-├── scripts/
-│   ├── createAdmin.ts                 # Create an admin user account
-│   ├── seedCarePlanTemplates.ts       # Seed care plan templates
-│   ├── seedTestUsers.ts               # Seed test client and provider accounts
-│   └── verifyEmailConfig.ts          # Verify SMTP email configuration
-├── tests/
-│   ├── integration/                   # API integration tests
-│   ├── services/                      # Service unit tests
-│   ├── middleware/                    # Middleware unit tests
-│   └── utils/                         # Utility unit tests
-└── package.json
+---
+
+## Inside the server
+
+This is not a thin CRUD wrapper. **20 route modules** delegate to **30 services** that implement scheduling rules, document workflows, blog and resource versioning, check-in trend analysis, appointment reminders, rate-limited messaging, and admin operations. **19 Mongoose models** map to MongoDB; binaries land in **GridFS**. Real-time paths run beside REST on the same process via **Socket.IO**.
+
+<p align="center">
+  <img src="../Docs/img/Diagrams/Topology.png" alt="Deployment topology" width="82%"/>
+</p>
+
+```mermaid
+flowchart TB
+  subgraph ingress [HTTP + WS]
+    E[Express + Helmet + CORS]
+    SK[Socket.IO]
+  end
+  E --> R[Route modules]
+  R --> S[Services]
+  S --> M[(MongoDB / Mongoose)]
+  S --> G[GridFS]
+  SK --> S
+  S --> EM[Email / Push]
 ```
 
-## API Endpoints
+| Layer | What lives here |
+|-------|------------------|
+| **Routes** | Auth, MFA, users, providers, clients, appointments, messages, check-ins, care plans, blog, resources, documents, files, categories, intake, recommendations, interactions, push, admin, public |
+| **Services** | Business rules, notifications, caching, GridFS, validation orchestration |
+| **Data** | Users, clients, providers, appointments, slots, messages, check-ins, care plans, blog, resources, documents, categories, interactions, push subscriptions, inquiries |
+
+**Interactive docs:** run the server and open `/api-docs` (Swagger UI). The tables below mirror that surface for quick offline reference.
+
+---
+
+## Authentication and security (summary)
+
+| Mechanism | Behavior |
+|-----------|-----------|
+| **Access JWT** | Short-lived bearer token for API calls |
+| **Refresh token** | httpOnly cookie, rolling sessions (max 5 per user) |
+| **MFA** | TOTP + QR setup + backup codes (`otpauth`) |
+| **Account lock** | After repeated failed logins (see `authService`) |
+| **Transport** | Helmet, CORS allowlist, express-validator, sanitized strings |
+| **Messaging** | JWT on socket handshake; client/provider pairing enforced; per-user rate limit |
+
+---
+
+## Real-time messaging (Socket.IO)
+
+| Direction | Event | Role |
+|-----------|-------|------|
+| Client → server | `join_user_room` | Personal notification channel |
+| Client → server | `join_conversation` | Conversation room |
+| Client → server | `send_message` | Persisted message |
+| Server → client | `new_message` | Broadcast to conversation |
+| Server → client | `new_message_notification` | Receiver alert |
+| Server → client | `message_delivered` | Ack to sender |
+| Server → client | `message_error`, `auth_error`, `rate_limit` | Failure paths |
+
+Typical cap: **30 messages / 10 seconds** per user (see `messageRateLimiter`).
+
+---
+
+<details>
+<summary><strong>Full REST reference</strong> (20 modules, all paths under <code>/api</code> unless noted)</summary>
 
 ### Authentication (`/api/auth`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/register` | Register a new client or provider |
@@ -153,6 +112,7 @@ backend/
 | GET | `/session` | Get session info |
 
 ### Multi-Factor Authentication (`/api/auth/mfa`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/setup` | Generate TOTP secret and QR code |
@@ -162,6 +122,7 @@ backend/
 | GET | `/backup-codes` | Retrieve backup codes |
 
 ### Users (`/api/users`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/profile` | Get current user profile |
@@ -174,6 +135,7 @@ backend/
 | POST | `/:id/lock` | Lock/unlock account (admin) |
 
 ### Providers (`/api/providers`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/me` | Get current provider profile |
@@ -190,6 +152,7 @@ backend/
 | POST | `/:id/verify` | Verify provider (admin) |
 
 ### Clients (`/api/client`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/me` | Get current client profile |
@@ -202,6 +165,7 @@ backend/
 | POST | `/:id/assign-provider` | Assign provider to client |
 
 ### Appointments (`/api/appointments`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | List appointments for current user |
@@ -223,6 +187,7 @@ backend/
 | GET | `/client/:id` | Get client's appointments |
 
 ### Messages (`/api/messages`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | List conversations |
@@ -235,6 +200,7 @@ backend/
 | DELETE | `/:id` | Delete message |
 
 ### Check-ins (`/api/checkins`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/` | Submit a check-in |
@@ -247,6 +213,7 @@ backend/
 | GET | `/provider/:id` | Provider views client check-ins |
 
 ### Care Plans (`/api/care-plans`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/templates` | List care plan templates |
@@ -263,6 +230,7 @@ backend/
 | GET | `/provider/:id` | Get provider's care plans |
 
 ### Blog (`/api/blog`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | List published blog posts |
@@ -278,6 +246,7 @@ backend/
 | POST | `/:id/unpublish` | Unpublish post |
 
 ### Resources (`/api/resources`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | List resources (filterable) |
@@ -293,6 +262,7 @@ backend/
 | POST | `/:id/unpublish` | Unpublish resource |
 
 ### Documents (`/api/documents`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | List user's documents |
@@ -307,6 +277,7 @@ backend/
 | GET | `/provider/:id` | Provider view of client documents |
 
 ### Files (`/api/files`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/upload` | Upload file to GridFS |
@@ -315,6 +286,7 @@ backend/
 | GET | `/:id/info` | Get file metadata |
 
 ### Categories (`/api/categories`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | List all categories |
@@ -327,6 +299,7 @@ backend/
 | GET | `/:id/children` | Get subcategories |
 
 ### Intake (`/api/intake`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/me` | Get current user's intake |
@@ -335,12 +308,14 @@ backend/
 | PUT | `/:id` | Update intake |
 
 ### Recommendations (`/api/recommendations`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/resources` | Get personalized resource suggestions |
 | GET | `/checkin-insights` | Get check-in trend insights |
 
 ### Interactions (`/api/interactions`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/view` | Track resource view |
@@ -349,6 +324,7 @@ backend/
 | GET | `/history` | Get interaction history |
 
 ### Push Notifications (`/api/push`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/vapid-public-key` | Get VAPID public key |
@@ -358,6 +334,7 @@ backend/
 | GET | `/subscriptions` | Get user's subscriptions |
 
 ### Admin (`/api/admin`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/providers` | Create provider account |
@@ -366,6 +343,7 @@ backend/
 | POST | `/content/seed` | Seed default content |
 
 ### Public (`/api/public`)
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/info` | Platform information (no auth) |
@@ -375,224 +353,109 @@ backend/
 | GET | `/blog` | Public blog posts |
 
 ### Health
+
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/health` | Health check |
 
-## Data Models
+</details>
 
-### User
-Base model for all roles. Fields: firstName, lastName, email, password (bcrypt hashed), role (client/provider/admin), isEmailVerified, mfaSecret, mfaEnabled, refreshTokens (max 5), failedLoginAttempts, lockUntil, lastLogin.
+<details>
+<summary><strong>Data model cheat sheet</strong></summary>
 
-### Client
-Extends User with postpartum-specific data: partner name, address, emergency contact, birth details (type, location, complications), medical and mental health history, feeding preferences and challenges, support needs (breastfeeding, emotional, recovery, sleep, meal prep, household help, partner support), assigned provider reference.
+| Model | Purpose |
+|-------|---------|
+| **User** | Base identity: name, email, hashed password, role, MFA fields, lockout, refresh token slots |
+| **Client** | Postpartum profile, intake fields, assigned provider |
+| **Provider** | Credentials, specialties, availability, ratings, client roster |
+| **Appointment** | Client/provider, window, status workflow, type (virtual / in-person) |
+| **AvailabilitySlot** | Bookable provider time blocks |
+| **Message** | Conversation-scoped chat payload and read state |
+| **CheckIn** | Mood score, symptom flags, provider visibility |
+| **CarePlan** / **CarePlanTemplate** | Milestones by category and week offset |
+| **BlogPost** / **BlogPostVersion** | Rich article content, publishing, history |
+| **Resources** / **ResourceVersion** | Educational items, difficulty, target weeks, attachments |
+| **ClientDocument** / **ClientDocumentVersion** | Typed uploads, workflow, privacy |
+| **Category** | Tree for blog and resources |
+| **UserResourceInteraction** | Views, likes, bookmarks |
+| **PushSubscription** | Web push endpoints and keys |
+| **Inquiry** | Public contact form pipeline |
 
-### Provider
-Professional profile: certifications (DONA, CAPPA, IBCLC, etc.), years of experience, specialties, business contact, availability by day, max clients, holidays, pricing (hourly and package rates), client list with status, average rating.
+</details>
 
-### Appointment
-Fields: clientId, providerId, startTime, endTime, status (requested/confirmed/scheduled/completed/cancelled), type (virtual/in_person), notes, cancellation reason, timestamps.
+---
 
-### AvailabilitySlot
-Provider time blocks: date, startTime, endTime, isBooked, recurrencePattern.
+## Repository layout (abbreviated)
 
-### Message
-Fields: conversationId, sender, receiver, content, type (text/image/file/system), read status.
-
-### CheckIn
-Fields: userId, date, moodScore (1-10), physicalSymptoms (fatigue, sleep issues, anxiety, pain, headache, nausea, dizziness, breast soreness, bleeding), sharedWithProvider, providerReviewed.
-
-### CarePlan / CarePlanTemplate
-Care plans with sections containing milestones. Milestone fields: title, weekOffset, category (physical/emotional/feeding/self_care), status (pending/in_progress/completed/skipped), completedAt.
-
-### BlogPost / BlogPostVersion
-Blog content with title, slug, excerpt, content, author, featuredImage, tags, category, isPublished, viewCount, readTime. Versioning for history and restore.
-
-### Resources / ResourceVersion
-Educational content with title, description, content, category, tags, difficulty (beginner/intermediate/advanced), targetWeeks (postpartum), targetPregnancyWeeks, fileUrl, thumbnailUrl, isPublished. Versioning for history and restore.
-
-### ClientDocument / ClientDocumentVersion
-Document types: emotional-survey, health-assessment, personal-assessment, feeding-log, sleep-log, mood-check-in, recovery-notes, progress-photo. Workflow: draft, submitted-to-provider, reviewed-by-provider, completed. Privacy levels: client-only, client-and-provider, care-team.
-
-### Category
-Hierarchical categories with parent and subcategory references. Used for blog and resources.
-
-### UserResourceInteraction
-Tracks views, likes, and bookmarks per user per resource.
-
-### PushSubscription
-Web Push API subscription data: userId, endpoint, keys (p256dh, auth).
-
-### Inquiry
-Contact form submissions: name, email, phone, message, status (new/contacted/converted/closed).
-
-## Authentication and Security
-
-### Token System
-- **Access tokens**: JWT, 15-minute lifetime, signed with JWT_SECRET
-- **Refresh tokens**: 7-day lifetime, stored as httpOnly secure cookies
-- **Max sessions**: 5 concurrent refresh tokens per user (oldest evicted)
-
-### Account Protection
-- Account locks after 5 failed login attempts (15-minute lockout)
-- Email verification required before login (configurable via SKIP_EMAIL_VERIFICATION)
-- Rate limiting on login, register, and password reset endpoints (5 requests per 15 minutes)
-
-### MFA
-- TOTP-based two-factor authentication
-- QR code generation for authenticator app enrollment
-- 8 backup codes generated on setup
-- Required on every login when enabled
-
-### Request Security
-- Helmet security headers
-- CORS with configurable allowed origins
-- Input sanitization (string trimming)
-- express-validator on route inputs
-- Global error handler that hides internal details in production
-
-## Real-time Messaging (Socket.IO)
-
-### Client-to-Server Events
-| Event | Description |
-|-------|-------------|
-| `join_user_room` | Join personal notification room |
-| `join_conversation` | Join a specific conversation room |
-| `send_message` | Send a message (validated and persisted) |
-
-### Server-to-Client Events
-| Event | Description |
-|-------|-------------|
-| `new_message` | Broadcast to conversation room |
-| `new_message_notification` | Notification to receiver's personal room |
-| `message_delivered` | Confirmation to sender |
-| `message_error` | Error response |
-| `auth_error` | Authentication failure |
-| `rate_limit` | Rate limit exceeded |
-
-Authentication is required on connection via JWT token (auth or query parameter). Messages are only allowed between clients and their assigned providers. Rate limit: 30 messages per 10 seconds per user.
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18 or higher
-- MongoDB (local or Atlas)
-- Gmail account with app password (for email features)
-
-### Installation
-
-1. **Install dependencies:**
-   ```bash
-   cd backend
-   npm install
-   ```
-
-2. **Environment setup:**
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Required environment variables:**
-   ```env
-   NODE_ENV=development
-   PORT=10000
-   MONGODB_URI=mongodb://localhost:27017/lunara
-   JWT_SECRET=your-jwt-secret
-   JWT_REFRESH_SECRET=your-refresh-secret
-   EMAIL_USER=your-email@gmail.com
-   EMAIL_PASS=your-app-password
-   FRONTEND_URL=http://localhost:5173
-   SKIP_EMAIL_VERIFICATION=true
-   ```
-
-4. **Optional environment variables:**
-   ```env
-   GOOGLE_CLIENT_ID=...
-   GOOGLE_CLIENT_SECRET=...
-   GOOGLE_CALLBACK_URL=...
-   VAPID_PUBLIC_KEY=...
-   VAPID_PRIVATE_KEY=...
-   VAPID_EMAIL=...
-   CLOUDINARY_URL=...
-   RATE_LIMIT_DISABLED=true
-   CORS_ALLOWED_ORIGINS=http://localhost:5173
-   LOG_LEVEL=info
-   ```
-
-5. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-
-6. **Access the API:**
-   - Swagger UI: http://localhost:10000/api-docs
-   - Health check: http://localhost:10000/api/health
-
-### Available Scripts
-
-```bash
-npm run dev              # Start with nodemon and ts-node
-npm run dev:watch        # Start with file watching
-npm start                # Production start (from dist/)
-npm run build            # Compile TypeScript to JavaScript
-npm run type-check       # TypeScript type checking (no emit)
-npm run lint             # Run ESLint
-npm run lint:fix         # Run ESLint with auto-fix
-npm run format           # Format code with Prettier
-npm run format:check     # Check formatting
-npm test                 # Run all tests
-npm run test:watch       # Run tests in watch mode
-npm run test:coverage    # Run tests with coverage report
-npm run create:admin     # Create an admin user (requires ADMIN_EMAIL, ADMIN_PASSWORD)
-npm run seed:care-plan-templates  # Seed care plan templates
-npm run seed:test-users  # Seed test client and provider accounts
-npm run email:verify     # Verify SMTP email configuration
+```
+backend/src/
+├── config/passport.ts
+├── middleware/          # auth, cache, errors, validation helpers
+├── models/              # 19 Mongoose schemas
+├── routes/              # 20 routers
+├── services/            # 30 domain services
+├── seeds/seedContent.ts
+├── types/, utils/
+└── server.ts
 ```
 
-## Seed Data
+Utility scripts live in `backend/scripts/` (admin user, care plan templates, test users, email verification).
 
-On startup, the server automatically seeds default content if none exists:
-- 9 categories (General, Pregnancy, Postpartum, Breastfeeding, Nutrition, Mental Health, Physical Recovery, Newborn Care, Self-Care)
-- 10+ blog posts covering postpartum topics
-- 15+ educational resources targeted by postpartum week (0-12 weeks)
+---
 
-Additional seeding scripts are available for care plan templates and test users (see scripts above).
+## Run it locally
 
-## Testing
-
-- **Integration tests**: 8 test suites covering auth, appointments, messaging, care plans, check-ins, intake, resources, and scheduling
-- **Service unit tests**: 12+ test files for core business logic
-- **Middleware tests**: caching and request handling
-- **Test database**: mongodb-memory-server provides isolated in-memory MongoDB instances
+**Needs:** Node 18+, MongoDB (local or Atlas), SMTP credentials for mail flows.
 
 ```bash
-npm test                  # Run all tests
-npm run test:coverage     # Run with coverage report
-npm run test:watch        # Watch mode
+cd backend
+npm install
+cp .env.example .env
 ```
 
-## Deployment
+Minimal `.env` sketch:
 
-The backend deploys to Render via the `render.yaml` blueprint at the repository root.
+```env
+NODE_ENV=development
+PORT=10000
+MONGODB_URI=mongodb://localhost:27017/lunara
+JWT_SECRET=your-jwt-secret
+JWT_REFRESH_SECRET=your-refresh-secret
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+FRONTEND_URL=http://localhost:5173
+SKIP_EMAIL_VERIFICATION=true
+```
 
-- **Build**: `npm ci --include=dev && npm run type-check && npm run build`
-- **Start**: `npm start` (runs `node dist/server.js`)
-- **Health check**: `/api/health`
-- **Plan**: Free tier
-- **Region**: Oregon
+Optional: `GOOGLE_*`, `VAPID_*`, `CLOUDINARY_URL`, `CORS_ALLOWED_ORIGINS`, `RATE_LIMIT_DISABLED`, `LOG_LEVEL`.
 
-Production environment variables are configured in the Render dashboard (JWT secrets, MongoDB URI, email credentials, VAPID keys, OAuth credentials).
+```bash
+npm run dev
+```
 
-### Production Checklist
+- Swagger: **http://localhost:10000/api-docs**
+- Health: **http://localhost:10000/api/health**
 
-- Strong JWT secrets (32+ characters)
-- MongoDB Atlas with IP whitelisting
-- SKIP_EMAIL_VERIFICATION set to false
-- CORS configured for production frontend domain
-- VAPID keys generated for push notifications
-- Gmail app password (not regular password) for email
+### NPM scripts
+
+`npm run dev` · `npm run build` · `npm start` · `npm test` · `npm run test:coverage` · `npm run create:admin` · `npm run seed:care-plan-templates` · `npm run seed:test-users` · `npm run email:verify` · lint/format/type-check variants as in `package.json`.
+
+---
+
+## Seed data
+
+On startup, empty databases receive default **categories**, **blog posts**, and **resources** via `seedContent.ts`. Use scripts above for care plan templates and disposable test accounts.
+
+---
+
+## Deployment (Render)
+
+Root `render.yaml` defines the web service: install with devDependencies for the TypeScript build, run `npm run build`, start with `npm start` (`node dist/server.js`), health check `/api/health`. Set production secrets in the Render dashboard (JWT pair, Mongo URI, email, VAPID, OAuth).
+
+**Production checklist:** strong secrets, Atlas IP allowlist, `SKIP_EMAIL_VERIFICATION=false`, CORS aligned with Vercel, real Gmail app passwords.
+
+---
 
 ## License
 
-This project is licensed under the MIT License.
+MIT (see repository root).
