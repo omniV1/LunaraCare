@@ -1,10 +1,8 @@
 # LUNARA Postpartum Support Platform
 
-LUNARA is a compassionate digital sanctuary connecting postpartum mothers with certified doulas and support specialists during their fourth trimester journey. This comprehensive platform transforms the postpartum support experience through a thoughtfully designed digital space that feels less like traditional software and more like opening a treasured storybook.
+LUNARA is a full-stack web application connecting postpartum mothers with certified doulas and support specialists. The platform provides secure real-time messaging, appointment scheduling, mood and wellness tracking, document management, a blog, an educational resource library, and care plan tools within a warm, storybook-inspired interface.
 
-## Project Vision
-
-LUNARA aims to create a digital sanctuary that nurtures families through their transformative postpartum period with personalized guidance, emotional support, and practical resources when they need them most. The platform combines enchanting storybook-inspired aesthetics with intuitive, practical tools to create a digital companion for new parents and powerful practice management tools for doulas.
+Built as a senior capstone project at Grand Canyon University.
 
 ## Technology Stack
 
@@ -12,112 +10,116 @@ LUNARA aims to create a digital sanctuary that nurtures families through their t
 - **Runtime**: Node.js 18+
 - **Framework**: Express.js with TypeScript
 - **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT with Passport.js (Local + JWT strategies)
-- **Email**: Nodemailer (Gmail SMTP)
-- **Real-time**: Socket.IO
+- **Authentication**: JWT with Passport.js (Local, JWT, and Google OAuth strategies)
+- **Real-time**: Socket.IO for live messaging
+- **File Storage**: MongoDB GridFS
+- **Email**: Nodemailer (SMTP)
+- **Push Notifications**: Web Push API (VAPID)
+- **MFA**: TOTP-based two-factor authentication (otpauth, QR code)
 - **Documentation**: Swagger/OpenAPI
-- **Security**: Helmet, CORS, Rate Limiting, bcrypt
-- **Testing**: Jest with Supertest
-- **Validation**: Express-validator
-- **Logging**: Winston
+- **Security**: Helmet, CORS, rate limiting, bcrypt, account locking
+- **Testing**: Jest with Supertest, mongodb-memory-server
+- **Validation**: express-validator
+- **Logging**: Winston, Morgan
 
 ### Frontend
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS with Typography plugin
 - **Routing**: React Router v6
-- **State Management**: React Context API
-- **HTTP Client**: Axios with interceptors
-- **UI Components**: Custom components with Tailwind
-- **Testing**: Jest + React Testing Library
-- **Linting**: ESLint + TypeScript
-- **Code Quality**: SonarQube integration
+- **State Management**: React Context API (Auth, Resource)
+- **HTTP Client**: Axios with token refresh interceptors
+- **Forms**: React Hook Form with Zod validation
+- **Rich Text**: React Quill
+- **Real-time**: Socket.IO client
+- **3D Visualization**: Three.js with React Three Fiber (mood orb)
+- **Calendar**: React Big Calendar
+- **Testing**: Jest, React Testing Library, Playwright (E2E)
+- **Linting**: ESLint with TypeScript plugin
 
 ### Infrastructure
-- **Containerization**: Docker, Docker Compose
-- **Code Quality**: SonarQube
-- **API Documentation**: Swagger UI
-- **Database**: MongoDB (local or Atlas)
-- **Deployment**: Cloud-ready with environment configuration
-
-### Architecture Overview
-
-LUNARA follows a **microservices architecture** with the main platform handling core functionality and a separate Resource Library Service for content management. This approach provides:
-
-- **Scalability**: Independent scaling of content-heavy features
-- **Specialization**: Focused development on core vs. content features  
-- **Maintainability**: Clear separation of concerns
-- **Future Flexibility**: Easy enhancement or replacement of services
+- **Containerization**: Docker and Docker Compose
+- **CI/CD**: GitHub Actions (backend, frontend, and SonarQube pipelines)
+- **Code Quality**: SonarQube with lint-staged and Husky pre-commit hooks
+- **Backend Hosting**: Render
+- **Frontend Hosting**: Vercel
+- **Database Hosting**: MongoDB Atlas
 
 ## Project Structure
 
 ```
 LUNARA/
-├── backend/                    # Node.js/Express backend API
-│   ├── src/                   # Source code (TypeScript)
-│   │   ├── config/           # Configuration files
-│   │   ├── middleware/       # Express middleware
-│   │   ├── models/          # MongoDB models
-│   │   ├── routes/          # API routes
-│   │   ├── services/        # Business logic
-│   │   ├── types/           # TypeScript type definitions
-│   │   └── utils/           # Utility functions
-│   ├── tests/               # Test files
-│   ├── dist/                # Compiled JavaScript
-│   └── package.json         # Backend dependencies
-├── Lunara/                   # React frontend application
-│   ├── src/                 # Source code (TypeScript)
-│   │   ├── api/             # API client configuration
-│   │   ├── components/      # Reusable UI components
-│   │   ├── contexts/        # React contexts
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── pages/           # Page components
-│   │   ├── services/        # Frontend services
-│   │   ├── styles/          # CSS and styling
-│   │   ├── tests/           # Test files
-│   │   ├── types/           # TypeScript type definitions
-│   │   └── utils/           # Utility functions
-│   ├── public/              # Static assets
-│   └── package.json         # Frontend dependencies
-├── Docs/                     # Project documentation
-│   ├── backend/             # Backend-specific docs
-│   ├── Guides/              # Setup and team guides
-│   ├── Planning/            # Project planning documents
-│   └── img/                 # Images and diagrams
-├── docker-compose.yml        # Development environment
-├── docker-compose.yml.example # Example configuration
-└── README.md                # This file
+├── backend/                    # Node.js/Express API server
+│   ├── src/
+│   │   ├── config/            # Passport.js configuration
+│   │   ├── middleware/        # Auth, validation, caching, error handling
+│   │   ├── models/            # 19 Mongoose models
+│   │   ├── routes/            # 20 route modules (~127 endpoints)
+│   │   ├── services/          # 30 business logic services
+│   │   ├── seeds/             # Blog, resource, and category seed data
+│   │   ├── types/             # TypeScript type definitions
+│   │   └── utils/             # Logger, errors, token utils, query helpers
+│   ├── scripts/               # Admin creation, seeding, email verification
+│   ├── tests/                 # Integration and unit tests
+│   └── package.json
+├── Lunara/                    # React frontend application
+│   ├── src/
+│   │   ├── api/               # Axios API client with interceptors
+│   │   ├── components/        # Feature-organized component library
+│   │   │   ├── blog/          # Blog editor and management
+│   │   │   ├── client/        # Client dashboard, appointments, mood, care plans
+│   │   │   ├── documents/     # Document upload, review, recommendations
+│   │   │   ├── intake/        # Multi-step client onboarding wizard
+│   │   │   ├── layout/        # Header, footer, main layout
+│   │   │   ├── messaging/     # Real-time messaging center
+│   │   │   ├── provider/      # Provider dashboard, scheduling, clients
+│   │   │   ├── resources/     # Resource library and editor
+│   │   │   └── ui/            # Shared UI primitives
+│   │   ├── contexts/          # AuthContext, ResourceContext
+│   │   ├── hooks/             # useAuth, useResource, useSocket
+│   │   ├── pages/             # 10 page components
+│   │   ├── services/          # 13 API service modules
+│   │   ├── styles/            # Global CSS
+│   │   ├── tests/             # Unit and integration tests
+│   │   ├── types/             # TypeScript type definitions
+│   │   └── utils/             # Utility functions
+│   ├── public/                # Static assets and images
+│   └── package.json
+├── Docs/                      # Project documentation
+│   ├── Capstone-Papers/       # Academic capstone submission (12 papers)
+│   ├── Planning/              # Sprint plan, requirements PDFs
+│   ├── Templates/             # LaTeX templates for PDF generation
+│   └── img/                   # Architecture diagrams and wireframes
+├── .github/workflows/         # CI/CD pipeline definitions
+├── .husky/                    # Git hook configuration
+├── scripts/                   # Monorepo coverage and LCOV scripts
+├── docker-compose.yml         # Local dev environment
+├── render.yaml                # Render deployment blueprint
+├── vercel.json                # Vercel deployment config
+├── sonar-project.properties   # SonarQube analysis config
+└── README.md                  # This file
 ```
-
-### Key Components
-
-- **`backend/`**: Express.js API server with TypeScript, MongoDB integration, JWT authentication, and comprehensive API documentation
-- **`Lunara/`**: React frontend with Vite, TypeScript, Tailwind CSS, and responsive design
-- **`Docs/`**: Comprehensive documentation including database guides, team coordination, and project planning
-- **`docker-compose.yml`**: Development environment with MongoDB, backend, frontend, and SonarQube services
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Node.js** 18 or higher
-- **npm** or **yarn** package manager
-- **MongoDB** (local installation or MongoDB Atlas)
-- **Docker** and **Docker Compose** (optional, for containerized development)
-- **Git** for version control
+- Node.js 18 or higher
+- MongoDB (local installation or MongoDB Atlas)
+- Git
 
-### Quick Start (Development)
+### Quick Start
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
-   cd LUNARA
+   git clone https://github.com/omniV1/AQC.git
+   cd AQC
    ```
 
 2. **Set up environment variables:**
-   - Copy `backend/.env.example` to `backend/.env` and configure your settings
-   - Copy `Lunara/.env.example` to `Lunara/.env` and configure your settings
-   - See individual README files for detailed environment setup
+   - Copy `backend/.env.example` to `backend/.env` and fill in values
+   - Copy `Lunara/.env.example` to `Lunara/.env` and fill in values
+   - See the backend and frontend READMEs for required variables
 
 3. **Start the backend:**
    ```bash
@@ -134,165 +136,147 @@ LUNARA/
    ```
 
 5. **Access the application:**
-   - **Frontend**: http://localhost:5173
-   - **Backend API**: http://localhost:5000/api
-   - **API Documentation**: http://localhost:5000/api-docs
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:10000/api
+   - API Documentation: http://localhost:10000/api-docs
 
-### Running with Docker (Optional)
+### Running with Docker
 
-1. **Set up environment variables:**
-   - Copy `docker-compose.yml.example` to `docker-compose.yml`
-   - Configure environment variables in the compose file or `.env` files
+```bash
+docker-compose up --build -d
+```
 
-2. **Build and run the containers:**
-   ```bash
-   docker-compose up --build -d
-   ```
+Services available:
+- Backend API: http://localhost:10000
+- Frontend: http://localhost:5173
+- MongoDB: port 27017
+- SonarQube: http://localhost:9000
 
-3. **Access the services:**
-   - **Backend API**: http://localhost:5000
-   - **Frontend Application**: http://localhost:5173
-   - **MongoDB Database**: Accessible on port 27017
-   - **SonarQube**: http://localhost:9000
-   - **API Documentation**: http://localhost:5000/api-docs
+## Implemented Features
 
-## Current Features
+### Authentication and Security
+- Email/password registration and login for clients and providers
+- Google OAuth integration
+- JWT access tokens with automatic refresh via httpOnly cookies
+- Email verification and password reset flows
+- Multi-factor authentication (TOTP with QR code setup and backup codes)
+- Account locking after repeated failed login attempts
+- Role-based access control (client, provider, admin)
+- Rate limiting on sensitive endpoints
 
-### Authentication & Authorization
-- User registration for clients and providers
-- JWT token management with refresh tokens
-- Role-based access control (client/provider/admin)
-- Secure password hashing with bcrypt
-- Email verification system (configurable for development)
+### Messaging
+- Real-time one-to-one messaging between clients and their assigned providers via Socket.IO
+- Unread message counts and conversation list
+- Message delivery confirmation
+- Per-user rate limiting
 
-### User Management
-- Comprehensive user profiles with MongoDB schemas
-- Client profile management with intake forms
-- Provider profile management with professional information
-- Provider dashboard with client creation functionality
+### Appointments and Scheduling
+- Providers manage availability slots
+- Clients request appointments; providers confirm, reschedule, or cancel
+- Calendar views for both roles
+- Appointment reminders (scheduled background service)
+- Support for virtual and in-person appointment types
 
-### Infrastructure
-- MongoDB connection with Mongoose ODM
-- RESTful API design with Express.js
-- Comprehensive error handling middleware
-- Request validation and sanitization
-- API documentation with Swagger
-- Docker containerization support
+### Mood and Wellness Tracking
+- Five-level mood check-in with a 3D animated orb visualization
+- Physical symptom tracking across 10 symptom types
+- Trend analysis and alert generation for concerning patterns
+- Provider review of client check-ins
 
-## Upcoming Features
+### Care Plans
+- Providers create care plans from templates or from scratch
+- Milestone tracking by category (physical, emotional, feeding, self-care)
+- Progress percentage and status management
 
-### Core Platform Features
-- **Complete appointment scheduling system** with calendar integration
-- **Real-time messaging** between clients and providers with file sharing
-- **Wellness check-ins and mood tracking** for postpartum monitoring
-- **Advanced provider-client matching** with specialty-based assignments
+### Documents
+- Clients upload and manage documents across eight types (emotional survey, health assessment, feeding log, sleep log, and others)
+- Submission workflow: draft, submitted to provider, reviewed, completed
+- Privacy levels: client-only, client-and-provider, care-team
+- Provider review panel with feedback
+- Version history with restore
+- GridFS-backed file storage
 
-### Integration Features
-- **Resource Library Service integration** (Andrew's microservice)
-- **API integration** for personalized content recommendations
-- **User profile synchronization** across services
-- **Unified analytics** and engagement tracking
+### Blog
+- Providers create and publish blog posts with a rich text editor
+- SEO fields: slug, excerpt, tags, categories
+- Auto-save, draft and publish states, version history
+- Public blog listing and detail pages
 
-### Advanced Features
-- **Push notifications** for appointment reminders and support
-- **File upload functionality** for document sharing
-- **Mobile app development** for native experience
-- **Performance optimization** and scalability improvements
+### Educational Resources
+- Resource library filterable by difficulty, postpartum week, and category
+- Providers create and manage resources with file attachments
+- Personalized recommendations based on a client's postpartum week
+- Interaction tracking (views, likes, bookmarks)
+
+### Client Onboarding
+- Multi-step intake wizard collecting personal, birth, feeding, health, and support information
+- Progressive form with validation at each step
+
+### Push Notifications
+- Browser-based push notifications via Web Push API (VAPID)
+- Subscribe and unsubscribe per device
+
+### Provider Tools
+- Dashboard overview with client counts, pending appointments, and recent activity
+- Client list management and invitation by email
+- Availability slot configuration
+- Blog and resource authoring
+- Document review panel
+- Check-in review for assigned clients
+
+### Client Tools
+- Personal dashboard with summary widgets
+- Messaging with assigned provider
+- Appointment calendar with time proposal
+- Mood check-in
+- Document uploads
+- Resource browsing
+- Care plan viewing
+
+### Admin
+- Provider account creation
+- Platform statistics and analytics endpoints
+- Content seeding
+- User lock/unlock
+
+## Quality and Testing
+
+- 375 tests (222 frontend, 153 backend)
+- 81.9% overall code coverage
+- SonarQube quality gate passed with A ratings for security, reliability, and maintainability
+- Pre-commit hooks enforce TypeScript type-checking, ESLint, and Prettier formatting
+- GitHub Actions CI runs tests and builds on every push
+
+## Production Deployment
+
+- **Frontend**: https://www.lunaracare.org (Vercel)
+- **Backend API**: https://lunara.onrender.com/api (Render)
+- **Database**: MongoDB Atlas
 
 ## Documentation
 
-### Comprehensive Documentation
+- [Backend README](./backend/README.md) - API reference, models, routes, and setup
+- [Frontend README](./Lunara/README.md) - Components, pages, services, and setup
+- [Docs README](./Docs/README.md) - Project documentation index
+- [Development Guide](./Docs/DEVELOPMENT_GUIDE.md) - Architecture and setup reference
+- [Sprint Plan](./Docs/Planning/SPRINT_PLAN.md) - Roadmap and progress tracking
 
-We have extensive documentation to help you understand and work with the LUNARA platform:
+## Team
 
-- **[Backend README](./backend/README.md)** - Complete backend API documentation
-- **[Frontend README](./Lunara/README.md)** - Frontend application documentation
-- **[Database Team Guide](./Docs/Guides/DATABASE_TEAM_GUIDE.md)** - MongoDB setup guide
-- **[MongoDB Setup Guide](./Docs/Guides/MONGODB_SETUP_GUIDE.md)** - Step-by-step database setup
-- **[Database Schema](./Docs/backend/DATABASE_SCHEMA.md)** - Data structure and relationships
-- **[Database Quick Reference](./Docs/backend/DATABASE_QUICK_REFERENCE.md)** - Developer reference
+**LUNARA** is a senior capstone project at Grand Canyon University, advised by Professor Amr Elchouemi.
 
-### Project Planning Documents
-
-- **[Main Requirements](./Docs/Planning/MAIN_LUNARA_UPDATED_REQUIREMENTS.md)** - Updated project requirements
-- **[Initial Proposal](./Docs/Planning/InitialProposal.md)** - Original project proposal
-- **[Team Coordination](./Docs/Planning/TEAM_COORDINATION_SUMMARY.md)** - Team coordination and handoff
-- **[Andrew's Resource Library Project](./Docs/Planning/ANDREW_MACK_RESOURCE_LIBRARY_PROJECT.md)** - Resource service specification
-
-## Team & Project Context
-
-### Academic Project
-**LUNARA** is a senior capstone project developed by software engineering students at **Grand Canyon University** under the guidance of Professor Amr Elchouemi.
-
-### Team Members
-- **Owen Lindsey** - Backend Lead & Project Manager
-  - Primary Responsibilities: System architecture, database design, API development
-  - Technical Focus: Node.js, TypeScript, MongoDB, security implementation
-  - Leadership Role: Overall project vision, timeline management, team coordination
-
-- **Carter Wright** - Frontend Lead & UI/UX Designer  
-  - Primary Responsibilities: React development, user interface design, component library
-  - Technical Focus: React, TypeScript, Tailwind CSS, responsive design
-  - Leadership Role: Interface decisions, design system, usability testing
-
-- **Andrew Mack** - DevOps Lead & Resource Service Developer
-  - Primary Responsibilities: Infrastructure, CI/CD, Resource Library Service
-  - Technical Focus: Backend services, cloud deployment, microservices architecture
-  - Leadership Role: Development workflow, code quality, infrastructure management
-
-### Project Architecture
-- **Main Platform**: Core LUNARA functionality (Owen & Carter)
-- **Resource Library Service**: Content management microservice (Andrew)
-- **Integration**: API-based communication between services
-
-### Timeline
-- **Duration**: 20 weeks (May - October 2025)
-- **Current Phase**: Sprint 1 Complete, Sprint 2-3 in progress
-- **Target Launch**: October 2025
-
-## Code Quality & Development
-
-### SonarQube Integration
-This project uses SonarQube for static code analysis and quality assurance:
-- Access the SonarQube dashboard at `http://localhost:9000` when running via Docker Compose
-- Backend SonarQube properties are configured in `backend/sonar-project.properties`
-- Frontend SonarQube properties are configured in `Lunara/sonar-project.properties`
-
-### TypeScript & Documentation
-- **Full TypeScript Implementation**: Both backend and frontend are fully converted to TypeScript for type safety, maintainability, and better developer experience
-- **Comprehensive Documentation**: Each major directory contains README files and JSDoc comments for all major files and exports
-- **API Documentation**: All API endpoints are documented and browsable at `/api-docs` using Swagger/OpenAPI
-- **Type Safety**: Strict TypeScript configuration ensures robust code quality
-
-### Development Standards
-- **Code Style**: ESLint and Prettier configurations for consistent code formatting
-- **Testing**: Jest for backend testing, React Testing Library for frontend testing
-- **Git Workflow**: Conventional commit messages and proper branching strategy
-- **Documentation**: Comprehensive README files and inline documentation
+- **Owen Lindsey** - Backend Lead, DevOps, and Project Manager
+- **Carter Wright** - Frontend Lead and UI/UX Designer
 
 ## Contributing
 
-We welcome contributions to the LUNARA platform! Please follow these guidelines:
-
-1. **Follow existing code patterns** and TypeScript conventions
-2. **Add tests** for new features (unit and integration)
-3. **Update documentation** with any changes
-4. **Use conventional commit messages**
-5. **Ensure all tests pass** before submitting PR
-6. **Ensure SonarQube passes** attach screenshot to PR
-7. **Follow accessibility guidelines** for UI components
-
-### Development Workflow
-1. Fork the repository
-2. Create a feature branch from `main`
-3. Make your changes with proper testing
-4. Update documentation as needed
-5. Submit a pull request with a clear description
+1. Follow existing TypeScript conventions and code patterns
+2. Add tests for new features
+3. Update API documentation (Swagger comments) for new endpoints
+4. Ensure all tests pass and SonarQube quality gate clears before submitting a PR
+5. Use conventional commit messages
+6. Follow accessibility guidelines for UI components
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For questions, issues, or contributions, please refer to the comprehensive documentation in the `Docs/` directory or create an issue in the repository. 
+This project is licensed under the MIT License.
