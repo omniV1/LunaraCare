@@ -140,13 +140,25 @@ lunaraCare/
 <tr>
 <td width="50%">
 
-**Dashboard and Appointments**
+**Dashboard**
 
-A personal landing pad showing unread messages, upcoming visits, recent blog posts, and quick actions. The appointment calendar lets clients request sessions, propose alternative times, and track status from request through confirmation.
+A personal landing pad with unread messages, upcoming visits, recent blog posts, care-plan snapshots, and quick actions so nothing important sits out of sight.
 
 </td>
 <td width="50%">
 <img src="Docs/Capstone-Papers/Photos/client/client_dashboard_overview.png" alt="Client Dashboard" width="100%"/>
+</td>
+</tr>
+<tr>
+<td width="50%">
+<img src="Docs/Capstone-Papers/Photos/client/client_appointments_calendar.png" alt="Client appointment calendar" width="100%"/>
+</td>
+<td width="50%">
+
+**Appointments**
+
+Request sessions from a provider's availability, propose alternative times when life gets in the way, and follow each visit from request through confirmation on the calendar.
+
 </td>
 </tr>
 <tr>
@@ -175,13 +187,25 @@ A gentle five-level check-in tied to a 3D animated orb built with Three.js. The 
 </tr>
 <tr>
 <td width="50%">
-<img src="Docs/Capstone-Papers/Photos/client/client_resource_library_grid.png" alt="Resource Library" width="100%"/>
+
+**Resource library**
+
+Browse educational articles filtered by postpartum week, difficulty, and category, open detail views, and track what is most relevant to where you are in recovery.
+
+</td>
+<td width="50%">
+<img src="Docs/Capstone-Papers/Photos/client/client_resource_library_grid.png" alt="Client resource library" width="100%"/>
+</td>
+</tr>
+<tr>
+<td width="50%">
+<img src="Docs/Capstone-Papers/Photos/client/client_blog_list.png" alt="Client blog" width="100%"/>
 </td>
 <td width="50%">
 
-**Resources, Blog, and Documents**
+**Blog and documents**
 
-Browse an educational resource library filtered by postpartum week, difficulty, and category. Read blog posts authored by providers. Upload documents like health assessments, feeding logs, and recovery notes for provider review, with full version history and privacy controls.
+Read provider-written blog posts on your own time. Upload structured forms and logs (health assessments, feeding and sleep logs, recovery notes) for review, with privacy levels, version history, and a clear submitted-to-provider workflow.
 
 </td>
 </tr>
@@ -193,9 +217,9 @@ Browse an educational resource library filtered by postpartum week, difficulty, 
 <tr>
 <td width="50%">
 
-**Practice Management**
+**Practice overview**
 
-A command center for managing clients, reviewing check-ins, approving appointments, and tracking care plans. Providers create availability slots, schedule visits (virtual or in-person), and monitor client progress through milestone tracking.
+A command center for client counts, pending work, and recent activity. Jump off to clients, messages, check-ins, care plans, and the schedule without losing context.
 
 </td>
 <td width="50%">
@@ -204,13 +228,37 @@ A command center for managing clients, reviewing check-ins, approving appointmen
 </tr>
 <tr>
 <td width="50%">
-<img src="Docs/Capstone-Papers/Photos/provider/provider_schedule_calendar.png" alt="Provider Calendar" width="100%"/>
+<img src="Docs/Capstone-Papers/Photos/provider/provider_schedule_calendar.png" alt="Provider scheduling calendar" width="100%"/>
 </td>
 <td width="50%">
 
-**Content Authoring**
+**Scheduling and availability**
 
-A rich text blog editor with auto-save, version history, SEO metadata, featured images, and publish/draft controls. Providers also create educational resources targeted to specific postpartum weeks and difficulty levels, building a knowledge base their clients can browse.
+Define availability slots, see the calendar at a glance, book or adjust visits (virtual or in-person), and walk clients through request, confirmation, and reschedule flows from the same workspace.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**Blog authoring**
+
+Rich text posts with auto-save, draft and publish controls, version history, SEO fields (slug, excerpt, tags, categories), and featured imagery so public content stays accurate and discoverable.
+
+</td>
+<td width="50%">
+<img src="Docs/Capstone-Papers/Photos/provider/provider_blog_create_post.png" alt="Provider blog editor" width="100%"/>
+</td>
+</tr>
+<tr>
+<td width="50%">
+<img src="Docs/Capstone-Papers/Photos/provider/provider_resource_in_library.png" alt="Provider resource in library" width="100%"/>
+</td>
+<td width="50%">
+
+**Educational resources**
+
+Create and curate library items aimed at specific postpartum weeks and difficulty levels, attach files, and manage what appears in each client’s resource feed alongside blog content.
 
 </td>
 </tr>
