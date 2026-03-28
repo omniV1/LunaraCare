@@ -434,7 +434,7 @@ The system test scope encompassed all implemented functional requirements. This 
 Deferred features FR12 (Digital Journaling), FR13 (Daily Insights), FR14 (Sleep & Feeding Trackers), and FR15 (AI Note Summarization) were excluded from system testing as they were not implemented in the current release scope.
 
 **System Test Resources:**
-Testing was executed using the local development environment running the full stack (React dev server, Express API server, and MongoDB via Docker or MongoDB Memory Server). The test team consisted of the project developer verifying both roles (provider and client) through manual end-to-end walkthroughs supplemented by the 375-test automated suite for regression confidence.
+Testing was executed using the local development environment running the full stack (React dev server, Express API server, and MongoDB via Docker or MongoDB Memory Server). The test team consisted of the project developer verifying both roles (provider and client) through manual end-to-end walkthroughs supplemented by the 1044-test Jest suite (plus 32 Playwright E2E tests) for regression confidence, per `05_milestone_5.tex` automated execution results.
 
 ### Part 3: System Test Strategy
 
@@ -452,7 +452,7 @@ A system test scenario was considered passing when all steps in the role-based s
 
 ### Entry Criteria for System Testing (Satisfied)
 
-Unit testing was complete with 375 automated tests passing. All modules were fully integrated across the nineteen backend route modules and fifty-plus frontend components. Software development was finished per the specification document for all in-scope requirements (FR1–FR11). The testing environment was available and configured to mirror the staging setup.
+Unit testing was complete with 1044 Jest tests passing (891 frontend, 153 backend), plus 32 Playwright E2E tests. All modules were fully integrated across the nineteen backend route modules and fifty-plus frontend components. Software development was finished per the specification document for all in-scope requirements (FR1–FR11). The testing environment was available and configured to mirror the staging setup.
 
 \newpage
 
@@ -460,16 +460,17 @@ Unit testing was complete with 375 automated tests passing. All modules were ful
 
 ### Test Coverage Analysis
 
-$$
-\text{Code Coverage} = \frac{\text{Lines Exercised by Tests}}{\text{Total Executable Lines}} \times 100\% = 81.9\%
-$$
+Jest **statement** coverage (Istanbul) from Milestone 5 execution: **backend 90.58%** (510/563 statements), **frontend 63.35%** (3,701/5,842 statements). SonarQube also reports an aggregate **overall** coverage figure (81.9% at last sprint capture).
 
 | Metric | Value |
 |---|---|
-| Total automated tests | 375 |
-| Frontend tests | 222 |
-| Backend tests | 153 |
-| Overall code coverage | 81.9% |
+| Total Jest tests | 1044 (all passing) |
+| Jest test suites | 118 |
+| Frontend Jest tests | 891 (105 suites) |
+| Backend Jest tests | 153 (13 suites) |
+| Playwright E2E tests | 32 |
+| Jest statement coverage (backend) | 90.58% |
+| Jest statement coverage (frontend) | 63.35% |
 | New code coverage | 73.2% |
 | SonarQube Security rating | A |
 | SonarQube Reliability rating | A |
@@ -494,16 +495,14 @@ $$
 
 ### Test Summary Report
 
+Category breakdowns are documented in `05_milestone_5.tex` (Test Organization and Automated Test Execution Results). Roll-up:
+
 | Test Category | Tests | Pass | Fail | Pass Rate |
 |---|---|---|---|---|
-| Backend Integration | 78 | 78 | 0 | 100% |
-| Backend Service Unit | 42 | 42 | 0 | 100% |
-| Backend Middleware/Util | 33 | 33 | 0 | 100% |
-| Frontend Service | 68 | 68 | 0 | 100% |
-| Frontend Component | 48 | 48 | 0 | 100% |
-| Frontend Integration | 62 | 62 | 0 | 100% |
-| Frontend Auth Flow | 44 | 44 | 0 | 100% |
-| **Total** | **375** | **375** | **0** | **100%** |
+| Backend Jest (integration, services, utils, middleware) | 153 | 153 | 0 | 100% |
+| Frontend Jest (components, pages, services, hooks, contexts) | 891 | 891 | 0 | 100% |
+| **Jest total** | **1044** | **1044** | **0** | **100%** |
+| Playwright E2E | 32 | 32 | 0 | 100% |
 
 \newpage
 
@@ -515,8 +514,8 @@ The testing journey progressed from targeted correctness checks on individual fu
 
 ## APPLICATION DEMONSTRATION SUPPORT
 
-- `[SCREENSHOT_M5_01: Backend integration test run output showing 153 passing suites]`
-- `[SCREENSHOT_M5_02: Frontend test run summary with 222 passing tests]`
+- `[SCREENSHOT_M5_01: Backend Jest CLI output showing 13 suites, 153 tests passing]`
+- `[SCREENSHOT_M5_02: Frontend Jest CLI output showing 105 suites, 891 tests passing]`
 - `[SCREENSHOT_M5_03: Requirement-to-test traceability matrix]`
-- `[SCREENSHOT_M5_04: SonarQube quality dashboard showing A/A/A ratings and 81.9% coverage]`
+- `[SCREENSHOT_M5_04: SonarQube quality dashboard showing A/A/A ratings and coverage metrics]`
 - `[SCREENSHOT_M5_05: Jest coverage report showing per-file line/branch/function coverage]`

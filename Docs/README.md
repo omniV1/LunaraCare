@@ -101,7 +101,7 @@ The `Capstone-Papers/` directory contains the complete academic submission for G
 | 02 | Technology Requirements | Full stack selection rationale with requirement-to-technology mapping |
 | 03 | Project Timeline | Phase breakdown and lifecycle progress model |
 | 04 | Milestone 4: Coding | Implementation plan, 16-feature task breakdown, traceability matrix, test cases |
-| 05 | Milestone 5: Testing | Test suite structure, 375-test coverage report, SonarQube quality metrics |
+| 05 | Milestone 5: Testing | Test suite structure, 1044 Jest tests + 32 E2E, coverage analysis, SonarQube quality metrics |
 | 06 | Milestone 6: Release | Production deployment, security hardening, maintenance handoff |
 | 07-11 | Academic Sections | Integrity, plagiarism, sources, intellectual property, references |
 
@@ -131,11 +131,13 @@ The `Templates/` directory contains 10 Pandoc/LaTeX template files based on the 
 <p align="center">
   <img src="https://img.shields.io/badge/Backend-Complete-brightgreen?style=for-the-badge" alt="Backend Complete"/>
   <img src="https://img.shields.io/badge/Frontend-Complete-brightgreen?style=for-the-badge" alt="Frontend Complete"/>
-  <img src="https://img.shields.io/badge/Tests-375_Passing-brightgreen?style=for-the-badge" alt="Tests"/>
-  <img src="https://img.shields.io/badge/Coverage-81.9%25-brightgreen?style=for-the-badge" alt="Coverage"/>
+  <img src="https://img.shields.io/badge/Jest-1044_passing-brightgreen?style=for-the-badge" alt="Jest tests"/>
+  <img src="https://img.shields.io/badge/Playwright_E2E-32-blue?style=for-the-badge" alt="E2E"/>
+  <img src="https://img.shields.io/badge/backend_statements-90.58%25-brightgreen?style=for-the-badge" alt="Backend Jest coverage"/>
+  <img src="https://img.shields.io/badge/frontend_statements-63.35%25-brightgreen?style=for-the-badge" alt="Frontend Jest coverage"/>
 </p>
 
-All core functional requirements are implemented and deployed. Four stretch features (journaling, AI insights, advanced trackers, AI summarization) are deferred to post-launch.
+All core functional requirements are implemented and deployed. Test and coverage figures follow [Milestone 5](./Capstone-Papers/05_milestone_5.tex) (1044 Jest tests; backend 90.58% and frontend 63.35% statement coverage). Four stretch features (journaling, AI insights, advanced trackers, AI summarization) are deferred to post-launch.
 
 ### Team
 

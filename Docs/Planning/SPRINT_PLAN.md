@@ -42,9 +42,11 @@
 | Security | A (0 issues) |
 | Reliability | A (0 issues) |
 | Maintainability | A (0 issues) |
-| Overall Code Coverage | 81.9% |
+| SonarQube overall coverage | 81.9% |
 | New Code Coverage | 73.2% |
-| Total Tests | 375 (222 frontend + 153 backend) |
+| Jest tests (Milestone 5) | 1044 (891 frontend + 153 backend), 118 suites, all passing |
+| Playwright E2E | 32 |
+| Jest statement coverage | Backend 90.58%; frontend 63.35% |
 | Duplications | 2.6% |
 
 ### Deferred to Post-Launch
@@ -233,7 +235,7 @@
   - Check-in submission
   - Care plan tracking
   - Resource browsing
-- [x] Execute all scenarios (375 tests passing)
+- [x] Execute all scenarios (1044 Jest tests + 32 E2E passing; see `Docs/Capstone-Papers/05_milestone_5.tex`)
 - [ ] Document and fix bugs
 
 **Carter (Frontend)**

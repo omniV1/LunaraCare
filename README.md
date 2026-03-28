@@ -22,8 +22,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/coverage-81.9%25-brightgreen?style=flat-square" alt="Coverage"/>
-  <img src="https://img.shields.io/badge/tests-375_passing-brightgreen?style=flat-square" alt="Tests"/>
+  <img src="https://img.shields.io/badge/Jest-1044_passing-brightgreen?style=flat-square" alt="Jest tests"/>
+  <img src="https://img.shields.io/badge/Playwright_E2E-32-blue?style=flat-square" alt="E2E tests"/>
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node"/>
 </p>
@@ -267,16 +267,19 @@ See the [backend README](./backend/README.md) and [frontend README](./Lunara/REA
 ## Quality and Testing
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Total_Tests-375-brightgreen?style=for-the-badge" alt="Tests"/>
-  <img src="https://img.shields.io/badge/Coverage-81.9%25-brightgreen?style=for-the-badge" alt="Coverage"/>
+  <img src="https://img.shields.io/badge/Jest_tests-1044-brightgreen?style=for-the-badge" alt="Jest tests"/>
+  <img src="https://img.shields.io/badge/Backend_statements-90.58%25-brightgreen?style=for-the-badge" alt="Backend coverage"/>
+  <img src="https://img.shields.io/badge/Frontend_statements-63.35%25-brightgreen?style=for-the-badge" alt="Frontend coverage"/>
   <img src="https://img.shields.io/badge/SonarQube-A_Rating-brightgreen?style=for-the-badge&logo=sonarqube&logoColor=white" alt="SonarQube"/>
 </p>
 
+Figures match [Milestone 5 (Testing)](./Docs/Capstone-Papers/05_milestone_5.tex) automated test execution results: **118 Jest suites**, **1044 tests** (891 frontend, 153 backend), all passing, plus **32** Playwright E2E tests. Jest **statement** coverage is **90.58%** on the backend and **63.35%** on the frontend.
+
 | Layer | Tests | Tools |
 |---|---|---|
-| Frontend Unit | 222 | Jest, React Testing Library, MSW |
-| Frontend E2E | Playwright | Full browser automation |
-| Backend Unit | 153 | Jest, Supertest, mongodb-memory-server |
+| Frontend (Jest) | 891 (105 suites) | Jest, React Testing Library, MSW |
+| Frontend (E2E) | 32 | Playwright |
+| Backend (Jest) | 153 (13 suites) | Jest, Supertest, mongodb-memory-server |
 | Static Analysis | SonarQube | Security, reliability, maintainability all A-rated |
 
 Pre-commit hooks via Husky enforce TypeScript type-checking, ESLint (zero warnings), and Prettier formatting on every staged file. GitHub Actions runs the full test and build pipeline on every push.

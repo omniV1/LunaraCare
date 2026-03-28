@@ -32,7 +32,7 @@ All claims made in this capstone paper packet are grounded in verifiable reposit
 
 ## Evidence-Based Reporting
 
-Technical claims throughout these papers are anchored to concrete implementation artifacts rather than aspirational descriptions. When this packet states that LUNARA implements nineteen backend route modules, that figure is derived from the actual route files in `backend/src/routes`. When it reports 375 automated tests with 81.9 percent code coverage, those numbers come from test runner output and coverage reports generated during the Milestone 5 testing phase. When it describes SonarQube A/A/A ratings, those ratings are taken from the quality analysis workflow documented in `Docs/SCA_GUIDE.md`. This approach ensures that the capstone papers serve as an honest reflection of what was built rather than a marketing narrative.
+Technical claims throughout these papers are anchored to concrete implementation artifacts rather than aspirational descriptions. When this packet states that LUNARA implements nineteen backend route modules, that figure is derived from the actual route files in `backend/src/routes`. When it reports 1044 Jest tests with backend and frontend statement coverage figures (90.58% and 63.35%, respectively, in Milestone 5), those numbers come from test runner output and coverage reports in `05_milestone_5.tex`. SonarQube aggregate coverage (e.g., 81.9%) is reported separately from Jest/Istanbul. When it describes SonarQube A/A/A ratings, those ratings are taken from the quality analysis workflow documented in `Docs/SCA_GUIDE.md`. This approach ensures that the capstone papers serve as an honest reflection of what was built rather than a marketing narrative.
 
 ## Contribution Transparency
 

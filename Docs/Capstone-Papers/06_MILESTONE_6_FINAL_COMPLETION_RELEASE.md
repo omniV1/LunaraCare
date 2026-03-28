@@ -127,7 +127,7 @@ The screencast demonstration follows a structured six-segment format designed to
 | Auth + Roles | 45s | Provider and client login flows, role-based dashboard routing, MFA setup |
 | Provider Flow | 90s | Client creation, appointment scheduling via calendar, message exchange in MessageCenter, document review with feedback, check-in alert review, care-plan construction with milestones |
 | Client Flow | 90s | Intake wizard completion (5 steps), daily check-in submission, document upload with privacy controls, resource browsing, care-plan milestone viewing, provider messaging |
-| Quality + Maintenance | 60s | 375 automated tests, 81.9% coverage, SonarQube A/A/A ratings, maintenance transition |
+| Quality + Maintenance | 60s | 1044 Jest + 32 E2E tests, Jest/Sonar coverage metrics, SonarQube A/A/A ratings, maintenance transition |
 
 ### Christian Worldview Integration
 
@@ -143,7 +143,7 @@ The internet-facing Senior Project Portfolio is deployed at **[https://aqc-eight
 - **Architecture Diagrams:** Frontend/backend/database/real-time communication stack with technology justifications
 - **Live Application Demo:** Rather than static screenshots, the deployed application at `https://aqc-eight.vercel.app/` allows reviewers to interact with the actual platform, including the public landing page, authentication flows, and role-specific dashboards
 - **Code Snippets:** Annotated examples of key implementations (authentication middleware, check-in trend service, Socket.IO messaging, intake wizard validation)
-- **Testing & Quality:** Test suite metrics (375 tests, 81.9% coverage), SonarQube ratings, testing methodology
+- **Testing & Quality:** Test suite metrics (1044 Jest, 32 E2E; Jest statement coverage per Milestone 5; Sonar aggregate coverage), SonarQube ratings, testing methodology
 - **Repository Access:** The source code is hosted on GitHub at `https://github.com/omniV1/AQC` with instructions for cloning and running the application locally with Docker or manual setup
 - **Background:** Approach to implementation, design decisions, challenges overcome, and maintenance roadmap
 
@@ -160,7 +160,7 @@ $$
 | Dimension | Criteria | Status | Evidence |
 |---|---|---|---|
 | Feature Completeness | All in-scope FRs implemented | **Met** | FR1–FR11 implemented and demonstrated; FR12–FR15 formally deferred |
-| Quality & Test Confidence | Automated testing with adequate coverage | **Met** | 375 tests, 81.9% coverage, 100% pass rate, SonarQube A/A/A |
+| Quality & Test Confidence | Automated testing with adequate coverage | **Met** | 1044 Jest + 32 E2E, 100% pass rate, Jest/Sonar coverage targets met, SonarQube A/A/A |
 | Documentation Completeness | Onboarding and review materials | **Met** | README set, dev guide, sprint records, Swagger, capstone paper packet |
 | Operational Readiness | Deployment and security | **Met** | Docker, env-var config, Helmet, CORS, rate limiting, bcrypt, JWT |
 
@@ -175,7 +175,7 @@ The project folder and GitHub repository (`https://github.com/omniV1/AQC`) conta
 - Development Phase Report (56-page PDF)
 - .README file with link to private Git repository
 - Complete source code with TypeScript throughout (backend + frontend)
-- 375 automated tests (backend: `backend/tests/`, frontend: `Lunara/src/tests/`)
+- 1044 Jest tests (153 backend in `backend/tests/`, 891 frontend in `Lunara/src/tests/`) plus 32 Playwright E2E tests
 - Swagger/OpenAPI documentation at `/api-docs`
 - Capstone paper packet (this document set)
 - Presentation materials and screencast
@@ -189,7 +189,7 @@ This submission represents the culmination of the senior capstone experience and
 
 - `[SCREENSHOT_M6_01: End-to-end provider workflow from login through client creation to care-plan update]`
 - `[SCREENSHOT_M6_02: Architecture diagram showing React ↔ Express ↔ MongoDB ↔ Socket.IO stack]`
-- `[SCREENSHOT_M6_03: Test suite results showing 375 passing tests and SonarQube A/A/A dashboard]`
+- `[SCREENSHOT_M6_03: Test suite results showing 1044 Jest tests passing and SonarQube A/A/A dashboard]`
 - `[SCREENSHOT_M6_04: Portfolio website overview page with project summary and architecture]`
 - `[SCREENSHOT_M6_05: GitHub repository showing commit history and branch structure]`
 - `[SCREENSHOT_M6_06: Swagger API documentation showing 19 route modules and 70+ endpoints]`

@@ -46,7 +46,7 @@ $$
 V_{capstone} = f(\text{technical depth}, \text{usability}, \text{quality}, \text{maintainability}, \text{professional communication})
 $$
 
-LUNARA addresses each factor with TypeScript-first implementation, domain-specific workflow design, 375 automated tests with 81.9% coverage, and documentation for handoff and continuity.
+LUNARA addresses each factor with TypeScript-first implementation, domain-specific workflow design, 1044 Jest tests plus 32 Playwright E2E tests (see Milestone 5), Jest statement coverage of 90.58% (backend) and 63.35% (frontend), SonarQube quality analysis, and documentation for handoff and continuity.
 
 \newpage
 
@@ -68,7 +68,7 @@ Documentation exists at every level of the project: repository-root README files
 
 ## Why LUNARA Meets the Capstone Vision
 
-LUNARA satisfies the capstone vision because it is a complete, domain-driven application with maintainable architecture choices, operational and security considerations that go beyond classroom exercises, measurable quality checkpoints backed by 375 automated tests and SonarQube analysis, and a clear lifecycle progression from iterative development through release into ongoing maintenance. The project is not a prototype; it is an engineered system that could be deployed and used by real doula practices to improve the continuity and quality of postpartum care.
+LUNARA satisfies the capstone vision because it is a complete, domain-driven application with maintainable architecture choices, operational and security considerations that go beyond classroom exercises, measurable quality checkpoints backed by 1044 Jest tests, 32 E2E tests, and SonarQube analysis, and a clear lifecycle progression from iterative development through release into ongoing maintenance. The project is not a prototype; it is an engineered system that could be deployed and used by real doula practices to improve the continuity and quality of postpartum care.
 
 ## Current Lifecycle Position
 

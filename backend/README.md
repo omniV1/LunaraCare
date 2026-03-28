@@ -15,10 +15,13 @@
 <p align="center">
   <a href="https://github.com/omniV1/lunaraCare/actions/workflows/backend-ci.yml"><img src="https://github.com/omniV1/lunaraCare/actions/workflows/backend-ci.yml/badge.svg" alt="Backend CI"/></a>
   &nbsp;
-  <img src="https://img.shields.io/badge/tests-153_passing-brightgreen?style=flat-square" alt="Tests"/>
+  <img src="https://img.shields.io/badge/backend_Jest-153-brightgreen?style=flat-square" alt="Backend Jest tests"/>
+  <img src="https://img.shields.io/badge/statements-90.58%25-brightgreen?style=flat-square" alt="Statement coverage"/>
   <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TS"/>
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/>
 </p>
+
+<p align="center"><sub>Monorepo Jest total: <strong>1044</strong> tests (891 frontend + 153 backend) per <a href="../Docs/Capstone-Papers/05_milestone_5.tex">Milestone 5</a>.</sub></p>
 
 <p align="center">
   <a href="https://lunara.onrender.com/api-docs">Live Swagger</a> &nbsp;&bull;&nbsp;

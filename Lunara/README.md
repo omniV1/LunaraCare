@@ -12,9 +12,12 @@
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React"/>
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript"/>
   <img src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite"/>
-  <img src="https://img.shields.io/badge/tests-222_passing-brightgreen?style=flat-square" alt="Tests"/>
+  <img src="https://img.shields.io/badge/Jest_tests-891-brightgreen?style=flat-square" alt="Jest tests"/>
+  <img src="https://img.shields.io/badge/Playwright_E2E-32-blue?style=flat-square" alt="E2E"/>
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/>
 </p>
+
+<p align="center"><sub>Counts from <a href="../Docs/Capstone-Papers/05_milestone_5.tex">Milestone 5</a> automated results (105 Jest suites, 63.35% statement coverage).</sub></p>
 
 <p align="center">
   <a href="https://www.lunaracare.org">Live site</a> &nbsp;&bull;&nbsp;
