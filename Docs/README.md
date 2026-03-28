@@ -32,8 +32,9 @@ LUNARA is a postpartum support platform connecting new mothers with certified do
 
 ### Team
 
-- **Owen Lindsey** - Backend Lead, DevOps, and Project Manager
-- **Carter Wright** - Frontend Lead and UI/UX Designer
+- **Owen Lindsey** - Full Stack Developer
+- **Carter Wright** - Full Stack Developer
+- **Andrew Mack** - Full Stack Developer
 
 ### Current Status
 

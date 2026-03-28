@@ -265,8 +265,9 @@ Services available:
 
 **LUNARA** is a senior capstone project at Grand Canyon University, advised by Professor Amr Elchouemi.
 
-- **Owen Lindsey** - Backend Lead, DevOps, and Project Manager
-- **Carter Wright** - Frontend Lead and UI/UX Designer
+- **Owen Lindsey** - Full Stack Developer
+- **Carter Wright** - Full Stack Developer
+- **Andrew Mack** - Full Stack Developer
 
 ## Contributing
 
