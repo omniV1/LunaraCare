@@ -1,8 +1,16 @@
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
-import { layoutNextLine, prepareWithSegments } from '@chenglou/pretext';
+import {
+  layoutNextLine,
+  prepareWithSegments,
+  layoutWithLines,
+  measureLineStats,
+  walkLineRanges,
+  type LayoutCursor,
+} from '@chenglou/pretext';
 import posterPdf from './assets/lunara-showcase-poster-revised.pdf';
 import {
-  architectureNarrative,
+  architectureNarrativeText,
+  narrativePullQuote,
   architectureLayers,
   artifactLinks,
   brandImages,
@@ -20,10 +28,32 @@ import {
   testingDetails,
 } from './siteContent';
 
+const DROP_CAP_LINE_SPAN = 3;
+const NARRATIVE_FONT = '400 16.5px Inter, "Segoe UI", sans-serif';
+const NARRATIVE_LINE_HEIGHT = 28;
+const PULLQUOTE_FONT = 'italic 600 21px "Playfair Display", Georgia, serif';
+const PULLQUOTE_LINE_HEIGHT = 30;
+
+type PositionedLine = { text: string; x: number; y: number; width: number };
+
 type EditorialLayout = {
-  lines: string[];
+  lines: Array<{ text: string; width: number; maxWidth: number }>;
   lineHeight: number;
   font: string;
+  dropCap: { char: string; font: string; size: number; width: number };
+  dropCapLines: number;
+};
+
+type NarrativeLayout = {
+  col1Lines: PositionedLine[];
+  col2Lines: PositionedLine[];
+  pullQuoteLines: PositionedLine[];
+  pullQuoteRect: { x: number; y: number; w: number; h: number } | null;
+  font: string;
+  lineHeight: number;
+  totalHeight: number;
+  colWidth: number;
+  colGap: number;
 };
 
 function useElementWidth<T extends HTMLElement>() {
@@ -53,23 +83,236 @@ function getEditorialFont(columnWidth: number): { font: string; lineHeight: numb
 }
 
 function buildEditorialLayout(columnWidth: number): EditorialLayout {
-  const fallback = { lines: [], lineHeight: 28, font: '500 16px "Luxurious Roman"' };
+  const fallback: EditorialLayout = {
+    lines: [],
+    lineHeight: 28,
+    font: '500 16px "Luxurious Roman"',
+    dropCap: { char: '', font: '', size: 0, width: 0 },
+    dropCapLines: 0,
+  };
   if (columnWidth <= 0) return fallback;
 
   const { font, lineHeight } = getEditorialFont(columnWidth);
   const prepared = prepareWithSegments(heroNarrative, font);
 
-  let cursor = { segmentIndex: 0, graphemeIndex: 0 };
-  const lines: string[] = [];
+  const dropCapChar = heroNarrative[0]!;
+  const dropCapSize = lineHeight * DROP_CAP_LINE_SPAN - 4;
+  const dropCapFont = `700 ${dropCapSize}px "Playfair Display"`;
+  const preparedDropCap = prepareWithSegments(dropCapChar, dropCapFont);
+  let dropCapRawWidth = 0;
+  walkLineRanges(preparedDropCap, 9999, (line) => {
+    dropCapRawWidth = line.width;
+  });
+  const dropCapWidth = Math.ceil(dropCapRawWidth) + 10;
+
+  let cursor: LayoutCursor = { segmentIndex: 0, graphemeIndex: 1 };
+  const lines: EditorialLayout['lines'] = [];
+  let lineIdx = 0;
 
   while (true) {
-    const line = layoutNextLine(prepared, cursor, columnWidth);
+    const maxWidth = lineIdx < DROP_CAP_LINE_SPAN ? columnWidth - dropCapWidth : columnWidth;
+    const line = layoutNextLine(prepared, cursor, maxWidth);
     if (!line) break;
-    lines.push(line.text);
+    lines.push({ text: line.text, width: line.width, maxWidth });
     cursor = line.end;
+    lineIdx++;
   }
 
-  return { lines, lineHeight, font };
+  return {
+    lines,
+    lineHeight,
+    font,
+    dropCap: { char: dropCapChar, font: dropCapFont, size: dropCapSize, width: dropCapWidth },
+    dropCapLines: DROP_CAP_LINE_SPAN,
+  };
+}
+
+function buildNarrativeLayout(containerWidth: number): NarrativeLayout | null {
+  if (containerWidth <= 0) return null;
+
+  const colGap = containerWidth > 700 ? 48 : 32;
+  const isSingleCol = containerWidth < 560;
+  const colWidth = isSingleCol
+    ? containerWidth
+    : Math.floor((containerWidth - colGap) / 2);
+
+  if (colWidth < 180) return null;
+
+  const prepared = prepareWithSegments(architectureNarrativeText, NARRATIVE_FONT);
+
+  if (isSingleCol) {
+    const result = layoutWithLines(prepared, colWidth, NARRATIVE_LINE_HEIGHT);
+    const col1Lines: PositionedLine[] = result.lines.map((line, i) => ({
+      text: line.text,
+      x: 0,
+      y: i * NARRATIVE_LINE_HEIGHT,
+      width: line.width,
+    }));
+    return {
+      col1Lines,
+      col2Lines: [],
+      pullQuoteLines: [],
+      pullQuoteRect: null,
+      font: NARRATIVE_FONT,
+      lineHeight: NARRATIVE_LINE_HEIGHT,
+      totalHeight: result.lineCount * NARRATIVE_LINE_HEIGHT,
+      colWidth,
+      colGap: 0,
+    };
+  }
+
+  const pqPrepared = prepareWithSegments(narrativePullQuote, PULLQUOTE_FONT);
+  const pqInnerWidth = colWidth - 32;
+  const pqResult = layoutWithLines(pqPrepared, pqInnerWidth, PULLQUOTE_LINE_HEIGHT);
+  const pqPadding = 20;
+  const pqHeight = pqResult.lineCount * PULLQUOTE_LINE_HEIGHT + pqPadding * 2;
+
+  const stats = measureLineStats(prepared, colWidth);
+  const targetCol1Lines = Math.ceil(stats.lineCount / 2);
+  const col1Height = targetCol1Lines * NARRATIVE_LINE_HEIGHT;
+
+  const pqStartLine = Math.floor(targetCol1Lines * 0.35);
+  const pqY = pqStartLine * NARRATIVE_LINE_HEIGHT;
+  const col2X = colWidth + colGap;
+  const pqRect = { x: col2X, y: pqY, w: colWidth, h: pqHeight };
+
+  let cursor: LayoutCursor = { segmentIndex: 0, graphemeIndex: 0 };
+  const col1Lines: PositionedLine[] = [];
+  let y = 0;
+
+  while (y + NARRATIVE_LINE_HEIGHT <= col1Height) {
+    const line = layoutNextLine(prepared, cursor, colWidth);
+    if (!line) break;
+    col1Lines.push({ text: line.text, x: 0, y, width: line.width });
+    cursor = line.end;
+    y += NARRATIVE_LINE_HEIGHT;
+  }
+
+  const col2Lines: PositionedLine[] = [];
+  y = 0;
+
+  while (true) {
+    const bandTop = y;
+    const bandBottom = y + NARRATIVE_LINE_HEIGHT;
+    let lineWidth = colWidth;
+
+    if (bandBottom > pqRect.y && bandTop < pqRect.y + pqRect.h) {
+      y += NARRATIVE_LINE_HEIGHT;
+      continue;
+    }
+
+    const line = layoutNextLine(prepared, cursor, lineWidth);
+    if (!line) break;
+    col2Lines.push({ text: line.text, x: col2X, y, width: line.width });
+    cursor = line.end;
+    y += NARRATIVE_LINE_HEIGHT;
+  }
+
+  const pullQuoteLines: PositionedLine[] = pqResult.lines.map((line, i) => ({
+    text: line.text,
+    x: col2X + 16,
+    y: pqY + pqPadding + i * PULLQUOTE_LINE_HEIGHT,
+    width: line.width,
+  }));
+
+  const totalHeight = Math.max(
+    col1Lines.length > 0 ? col1Lines[col1Lines.length - 1]!.y + NARRATIVE_LINE_HEIGHT : 0,
+    col2Lines.length > 0 ? col2Lines[col2Lines.length - 1]!.y + NARRATIVE_LINE_HEIGHT : 0,
+    pqY + pqHeight,
+  );
+
+  return {
+    col1Lines,
+    col2Lines,
+    pullQuoteLines,
+    pullQuoteRect: { x: col2X, y: pqY, w: colWidth, h: pqHeight },
+    font: NARRATIVE_FONT,
+    lineHeight: NARRATIVE_LINE_HEIGHT,
+    totalHeight,
+    colWidth,
+    colGap,
+  };
+}
+
+function getJustifySpacing(lineWidth: number, maxWidth: number, text: string): string | undefined {
+  const gap = maxWidth - lineWidth;
+  if (gap <= 0 || gap / maxWidth > 0.2) return undefined;
+  const spaces = text.split(' ').length - 1;
+  if (spaces <= 0) return undefined;
+  return `${gap / spaces}px`;
+}
+
+function PretextNarrative() {
+  const { ref, width } = useElementWidth<HTMLDivElement>();
+  const layout = useMemo(() => buildNarrativeLayout(width), [width]);
+
+  if (!layout) {
+    return (
+      <div ref={ref} className="pretext-narrative">
+        <p className="narrative-paragraph">{architectureNarrativeText}</p>
+      </div>
+    );
+  }
+
+  const allLines = [...layout.col1Lines, ...layout.col2Lines];
+
+  return (
+    <div
+      ref={ref}
+      className="pretext-narrative"
+      style={{ height: layout.totalHeight }}
+    >
+      {layout.colGap > 0 && (
+        <div
+          className="pretext-divider"
+          style={{ left: layout.colWidth + layout.colGap / 2 }}
+        />
+      )}
+
+      {allLines.map((line, i) => (
+        <span
+          key={i}
+          className="pretext-line"
+          style={{
+            left: line.x,
+            top: line.y,
+            font: layout.font,
+            lineHeight: `${layout.lineHeight}px`,
+            wordSpacing: getJustifySpacing(line.width, layout.colWidth, line.text),
+          }}
+        >
+          {line.text}
+        </span>
+      ))}
+
+      {layout.pullQuoteRect && (
+        <blockquote
+          className="pretext-pull-quote"
+          style={{
+            left: layout.pullQuoteRect.x,
+            top: layout.pullQuoteRect.y,
+            width: layout.pullQuoteRect.w,
+            height: layout.pullQuoteRect.h,
+          }}
+        >
+          {layout.pullQuoteLines.map((line, i) => (
+            <span
+              key={i}
+              className="pretext-pull-quote-line"
+              style={{
+                left: line.x - layout.pullQuoteRect!.x,
+                top: line.y - layout.pullQuoteRect!.y,
+                font: PULLQUOTE_FONT,
+                lineHeight: `${PULLQUOTE_LINE_HEIGHT}px`,
+              }}
+            >
+              {line.text}
+            </span>
+          ))}
+        </blockquote>
+      )}
+    </div>
+  );
 }
 
 function App() {
@@ -157,9 +400,31 @@ function App() {
         <div className="editorial-shell">
           <div className="editorial-stage">
             <div className="editorial-text-layer" ref={ref} style={editorialTextStyle}>
-              {editorialLayout.lines.map((text, i) => (
-                <span key={i} className="editorial-line">
-                  {text}
+              {editorialLayout.dropCap.char && (
+                <span
+                  className="editorial-drop-cap"
+                  style={{
+                    font: editorialLayout.dropCap.font,
+                    lineHeight: `${editorialLayout.dropCap.size}px`,
+                    width: editorialLayout.dropCap.width,
+                    height: editorialLayout.dropCap.size,
+                  }}
+                >
+                  {editorialLayout.dropCap.char}
+                </span>
+              )}
+              {editorialLayout.lines.map((line, i) => (
+                <span
+                  key={i}
+                  className={`editorial-line${i < editorialLayout.dropCapLines ? ' editorial-line--indented' : ''}`}
+                  style={{
+                    ...(i < editorialLayout.dropCapLines
+                      ? { paddingLeft: `${editorialLayout.dropCap.width}px` }
+                      : undefined),
+                    wordSpacing: getJustifySpacing(line.width, line.maxWidth, line.text),
+                  }}
+                >
+                  {line.text}
                 </span>
               ))}
             </div>
@@ -205,24 +470,14 @@ function App() {
           title="Project overview"
           description="A coordinated postpartum platform across public, provider, and client experiences."
         >
-          <div className="narrative-grid">
-            <div className="narrative-column">
-              {architectureNarrative.map((paragraph) => (
-                <p key={paragraph} className="narrative-paragraph">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <div className="narrative-column narrative-column--tight">
-              <div className="highlight-list">
-                {highlights.map((item) => (
-                  <article key={item.title} className="highlight-item">
-                    <h3>{item.title}</h3>
-                    <p>{item.body}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
+          <PretextNarrative />
+          <div className="highlight-list highlight-list--wide">
+            {highlights.map((item) => (
+              <article key={item.title} className="highlight-item">
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
           </div>
         </Section>
 

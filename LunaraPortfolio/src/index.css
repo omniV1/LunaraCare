@@ -276,6 +276,16 @@ pre {
 
 .editorial-text-layer {
   min-width: 0;
+  position: relative;
+}
+
+.editorial-drop-cap {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  color: var(--lunara-brown-deep);
+  font-family: 'Playfair Display', Georgia, serif;
+  user-select: none;
 }
 
 .editorial-line {
@@ -283,6 +293,8 @@ pre {
   font: var(--editorial-font);
   line-height: var(--editorial-line-height, 34px);
   color: var(--lunara-text);
+  text-align: justify;
+  text-align-last: left;
 }
 
 .editorial-obstacle {
@@ -331,6 +343,58 @@ pre {
   margin: 0;
   color: rgba(78, 27, 0, 0.68);
   font-size: 0.95rem;
+}
+
+.pretext-narrative {
+  position: relative;
+  min-height: 200px;
+}
+
+.pretext-line {
+  position: absolute;
+  display: block;
+  color: rgba(78, 27, 0, 0.82);
+  text-align: justify;
+  text-align-last: left;
+}
+
+.pretext-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(107, 77, 55, 0.14) 8%,
+    rgba(107, 77, 55, 0.14) 92%,
+    transparent 100%
+  );
+}
+
+.pretext-pull-quote {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 3px solid var(--lunara-purple);
+  background: linear-gradient(135deg, rgba(157, 152, 181, 0.08), rgba(157, 152, 181, 0.03));
+  border-radius: 0 1rem 1rem 0;
+}
+
+.pretext-pull-quote-line {
+  position: absolute;
+  display: block;
+  color: var(--lunara-brown-deep);
+}
+
+.highlight-list--wide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 0.95rem;
+  margin-top: 1.2rem;
 }
 
 .content-shell {
@@ -862,8 +926,20 @@ pre {
     padding: 1.15rem;
   }
 
+  .editorial-drop-cap {
+    top: -1px;
+  }
+
   .editorial-obstacle h2 {
     font-size: 1.3rem;
+  }
+
+  .pretext-pull-quote {
+    display: none;
+  }
+
+  .pretext-divider {
+    display: none;
   }
 
   .editorial-seal {
