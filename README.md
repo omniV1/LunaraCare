@@ -30,7 +30,9 @@
 
 <p align="center">
   <a href="https://www.lunaracare.org">Live App</a> &nbsp;&bull;&nbsp;
+  <a href="https://www.lunara-profile.design">Portfolio</a> &nbsp;&bull;&nbsp;
   <a href="https://lunara.onrender.com/api-docs">API Docs</a> &nbsp;&bull;&nbsp;
+  <a href="https://www.youtube.com/watch?v=EY6ncwOMFUQ">Video Demo</a> &nbsp;&bull;&nbsp;
   <a href="./Docs/DEVELOPMENT_GUIDE.md">Dev Guide</a> &nbsp;&bull;&nbsp;
   <a href="./Docs/Planning/SPRINT_PLAN.md">Sprint Plan</a>
 </p>
@@ -338,7 +340,7 @@ The script also marks both accounts as verified, clears MFA/lockout state, and a
   <img src="https://img.shields.io/badge/SonarQube-A_Rating-brightgreen?style=for-the-badge&logo=sonarqube&logoColor=white" alt="SonarQube"/>
 </p>
 
-Figures match [Milestone 5 (Testing)](./Docs/Capstone-Papers/05_milestone_5.tex) automated test execution results: **118 Jest suites**, **1044 tests** (891 frontend, 153 backend), all passing, plus **32** Playwright E2E tests. Jest **statement** coverage is **90.58%** on the backend and **63.35%** on the frontend.
+Figures match [Milestone 5 (Testing)](./Docs/Capstone-Papers/05_milestone_5.pdf) automated test execution results: **118 Jest suites**, **1044 tests** (891 frontend, 153 backend), all passing, plus **32** Playwright E2E tests. Jest **statement** coverage is **90.58%** on the backend and **63.35%** on the frontend.
 
 | Layer | Tests | Tools |
 |---|---|---|
@@ -356,9 +358,17 @@ Pre-commit hooks via Husky enforce TypeScript type-checking, ESLint (zero warnin
 | Service | Host | URL |
 |---|---|---|
 | Frontend | Vercel | [lunaracare.org](https://www.lunaracare.org) |
+| Project Portfolio | Vercel | [lunara-profile.design](https://www.lunara-profile.design) |
 | Backend API | Render | [lunara.onrender.com/api](https://lunara.onrender.com/api) |
 | API Docs | Render | [lunara.onrender.com/api-docs](https://lunara.onrender.com/api-docs) |
 | Database | MongoDB Atlas | Managed cluster |
+| Video Demo | YouTube | [Screencast](https://www.youtube.com/watch?v=EY6ncwOMFUQ) |
+
+---
+
+## Source Code Documentation
+
+Every production TypeScript file is fully documented with JSDoc: file-level `@module` headers, `@param`/`@returns`/`@throws` on all exported functions, interfaces, and types. Coverage spans **216 files** (79 backend + 140 frontend), totalling 2,778 lines of documentation comments. The Swagger UI at [`/api-docs`](https://lunara.onrender.com/api-docs) provides interactive documentation for all 127 REST route handlers.
 
 ---
 
@@ -368,11 +378,13 @@ Pre-commit hooks via Husky enforce TypeScript type-checking, ESLint (zero warnin
 |---|---|
 | [Backend README](./backend/README.md) | API endpoints, data models, authentication, Socket.IO events, setup |
 | [Frontend README](./Lunara/README.md) | Components, pages, services, routing, build config |
-| [Portfolio README](./LunaraPortfolio/README.md) | Standalone portfolio site, Pretext layout approach, and run instructions |
+| [Portfolio README](./LunaraPortfolio/README.md) | Standalone portfolio site, deployment, and run instructions |
 | [Docs README](./Docs/README.md) | Documentation index and capstone paper inventory |
 | [Development Guide](./Docs/DEVELOPMENT_GUIDE.md) | Full architecture reference and troubleshooting |
 | [Sprint Plan](./Docs/Planning/SPRINT_PLAN.md) | 10-week roadmap, task breakdown, quality metrics |
 | [Render Deploy Guide](./Docs/RENDER_DEPLOY.md) | Production deployment troubleshooting |
+| [SCA Guide](./Docs/SCA_GUIDE.md) | SonarQube quality workflow and metrics interpretation |
+| [Milestone 6 (Final)](./Docs/Capstone-Papers/06_milestone_6.pdf) | Final completion report with requirements matrix and portfolio |
 
 ---
 

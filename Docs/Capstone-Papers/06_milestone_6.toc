@@ -1,0 +1,22 @@
+\contentsline {section}{\numberline {1}Objective}{4}{section.1}%
+\contentsline {section}{\numberline {2}Project Review}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Requirements Status Assessment}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Non-Functional Requirements Status}{7}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Planned Improvements (Maintenance Phase)}{8}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Integrated Application Delivery}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Architecture Layers}{10}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Documentation Completion}{11}{section.4}%
+\contentsline {section}{\numberline {5}Project Demonstration and Presentation}{15}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Video Demonstration}{15}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Christian Worldview Integration}{15}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Project Portfolio}{17}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Portfolio Site Content}{17}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Portfolio Deployment}{19}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Release Readiness}{20}{section.7}%
+\contentsline {section}{\numberline {8}Final Project Submission}{21}{section.8}%
+\contentsline {paragraph}{Academic artifacts.}{21}{section.8}%
+\contentsline {paragraph}{Source code.}{21}{section.8}%
+\contentsline {paragraph}{Testing and quality.}{21}{section.8}%
+\contentsline {paragraph}{Deployments and presentation.}{21}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Internet-Facing Deliverables Summary}{22}{subsection.8.1}%
+\contentsline {section}{\numberline {9}Recommended Figures}{23}{section.9}%

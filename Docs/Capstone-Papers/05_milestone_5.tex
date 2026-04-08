@@ -7,7 +7,7 @@
 \documentclass[12pt,letterpaper]{article}
 
 % ── Page Geometry ──
-\usepackage[paperwidth=11in, paperheight=17in, top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage[letterpaper, top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
 
 % ── Typography ──
 \usepackage{fontspec}
@@ -16,6 +16,7 @@
 \setmonofont{Consolas}[Scale=0.85]
 \usepackage{setspace}
 \onehalfspacing
+\raggedbottom
 \widowpenalty=10000
 \clubpenalty=10000
 \usepackage{parskip}
@@ -31,7 +32,17 @@
 \definecolor{TableRowAlt}{HTML}{F0F4F8}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage[section]{placeins}   % flush floats at every \section boundary
 \usepackage{tikz}
+
+% ── Float placement tuning (allow more floats per page, less mandatory text) ──
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{8}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.7}
 
 % ── Tables ──
 \usepackage{array}
@@ -81,6 +92,8 @@
   aboveskip=1em,
   belowskip=1em,
   captionpos=b,
+  float=htbp,                    % make listings float so LaTeX can place them without gaps
+  floatplacement=htbp,
   escapeinside={(*@}{@*)},
   literate={=>}{{\textcolor{blue}{=>}}}{2}
            {===}{{\textcolor{blue}{===}}}{3}
@@ -127,9 +140,9 @@
 
 % ── Prevent orphaned headings ──
 \usepackage{etoolbox}
-\pretocmd{\section}{\needspace{6\baselineskip}}{}{}
-\pretocmd{\subsection}{\needspace{5\baselineskip}}{}{}
-\pretocmd{\subsubsection}{\needspace{4\baselineskip}}{}{}
+\pretocmd{\section}{\needspace{4\baselineskip}}{}{}
+\pretocmd{\subsection}{\needspace{3\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\needspace{3\baselineskip}}{}{}
 \pretocmd{\paragraph}{\needspace{3\baselineskip}}{}{}
 
 % ── PDF Metadata ──
@@ -144,7 +157,7 @@
 \newcommand{\screenshotfig}[3]{%
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth,height=0.75\textheight,keepaspectratio]{#1}
+    \includegraphics[width=0.78\textwidth,height=0.42\textheight,keepaspectratio]{#1}
     \caption{#2}
     \label{fig:#3}
   \end{figure}
@@ -152,6 +165,13 @@
 
 % ── GitHub Repository Links ──
 \newcommand{\ghrepo}{https://github.com/omniV1/lunaraCare}
+
+% Title page: one role string for all authors (avoid per-line drift)
+\newcommand{\lunaraTitleAuthorRole}{\mbox{Full Stack Developer}}
+\newcommand{\lunaraTitleAuthor}[1]{%
+  {\color{white}\large\textbf{#1}}\quad%
+  {\color{white!80}\normalsize--- \lunaraTitleAuthorRole}%
+}
 
 % ============================================================
 \begin{document}
@@ -184,27 +204,15 @@
 
 \vspace{3cm}
 
-{\color{white}\large\textbf{Owen Lindsey}}
-
-\vspace{0.15cm}
-
-{\color{white!80}\normalsize Full Stack Developer}
+\lunaraTitleAuthor{Owen Lindsey}
 
 \vspace{0.8cm}
 
-{\color{white}\large\textbf{Andrew Mack}}
-
-\vspace{0.15cm}
-
-{\color{white!80}\normalsize Full Stack Developer}
+\lunaraTitleAuthor{Andrew Mack}
 
 \vspace{0.8cm}
 
-{\color{white}\large\textbf{Carter Wright}}
-
-\vspace{0.15cm}
-
-{\color{white!80}\normalsize Full Stack Developer}
+\lunaraTitleAuthor{Carter Wright}
 
 \vspace{2cm}
 
@@ -440,7 +448,7 @@ During the Milestone~5 quality hardening phase, all eight major route files were
 
 The Express application entry point configures the middleware stack, database connection, route registration, Socket.IO real-time messaging, and Swagger API documentation. The security-first middleware pipeline applies Helmet HTTP header hardening (with CSP intentionally disabled for JSON-only API endpoints), CORS policy enforcement with a configurable allowed-origins list, compression, and rate limiting differentiated between development (1,000 requests per 15~minutes) and production (100 requests per 15~minutes).
 
-\begin{lstlisting}[caption={Server initialization and security middleware (\texttt{server.ts})}]
+\begin{lstlisting}[caption={Server initialization, security middleware, and API route registration (\texttt{server.ts})}]
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -473,11 +481,8 @@ const limiter = rateLimit({
   max: isProduction ? 100 : 1000,
   message: 'Too many requests from this IP, please try again later.',
 });
-\end{lstlisting}
 
-Twenty route modules are registered under the \texttt{/api} prefix:
-
-\begin{lstlisting}[caption={API route registration (\texttt{server.ts})}]
+// Twenty route modules registered under /api:
 app.use('/api/auth', authRouter);
 app.use('/api/auth/mfa', mfaRouter);
 app.use('/api/appointments', appointmentsRouter);
@@ -499,8 +504,6 @@ app.use('/api/files', filesRouter);
 app.use('/api/push', pushNotificationsRouter);
 app.use('/api/interactions', interactionsRouter);
 \end{lstlisting}
-
-\newpage
 
 \subsubsection{Authentication \& Authorization Layer --- \href{\ghrepo/blob/main/backend/src/config/passport.ts}{\texttt{src/config/passport.ts}}}
 
@@ -552,8 +555,6 @@ passport.use(
 \end{lstlisting}
 
 Protected routes use \texttt{passport.authenticate('jwt', \{ session: false \})} as middleware, ensuring every request is verified before reaching the handler.
-
-\newpage
 
 \subsubsection{Data Access Layer --- Database Schema Design}
 
@@ -713,8 +714,6 @@ export interface IClientDocument extends Document {
 }
 \end{lstlisting}
 
-\newpage
-
 \subsubsection{API Layer \& Business Services}
 
 \paragraph{Authentication Endpoints --- \href{\ghrepo/blob/main/backend/src/routes/auth.ts}{\texttt{src/routes/auth.ts}}}
@@ -848,8 +847,6 @@ io.on('connection', socket => {
 });
 \end{lstlisting}
 
-\newpage
-
 \subsection{Frontend Architecture Implementation (\href{\ghrepo/tree/main/Lunara}{\texttt{/Lunara}})}
 
 \subsubsection{Application Root --- \href{\ghrepo/blob/main/Lunara/src/App.tsx}{\texttt{src/App.tsx}}}
@@ -923,11 +920,9 @@ const schemas: Record<StepId, z.ZodTypeAny> = {
 };
 \end{lstlisting}
 
-\newpage
-
 \subsection{Source Code File Inventory}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|l|l|c|>{\raggedright\arraybackslash}X|}
@@ -1349,8 +1344,6 @@ The following additional models support version history, public inquiries, push 
   \item Version models $\longrightarrow$ parent document + \texttt{User} (changedBy)
 \end{itemize}
 
-\newpage
-
 % ============================================================
 % SECTION 7: APPLICATION DEMONSTRATION
 % ============================================================
@@ -1365,8 +1358,6 @@ The full video demonstration is available at the following link:
 \begin{center}
 \url{https://www.youtube.com/watch?v=EY6ncwOMFUQ}
 \end{center}
-
-\newpage
 
 % ============================================================
 % SECTION 8: MODULE TEST CASES
@@ -1448,14 +1439,12 @@ TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are
 \end{longtable}
 }
 
-\newpage
-
 \subsection{Detailed Test Case Specifications}
 
-\needspace{8\baselineskip}
+\needspace{4\baselineskip}
 \subsubsection*{TC-001: Landing Page Load}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}X|c|}
@@ -1475,10 +1464,10 @@ TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are
 \end{tabularx}
 \end{table}
 
-\needspace{8\baselineskip}
+\needspace{4\baselineskip}
 \subsubsection*{TC-003: User Registration Flow}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
@@ -1498,10 +1487,10 @@ TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are
 \end{tabularx}
 \end{table}
 
-\needspace{8\baselineskip}
+\needspace{4\baselineskip}
 \subsubsection*{TC-010: Message Send/Receive}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
@@ -1521,10 +1510,10 @@ TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are
 \end{tabularx}
 \end{table}
 
-\needspace{8\baselineskip}
+\needspace{4\baselineskip}
 \subsubsection*{TC-011: Appointment CRUD}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
@@ -1544,10 +1533,10 @@ TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are
 \end{tabularx}
 \end{table}
 
-\needspace{8\baselineskip}
+\needspace{4\baselineskip}
 \subsubsection*{TC-013: Check-in Submit}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
@@ -1564,10 +1553,10 @@ TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are
 \end{tabularx}
 \end{table}
 
-\needspace{8\baselineskip}
+\needspace{4\baselineskip}
 \subsubsection*{TC-017: Blog Publish}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|c|}
@@ -1587,8 +1576,6 @@ TC-020 & P1 & Socket Auth & Verify Socket.IO connections without a valid JWT are
 \end{tabularx}
 \end{table}
 
-\newpage
-
 % ============================================================
 % SECTION 9: APPLICATION SCREENSHOTS
 % ============================================================
@@ -1607,8 +1594,6 @@ The following screenshots document the working application as demonstrated in th
 
 \screenshotfig{Photos/public/publicBlog_detailed.png}{Public Blog Post Detail --- A full blog post view with category tags, author attribution, read time, and view count.}{public-blog-detail}
 
-\newpage
-
 % ── Provider Dashboard ──
 \subsection{Provider Dashboard (FR3, FR9, FR11)}
 
@@ -1622,15 +1607,11 @@ The following screenshots document the working application as demonstrated in th
 
 \screenshotfig{Photos/provider/provider_client_created.png}{New Client Created --- The new client appears in ``All created clients'' with an ``Add to my list'' option.}{client-created}
 
-\newpage
-
 \screenshotfig{Photos/provider/provider_schedule_appointment_complete.png}{Schedule Appointment Modal --- Client and provider selected, start/end times, type (Virtual), and notes.}{schedule-modal}
 
 \screenshotfig{Photos/provider/provider_schedule_calendar.png}{Provider Schedule Calendar --- Monthly calendar view with color-coded appointments and sidebar details.}{provider-calendar}
 
 \screenshotfig{Photos/provider/provider_schedule_availability_slots.png}{Provider Availability Slots --- Providers add availability time slots for specific dates.}{availability-slots}
-
-\newpage
 
 \screenshotfig{Photos/provider/provider_client_document_found.png}{Client Documents Search and Filter --- Search, filter by type, status, and date range with ``Review Now'' action.}{provider-docs}
 
@@ -1640,23 +1621,17 @@ The following screenshots document the working application as demonstrated in th
 
 \screenshotfig{Photos/provider/provider_document_review_completed.png}{Document Review Completed --- Status updates to ``Completed'' and the client is notified.}{review-done}
 
-\newpage
-
 \screenshotfig{Photos/provider/provider_blog_manage_empty.png}{Blog Management --- Manage Blog Posts page with search, filter by category/tag/author, and tabs.}{blog-manage}
 
 \screenshotfig{Photos/provider/provider_blog_create_post.png}{Create New Blog Post --- Blog editor with title, category, excerpt, featured image, tags, and rich text content.}{blog-create}
 
 \screenshotfig{Photos/provider/provider_blog_manage_with_post.png}{Blog Post Published --- Published post in management list with Edit, Publish, and Delete actions.}{blog-published}
 
-\newpage
-
 \screenshotfig{Photos/provider/provider_resource_create_blank.png}{Create New Resource (Blank Form) --- Title, category, description, content, difficulty, week selectors, tags, and publish.}{resource-blank}
 
 \screenshotfig{Photos/provider/provider_resource_create_filled.png}{Create New Resource (Completed Form) --- ``First Trimester: What to Expect'' with weeks 1--12 selected and content filled.}{resource-filled}
 
 \screenshotfig{Photos/provider/provider_resource_in_library.png}{Resource Published in Library --- Resource in library with detail modal showing content, category, difficulty, and week targeting.}{resource-library}
-
-\newpage
 
 \screenshotfig{Photos/provider/provider_profile_edit.png}{Provider Profile Edit --- Personal information, bio, certifications, specialties, languages, services, and availability.}{provider-profile}
 
@@ -1667,8 +1642,6 @@ The following screenshots document the working application as demonstrated in th
 \screenshotfig{Photos/provider/provider_create_provider_success.png}{Provider Account Created --- Confirmation toast after successful provider creation.}{provider-created}
 
 \screenshotfig{Photos/provider/provider_messaging_center.png}{Provider Messaging Center --- Client list with real-time connection status, conversation view with message history and system notifications.}{provider-messaging}
-
-\newpage
 
 % ── Client Dashboard ──
 \subsection{Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}
@@ -1685,8 +1658,6 @@ The following screenshots document the working application as demonstrated in th
 
 \screenshotfig{Photos/client/client_mood_doing_well.png}{Mood Orb: ``Doing Well'' --- Bright green orb for the most positive mood state.}{mood-well}
 
-\newpage
-
 \screenshotfig{Photos/client/client_resource_filtered.png}{Resource Library (Filtered) --- Filtered by category ``Postpartum'' and difficulty ``Beginner.''}{resource-filtered}
 
 \screenshotfig{Photos/client/client_resource_detail.png}{Resource Detail View --- ``Postpartum Daily Recovery'' content organized by week.}{resource-detail}
@@ -1696,8 +1667,6 @@ The following screenshots document the working application as demonstrated in th
 \screenshotfig{Photos/client/client_blog_post_detail.png}{Blog Post Detail (Client View) --- Published blog post with category tags, reading time, and full content.}{client-blog-detail}
 
 \screenshotfig{Photos/client/client_blog_list.png}{Blog List (Client View) --- Authenticated blog list showing published posts.}{client-blog-list}
-
-\newpage
 
 \screenshotfig{Photos/client/client_appointments_calendar.png}{Appointments Calendar --- Monthly calendar with status legend and upcoming appointments list.}{client-calendar}
 
@@ -1709,13 +1678,9 @@ The following screenshots document the working application as demonstrated in th
 
 \screenshotfig{Photos/client/client_appointment_confirmed.png}{Appointment Confirmed --- Confirmed appointment in upcoming list with date, time, type, and status badge.}{appt-confirmed}
 
-\newpage
-
 \screenshotfig{Photos/client/client_notifications_and_chat.png}{Client Notifications and Real-time Chat --- Notification badge with unread messages and real-time chat with provider.}{client-chat}
 
 \screenshotfig{Photos/client/client_messaging_with_notifications.png}{Client Messaging (Full View) --- Full messaging page with notification area and conversation history.}{client-messaging}
-
-\newpage
 
 \screenshotfig{Photos/client/client_profile_edit_and_upload.png}{Client Profile and Document Upload --- Profile edit form with sub-navigation and Upload Documents section.}{client-profile}
 
@@ -1726,8 +1691,6 @@ The following screenshots document the working application as demonstrated in th
 \screenshotfig{Photos/client/client_document_upload_success.png}{Document Upload Success --- Confirmation toast ``Document uploaded successfully!''}{upload-success}
 
 \screenshotfig{Photos/client/client_profile_security_2fa.png}{Client Security Settings --- Two-Factor Authentication (2FA) status with manage option.}{client-2fa}
-
-\newpage
 
 % ============================================================
 % ============================================================
@@ -1740,11 +1703,9 @@ The following screenshots document the working application as demonstrated in th
 \part*{\color{GCUNavy}Milestone 5: Testing Phase}
 \addcontentsline{toc}{part}{Milestone 5: Testing Phase}
 
-\vspace{1cm}
+\vspace{0.75cm}
 
 The following sections document the comprehensive testing effort conducted during the Milestone~5 iteration. Building on the integrated codebase established in Milestone~4, this phase focused on formal verification through automated unit tests, integration tests, component tests, and system-level validation. The testing framework, results, coverage analysis, and quality metrics are detailed below.
-
-\newpage
 
 % ============================================================
 % SECTION 10: TESTING OBJECTIVE
@@ -1755,7 +1716,7 @@ The testing phase ensures the application functions as requested and encompasses
 
 \subsection{Testing Framework and Tools}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|}
@@ -1794,8 +1755,6 @@ Tests are organized into four categories across the backend and frontend codebas
   \item \textbf{Frontend Tests} (\href{\ghrepo/tree/main/Lunara/src/tests}{\texttt{Lunara/src/tests/}}) --- Component rendering, service API calls, hook behavior, context providers, page-level integration, intake form validation, and utility functions. \textbf{98 files = 715 tests.}
 \end{itemize}
 
-\newpage
-
 % ============================================================
 % SECTION 11: COMPONENT TESTING
 % ============================================================
@@ -1824,8 +1783,6 @@ The middleware test suite covers 9 middleware functions: \texttt{requestLogger},
 \subsubsection{Cache Middleware --- \href{\ghrepo/blob/main/backend/tests/middleware/cacheMiddleware.test.ts}{\texttt{backend/tests/middleware/cacheMiddleware.test.ts}}}
 
 Tests verify non-GET request passthrough, cache hit/miss behavior, error response exclusion from cache, and cache key prefix handling. \textbf{5 tests, all passing.} Coverage: 100\% across all metrics.
-
-\newpage
 
 \subsection{Backend Service Testing}
 
@@ -1856,8 +1813,6 @@ Tests user socket tracking, multiple simultaneous connections per user, socket r
 \subsubsection{Message Rate Limiter --- \href{\ghrepo/blob/main/backend/tests/services/messageRateLimiter.test.ts}{\texttt{backend/tests/services/messageRateLimiter.test.ts}}}
 
 Validates rate limit enforcement, time window reset behavior, and per-user message counting. \textbf{3 tests, all passing.} Coverage: 100\% statements, 100\% functions, 100\% lines.
-
-\newpage
 
 \subsection{Backend Integration Testing}
 
@@ -1890,8 +1845,6 @@ Validates appointment creation, client appointment listing, message sending, and
 \subsubsection{Resources API --- \href{\ghrepo/blob/main/backend/tests/integration/resources-api.test.ts}{\texttt{backend/tests/integration/resources-api.test.ts}}}
 
 Tests resource CRUD endpoint authorization, 404 handling for non-existent resources, and response structure validation. \textbf{6 tests, all passing.}
-
-\newpage
 
 \subsection{Frontend Component Testing}
 
@@ -1955,8 +1908,6 @@ Custom React hooks and context providers are tested for correct state management
   \item \texttt{ResourceContext.test.tsx}, \texttt{useResource.test.tsx} --- Resource provider state and consumer hooks
 \end{itemize}
 
-\newpage
-
 % ============================================================
 % SECTION 12: AUTOMATED TEST EXECUTION RESULTS
 % ============================================================
@@ -1972,7 +1923,7 @@ The backend test suite covers middleware, services, and utility modules with \te
 
 \screenshotfig{Photos/tests/backend_jest_output.png}{Backend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 90.58\% statement coverage across middleware (87.38\%), services (91.21\%), and utils (91.66\%) directories.}{test-backend-html}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|l|c|c|c|c|}
@@ -2015,8 +1966,6 @@ tokenUtils.ts & 84.28\% & 56.09\% & 100\% & 84.05\% \\
 \caption{Backend per-file code coverage}
 \end{table}
 
-\newpage
-
 \subsection{Frontend Test Results}
 
 The frontend test suite covers API clients, services, components, pages, hooks, contexts, and utility functions with \textbf{105 test suites} and \textbf{891 tests}. Milestone~5 added 176 deep tests across 7 new test files covering authentication flows, messaging state management, blog editor interactions, document upload validation, and API client retry/refresh logic. Overall code coverage is \textbf{63.35\% statements} (3,701/5,842), 49.9\% branches (1,799/3,605), 57.73\% functions (840/1,455), and 64.79\% lines (3,425/5,286). Execution time: 15.8 seconds.
@@ -2025,7 +1974,7 @@ The frontend test suite covers API clients, services, components, pages, hooks, 
 
 \screenshotfig{Photos/tests/Frontend_Jest_output.png}{Frontend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 63.35\% statement coverage across all frontend directories including components, services, pages, hooks, and contexts.}{test-frontend-html}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{5cm}|c|c|c|c|}
@@ -2062,8 +2011,6 @@ src/api/ & 48.64\% & 42.1\% & 50\% & 49.31\% \\
 \end{tabularx}
 \caption{Frontend per-directory code coverage}
 \end{table}
-
-\newpage
 
 % ============================================================
 % SECTION 13: REQUIREMENTS TESTING
@@ -2124,8 +2071,6 @@ NFR1: Security & \texttt{errors.test.ts}, \texttt{tokenUtils.test.ts}, \texttt{i
 \hline
 \end{longtable}
 }
-
-\newpage
 
 % ============================================================
 % SECTION 14: SYSTEM TESTING
@@ -2195,8 +2140,6 @@ System testing verifies that all components of the functional business requireme
 
 \textbf{Entry criteria status:} All entry criteria met. Unit testing is complete with 153 backend tests and 715 frontend tests passing. Integration tests are complete with 57 backend integration tests passing. The application is deployed and accessible at \texttt{lunara.onrender.com}.
 
-\newpage
-
 % ============================================================
 % SECTION 14.5: CODEBASE QUALITY HARDENING
 % ============================================================
@@ -2227,7 +2170,7 @@ All \texttt{any} type annotations were eliminated from backend production code (
 
 All eight major route files were refactored to extract business logic into dedicated service modules:
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \small
 \begin{tabularx}{\textwidth}{|l|c|c|>{\raggedright\arraybackslash}X|}
@@ -2276,8 +2219,6 @@ Three categories of performance improvements were applied:
   \item \textbf{End-to-End Testing:} Playwright installed with 4 spec files (32 tests) covering landing page, auth forms, blog navigation, and route protection. Tests run against the compiled frontend in Chromium without requiring a backend.
 \end{itemize}
 
-\newpage
-
 % ============================================================
 % SECTION 15: QUALITY METRICS
 % ============================================================
@@ -2285,7 +2226,7 @@ Three categories of performance improvements were applied:
 
 \subsection{Combined Test Suite Summary}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|c|}
 \hline

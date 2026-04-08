@@ -10,10 +10,10 @@ import {
   featureColumns,
   heroNarrative,
   highlights,
-  implementationNotes,
+  implementationNarrative,
   portfolioStats,
-  posterBoardNotes,
-  runSteps,
+  posterBoardNarrative,
+  runNarrative,
   securityDetails,
   showcaseSections,
   teamLinks,
@@ -170,13 +170,11 @@ function App() {
               <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
               <p>
                 The application ties together public discovery, provider coordination, and client
-                engagement without breaking the emotional tone of the brand.
+                engagement without breaking the emotional tone of the brand. Providers and clients
+                each get role-aware dashboards with realtime messaging, appointment management, and
+                document workflows — alongside content, care plans, and recovery context — all
+                unified in one system.
               </p>
-              <ul>
-                <li>Role-aware dashboards for providers and clients</li>
-                <li>Realtime messaging, appointments, and document workflows</li>
-                <li>Content, care plans, and recovery context in one system</li>
-              </ul>
             </aside>
           </div>
         </div>
@@ -254,11 +252,9 @@ function App() {
               format: system architecture, provider and client workflows, testing coverage, deployment
               topology, and the technology decisions that shaped the build.
             </p>
-            <ul className="bullet-list">
-              {posterBoardNotes.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+            {posterBoardNarrative.split('\n\n').map((paragraph, i) => (
+              <p key={i} className="narrative-paragraph">{paragraph}</p>
+            ))}
             <div className="hero-links poster-actions">
               <a href={posterPdf} target="_blank" rel="noreferrer">
                 Open the poster
@@ -295,11 +291,7 @@ function App() {
             {featureColumns.map((column) => (
               <article key={column.heading} className="content-card">
                 <h3>{column.heading}</h3>
-                <ul className="bullet-list">
-                  {column.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
+                <p>{column.body}</p>
               </article>
             ))}
           </div>
@@ -364,19 +356,15 @@ function App() {
           <div className="column-grid">
             <article className="content-card">
               <h3>Access and demo setup</h3>
-              <ul className="bullet-list">
-                {implementationNotes.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              {implementationNarrative.split('\n\n').map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
             </article>
             <article className="content-card">
               <h3>Run locally</h3>
-              <ol className="step-list">
-                {runSteps.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
+              {runNarrative.split('\n\n').map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
             </article>
           </div>
         </Section>

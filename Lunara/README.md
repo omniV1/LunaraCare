@@ -17,7 +17,7 @@
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/>
 </p>
 
-<p align="center"><sub>Counts from <a href="../Docs/Capstone-Papers/05_milestone_5.tex">Milestone 5</a> automated results (105 Jest suites, 63.35% statement coverage).</sub></p>
+<p align="center"><sub>Counts from <a href="../Docs/Capstone-Papers/05_milestone_5.pdf">Milestone 5</a> automated results (105 Jest suites, 63.35% statement coverage).</sub></p>
 
 <p align="center">
   <a href="https://www.lunaracare.org">Live site</a> &nbsp;&bull;&nbsp;
@@ -47,7 +47,7 @@
 
 ## What you are looking at
 
-This package is the **entire browser experience** for Lunara: marketing pages, authenticated client and provider workspaces, public blog, security settings, and the service worker hooks for web push. Everything talks to the Express API through a shared Axios client and opens real-time channels through Socket.IO when users message each other.
+This package is the **entire browser experience** for Lunara: marketing pages, authenticated client and provider workspaces, public blog, security settings, and the service worker hooks for web push. Everything talks to the Express API through a shared Axios client and opens real-time channels through Socket.IO when users message each other. All **140 production source files** (components, pages, services, hooks, contexts, types, and utilities) carry full JSDoc documentation with `@module` headers and `@param`/`@returns` on every export.
 
 <p align="center">
   <img src="../Docs/Capstone-Papers/Photos/client/client_dashboard_overview.png" alt="Client dashboard" width="46%"/>

@@ -112,7 +112,7 @@ Project documentation was reviewed and updated to reflect the final state of the
 | Project Requirements | Final submission PDF artifact | Requirements and architecture document carried forward from CST-451 |
 | Development Phase Report | Final submission PDF artifact | Coding and testing report carried forward from the prior milestone package |
 | Live Application | `https://www.lunaracare.org` | Deployed frontend and primary product experience for reviewers |
-| Portfolio Site (Live) | `https://lunara-profile.design` | Standalone project portfolio website deployed on a custom domain |
+| Portfolio Site (Live) | `https://www.lunara-profile.design` | Standalone project portfolio website deployed on a custom domain |
 | Portfolio Site (Source) | `LunaraPortfolio/` | Source code for the portfolio site included in the repository |
 | Presentation Assets | `Docs/Presentations/` | Showcase poster source and exported PDFs used in Milestone 6 presentation materials |
 
@@ -150,13 +150,13 @@ In the midst of building a platform that supports mothers through one of the mos
 The Milestone 6 portfolio requirement is satisfied through a three-part presentation strategy:
 
 1. The live LUNARA application at **[https://www.lunaracare.org](https://www.lunaracare.org)**, which lets reviewers experience the real product directly.
-2. A standalone project portfolio website deployed at **[https://lunara-profile.design](https://lunara-profile.design)**, built to summarize the capstone for employers and evaluators.
+2. A standalone project portfolio website deployed at **[https://www.lunara-profile.design](https://www.lunara-profile.design)**, built to summarize the capstone for employers and evaluators.
 3. The source repository at **[https://github.com/omniV1/lunaraCare](https://github.com/omniV1/lunaraCare)** containing all code, documentation, and CI/CD configuration.
 
 The portfolio package contains:
 
 - **Live Application:** `https://www.lunaracare.org` remains the main internet-facing product and demonstrates the public site, authentication flows, and role-specific dashboards in a working environment
-- **Standalone Portfolio Site:** Deployed at `https://lunara-profile.design` and sourced from `LunaraPortfolio/` in the repository. Presents project overview, architecture layers, security posture, testing and quality assurance, code excerpts, implementation notes, artifacts, and team references in a dedicated employer-facing format
+- **Standalone Portfolio Site:** Deployed at `https://www.lunara-profile.design` and sourced from `LunaraPortfolio/` in the repository. Presents project overview, architecture layers, security posture, testing and quality assurance, code excerpts, implementation notes, artifacts, and team references in a dedicated employer-facing format
 - **Architecture Coverage:** Five architecture layers (Experience, Application, Coordination, Persistence, Operations) are documented with specific technology choices and component counts
 - **Code Excerpts:** Six annotated code samples covering JWT/Passport authentication, Socket.IO messaging with auth, Zod intake validation, Axios refresh/backoff, GridFS file upload, and role-protected lazy routes
 - **Security Posture:** Authentication pipeline, MFA, transport headers, rate limiting, and data safety are documented as distinct architecture decisions
@@ -198,7 +198,7 @@ The project folder and GitHub repository (`https://github.com/omniV1/lunaraCare`
 - Capstone paper packet (this document set)
 - Presentation materials in `Docs/Presentations/` and screencast-ready demo structure in the Milestone documentation
 - Live deployed application at `https://www.lunaracare.org`
-- Standalone project portfolio deployed at `https://lunara-profile.design` (source in `LunaraPortfolio/`)
+- Standalone project portfolio deployed at `https://www.lunara-profile.design` (source in `LunaraPortfolio/`)
 
 This submission represents the culmination of the senior capstone experience and the transition of LUNARA into a maintainable, portfolio-worthy software product.
 
@@ -209,6 +209,6 @@ This submission represents the culmination of the senior capstone experience and
 - End-to-end provider workflow from login through client creation to care-plan update
 - Architecture diagram showing React, Express, MongoDB, and Socket.IO integration
 - Test suite results showing 1044 Jest tests passing and SonarQube A/A/A dashboard
-- Standalone portfolio website at `lunara-profile.design` showing project summary and architecture
+- Standalone portfolio website at `www.lunara-profile.design` showing project summary and architecture
 - GitHub repository showing commit history and branch structure
 - Swagger API documentation showing the route inventory and endpoint surface

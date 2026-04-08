@@ -1,103 +1,103 @@
-\contentsline {section}{\numberline {1}Coding Objective}{4}{section.1}%
-\contentsline {section}{\numberline {2}Development Deliverables}{4}{section.2}%
-\contentsline {section}{\numberline {3}Implementation Plan}{5}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Methodology and Execution Framework}{5}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Implementation Plan Matrix --- CST-452 Development Iterations}{5}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Functional Requirements Mapping (Traceability Matrix)}{7}{section.4}%
-\contentsline {section}{\numberline {5}Source Code Listing \& Architectural Implementation}{8}{section.5}%
-\contentsline {subsection}{\numberline {5.1}System Architecture Overview}{8}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Backend Architecture Implementation (\href {https://github.com/omniV1/lunaraCare/tree/main/backend}{\texttt {/backend}})}{8}{subsection.5.2}%
-\contentsline {subsubsection}{\numberline {5.2.1}Core Application Layer --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/server.ts}{\texttt {src/server.ts}}}{8}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}Authentication \& Authorization Layer --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/config/passport.ts}{\texttt {src/config/passport.ts}}}{10}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}Data Access Layer --- Database Schema Design}{11}{subsubsection.5.2.3}%
-\contentsline {paragraph}{Users Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/User.ts}{\texttt {src/models/User.ts}}}{11}{subsubsection.5.2.3}%
-\contentsline {paragraph}{CheckIn Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/CheckIn.ts}{\texttt {src/models/CheckIn.ts}}}{11}{lstnumber.4.19}%
-\contentsline {paragraph}{Appointments Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/Appointment.ts}{\texttt {src/models/Appointment.ts}}}{11}{lstnumber.5.16}%
-\contentsline {paragraph}{Messages Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/Message.ts}{\texttt {src/models/Message.ts}}}{11}{lstnumber.6.16}%
-\contentsline {paragraph}{CarePlan Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/CarePlan.ts}{\texttt {src/models/CarePlan.ts}}}{12}{lstnumber.7.14}%
-\contentsline {paragraph}{ClientDocument Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/ClientDocument.ts}{\texttt {src/models/ClientDocument.ts}}}{12}{lstnumber.8.39}%
-\contentsline {subsubsection}{\numberline {5.2.4}API Layer \& Business Services}{13}{subsubsection.5.2.4}%
-\contentsline {paragraph}{Authentication Endpoints --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/routes/auth.ts}{\texttt {src/routes/auth.ts}}}{13}{subsubsection.5.2.4}%
-\contentsline {paragraph}{Check-in Endpoints --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/routes/checkins.ts}{\texttt {src/routes/checkins.ts}}}{13}{lstnumber.10.13}%
-\contentsline {paragraph}{Check-in Trend Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/services/checkinTrendService.ts}{\texttt {src/services/checkinTrendService.ts}}}{13}{lstnumber.11.21}%
-\contentsline {paragraph}{Real-time Messaging --- Socket.IO in \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/server.ts}{\texttt {src/server.ts}}}{14}{lstnumber.12.33}%
-\contentsline {subsection}{\numberline {5.3}Frontend Architecture Implementation (\href {https://github.com/omniV1/lunaraCare/tree/main/Lunara}{\texttt {/Lunara}})}{15}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}Application Root --- \href {https://github.com/omniV1/lunaraCare/blob/main/Lunara/src/App.tsx}{\texttt {src/App.tsx}}}{15}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}Client Check-in Component --- \href {https://github.com/omniV1/lunaraCare/blob/main/Lunara/src/components/client/ClientCheckIns.tsx}{\texttt {src/components/client/ClientCheckIns.tsx}}}{15}{subsubsection.5.3.2}%
-\contentsline {subsubsection}{\numberline {5.3.3}Intake Wizard --- \href {https://github.com/omniV1/lunaraCare/blob/main/Lunara/src/components/intake/ClientIntakeWizard.tsx}{\texttt {src/components/intake/ClientIntakeWizard.tsx}}}{15}{subsubsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.4}Source Code File Inventory}{16}{subsection.5.4}%
-\contentsline {section}{\numberline {6}Scope Adjustment Context}{17}{section.6}%
-\contentsline {section}{\numberline {7}Data Dictionary}{17}{section.7}%
-\contentsline {subsection}{\numberline {7.1}User}{17}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Client}{17}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Provider}{18}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Appointment}{19}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}AvailabilitySlot}{19}{subsection.7.5}%
-\contentsline {subsection}{\numberline {7.6}CarePlan}{20}{subsection.7.6}%
-\contentsline {subsection}{\numberline {7.7}CheckIn}{20}{subsection.7.7}%
-\contentsline {subsection}{\numberline {7.8}Message}{20}{subsection.7.8}%
-\contentsline {subsection}{\numberline {7.9}ClientDocument}{21}{subsection.7.9}%
-\contentsline {subsection}{\numberline {7.10}BlogPost}{21}{subsection.7.10}%
-\contentsline {subsection}{\numberline {7.11}Resource}{22}{subsection.7.11}%
-\contentsline {subsection}{\numberline {7.12}Supporting Models}{22}{subsection.7.12}%
-\contentsline {subsection}{\numberline {7.13}Entity Relationship Summary}{22}{subsection.7.13}%
-\contentsline {section}{\numberline {8}Application Demonstration}{23}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Video Demonstration}{23}{subsection.8.1}%
-\contentsline {section}{\numberline {9}Module Test Cases (Test Plan)}{24}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Test Case Summary}{24}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}Detailed Test Case Specifications}{26}{subsection.9.2}%
-\contentsline {section}{\numberline {10}Application Screenshots}{28}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Public Website (FR1)}{28}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Provider Dashboard (FR3, FR9, FR11)}{31}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}{42}{subsection.10.3}%
-\contentsline {part}{Milestone 5: Testing Phase}{55}{part*.58}%
-\contentsline {section}{\numberline {11}Testing Objective}{56}{section.11}%
-\contentsline {subsection}{\numberline {11.1}Testing Framework and Tools}{56}{subsection.11.1}%
-\contentsline {subsection}{\numberline {11.2}Test Organization}{56}{subsection.11.2}%
-\contentsline {section}{\numberline {12}Component Testing}{57}{section.12}%
-\contentsline {subsection}{\numberline {12.1}Backend Unit Testing}{57}{subsection.12.1}%
-\contentsline {subsubsection}{\numberline {12.1.1}Error Handling Classes --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/utils/errors.test.ts}{\texttt {backend/tests/utils/errors.test.ts}}}{57}{subsubsection.12.1.1}%
-\contentsline {subsubsection}{\numberline {12.1.2}Token Utilities --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/utils/tokenUtils.test.ts}{\texttt {backend/tests/utils/tokenUtils.test.ts}}}{57}{subsubsection.12.1.2}%
-\contentsline {subsubsection}{\numberline {12.1.3}Query Optimization --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/utils/queryOptimization.test.ts}{\texttt {backend/tests/utils/queryOptimization.test.ts}}}{57}{subsubsection.12.1.3}%
-\contentsline {subsubsection}{\numberline {12.1.4}Middleware Stack --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/middleware/index.test.ts}{\texttt {backend/tests/middleware/index.test.ts}}}{57}{subsubsection.12.1.4}%
-\contentsline {subsubsection}{\numberline {12.1.5}Cache Middleware --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/middleware/cacheMiddleware.test.ts}{\texttt {backend/tests/middleware/cacheMiddleware.test.ts}}}{57}{subsubsection.12.1.5}%
-\contentsline {subsection}{\numberline {12.2}Backend Service Testing}{58}{subsection.12.2}%
-\contentsline {subsubsection}{\numberline {12.2.1}Check-in Trend Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/checkinTrendService.test.ts}{\texttt {backend/tests/services/checkinTrendService.test.ts}}}{58}{subsubsection.12.2.1}%
-\contentsline {subsubsection}{\numberline {12.2.2}Appointment Notification Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/appointmentNotificationService.test.ts}{\texttt {backend/tests/services/appointmentNotificationService.test.ts}}}{58}{subsubsection.12.2.2}%
-\contentsline {subsubsection}{\numberline {12.2.3}Appointment Reminder Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/appointmentReminderService.test.ts}{\texttt {backend/tests/services/appointmentReminderService.test.ts}}}{58}{subsubsection.12.2.3}%
-\contentsline {subsubsection}{\numberline {12.2.4}Cache Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/cacheService.test.ts}{\texttt {backend/tests/services/cacheService.test.ts}}}{58}{subsubsection.12.2.4}%
-\contentsline {subsubsection}{\numberline {12.2.5}Email Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/emailService.test.ts}{\texttt {backend/tests/services/emailService.test.ts}}}{58}{subsubsection.12.2.5}%
-\contentsline {subsubsection}{\numberline {12.2.6}Socket Connection Manager --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/socketConnectionManager.test.ts}{\texttt {backend/tests/services/socketConnectionManager.test.ts}}}{58}{subsubsection.12.2.6}%
-\contentsline {subsubsection}{\numberline {12.2.7}Message Rate Limiter --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/messageRateLimiter.test.ts}{\texttt {backend/tests/services/messageRateLimiter.test.ts}}}{58}{subsubsection.12.2.7}%
-\contentsline {subsection}{\numberline {12.3}Backend Integration Testing}{59}{subsection.12.3}%
-\contentsline {subsubsection}{\numberline {12.3.1}Authentication \& Public Routes --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/auth.public.test.ts}{\texttt {backend/tests/integration/auth.public.test.ts}}}{59}{subsubsection.12.3.1}%
-\contentsline {subsubsection}{\numberline {12.3.2}Scheduling \& Booking Workflow --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/scheduling.test.ts}{\texttt {backend/tests/integration/scheduling.test.ts}}}{59}{subsubsection.12.3.2}%
-\contentsline {subsubsection}{\numberline {12.3.3}Intake Form --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/intake.test.ts}{\texttt {backend/tests/integration/intake.test.ts}}}{59}{subsubsection.12.3.3}%
-\contentsline {subsubsection}{\numberline {12.3.4}Check-in --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/checkins.test.ts}{\texttt {backend/tests/integration/checkins.test.ts}}}{59}{subsubsection.12.3.4}%
-\contentsline {subsubsection}{\numberline {12.3.5}Care Plans --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/carePlans.test.ts}{\texttt {backend/tests/integration/carePlans.test.ts}}}{59}{subsubsection.12.3.5}%
-\contentsline {subsubsection}{\numberline {12.3.6}Appointments \& Messages --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/appointments_messages.test.ts}{\texttt {backend/tests/integration/appointments\_messages.test.ts}}}{59}{subsubsection.12.3.6}%
-\contentsline {subsubsection}{\numberline {12.3.7}Resources API --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/resources-api.test.ts}{\texttt {backend/tests/integration/resources-api.test.ts}}}{59}{subsubsection.12.3.7}%
-\contentsline {subsection}{\numberline {12.4}Frontend Component Testing}{60}{subsection.12.4}%
-\contentsline {subsubsection}{\numberline {12.4.1}Service Layer Tests (16 files, 120+ tests)}{60}{subsubsection.12.4.1}%
-\contentsline {subsubsection}{\numberline {12.4.2}Component Tests (50+ files, 400+ tests)}{60}{subsubsection.12.4.2}%
-\contentsline {subsubsection}{\numberline {12.4.3}Page-Level Tests (10 files)}{60}{subsubsection.12.4.3}%
-\contentsline {subsubsection}{\numberline {12.4.4}Hook and Context Tests (5 files)}{60}{subsubsection.12.4.4}%
-\contentsline {section}{\numberline {13}Automated Test Execution Results}{61}{section.13}%
-\contentsline {subsection}{\numberline {13.1}Backend Test Results}{61}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}Frontend Test Results}{63}{subsection.13.2}%
-\contentsline {section}{\numberline {14}Requirements Testing}{65}{section.14}%
-\contentsline {section}{\numberline {15}System Testing}{66}{section.15}%
-\contentsline {subsection}{\numberline {15.1}Part 1: System Test Plan Overview}{66}{subsection.15.1}%
-\contentsline {subsection}{\numberline {15.2}Part 2: System Test Scope and Resources}{66}{subsection.15.2}%
-\contentsline {subsection}{\numberline {15.3}Part 3: System Test Strategy}{66}{subsection.15.3}%
-\contentsline {section}{\numberline {16}Codebase Quality Hardening}{68}{section.16}%
-\contentsline {subsection}{\numberline {16.1}Dependency Vulnerability Remediation}{68}{subsection.16.1}%
-\contentsline {subsection}{\numberline {16.2}TypeScript Type Safety}{68}{subsection.16.2}%
-\contentsline {subsection}{\numberline {16.3}Service Layer Architecture}{68}{subsection.16.3}%
-\contentsline {subsection}{\numberline {16.4}Frontend Performance Optimization}{68}{subsection.16.4}%
-\contentsline {subsection}{\numberline {16.5}CI/CD and Developer Experience}{69}{subsection.16.5}%
-\contentsline {section}{\numberline {17}Quality Metrics and Test Summary Report}{70}{section.17}%
-\contentsline {subsection}{\numberline {17.1}Combined Test Suite Summary}{70}{subsection.17.1}%
-\contentsline {subsection}{\numberline {17.2}Coverage Analysis}{70}{subsection.17.2}%
-\contentsline {subsection}{\numberline {17.3}Defect Summary}{70}{subsection.17.3}%
-\contentsline {subsection}{\numberline {17.4}Test Analysis Approval}{70}{subsection.17.4}%
+\contentsline {section}{\numberline {1}Coding Objective}{7}{section.1}%
+\contentsline {section}{\numberline {2}Development Deliverables}{7}{section.2}%
+\contentsline {section}{\numberline {3}Implementation Plan}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Methodology and Execution Framework}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Implementation Plan Matrix --- CST-452 Development Iterations}{8}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Functional Requirements Mapping (Traceability Matrix)}{12}{section.4}%
+\contentsline {section}{\numberline {5}Source Code Listing \& Architectural Implementation}{14}{section.5}%
+\contentsline {subsection}{\numberline {5.1}System Architecture Overview}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Backend Architecture Implementation (\href {https://github.com/omniV1/lunaraCare/tree/main/backend}{\texttt {/backend}})}{14}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Core Application Layer --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/server.ts}{\texttt {src/server.ts}}}{14}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Authentication \& Authorization Layer --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/config/passport.ts}{\texttt {src/config/passport.ts}}}{15}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Data Access Layer --- Database Schema Design}{16}{subsubsection.5.2.3}%
+\contentsline {paragraph}{Users Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/User.ts}{\texttt {src/models/User.ts}}}{17}{subsubsection.5.2.3}%
+\contentsline {paragraph}{CheckIn Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/CheckIn.ts}{\texttt {src/models/CheckIn.ts}}}{17}{lstnumber.3.19}%
+\contentsline {paragraph}{Appointments Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/Appointment.ts}{\texttt {src/models/Appointment.ts}}}{18}{lstnumber.4.16}%
+\contentsline {paragraph}{Messages Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/Message.ts}{\texttt {src/models/Message.ts}}}{18}{lstnumber.5.16}%
+\contentsline {paragraph}{CarePlan Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/CarePlan.ts}{\texttt {src/models/CarePlan.ts}}}{18}{lstnumber.6.14}%
+\contentsline {paragraph}{ClientDocument Collection --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/models/ClientDocument.ts}{\texttt {src/models/ClientDocument.ts}}}{19}{lstnumber.7.39}%
+\contentsline {subsubsection}{\numberline {5.2.4}API Layer \& Business Services}{20}{subsubsection.5.2.4}%
+\contentsline {paragraph}{Authentication Endpoints --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/routes/auth.ts}{\texttt {src/routes/auth.ts}}}{20}{subsubsection.5.2.4}%
+\contentsline {paragraph}{Check-in Endpoints --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/routes/checkins.ts}{\texttt {src/routes/checkins.ts}}}{20}{lstnumber.9.13}%
+\contentsline {paragraph}{Check-in Trend Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/services/checkinTrendService.ts}{\texttt {src/services/checkinTrendService.ts}}}{21}{lstnumber.10.21}%
+\contentsline {paragraph}{Real-time Messaging --- Socket.IO in \href {https://github.com/omniV1/lunaraCare/blob/main/backend/src/server.ts}{\texttt {src/server.ts}}}{21}{lstnumber.11.33}%
+\contentsline {subsection}{\numberline {5.3}Frontend Architecture Implementation (\href {https://github.com/omniV1/lunaraCare/tree/main/Lunara}{\texttt {/Lunara}})}{22}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Application Root --- \href {https://github.com/omniV1/lunaraCare/blob/main/Lunara/src/App.tsx}{\texttt {src/App.tsx}}}{22}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Client Check-in Component --- \href {https://github.com/omniV1/lunaraCare/blob/main/Lunara/src/components/client/ClientCheckIns.tsx}{\texttt {src/components/client/ClientCheckIns.tsx}}}{23}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Intake Wizard --- \href {https://github.com/omniV1/lunaraCare/blob/main/Lunara/src/components/intake/ClientIntakeWizard.tsx}{\texttt {src/components/intake/ClientIntakeWizard.tsx}}}{23}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}Source Code File Inventory}{24}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Scope Adjustment Context}{25}{section.6}%
+\contentsline {section}{\numberline {7}Data Dictionary}{25}{section.7}%
+\contentsline {subsection}{\numberline {7.1}User}{25}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Client}{27}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Provider}{27}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Appointment}{29}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}AvailabilitySlot}{30}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}CarePlan}{30}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}CheckIn}{31}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}Message}{31}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}ClientDocument}{32}{subsection.7.9}%
+\contentsline {subsection}{\numberline {7.10}BlogPost}{33}{subsection.7.10}%
+\contentsline {subsection}{\numberline {7.11}Resource}{34}{subsection.7.11}%
+\contentsline {subsection}{\numberline {7.12}Supporting Models}{34}{subsection.7.12}%
+\contentsline {subsection}{\numberline {7.13}Entity Relationship Summary}{35}{subsection.7.13}%
+\contentsline {section}{\numberline {8}Application Demonstration}{35}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Video Demonstration}{36}{subsection.8.1}%
+\contentsline {section}{\numberline {9}Module Test Cases (Test Plan)}{36}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Test Case Summary}{36}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Detailed Test Case Specifications}{38}{subsection.9.2}%
+\contentsline {section}{\numberline {10}Application Screenshots}{40}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Public Website (FR1)}{41}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Provider Dashboard (FR3, FR9, FR11)}{44}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}{55}{subsection.10.3}%
+\contentsline {part}{Milestone 5: Testing Phase}{66}{part*.58}%
+\contentsline {section}{\numberline {11}Testing Objective}{67}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Testing Framework and Tools}{67}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Test Organization}{67}{subsection.11.2}%
+\contentsline {section}{\numberline {12}Component Testing}{68}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Backend Unit Testing}{68}{subsection.12.1}%
+\contentsline {subsubsection}{\numberline {12.1.1}Error Handling Classes --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/utils/errors.test.ts}{\texttt {backend/tests/utils/errors.test.ts}}}{68}{subsubsection.12.1.1}%
+\contentsline {subsubsection}{\numberline {12.1.2}Token Utilities --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/utils/tokenUtils.test.ts}{\texttt {backend/tests/utils/tokenUtils.test.ts}}}{68}{subsubsection.12.1.2}%
+\contentsline {subsubsection}{\numberline {12.1.3}Query Optimization --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/utils/queryOptimization.test.ts}{\texttt {backend/tests/utils/queryOptimization.test.ts}}}{69}{subsubsection.12.1.3}%
+\contentsline {subsubsection}{\numberline {12.1.4}Middleware Stack --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/middleware/index.test.ts}{\texttt {backend/tests/middleware/index.test.ts}}}{69}{subsubsection.12.1.4}%
+\contentsline {subsubsection}{\numberline {12.1.5}Cache Middleware --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/middleware/cacheMiddleware.test.ts}{\texttt {backend/tests/middleware/cacheMiddleware.test.ts}}}{69}{subsubsection.12.1.5}%
+\contentsline {subsection}{\numberline {12.2}Backend Service Testing}{69}{subsection.12.2}%
+\contentsline {subsubsection}{\numberline {12.2.1}Check-in Trend Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/checkinTrendService.test.ts}{\texttt {backend/tests/services/checkinTrendService.test.ts}}}{69}{subsubsection.12.2.1}%
+\contentsline {subsubsection}{\numberline {12.2.2}Appointment Notification Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/appointmentNotificationService.test.ts}{\texttt {backend/tests/services/appointmentNotificationService.test.ts}}}{69}{subsubsection.12.2.2}%
+\contentsline {subsubsection}{\numberline {12.2.3}Appointment Reminder Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/appointmentReminderService.test.ts}{\texttt {backend/tests/services/appointmentReminderService.test.ts}}}{69}{subsubsection.12.2.3}%
+\contentsline {subsubsection}{\numberline {12.2.4}Cache Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/cacheService.test.ts}{\texttt {backend/tests/services/cacheService.test.ts}}}{70}{subsubsection.12.2.4}%
+\contentsline {subsubsection}{\numberline {12.2.5}Email Service --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/emailService.test.ts}{\texttt {backend/tests/services/emailService.test.ts}}}{70}{subsubsection.12.2.5}%
+\contentsline {subsubsection}{\numberline {12.2.6}Socket Connection Manager --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/socketConnectionManager.test.ts}{\texttt {backend/tests/services/socketConnectionManager.test.ts}}}{70}{subsubsection.12.2.6}%
+\contentsline {subsubsection}{\numberline {12.2.7}Message Rate Limiter --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/services/messageRateLimiter.test.ts}{\texttt {backend/tests/services/messageRateLimiter.test.ts}}}{70}{subsubsection.12.2.7}%
+\contentsline {subsection}{\numberline {12.3}Backend Integration Testing}{70}{subsection.12.3}%
+\contentsline {subsubsection}{\numberline {12.3.1}Authentication \& Public Routes --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/auth.public.test.ts}{\texttt {backend/tests/integration/auth.public.test.ts}}}{70}{subsubsection.12.3.1}%
+\contentsline {subsubsection}{\numberline {12.3.2}Scheduling \& Booking Workflow --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/scheduling.test.ts}{\texttt {backend/tests/integration/scheduling.test.ts}}}{70}{subsubsection.12.3.2}%
+\contentsline {subsubsection}{\numberline {12.3.3}Intake Form --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/intake.test.ts}{\texttt {backend/tests/integration/intake.test.ts}}}{71}{subsubsection.12.3.3}%
+\contentsline {subsubsection}{\numberline {12.3.4}Check-in --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/checkins.test.ts}{\texttt {backend/tests/integration/checkins.test.ts}}}{71}{subsubsection.12.3.4}%
+\contentsline {subsubsection}{\numberline {12.3.5}Care Plans --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/carePlans.test.ts}{\texttt {backend/tests/integration/carePlans.test.ts}}}{71}{subsubsection.12.3.5}%
+\contentsline {subsubsection}{\numberline {12.3.6}Appointments \& Messages --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/appointments_messages.test.ts}{\texttt {backend/tests/integration/appointments\_messages.test.ts}}}{71}{subsubsection.12.3.6}%
+\contentsline {subsubsection}{\numberline {12.3.7}Resources API --- \href {https://github.com/omniV1/lunaraCare/blob/main/backend/tests/integration/resources-api.test.ts}{\texttt {backend/tests/integration/resources-api.test.ts}}}{71}{subsubsection.12.3.7}%
+\contentsline {subsection}{\numberline {12.4}Frontend Component Testing}{71}{subsection.12.4}%
+\contentsline {subsubsection}{\numberline {12.4.1}Service Layer Tests (16 files, 120+ tests)}{71}{subsubsection.12.4.1}%
+\contentsline {subsubsection}{\numberline {12.4.2}Component Tests (50+ files, 400+ tests)}{72}{subsubsection.12.4.2}%
+\contentsline {subsubsection}{\numberline {12.4.3}Page-Level Tests (10 files)}{73}{subsubsection.12.4.3}%
+\contentsline {subsubsection}{\numberline {12.4.4}Hook and Context Tests (5 files)}{73}{subsubsection.12.4.4}%
+\contentsline {section}{\numberline {13}Automated Test Execution Results}{73}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Backend Test Results}{73}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Frontend Test Results}{74}{subsection.13.2}%
+\contentsline {section}{\numberline {14}Requirements Testing}{77}{section.14}%
+\contentsline {section}{\numberline {15}System Testing}{78}{section.15}%
+\contentsline {subsection}{\numberline {15.1}Part 1: System Test Plan Overview}{78}{subsection.15.1}%
+\contentsline {subsection}{\numberline {15.2}Part 2: System Test Scope and Resources}{78}{subsection.15.2}%
+\contentsline {subsection}{\numberline {15.3}Part 3: System Test Strategy}{79}{subsection.15.3}%
+\contentsline {section}{\numberline {16}Codebase Quality Hardening}{80}{section.16}%
+\contentsline {subsection}{\numberline {16.1}Dependency Vulnerability Remediation}{80}{subsection.16.1}%
+\contentsline {subsection}{\numberline {16.2}TypeScript Type Safety}{80}{subsection.16.2}%
+\contentsline {subsection}{\numberline {16.3}Service Layer Architecture}{81}{subsection.16.3}%
+\contentsline {subsection}{\numberline {16.4}Frontend Performance Optimization}{82}{subsection.16.4}%
+\contentsline {subsection}{\numberline {16.5}CI/CD and Developer Experience}{82}{subsection.16.5}%
+\contentsline {section}{\numberline {17}Quality Metrics and Test Summary Report}{82}{section.17}%
+\contentsline {subsection}{\numberline {17.1}Combined Test Suite Summary}{82}{subsection.17.1}%
+\contentsline {subsection}{\numberline {17.2}Coverage Analysis}{82}{subsection.17.2}%
+\contentsline {subsection}{\numberline {17.3}Defect Summary}{83}{subsection.17.3}%
+\contentsline {subsection}{\numberline {17.4}Test Analysis Approval}{84}{subsection.17.4}%

@@ -18,7 +18,9 @@
   <a href="./DEVELOPMENT_GUIDE.md">Dev Guide</a> &nbsp;&bull;&nbsp;
   <a href="./Planning/SPRINT_PLAN.md">Sprint Plan</a> &nbsp;&bull;&nbsp;
   <a href="./RENDER_DEPLOY.md">Deploy Guide</a> &nbsp;&bull;&nbsp;
-  <a href="https://lunara.onrender.com/api-docs">Live API Docs</a>
+  <a href="https://lunara.onrender.com/api-docs">Live API Docs</a> &nbsp;&bull;&nbsp;
+  <a href="https://www.lunara-profile.design">Portfolio</a> &nbsp;&bull;&nbsp;
+  <a href="https://www.youtube.com/watch?v=EY6ncwOMFUQ">Video Demo</a>
 </p>
 
 ---
@@ -34,6 +36,7 @@ This directory holds everything that isn't source code: architecture diagrams, f
 | [DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md) | Full setup walkthrough, architecture overview, API route reference table covering all 20 route modules, database schema definitions, document upload system details, testing instructions, and troubleshooting |
 | [RENDER_DEPLOY.md](./RENDER_DEPLOY.md) | Production deployment troubleshooting for the Render-hosted backend: JWT debugging, MongoDB connectivity, CORS verification, and a quick test checklist |
 | [SCA_GUIDE.md](./SCA_GUIDE.md) | Software Composition Analysis guide covering `npm audit` and SonarQube for dependency vulnerability scanning |
+| [GCU_CAPSTONE_MAINTENANCE_PAPER.md](./GCU_CAPSTONE_MAINTENANCE_PAPER.md) | Long-term maintenance plan and handoff documentation for the project |
 | [CI-CD-Overview.html](./CI-CD-Overview.html) | Visual documentation of the GitHub Actions deployment pipeline |
 
 ### Planning
@@ -103,7 +106,7 @@ The `Capstone-Papers/` directory contains the complete academic submission for G
 | 03 | Project Timeline | Phase breakdown and lifecycle progress model |
 | 04 | Milestone 4: Coding | Implementation plan, 16-feature task breakdown, traceability matrix, test cases |
 | 05 | Milestone 5: Testing | Test suite structure, 1044 Jest tests + 32 E2E, coverage analysis, SonarQube quality metrics |
-| 06 | Milestone 6: Release | Production deployment, security hardening, maintenance handoff |
+| 06 | [Milestone 6: Release](./Capstone-Papers/06_milestone_6.pdf) | Final completion report -- requirements matrix, portfolio, screencast, documentation inventory |
 | 07-11 | Academic Sections | Integrity, plagiarism, sources, intellectual property, references |
 
 ### Supporting Materials
@@ -117,7 +120,7 @@ The papers reference **69 screenshots** organized by role:
 | `Photos/public/` | 4 | Home page, login, public blog |
 | `Photos/tests/` | 6 | Jest and CLI test output for both frontend and backend |
 
-Compiled PDFs for Milestone 4 and Milestone 5 are included alongside their LaTeX source files.
+Compiled PDFs for Milestones 4, 5, and 6 are included alongside their LaTeX source files.
 
 ### Presentation Assets
 
@@ -148,7 +151,7 @@ The `Templates/` directory contains 10 Pandoc/LaTeX template files based on the 
   <img src="https://img.shields.io/badge/frontend_statements-63.35%25-brightgreen?style=for-the-badge" alt="Frontend Jest coverage"/>
 </p>
 
-All core functional requirements are implemented and deployed. Test and coverage figures follow [Milestone 5](./Capstone-Papers/05_milestone_5.tex) (1044 Jest tests; backend 90.58% and frontend 63.35% statement coverage). Four stretch features (journaling, AI insights, advanced trackers, AI summarization) are deferred to post-launch.
+All core functional requirements are implemented and deployed. Test and coverage figures follow [Milestone 5](./Capstone-Papers/05_milestone_5.pdf) (1,044 Jest tests; backend 90.58% and frontend 63.35% statement coverage). All 216 production source files carry full JSDoc documentation. Four stretch features (journaling, AI insights, advanced trackers, AI summarization) are deferred to post-launch.
 
 ### Team
 
@@ -166,8 +169,10 @@ Senior capstone project at Grand Canyon University, advised by Professor Amr Elc
 
 | Resource | URL |
 |---|---|
-| Standalone Portfolio Site Source | [LunaraPortfolio](../LunaraPortfolio) |
 | Live Application | [lunaracare.org](https://www.lunaracare.org) |
+| Project Portfolio (Live) | [lunara-profile.design](https://www.lunara-profile.design) |
+| Project Portfolio (Source) | [LunaraPortfolio/](../LunaraPortfolio) |
+| Video Demonstration | [YouTube Screencast](https://www.youtube.com/watch?v=EY6ncwOMFUQ) |
 | API Documentation (local) | http://localhost:10000/api-docs |
 | API Documentation (production) | [lunara.onrender.com/api-docs](https://lunara.onrender.com/api-docs) |
 | Repository | [github.com/omniV1/lunaraCare](https://github.com/omniV1/lunaraCare) |

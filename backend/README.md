@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/>
 </p>
 
-<p align="center"><sub>Monorepo Jest total: <strong>1044</strong> tests (891 frontend + 153 backend) per <a href="../Docs/Capstone-Papers/05_milestone_5.tex">Milestone 5</a>.</sub></p>
+<p align="center"><sub>Monorepo Jest total: <strong>1044</strong> tests (891 frontend + 153 backend) per <a href="../Docs/Capstone-Papers/05_milestone_5.pdf">Milestone 5</a>.</sub></p>
 
 <p align="center">
   <a href="https://lunara.onrender.com/api-docs">Live Swagger</a> &nbsp;&bull;&nbsp;
@@ -34,7 +34,7 @@
 
 ## Inside the server
 
-This is not a thin CRUD wrapper. **20 route modules** delegate to **30 services** that implement scheduling rules, document workflows, blog and resource versioning, check-in trend analysis, appointment reminders, rate-limited messaging, and admin operations. **19 Mongoose models** map to MongoDB; binaries land in **GridFS**. Real-time paths run beside REST on the same process via **Socket.IO**.
+This is not a thin CRUD wrapper. **20 route modules** delegate to **29 services** that implement scheduling rules, document workflows, blog and resource versioning, check-in trend analysis, appointment reminders, rate-limited messaging, and admin operations. **19 Mongoose models** map to MongoDB; binaries land in **GridFS**. Real-time paths run beside REST on the same process via **Socket.IO**. All **79 production source files** carry full JSDoc documentation (`@module` headers, `@param`/`@returns`/`@throws` on every export).
 
 <p align="center">
   <img src="../Docs/img/Diagrams/Topology.png" alt="Deployment topology" width="82%"/>

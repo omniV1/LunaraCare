@@ -1,7 +1,7 @@
 % ============================================================
 % LUNARA Capstone Project — Milestone 6: Final Completion and Release
 % CST-452 Senior Capstone — Grand Canyon University
-% Author: Owen Lindsey
+% Authors: Owen Lindsey, Carter Wright, Andrew Mack
 % Compile: xelatex (requires MiKTeX with fontspec)
 % ============================================================
 \documentclass[12pt,letterpaper]{article}
@@ -148,7 +148,7 @@
 % ── PDF Metadata ──
 \hypersetup{
   pdftitle={LUNARA Postpartum Support Platform --- Milestone 6: Final Completion and Release},
-  pdfauthor={Owen Lindsey},
+  pdfauthor={Owen Lindsey, Carter Wright, Andrew Mack},
   pdfsubject={CST-452 Senior Capstone --- Grand Canyon University},
   pdfkeywords={capstone, postpartum, LUNARA, full-stack, React, Node.js, MongoDB, release, portfolio},
 }
@@ -194,11 +194,11 @@
 
 \vspace{3cm}
 
-{\color{white}\large\textbf{Owen Lindsey}}
+{\color{white}\large\textbf{Owen Lindsey} \quad\textbullet\quad \textbf{Carter Wright} \quad\textbullet\quad \textbf{Andrew Mack}}
 
 \vspace{0.15cm}
 
-{\color{white!80}\normalsize Development Lead}
+{\color{white!80}\normalsize Full Stack Development Team}
 
 \vspace{2.5cm}
 
@@ -220,7 +220,7 @@
 
 \vspace{0.15cm}
 
-{\color{LunaraBlue!80}\normalsize Portfolio: \url{https://lunara-profile.design}}
+{\color{LunaraBlue!80}\normalsize Portfolio: \url{https://www.lunara-profile.design}}
 
 \vspace{0.15cm}
 
@@ -361,13 +361,7 @@ NFR10 & Monitoring \& Analytics & \textbf{Met} & Morgan logging, SonarQube analy
 
 \subsection{Planned Improvements (Maintenance Phase)}
 
-\begin{itemize}[nosep]
-  \item Enhanced mobile responsiveness with dedicated mobile testing pass
-  \item Full WCAG 2.1 AA accessibility audit and remediation
-  \item Expanded analytics dashboards with client progress reporting
-  \item Integration with external calendar services (Google Calendar, iCal export)
-  \item Implementation of deferred features (FR12--FR15) per post-launch roadmap
-\end{itemize}
+The maintenance roadmap focuses on five areas of continued investment. \textbf{Mobile responsiveness} will receive a dedicated testing pass across iOS Safari and Android Chrome to close the gaps identified in NFR2. A \textbf{WCAG~2.1~AA accessibility audit} will systematically address colour contrast, keyboard navigation, and screen-reader labelling to bring NFR6 to full compliance. \textbf{Analytics dashboards} will be expanded with longitudinal client-progress visualisations so providers can track recovery trajectories over weeks rather than individual check-ins. \textbf{External calendar integration} (Google Calendar sync, iCal export) will embed LUNARA scheduling into the tools providers already use. Finally, the four \textbf{deferred features}---digital journaling (FR12), daily insights (FR13), sleep and feeding trackers (FR14), and AI-powered note summarisation (FR15)---remain on the post-launch roadmap per instructor and mentor approval.
 
 \newpage
 
@@ -420,8 +414,12 @@ Operations & CI/CD, containerization, static analysis & Docker, GitHub Actions, 
 
 Project documentation was reviewed and updated to reflect the final state of the system:
 
+% GitHub base for blob links
+\newcommand{\ghblob}{https://github.com/omniV1/lunaraCare/blob/main}
+\newcommand{\ghtree}{https://github.com/omniV1/lunaraCare/tree/main}
+
 {\small
-\begin{longtable}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{5cm}|}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4.8cm}|>{\raggedright\arraybackslash}p{4.7cm}|}
 \caption{Documentation Inventory}\label{tab:docs}\\
 \hline
 \rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Document}} & \textcolor{TableHeaderText}{\textbf{Location}} & \textcolor{TableHeaderText}{\textbf{Content}} \\
@@ -438,41 +436,108 @@ Project documentation was reviewed and updated to reflect the final state of the
 \hline
 \endlastfoot
 
-Project README & \texttt{README.md} & High-level overview, quickstart instructions, repository links \\
-\hline
-\rowcolor{TableRowAlt}
-Backend README & \texttt{backend/README.md} & API architecture, environment configuration, route-module inventory \\
-\hline
-Frontend README & \texttt{Lunara/README.md} & Component structure, build pipeline, development workflow \\
-\hline
-\rowcolor{TableRowAlt}
-Portfolio Site README & \texttt{LunaraPortfolio/README.md} & Standalone employer-facing project website \\
-\hline
-Development Guide & \texttt{Docs/DEVELOPMENT\_GUIDE.md} & Local setup, coding standards, testing procedures, contributor onboarding \\
-\hline
-\rowcolor{TableRowAlt}
-Sprint Plan & \texttt{Docs/Planning/SPRINT\_PLAN.md} & Iteration-level progress, completion percentages, scope adjustments \\
-\hline
-SCA Guide & \texttt{Docs/SCA\_GUIDE.md} & SonarQube quality workflow, metrics interpretation \\
-\hline
-\rowcolor{TableRowAlt}
-Swagger API Docs & \texttt{/api-docs} endpoint & Interactive endpoint explorer for all 127 route handlers \\
-\hline
-Project Requirements & Final submission PDF artifact & Requirements and architecture document carried forward from CST-451 \\
-\hline
-\rowcolor{TableRowAlt}
-Development Phase Report & Final submission PDF artifact & Coding and testing report carried forward from the prior milestone package \\
+%--- Live Deployments ---
+\multicolumn{3}{|l|}{\cellcolor{LunaraBlue!10}\textbf{Live Deployments}} \\
 \hline
 Live Application & \url{https://www.lunaracare.org} & Deployed frontend and primary product experience for reviewers \\
 \hline
 \rowcolor{TableRowAlt}
-Portfolio Site (Live) & \url{https://lunara-profile.design} & Standalone project portfolio website deployed on a custom domain \\
+Portfolio Site (Live) & \url{https://www.lunara-profile.design} & Standalone employer-facing portfolio on a custom domain \\
 \hline
-Portfolio Site (Source) & \texttt{LunaraPortfolio/} & Source code for the portfolio site included in the repository \\
+Swagger API Docs & \href{https://lunara.onrender.com/api-docs}{\texttt{/api-docs} endpoint} & Interactive explorer for all 127 route handlers \\
 \hline
 \rowcolor{TableRowAlt}
-Presentation Assets & \texttt{Docs/Presentations/} & Showcase poster source and exported PDFs used in Milestone~6 presentation materials \\
+Video Demonstration & \href{https://www.youtube.com/watch?v=EY6ncwOMFUQ}{YouTube Screencast} & 5--10 minute screencast demonstrating the working project \\
 \hline
+
+%--- Repository READMEs ---
+\multicolumn{3}{|l|}{\cellcolor{LunaraBlue!10}\textbf{Repository READMEs}} \\
+\hline
+Project README & \href{\ghblob/README.md}{\texttt{README.md}} & High-level overview, quickstart instructions, repository links \\
+\hline
+\rowcolor{TableRowAlt}
+Backend README & \href{\ghblob/backend/README.md}{\texttt{backend/README.md}} & API architecture, environment configuration, route-module inventory \\
+\hline
+Frontend README & \href{\ghblob/Lunara/README.md}{\texttt{Lunara/README.md}} & Component structure, build pipeline, development workflow \\
+\hline
+\rowcolor{TableRowAlt}
+Portfolio Site README & \href{\ghblob/LunaraPortfolio/README.md}{\texttt{LunaraPortfolio/README.md}} & Portfolio site overview, build and deploy instructions \\
+\hline
+Docs README & \href{\ghblob/Docs/README.md}{\texttt{Docs/README.md}} & Documentation directory map and navigation guide \\
+\hline
+
+%--- Capstone Milestone Papers ---
+\multicolumn{3}{|l|}{\cellcolor{LunaraBlue!10}\textbf{Capstone Milestone Papers}} \\
+\hline
+\rowcolor{TableRowAlt}
+Capstone Paper Index & \href{\ghblob/Docs/Capstone-Papers/00_INDEX.md}{\texttt{Docs/Capstone-Papers/00\_INDEX.md}} & Master table of contents for all capstone documents \\
+\hline
+APA Title Page & \href{\ghblob/Docs/Capstone-Papers/APA_TITLE_PAGE.md}{\texttt{.../APA\_TITLE\_PAGE.md}} & Formatted title page for the capstone submission \\
+\hline
+\rowcolor{TableRowAlt}
+M1 -- Project Purpose & \href{\ghblob/Docs/Capstone-Papers/01_PURPOSE_OF_CAPSTONE_PROJECT.md}{\texttt{.../01\_PURPOSE\_.md}} & Problem statement, stakeholders, and project vision \\
+\hline
+M2 -- Technology Req. & \href{\ghblob/Docs/Capstone-Papers/02_TECHNOLOGY_REQUIREMENTS.md}{\texttt{.../02\_TECHNOLOGY\_.md}} & Stack selection rationale, functional and non-functional requirements \\
+\hline
+\rowcolor{TableRowAlt}
+M3 -- Project Timeline & \href{\ghblob/Docs/Capstone-Papers/03_PROJECT_TIMELINE.md}{\texttt{.../03\_PROJECT\_TIMELINE.md}} & Sprint plan, Gantt chart, risk register \\
+\hline
+M4 -- Dev Phase (Code) & \href{\ghblob/Docs/Capstone-Papers/04_MILESTONE_4_DEVELOPMENT_PHASE_CODING.md}{\texttt{.../04\_MILESTONE\_4\_.md}} & Coding phase report -- architecture, implementation, CI/CD \\
+\hline
+\rowcolor{TableRowAlt}
+M5 -- Dev Phase (Test) & \href{\ghblob/Docs/Capstone-Papers/05_milestone_5.pdf}{\texttt{.../05\_milestone\_5.pdf}} & Testing phase report -- Jest, Playwright, SonarQube results \\
+\hline
+M6 -- Final Completion & \href{\ghblob/Docs/Capstone-Papers/06_milestone_6.pdf}{\texttt{.../06\_milestone\_6.pdf}} & This document -- release, requirements matrix, portfolio \\
+\hline
+\rowcolor{TableRowAlt}
+Academic Integrity & \href{\ghblob/Docs/Capstone-Papers/07_ACADEMIC_INTEGRITY.md}{\texttt{.../07\_ACADEMIC\_INTEGRITY.md}} & Academic integrity acknowledgement for the capstone \\
+\hline
+Plagiarism Statement & \href{\ghblob/Docs/Capstone-Papers/08_PLAGIARISM.md}{\texttt{.../08\_PLAGIARISM.md}} & Plagiarism policy and student attestation \\
+\hline
+\rowcolor{TableRowAlt}
+Sources \& References & \href{\ghblob/Docs/Capstone-Papers/09_SOURCES_OF_INFORMATION_AND_REFERENCES.md}{\texttt{.../09\_SOURCES\_.md}} & Annotated bibliography and information sources \\
+\hline
+Intellectual Property & \href{\ghblob/Docs/Capstone-Papers/10_INTELLECTUAL_PROPERTY.md}{\texttt{.../10\_INTELLECTUAL\_.md}} & IP ownership and licensing considerations \\
+\hline
+\rowcolor{TableRowAlt}
+References & \href{\ghblob/Docs/Capstone-Papers/11_REFERENCES.md}{\texttt{.../11\_REFERENCES.md}} & APA-formatted reference list \\
+\hline
+
+%--- Operational Guides ---
+\multicolumn{3}{|l|}{\cellcolor{LunaraBlue!10}\textbf{Operational \& Developer Guides}} \\
+\hline
+Development Guide & \href{\ghblob/Docs/DEVELOPMENT_GUIDE.md}{\texttt{Docs/DEVELOPMENT\_GUIDE.md}} & Local setup, coding standards, testing procedures, contributor onboarding \\
+\hline
+\rowcolor{TableRowAlt}
+Sprint Plan & \href{\ghblob/Docs/Planning/SPRINT_PLAN.md}{\texttt{Docs/Planning/SPRINT\_PLAN.md}} & Iteration-level progress, completion percentages, scope adjustments \\
+\hline
+SCA Guide & \href{\ghblob/Docs/SCA_GUIDE.md}{\texttt{Docs/SCA\_GUIDE.md}} & SonarQube quality gates, metrics interpretation \\
+\hline
+\rowcolor{TableRowAlt}
+Render Deploy Guide & \href{\ghblob/Docs/RENDER_DEPLOY.md}{\texttt{Docs/RENDER\_DEPLOY.md}} & Production deployment procedures for Render hosting \\
+\hline
+Maintenance Paper & \href{\ghblob/Docs/GCU_CAPSTONE_MAINTENANCE_PAPER.md}{\texttt{Docs/GCU\_CAPSTONE\_...md}} & Long-term maintenance plan and handoff documentation \\
+\hline
+\rowcolor{TableRowAlt}
+CI/CD Overview & \href{\ghblob/Docs/CI-CD-Overview.html}{\texttt{Docs/CI-CD-Overview.html}} & GitHub Actions pipeline visualization and workflow summary \\
+\hline
+JWT Token Guide & \href{\ghblob/backend/HOW_TO_GET_JWT_TOKEN.md}{\texttt{backend/HOW\_TO\_GET\_JWT\_.md}} & Developer reference for obtaining and testing JWT tokens \\
+\hline
+
+%--- Presentation & Source ---
+\multicolumn{3}{|l|}{\cellcolor{LunaraBlue!10}\textbf{Presentation Assets \& Source Code}} \\
+\hline
+\rowcolor{TableRowAlt}
+Showcase Poster (PDF) & \href{\ghblob/Docs/Presentations/LUNARA_Showcase_Poster_REVISED.pdf}{\texttt{.../LUNARA\_Showcase\_Poster\_.pdf}} & Final revised showcase poster for Milestone~6 presentation \\
+\hline
+Portfolio Site (Source) & \href{\ghtree/LunaraPortfolio}{\texttt{LunaraPortfolio/}} & Source code for the standalone portfolio website \\
+\hline
+\rowcolor{TableRowAlt}
+Backend Source & \href{\ghtree/backend/src}{\texttt{backend/src/}} & Express API server -- 79 fully JSDoc-commented TypeScript files \\
+\hline
+Frontend Source & \href{\ghtree/Lunara/src}{\texttt{Lunara/src/}} & React SPA -- 140 fully JSDoc-commented TypeScript files \\
+\hline
+
 \end{longtable}
 }
 
@@ -532,17 +597,11 @@ In the midst of building a platform that supports mothers through one of the mos
 % ============================================================
 \section{Project Portfolio}
 
-The Milestone~6 portfolio requirement is satisfied through a three-part presentation strategy:
-
-\begin{enumerate}[nosep]
-  \item The live LUNARA application at \url{https://www.lunaracare.org}, which lets reviewers experience the real product directly.
-  \item A standalone project portfolio website deployed at \url{https://lunara-profile.design}, built to summarize the capstone for employers and evaluators.
-  \item The source repository at \url{https://github.com/omniV1/lunaraCare} containing all code, documentation, and CI/CD configuration.
-\end{enumerate}
+The Milestone~6 portfolio requirement is satisfied through a three-part presentation strategy. \textbf{First}, the live LUNARA application at \url{https://www.lunaracare.org} lets reviewers experience the deployed product directly---authenticating, navigating dashboards, scheduling appointments, exchanging messages, and inspecting the full feature set in a production environment. \textbf{Second}, a standalone project portfolio website deployed at \url{https://www.lunara-profile.design} summarises the capstone for employers and evaluators in a single, self-contained page covering architecture, security, testing, code excerpts, and deliverables. \textbf{Third}, the source repository at \url{https://github.com/omniV1/lunaraCare} provides complete access to all code, documentation, CI/CD configuration, and commit history so evaluators can verify development best practices at the source level.
 
 \subsection{Portfolio Site Content}
 
-The standalone portfolio site at \url{https://lunara-profile.design} provides the following sections:
+The standalone portfolio site at \url{https://www.lunara-profile.design} provides the following sections:
 
 \begin{table}[H]
 \centering
@@ -582,7 +641,7 @@ Team References & Developer portfolio links (\url{https://www.omniv.org/}, \url{
 
 \subsection{Portfolio Deployment}
 
-The portfolio site is built with React~18, TypeScript, and Vite~6, and deployed on Vercel with a custom domain at \texttt{lunara-profile.design}. The source code resides in the \texttt{LunaraPortfolio/} directory of the monorepo. A \texttt{vercel.json} configuration file handles SPA routing with a catch-all rewrite rule.
+The portfolio site is built with React~18, TypeScript, and Vite~6, and deployed on Vercel with a custom domain at \texttt{www.lunara-profile.design}. The source code resides in the \texttt{LunaraPortfolio/} directory of the monorepo. A \texttt{vercel.json} configuration file handles SPA routing with a catch-all rewrite rule.
 
 \newpage
 
@@ -612,7 +671,7 @@ Documentation Completeness & Onboarding and review materials & \textbf{Met} & RE
 \rowcolor{TableRowAlt}
 Operational Readiness & Deployment and security & \textbf{Met} & Docker, env-var config, Helmet, CORS, rate limiting, bcrypt, JWT \\
 \hline
-Portfolio Readiness & Internet-facing portfolio & \textbf{Met} & Live at \url{https://lunara-profile.design} with custom domain; source in \texttt{LunaraPortfolio/} \\
+Portfolio Readiness & Internet-facing portfolio & \textbf{Met} & Live at \url{https://www.lunara-profile.design} with custom domain; source in \texttt{LunaraPortfolio/} \\
 \hline
 \end{tabularx}
 \caption{Release readiness assessment}
@@ -625,21 +684,19 @@ Portfolio Readiness & Internet-facing portfolio & \textbf{Met} & Live at \url{ht
 % ============================================================
 \section{Final Project Submission}
 
-The project folder and GitHub repository (\url{https://github.com/omniV1/lunaraCare}) contain:
+The project folder and GitHub repository (\url{https://github.com/omniV1/lunaraCare}) contain a complete, self-contained deliverable package.
 
-\begin{itemize}[nosep]
-  \item Updated Project Proposal and Requirements Document
-  \item Architecture Plan (87-page PDF)
-  \item Development Phase Report (56-page PDF)
-  \item .README file with link to private Git repository
-  \item Complete source code with TypeScript throughout (backend + frontend + standalone portfolio site)
-  \item 1,044 Jest tests (153 backend in \texttt{backend/tests/}, 891 frontend in \texttt{Lunara/src/tests/}) plus 32 Playwright E2E tests
-  \item Swagger/OpenAPI documentation at \texttt{/api-docs}
-  \item Capstone paper packet (this document set)
-  \item Presentation materials in \texttt{Docs/Presentations/} and screencast-ready demo structure
-  \item Live deployed application at \url{https://www.lunaracare.org}
-  \item Standalone project portfolio deployed at \url{https://lunara-profile.design} (source in \texttt{LunaraPortfolio/})
-\end{itemize}
+\paragraph{Academic artifacts.}
+The updated \emph{Project Proposal and Requirements Document}, the \emph{Architecture Plan} (87-page PDF), and the \emph{Development Phase Report} (56-page PDF) are included alongside this capstone paper packet. A \texttt{README.md} file at the repository root provides a link to the private Git repository and high-level quickstart instructions.
+
+\paragraph{Source code.}
+The entire codebase is written in TypeScript. The backend (\texttt{backend/src/}, 79 files) houses the Express API with 20 route modules, 19 Mongoose models, and 29 service modules. The frontend (\texttt{Lunara/src/}, 140 files) contains 97 React components, 13 service modules, 4 context providers, and 11 page-level screens. A standalone portfolio site resides in \texttt{LunaraPortfolio/}. All 216 production source files carry full JSDoc documentation with file-level \texttt{@module} headers and \texttt{@param}/\texttt{@returns}/\texttt{@throws} annotations on every exported function, interface, and type.
+
+\paragraph{Testing and quality.}
+The repository includes 1,044 Jest tests (153 backend in \texttt{backend/tests/}, 891 frontend in \texttt{Lunara/src/tests/}) and 32 Playwright end-to-end tests. Swagger/OpenAPI documentation is served at the \texttt{/api-docs} endpoint for interactive exploration of all 127 route handlers.
+
+\paragraph{Deployments and presentation.}
+The live application is deployed at \url{https://www.lunaracare.org} and the standalone project portfolio at \url{https://www.lunara-profile.design} (source in \texttt{LunaraPortfolio/}). Presentation materials, including the showcase poster, reside in \texttt{Docs/Presentations/}.
 
 \subsection{Internet-Facing Deliverables Summary}
 
@@ -653,7 +710,7 @@ The project folder and GitHub repository (\url{https://github.com/omniV1/lunaraC
 Live Application & \url{https://www.lunaracare.org} & Production deployment of the LUNARA platform \\
 \hline
 \rowcolor{TableRowAlt}
-Project Portfolio & \url{https://lunara-profile.design} & Employer-facing project summary and architecture overview \\
+Project Portfolio & \url{https://www.lunara-profile.design} & Employer-facing project summary and architecture overview \\
 \hline
 Backend API Docs & \url{https://lunara.onrender.com/api-docs} & Interactive Swagger/OpenAPI endpoint explorer \\
 \hline
@@ -680,15 +737,6 @@ This submission represents the culmination of the senior capstone experience and
 % ============================================================
 \section{Recommended Figures}
 
-The following figures are recommended for inclusion in the final presentation materials:
-
-\begin{enumerate}[nosep]
-  \item End-to-end provider workflow from login through client creation to care-plan update
-  \item Architecture diagram showing React, Express, MongoDB, and Socket.IO integration
-  \item Test suite results showing 1,044 Jest tests passing and SonarQube A/A/A dashboard
-  \item Standalone portfolio website at \texttt{lunara-profile.design} showing project summary and architecture
-  \item GitHub repository showing commit history and branch structure
-  \item Swagger API documentation showing the route inventory and endpoint surface
-\end{enumerate}
+The following figures are recommended for inclusion in the final presentation materials. An \textbf{end-to-end provider workflow} screenshot sequence should trace the path from login through client creation to a care-plan milestone update, demonstrating the breadth of the provider experience. The \textbf{system architecture diagram} (available in \texttt{Docs/img/Diagrams/SystemArchitecture.png}) illustrates the React, Express, MongoDB, and Socket.IO integration that underpins the platform. A \textbf{test suite results} capture showing 1,044 Jest tests passing alongside the SonarQube A/A/A quality dashboard reinforces testing confidence. A screenshot of the \textbf{standalone portfolio website} at \texttt{www.lunara-profile.design} conveys how the project is presented to employers. A \textbf{GitHub repository view} highlighting the commit history and branch structure demonstrates source-control management best practices. Finally, the \textbf{Swagger API documentation} screenshot showing the route inventory and endpoint surface communicates the scope of the backend API.
 
 \end{document}

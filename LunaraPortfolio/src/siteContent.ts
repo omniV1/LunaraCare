@@ -61,36 +61,15 @@ export const architectureLayers = [
 export const featureColumns = [
   {
     heading: 'Provider command center',
-    items: [
-      'Overview workspace with active-client counts, pending appointments, and unread message indicators',
-      'ProviderCalendar with availability-slot management, appointment scheduling, and status workflows (pending → confirmed → completed → cancelled)',
-      'Client roster with inline profile editing, care-plan creation from reusable templates, and check-in detail views with mood and symptom history',
-      'Blog and resource publishing with Quill rich-text editor, version history, category tagging, and draft/publish lifecycle',
-      'Multi-client MessageCenter backed by Socket.IO with REST polling fallback and delivery acknowledgements',
-      'Provider-initiated client invitations, document feedback workflows, and admin-level provider creation',
-    ],
+    body: 'The provider workspace opens to an overview displaying active-client counts, pending appointments, and unread message indicators. From there, the ProviderCalendar manages availability slots, appointment scheduling, and the full status lifecycle from pending through confirmed, completed, and cancelled. The client roster offers inline profile editing alongside care-plan creation from reusable templates and check-in detail views that surface mood and symptom history over time. Content publishing runs through a Quill rich-text editor with version history, category tagging, and a draft-to-publish lifecycle for both blog posts and resources. A multi-client MessageCenter backed by Socket.IO — with REST polling fallback and delivery acknowledgements — keeps communication realtime. The dashboard also supports provider-initiated client invitations, document feedback workflows, and admin-level provider account creation.',
   },
   {
     heading: 'Client recovery workspace',
-    items: [
-      'Five-step Zod-validated intake wizard: personal details, birth information, feeding preferences, support needs, and health context',
-      'Mood and symptom check-ins with a Three.js 3D orb visualization, share controls, and provider-visible trend aggregation',
-      'Document uploads with privacy levels, GridFS storage, provider review statuses, and version tracking',
-      'Appointment booking against provider availability slots, calendar grid view, and reminder scheduling',
-      'Suggested blog content, resource library with favorites and interaction tracking, and DOMPurify-sanitized rich-text rendering',
-      'Care-plan progress tracking with milestone completion inside a single authenticated dashboard',
-    ],
+    body: 'The client journey begins with a five-step Zod-validated intake wizard covering personal details, birth information, feeding preferences, support needs, and health context. Once onboarded, clients record mood and symptom check-ins visualized through a Three.js 3D orb with share controls and provider-visible trend aggregation. Document uploads support privacy levels, GridFS storage, provider review statuses, and version tracking. Appointment booking works against provider-defined availability slots with a calendar grid view and reminder scheduling. The resource library surfaces suggested blog content and educational materials with favorites, interaction tracking, and DOMPurify-sanitized rich-text rendering. Care-plan progress tracking with milestone completion rounds out the experience inside a single authenticated dashboard.',
   },
   {
     heading: 'Public brand surface',
-    items: [
-      'Marketing landing page with warm photography, calm typography, and service framing that establishes trust before asking for engagement',
-      'React Hook Form inquiry submission with Zod validation posting to a rate-limited public contact endpoint',
-      'Public blog index and detail pages with SEO-friendly slugs, view counts, and sanitized HTML content',
-      'Login with email/password, Google OAuth redirect flow, and MFA challenge step — all with accessible form patterns and sr-only labels',
-      'Email verification, forgot-password, and reset-password flows with tokenized links',
-      'Responsive across all viewports with safe-area CSS variables for notched mobile devices',
-    ],
+    body: 'The marketing landing page leads with warm photography, calm typography, and service framing designed to establish trust before asking for engagement. Contact inquiries submit through React Hook Form with Zod validation to a rate-limited public endpoint. A public blog index and detail pages use SEO-friendly slugs, view counts, and sanitized HTML content to surface provider-authored educational material. Login supports email and password, Google OAuth redirect flow, and an MFA challenge step — all built with accessible form patterns and sr-only labels. Email verification, forgot-password, and reset-password flows use tokenized links. The entire surface is responsive across all viewports with safe-area CSS variables for notched mobile devices.',
   },
 ];
 
@@ -160,15 +139,8 @@ export const artifactLinks = [
   },
 ];
 
-export const implementationNotes = [
-  'Backend test accounts: run `cd backend && npm run seed:test-users` to provision `testprovider@lunara.dev` and `testclient@lunara.dev` with the password `Testing123!`. Additional seed scripts create admin accounts and care-plan templates.',
-  'The backend exposes a health endpoint at `/api/health` returning status, timestamp, and environment, used by Docker HEALTHCHECK and Render automatic monitoring.',
-  'CORS is configured with an explicit allowlist plus dynamic pattern matching for Vercel preview deployments and lunaracare.org subdomains.',
-  'Rate limiting applies globally (100 requests per 15-minute window in production) with stricter limits on sensitive auth endpoints (5 per 15 minutes) and the public contact form.',
-  'File uploads use multer with memory storage (10 MB limit, MIME whitelist for images/PDF/Word) writing to MongoDB GridFS with ownership metadata for access control.',
-  'The frontend Axios client intercepts 401 responses to attempt a silent token refresh via httpOnly cookie, retries the original request on success, and fires a cross-tab session-expiry event on failure.',
-  'The production frontend runs behind Nginx with HSTS, Content-Security-Policy, X-Frame-Options, gzip compression, and long-cache headers for hashed static assets.',
-];
+export const implementationNarrative =
+  'Reviewers can provision test accounts by running the seed script from the backend directory, which creates a provider account at testprovider@lunara.dev and a client account at testclient@lunara.dev, both using the password Testing123!. Additional seed scripts set up admin accounts and care-plan templates for a more complete demo experience. The backend exposes a health endpoint at /api/health returning status, timestamp, and environment information, used by both Docker health checks and Render\'s automatic monitoring.\n\nCross-origin access is configured with an explicit allowlist plus dynamic pattern matching that accommodates Vercel preview deployments and lunaracare.org subdomains. Rate limiting applies globally at 100 requests per 15-minute window in production, with stricter limits of 5 per 15 minutes on sensitive authentication endpoints and a dedicated limiter on the public contact form. File uploads use multer with memory storage, enforcing a 10 MB limit and a MIME whitelist for images, PDFs, and Word documents before writing to MongoDB GridFS with ownership metadata for access control.\n\nOn the frontend, the Axios client intercepts 401 responses to attempt a silent token refresh via httpOnly cookie, retries the original request on success, and fires a cross-tab session-expiry event on failure. The production build runs behind Nginx with HSTS, Content-Security-Policy, X-Frame-Options, gzip compression, and long-cache headers for hashed static assets.';
 
 export const codeSamples = [
   {
@@ -286,15 +258,8 @@ const ClientDashboard = lazy(() => import('./pages/ClientDashboard'));
   },
 ];
 
-export const runSteps = [
-  'Clone the monorepo: `git clone https://github.com/omniV1/lunaraCare.git && cd lunaraCare`',
-  'Start MongoDB locally or set `MONGODB_URI` in `backend/.env` to an Atlas cluster',
-  'Backend: `cd backend && npm install && npm run seed:test-users && npm run dev` — runs on port 10000',
-  'Frontend: `cd Lunara && npm install && npm run dev` — runs on port 5173 with Vite HMR',
-  'Portfolio site: `cd LunaraPortfolio && npm install && npm run dev` — standalone at port 5174',
-  'Full Docker stack: `docker compose up` from the repo root spins up MongoDB, backend, frontend, and SonarQube',
-  'Run all tests: `cd backend && npm test` (21 unit suites) then `cd Lunara && npm test` (107 test files) then `npm run test:e2e` (Playwright)',
-];
+export const runNarrative =
+  'To run the full stack locally, start by cloning the monorepo and ensuring MongoDB is available — either running locally or configured via a MONGODB_URI environment variable in backend/.env pointing to an Atlas cluster. The backend starts from the backend directory with npm install followed by npm run dev, serving on port 10000; running the seed script beforehand provisions test accounts for immediate access. The frontend starts separately from the Lunara directory with Vite\'s hot-module-replacement dev server on port 5173, and the portfolio site runs standalone from the LunaraPortfolio directory on port 5174.\n\nFor the full containerized experience, docker compose up from the repository root spins up MongoDB, the backend, an Nginx-fronted frontend, and SonarQube with Postgres. The complete test suite runs across three commands: backend Jest suites from the backend directory, frontend Jest files from the Lunara directory, and Playwright end-to-end specs via npm run test:e2e.';
 
 export const teamLinks = [
   {
@@ -317,13 +282,8 @@ export const teamLinks = [
   },
 ];
 
-export const posterBoardNotes = [
-  'The backend organizes 20 route modules and 127 Express handlers across authentication (register, login, refresh, logout, MFA, OAuth), intake, appointments, messaging, check-ins, resources, documents, blog publishing, care plans, recommendations, push notifications, file storage, and admin operations.',
-  'Security is layered: Helmet and custom headers, bcrypt password hashing, JWT with issuer/audience claims, httpOnly refresh cookies, TOTP multi-factor authentication with backup codes, account lockout, rate limiting at global and per-endpoint levels, request sanitization, and CORS allowlisting.',
-  '19 Mongoose models define the data layer with full relationship graphs — User, Client, Provider, Appointment, AvailabilitySlot, Message, Resource, ResourceVersion, Category, BlogPost, BlogPostVersion, CarePlan, CarePlanTemplate, CheckIn, ClientDocument, ClientDocumentVersion, Inquiry, UserResourceInteraction, and PushSubscription.',
-  'The frontend ships 97 components, 11 lazy-loaded page routes, 13 service modules, and 3 custom hooks. React Context manages auth state and resource library state. An Axios interceptor handles automatic token refresh, cross-tab session sync, and exponential backoff on rate-limited responses.',
-  'Quality assurance runs 1,044 Jest tests (services, middleware, hooks, contexts, components) and 32 Playwright E2E specs (landing, auth, blog, navigation) across a Node 18/20 CI matrix. SonarQube tracks duplications at 2.6%, maintainability ratings at A, and coverage above configured thresholds.',
-];
+export const posterBoardNarrative =
+  'The backend organizes twenty route modules and 127 Express handlers spanning authentication, intake, appointments, messaging, check-ins, resources, documents, blog publishing, care plans, recommendations, push notifications, file storage, and admin operations. Security is layered throughout: Helmet and custom headers harden transport, bcrypt hashes passwords, JWT tokens carry issuer and audience claims, httpOnly cookies store refresh tokens, TOTP provides multi-factor authentication with backup codes, and rate limiting operates at both global and per-endpoint levels alongside request sanitization and CORS allowlisting.\n\nNineteen Mongoose models define the data layer with full relationship graphs — from User, Client, and Provider through Appointment, Message, Resource, BlogPost, CarePlan, CheckIn, and ClientDocument, each with version-history counterparts and interaction tracking. The frontend ships 97 components across 11 lazy-loaded page routes, 13 service modules, and 3 custom hooks, with React Context managing auth and resource state while an Axios interceptor handles automatic token refresh, cross-tab session sync, and exponential backoff on rate-limited responses.\n\nQuality assurance runs 1,044 Jest tests covering services, middleware, hooks, contexts, and components alongside 32 Playwright end-to-end specs across a Node 18/20 CI matrix. SonarQube tracks duplications at 2.6 percent, maintainability ratings at A, and coverage above configured thresholds.';
 
 export const architectureNarrative = [
   'LUNARA is not a single-page brochure with a login attached. It is a coordinated postpartum support system with three distinct surface areas — a public brand experience that builds trust before asking for engagement, a provider command center for managing an entire doula practice, and a client recovery workspace that turns fragmented postpartum care into a single continuous relationship.',
