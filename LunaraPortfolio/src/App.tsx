@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { layoutNextLine, prepareWithSegments } from '@chenglou/pretext';
+import posterPdf from './assets/lunara-showcase-poster-revised.pdf';
 import {
+  architectureNarrative,
   architectureLayers,
   artifactLinks,
   brandImages,
@@ -10,6 +12,7 @@ import {
   highlights,
   implementationNotes,
   portfolioStats,
+  posterBoardNotes,
   runSteps,
   showcaseSections,
   teamLinks,
@@ -99,6 +102,14 @@ function App() {
     return buildEditorialLayout(stageWidth);
   }, [width]);
 
+  const resolvedArtifactLinks = useMemo(
+    () =>
+      artifactLinks.map((artifact) =>
+        artifact.title === 'Showcase poster' ? { ...artifact, href: posterPdf } : artifact
+      ),
+    []
+  );
+
   return (
     <div className="page-shell">
       <header className="hero-shell">
@@ -106,7 +117,7 @@ function App() {
           <div className="topbar-wordmark">
             <span className="topbar-script">Lunara</span>
             <span className="topbar-divider" />
-            <span className="topbar-label">Project Portfolio</span>
+            <span className="topbar-label">Senior Project</span>
           </div>
           <nav className="topbar-nav">
             <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
@@ -131,8 +142,9 @@ function App() {
               <p className="eyebrow">LUNARA PROJECT PORTFOLIO</p>
               <h1>Postpartum care continuity, packaged as a production-ready full-stack platform.</h1>
               <p className="hero-summary">
-                This standalone site explains the application behind the capstone through the same warm,
-                editorial visual language as the main LUNARA experience.
+                LUNARA unifies the public brand experience, provider operations, and client recovery
+                workflows into one coordinated platform built for secure communication, sustained
+                support, and long-term maintainability.
               </p>
               <div className="hero-links">
                 <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
@@ -179,23 +191,23 @@ function App() {
                 }}
               >
                 <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
-                <p className="obstacle-label">Why Pretext here?</p>
-                <h2>Editorial text flow without DOM reflow.</h2>
+                <p className="obstacle-label">Operational snapshot</p>
+                <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
                 <p>
-                  The body copy on the left is laid out line by line with Pretext so it can route around
-                  this card while keeping browser-accurate text measurement.
+                  The application ties together public discovery, provider coordination, and client
+                  engagement without breaking the emotional tone of the brand.
                 </p>
                 <ul>
-                  <li>Canvas-based text measurement</li>
-                  <li>Obstacle-aware wrapping</li>
-                  <li>No `getBoundingClientRect` hot-path layout reads</li>
+                  <li>Role-aware dashboards for providers and clients</li>
+                  <li>Realtime messaging, appointments, and document workflows</li>
+                  <li>Content, care plans, and recovery context in one system</li>
                 </ul>
               </aside>
             ) : null}
           </div>
           <p className="editorial-caption">
-            The hero paragraph uses <code>@chenglou/pretext</code> to compute each line and wrap it
-            around a summary card, matching the portfolio’s editorial presentation goal.
+            A dense opening narrative establishes the full scope of the product before moving into the
+            architecture, workflow, and submission evidence behind the release.
           </p>
         </div>
       </header>
@@ -223,21 +235,59 @@ function App() {
 
         <Section
           title="Project overview"
-          description="LUNARA is the core deliverable; this site is the explanatory layer around it."
+          description="A coordinated postpartum platform across public, provider, and client experiences."
         >
-          <div className="card-grid">
-            {highlights.map((item) => (
-              <article key={item.title} className="content-card">
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
+          <div className="narrative-grid">
+            <div className="narrative-column">
+              {architectureNarrative.map((paragraph) => (
+                <p key={paragraph} className="narrative-paragraph">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <div className="narrative-column narrative-column--tight">
+              <div className="highlight-list">
+                {highlights.map((item) => (
+                  <article key={item.title} className="highlight-item">
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </Section>
 
+        <section className="poster-board">
+          <div className="poster-board-frame">
+            <iframe src={posterPdf} title="LUNARA showcase poster" />
+          </div>
+          <div className="poster-board-copy">
+            <p className="eyebrow">Presentation asset</p>
+            <h2>The showcase poster sits beside the same implementation story the live app proves out.</h2>
+            <p>
+              The poster is only one artifact in the release package. It now lives directly inside this
+              deployment so reviewers can open it without depending on an external GitHub binary link.
+            </p>
+            <ul className="bullet-list">
+              {posterBoardNotes.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="hero-links poster-actions">
+              <a href={posterPdf} target="_blank" rel="noreferrer">
+                Open the poster
+              </a>
+              <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
+                Compare with the live product
+              </a>
+            </div>
+          </div>
+        </section>
+
         <Section
           title="Architecture in one view"
-          description="A simple portfolio-facing system diagram that mirrors the deeper documentation set."
+          description="Application flow, coordination services, persistence, and operations are all deliberate parts of the release story."
         >
           <div className="architecture-stack">
             {architectureLayers.map((layer, index) => (
@@ -254,7 +304,7 @@ function App() {
 
         <Section
           title="Feature coverage"
-          description="The MVP is broad enough to support both employer-facing discussion and capstone evaluation."
+          description="Provider and client flows were designed as parallel workspaces with different responsibilities but the same source of truth."
         >
           <div className="column-grid">
             {featureColumns.map((column) => (
@@ -275,7 +325,7 @@ function App() {
           description="Everything a reviewer needs to validate the build, from docs to presentation materials."
         >
           <div className="artifact-list">
-            {artifactLinks.map((artifact) => (
+            {resolvedArtifactLinks.map((artifact) => (
               <a
                 key={artifact.title}
                 className="artifact-card"
@@ -294,24 +344,9 @@ function App() {
           </div>
         </Section>
 
-        <section className="split-banner">
-          <div className="split-banner-copy">
-            <p className="eyebrow">Visual continuity</p>
-            <h2>The portfolio now borrows the same visual cues as the product itself.</h2>
-            <p>
-              Cream paper surfaces, deep brown framing, soft sage accents, large photography, and
-              serif/script typography all echo the main LUNARA website so the portfolio feels like part
-              of the same brand world.
-            </p>
-          </div>
-          <div className="split-banner-media">
-            <img src={brandImages.baby} alt="Lunara visual styling reference" />
-          </div>
-        </section>
-
         <Section
           title="Implementation notes"
-          description="The portfolio requirement also needs practical access details, not just visuals."
+          description="Access details, deployment footprint, and demo setup matter because this system was built to be reviewed and run."
         >
           <div className="column-grid">
             <article className="content-card">
@@ -335,7 +370,7 @@ function App() {
 
         <Section
           title="Code excerpts"
-          description="Short snippets that show how the project handles seeded access, guarded routes, and the portfolio site’s own Pretext layout."
+          description="Small implementation slices show how the product handles seeded access, guarded workflows, and realtime communication."
         >
           <div className="snippet-grid">
             {codeSamples.map((sample) => (
@@ -378,7 +413,7 @@ function App() {
           <div className="portfolio-footer-copy">
             <span className="topbar-script">Lunara</span>
             <p>
-              A capstone portfolio companion to the live application at{' '}
+              A senior project showcase anchored by the live application at{' '}
               <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
                 lunaracare.org
               </a>

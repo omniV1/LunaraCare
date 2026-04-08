@@ -1,5 +1,5 @@
 export const heroNarrative =
-  'LUNARA is a full-stack postpartum support platform that brings client care, provider workflows, educational content, documentation, and quality evidence into one cohesive product. The application closes a real care-continuity gap by giving doulas and postpartum families a single place to communicate, schedule, track recovery, and manage care artifacts.';
+  'LUNARA is a full-stack postpartum support platform that brings scheduling, messaging, check-ins, educational content, clinical context, and care-plan coordination into a single environment. The product is designed to reduce fragmentation for postpartum families while giving doulas a structured, secure workspace for continuity of care.';
 
 export const brandImages = {
   hero: 'https://www.lunaracare.org/images/ollie%20head.png',
@@ -12,91 +12,91 @@ export const brandImages = {
 export const portfolioStats = [
   { value: '1044', label: 'Jest tests' },
   { value: '32', label: 'Playwright E2E' },
-  { value: '19+', label: 'Backend route modules' },
-  { value: '50+', label: 'React components' },
+  { value: '20', label: 'Route modules' },
+  { value: '30', label: 'Backend services' },
 ];
 
 export const highlights = [
   {
-    title: 'Why it matters',
-    body: 'Postpartum care often gets fragmented across messages, spreadsheets, paper forms, and disconnected tools. LUNARA replaces that fragmentation with a role-aware digital hub centered on continuity, privacy, and sustainable provider workflows.',
+    title: 'Care continuity',
+    body: 'Postpartum support often breaks across texts, spreadsheets, intake forms, and disconnected scheduling tools. LUNARA consolidates those fragments into one system so context follows the relationship instead of being rebuilt at every step.',
   },
   {
-    title: 'What was built',
-    body: 'The MVP includes secure authentication, provider and client dashboards, intake, appointments, real-time messaging, mood and symptom tracking, documents, care plans, educational resources, blog publishing, and admin tooling.',
+    title: 'Provider operations',
+    body: 'The provider workspace combines client management, scheduling, check-in review, care-plan authoring, educational publishing, document review, and secure communication in a single operational command surface.',
   },
   {
-    title: 'How it was delivered',
-    body: 'The codebase uses React, TypeScript, Vite, Express, MongoDB, Socket.IO, Swagger, Docker, GitHub Actions, Jest, Playwright, and SonarQube. The portfolio site adds Pretext to present that story with precise editorial layout.',
+    title: 'Client engagement',
+    body: 'The client experience balances warmth and structure: intake, recovery check-ins, appointments, documents, resources, care plans, and direct provider communication all live behind one authenticated workflow.',
   },
 ];
 
 export const architectureLayers = [
   {
-    name: 'Portfolio Site',
-    detail: 'This standalone employer-facing site summarizes the project and links outward to the live app, docs, artifacts, and team references.',
+    name: 'Experience layer',
+    detail: 'A public landing experience and two role-specific workspaces organize the product around client recovery and provider operations.',
   },
   {
-    name: 'Live Application',
-    detail: 'The production product at lunaracare.org exposes the public marketing/blog experience and role-based client and provider workflows.',
+    name: 'Application layer',
+    detail: 'React 18 on Vite drives protected routes, dashboard state, intake workflows, scheduling UI, documents, resources, blog surfaces, and messaging views.',
   },
   {
-    name: 'Frontend + API',
-    detail: 'React 18 on Vite talks to an Express + TypeScript backend over REST and Socket.IO, with guarded routes, refresh-token auth, and Swagger docs.',
+    name: 'Coordination layer',
+    detail: 'Express and TypeScript expose REST endpoints plus Socket.IO events for messaging, notifications, authentication, intake, resources, documents, and admin workflows.',
   },
   {
-    name: 'Persistence + Ops',
-    detail: 'MongoDB Atlas stores data and GridFS uploads, while Docker, GitHub Actions, Render, Vercel, and SonarQube support delivery and maintenance.',
+    name: 'Persistence + operations',
+    detail: 'MongoDB, GridFS, Docker, Render, Vercel, GitHub Actions, Swagger, and SonarQube provide storage, deployment, documentation, and release confidence.',
   },
 ];
 
 export const featureColumns = [
   {
-    heading: 'Client experience',
+    heading: 'Provider command center',
     items: [
-      'Five-step intake wizard with progressive validation',
-      'Daily mood and symptom check-ins with provider visibility controls',
-      'Appointment requests, confirmations, and calendar views',
-      'Secure document uploads, privacy levels, and care-plan tracking',
-      'Real-time messaging with the assigned provider',
+      'Overview workspace with active-client and pending-work visibility',
+      'Calendar scheduling, availability management, and appointment workflows',
+      'Client roster management with profile editing and care-plan actions',
+      'Blog and resource publishing with version-aware content handling',
+      'Check-in review, alerts, and document feedback loops',
     ],
   },
   {
-    heading: 'Provider experience',
+    heading: 'Client recovery workspace',
     items: [
-      'Dashboard overview of clients, schedules, and review queues',
-      'Calendar scheduling and availability management',
-      'Resource and blog publishing workflows',
-      'Document review, check-in alerts, and care-plan management',
-      'Admin/provider account tools and analytics surfaces',
+      'Five-step onboarding intake with progressive validation',
+      'Mood and symptom check-ins with share controls and recovery context',
+      'Document uploads, privacy levels, and provider review statuses',
+      'Appointments, unread messaging, resources, and recent blog content',
+      'Care-plan progress tracking inside a single signed-in dashboard',
     ],
   },
 ];
 
 export const showcaseSections = [
   {
-    title: 'A warmer front door',
+    title: 'Public experience that feels supportive, not clinical',
     description:
-      'The public-facing experience establishes the tone of the brand: soft photography, storybook typography, and a calm visual rhythm that feels supportive instead of clinical.',
+      'The public-facing surface establishes trust first: warm photography, calm typography, clear service framing, and direct movement into inquiry or login without losing the emotional tone of the brand.',
     image: brandImages.hero,
     align: 'image-right' as const,
-    kicker: 'Brand language',
+    kicker: 'Public surface',
   },
   {
-    title: 'A clear path into care',
+    title: 'Provider and client workflows share the same product spine',
     description:
-      'Clients and providers move from landing page to role-specific workflows through a single product surface that connects scheduling, messaging, forms, documents, and education.',
+      'The application ties together dashboards, scheduling, intake, messaging, documents, and educational content so both sides of the relationship work from the same source of truth.',
     image: brandImages.newborn,
     align: 'image-left' as const,
-    kicker: 'Product journey',
+    kicker: 'Product workflow',
   },
   {
-    title: 'Documentation with the same tone',
+    title: 'Release materials support the product instead of distracting from it',
     description:
-      'The portfolio site carries the same cream, brown, sage, and script-heavy aesthetic into the capstone narrative so the presentation feels like part of the product, not a disconnected artifact.',
+      'Documentation, poster assets, architecture references, testing evidence, and deployment links all reinforce the same delivery story: a polished application with credible engineering depth and a clear maintenance posture.',
     image: brandImages.belly,
     align: 'image-right' as const,
-    kicker: 'Milestone 6 packaging',
+    kicker: 'Submission package',
   },
 ];
 
@@ -127,15 +127,15 @@ export const artifactLinks = [
   },
   {
     title: 'Showcase poster',
-    href: 'https://github.com/omniV1/lunaraCare/blob/main/Docs/Presentations/LUNARA_Showcase_Poster_REVISED.pdf',
+    href: '',
     meta: 'Presentation support',
-    description: 'Revised poster export included in the project submission materials.',
+    description: 'Revised poster export bundled directly with the deployed project so reviewers can open the presentation asset without relying on GitHub-tracked binaries.',
   },
 ];
 
 export const implementationNotes = [
   'Backend test/demo accounts can be created with `cd backend && npm run seed:test-users`, which provisions `testprovider@lunara.dev` and `testclient@lunara.dev` using the known password `Testing123!`.',
-  'The live app remains the main deliverable; this portfolio site exists to explain the architecture, decisions, artifacts, and project context for employers and evaluators.',
+  'The production application remains the primary deliverable and demonstrates the full public, provider, and client experience at `lunaracare.org`.',
   'Developer websites are supplemental references only: Owen Lindsey (`omniv.org`) and Carter Wright (`carterwright.dev`). Andrew Mack does not currently have a public portfolio site linked in the submission.',
 ];
 
@@ -151,9 +151,9 @@ export const codeSamples = [
     snippet: `<Route\n  path=\"/provider/dashboard\"\n  element={\n    <ProtectedRoute allowedRoles={['provider']}>\n      <ProviderDashboard />\n    </ProtectedRoute>\n  }\n/>`,
   },
   {
-    title: 'Pretext-powered editorial layout',
+    title: 'Realtime message delivery acknowledgement',
     language: 'ts',
-    snippet: `const prepared = prepareWithSegments(heroNarrative, BODY_FONT);\nlet cursor = { segmentIndex: 0, graphemeIndex: 0 };\n\nwhile (true) {\n  const maxWidth = y < obstacleHeight ? stageWidth - obstacleWidth - gap : stageWidth;\n  const line = layoutNextLine(prepared, cursor, maxWidth);\n  if (!line) break;\n  lines.push({ text: line.text, top: y, width: line.width });\n  cursor = line.end;\n  y += lineHeight;\n}`,
+    snippet: `socket.emit('message_delivered', {\n  messageId: payload.id,\n  conversationId: payload.conversationId,\n  receiverId: payload.receiver,\n  deliveredAt: new Date().toISOString(),\n});`,
   },
 ];
 
@@ -182,4 +182,16 @@ export const teamLinks = [
     href: '',
     note: 'No public portfolio site provided in the final submission package',
   },
+];
+
+export const posterBoardNotes = [
+  'The backend organizes 20 route modules across authentication, intake, appointments, messaging, check-ins, resources, documents, blog publishing, push notifications, and admin operations.',
+  'Provider dashboards expose overview, clients, schedule, blog, profile, and provider-creation workflows; client dashboards focus on overview, messages, appointments, and profile-driven recovery tasks.',
+  'Release confidence is backed by 1044 Jest tests, 32 Playwright end-to-end tests, Swagger documentation, and a deployed frontend/backend split across Vercel and Render.',
+];
+
+export const architectureNarrative = [
+  'LUNARA is not a single-page brochure with a login attached. It is a coordinated postpartum support system with a public brand surface, protected dashboards, and a backend that treats scheduling, communication, content, and recovery context as first-class product domains.',
+  'The client journey starts with onboarding and continues through appointments, check-ins, documents, care plans, and educational resources. The provider journey sits in parallel, with client oversight, scheduling control, content publishing, and operational review all available from one workspace.',
+  'Underneath those flows, the backend blends route modularity, service orchestration, secure authentication, realtime messaging, and file handling into a maintainable architecture that can support continued growth after the capstone milestone.',
 ];
