@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   layoutNextLine,
   prepareWithSegments,
@@ -14,6 +14,7 @@ import {
   architectureLayers,
   artifactLinks,
   brandImages,
+  codeSamples,
   featureColumns,
   heroNarrative,
   highlights,
@@ -241,6 +242,98 @@ function getJustifySpacing(lineWidth: number, maxWidth: number, text: string): s
   return `${gap / spaces}px`;
 }
 
+function useScrollReveal<T extends HTMLElement>(threshold = 0.08) {
+  const ref = useRef<T | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold, rootMargin: '0px 0px -32px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, visible };
+}
+
+const KEYWORD_SET = new Set([
+  'const', 'let', 'var', 'import', 'export', 'from', 'async', 'await',
+  'return', 'if', 'else', 'new', 'function', 'type', 'interface', 'class',
+  'extends', 'true', 'false', 'null', 'undefined', 'void',
+]);
+
+const TOKEN_RE =
+  /(\/\/[^\n]*|'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*`|\b(?:const|let|var|import|export|from|async|await|return|if|else|new|function|type|interface|class|extends|true|false|null|undefined|void)\b|\b\d+(?:\.\d+)?\b)/g;
+
+function highlightLine(line: string): React.ReactNode[] {
+  const parts = line.split(TOKEN_RE);
+  return parts.map((part, i) => {
+    if (!part) return null;
+    if (part.startsWith('//'))
+      return <span key={i} className="tok-comment">{part}</span>;
+    if (part[0] === "'" || part[0] === '"' || part[0] === '`')
+      return <span key={i} className="tok-string">{part}</span>;
+    if (/^\d/.test(part))
+      return <span key={i} className="tok-number">{part}</span>;
+    if (KEYWORD_SET.has(part))
+      return <span key={i} className="tok-keyword">{part}</span>;
+    return <span key={i}>{part}</span>;
+  });
+}
+
+function CodeShowcase() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const { ref, visible } = useScrollReveal<HTMLDivElement>();
+  const tabBarRef = useRef<HTMLDivElement>(null);
+
+  const scrollTabIntoView = useCallback((idx: number) => {
+    const bar = tabBarRef.current;
+    if (!bar) return;
+    const btn = bar.children[idx] as HTMLElement | undefined;
+    btn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+  }, []);
+
+  const sample = codeSamples[activeIdx]!;
+  const lines = sample.snippet.split('\n');
+
+  return (
+    <div ref={ref} className={`code-showcase${visible ? ' code-showcase--visible' : ''}`}>
+      <div className="code-tab-bar" ref={tabBarRef}>
+        {codeSamples.map((s, i) => (
+          <button
+            key={s.title}
+            className={`code-tab${i === activeIdx ? ' code-tab--active' : ''}`}
+            onClick={() => { setActiveIdx(i); scrollTabIntoView(i); }}
+          >
+            <span className="code-tab-label">{s.title}</span>
+            <span className="code-tab-lang">{s.language}</span>
+          </button>
+        ))}
+      </div>
+      <div key={activeIdx} className="code-panel">
+        <div className="code-lines">
+          {lines.map((line, i) => (
+            <div key={i} className="code-line">
+              <span className="code-line-num">{i + 1}</span>
+              <span className="code-line-content">{highlightLine(line)}</span>
+            </div>
+          ))}
+        </div>
+        <span className="code-cursor" />
+      </div>
+    </div>
+  );
+}
+
 function PretextNarrative() {
   const { ref, width } = useElementWidth<HTMLDivElement>();
   const layout = useMemo(() => buildNarrativeLayout(width), [width]);
@@ -445,25 +538,7 @@ function App() {
       </header>
 
       <main className="content-shell">
-        <section className="showcase-rail">
-          {showcaseSections.map((section) => (
-            <article
-              key={section.title}
-              className={`showcase-card ${
-                section.align === 'image-left' ? 'showcase-card--reverse' : ''
-              }`}
-            >
-              <div className="showcase-media">
-                <img src={section.image} alt={section.title} />
-              </div>
-              <div className="showcase-copy">
-                <p className="eyebrow">{section.kicker}</p>
-                <h2>{section.title}</h2>
-                <p>{section.description}</p>
-              </div>
-            </article>
-          ))}
-        </section>
+        <ShowcaseRail />
 
         <Section
           title="Project overview"
@@ -580,6 +655,13 @@ function App() {
         </Section>
 
         <Section
+          title="Code excerpts"
+          description="Implementation slices showing how the product handles seeded access, guarded workflows, and realtime communication."
+        >
+          <CodeShowcase />
+        </Section>
+
+        <Section
           title="Artifacts and evidence"
           description="Everything a reviewer needs to validate the build, from docs to presentation materials."
         >
@@ -673,6 +755,32 @@ function App() {
   );
 }
 
+function ShowcaseRail() {
+  const { ref, visible } = useScrollReveal<HTMLElement>();
+  return (
+    <section ref={ref} className={`showcase-rail${visible ? ' showcase-rail--visible' : ''}`}>
+      {showcaseSections.map((section, i) => (
+        <article
+          key={section.title}
+          className={`showcase-card ${
+            section.align === 'image-left' ? 'showcase-card--reverse' : ''
+          }`}
+          style={{ transitionDelay: `${i * 150}ms` }}
+        >
+          <div className="showcase-media">
+            <img src={section.image} alt={section.title} />
+          </div>
+          <div className="showcase-copy">
+            <p className="eyebrow">{section.kicker}</p>
+            <h2>{section.title}</h2>
+            <p>{section.description}</p>
+          </div>
+        </article>
+      ))}
+    </section>
+  );
+}
+
 type SectionProps = {
   title: string;
   description: string;
@@ -680,8 +788,9 @@ type SectionProps = {
 };
 
 function Section({ title, description, children }: SectionProps) {
+  const { ref, visible } = useScrollReveal<HTMLElement>();
   return (
-    <section className="section-block">
+    <section ref={ref} className={`section-block scroll-reveal${visible ? ' scroll-reveal--visible' : ''}`}>
       <div className="section-heading">
         <p className="eyebrow">{title}</p>
         <h2>{description}</h2>

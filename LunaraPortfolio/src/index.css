@@ -397,6 +397,194 @@ pre {
   margin-top: 1.2rem;
 }
 
+/* ── Scroll-reveal animations ── */
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Showcase card staggered entrance ── */
+
+.showcase-rail .showcase-card {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.showcase-rail--visible .showcase-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Tabbed code showcase ── */
+
+.code-showcase {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.code-showcase--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.code-tab-bar {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.35rem;
+  border-radius: 14px 14px 0 0;
+  background: #1e1730;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(157, 152, 181, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.code-tab-bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.code-tab-bar::-webkit-scrollbar-thumb {
+  background: rgba(157, 152, 181, 0.3);
+  border-radius: 4px;
+}
+
+.code-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  flex-shrink: 0;
+  padding: 0.65rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(245, 241, 255, 0.5);
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition:
+    background 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+.code-tab:hover {
+  color: rgba(245, 241, 255, 0.75);
+  background: rgba(245, 241, 255, 0.04);
+}
+
+.code-tab--active {
+  background: rgba(245, 241, 255, 0.08);
+  border-color: rgba(157, 152, 181, 0.24);
+  color: #f5f1ff;
+}
+
+.code-tab-label {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.code-tab-lang {
+  font-size: 0.7rem;
+  color: rgba(157, 152, 181, 0.7);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.code-panel {
+  position: relative;
+  padding: 1rem 0 1rem;
+  border-radius: 0 0 14px 14px;
+  background: #171324;
+  overflow-x: auto;
+  animation: codePanelIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes codePanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.code-lines {
+  display: grid;
+  gap: 0;
+}
+
+.code-line {
+  display: flex;
+  padding: 0 1rem 0 0;
+  line-height: 1.65;
+  font-size: 0.84rem;
+  font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  transition: background 160ms ease;
+}
+
+.code-line:hover {
+  background: rgba(157, 152, 181, 0.06);
+}
+
+.code-line-num {
+  display: inline-block;
+  width: 3.2rem;
+  flex-shrink: 0;
+  padding-right: 1rem;
+  text-align: right;
+  color: rgba(157, 152, 181, 0.28);
+  user-select: none;
+  font-size: 0.76rem;
+  line-height: 1.65;
+}
+
+.code-line-content {
+  color: #e2dff0;
+  white-space: pre;
+}
+
+/* ── Syntax token colors ── */
+
+.tok-keyword { color: #c792ea; }
+.tok-string  { color: #c3e88d; }
+.tok-comment { color: #676e95; font-style: italic; }
+.tok-number  { color: #f78c6c; }
+
+/* ── Blinking cursor at end of code ── */
+
+.code-cursor {
+  display: block;
+  width: 8px;
+  height: 2px;
+  margin: 0.4rem 0 0 3.2rem;
+  background: var(--lunara-purple);
+  border-radius: 1px;
+  animation: cursorPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes cursorPulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+
 .content-shell {
   display: grid;
   gap: 2rem;
@@ -855,6 +1043,20 @@ pre {
     word-break: break-word;
     white-space: pre-wrap;
   }
+
+  .code-tab-bar {
+    gap: 0.25rem;
+    padding: 0.25rem;
+  }
+
+  .code-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.76rem;
+  }
+
+  .code-tab-lang {
+    display: none;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1031,6 +1233,24 @@ pre {
     word-break: break-word;
     white-space: pre-wrap;
     border-radius: 0.8rem;
+  }
+
+  .code-line {
+    font-size: 0.74rem;
+  }
+
+  .code-line-num {
+    width: 2.4rem;
+    padding-right: 0.6rem;
+    font-size: 0.68rem;
+  }
+
+  .code-panel {
+    padding: 0.6rem 0;
+  }
+
+  .code-cursor {
+    margin-left: 2.4rem;
   }
 
   .portfolio-footer {
