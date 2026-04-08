@@ -387,7 +387,7 @@ function App() {
 
         <Section
           title="Team references"
-          description="Personal websites are included as supplemental professional references, not as the main project portfolio."
+          description="Developer portfolios linked below showcase the individuals behind LUNARA."
         >
           <div className="team-grid">
             {teamLinks.map((member) => (
