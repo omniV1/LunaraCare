@@ -1,12 +1,19 @@
+/**
+ * @module components/intake/PersonalStep
+ * Intake wizard step for personal and contact details — partner info,
+ * address, and emergency contact fields.
+ */
 import React from 'react';
 import type { IntakeData } from './intakeTypes';
 
+/** Props for the standalone PersonalStep component. */
 export interface PersonalStepProps {
   data: IntakeData;
   errors: Record<string, string>;
   onUpdate: (path: string, value: unknown) => void;
 }
 
+/** Renders the personal & contact information intake step. */
 export const PersonalStep: React.FC<PersonalStepProps> = ({ data, errors, onUpdate }) => (
   <div className="space-y-5">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

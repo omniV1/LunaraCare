@@ -1,7 +1,13 @@
+/**
+ * @module components/intake/steps/BirthStep
+ * Wizard-step variant of BirthStep using the shared StepProps interface
+ * for pregnancy/birth data collection within ClientIntakeWizard.
+ */
 import React from 'react';
 import type { StepProps } from '../intakeUtils';
 import { splitCsv } from '../intakeUtils';
 
+/** Renders the pregnancy & birth history wizard step. */
 export const BirthStep: React.FC<StepProps> = ({ data, update }) => (
   <div className="space-y-5">
     <p className="text-sm text-[#6B4D37]">

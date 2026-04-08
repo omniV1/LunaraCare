@@ -1,15 +1,23 @@
+/**
+ * @module services/categoryService
+ * CRUD operations for resource/blog categories. Categories support
+ * hierarchical nesting via an optional parentCategory reference.
+ */
+
 import Category from '../models/Category';
 import { NotFoundError } from '../utils/errors';
 import logger from '../utils/logger';
 
 // ── Input types ──────────────────────────────────────────────────────────────
 
+/** Fields for creating a new category. */
 export interface CreateCategoryInput {
   name: string;
   description?: string;
   parentCategory?: string;
 }
 
+/** Mutable fields when updating a category. */
 export interface UpdateCategoryInput {
   name?: string;
   description?: string;
@@ -20,6 +28,8 @@ export interface UpdateCategoryInput {
 
 /**
  * List all categories, sorted by name.
+ *
+ * @returns Up to 500 categories ordered alphabetically
  */
 export async function listCategories() {
   const categories = await Category.find().sort({ name: 1 }).limit(500);
@@ -30,6 +40,8 @@ export async function listCategories() {
 /**
  * Get a single category by ID.
  *
+ * @param id - Category ObjectId
+ * @returns The category document
  * @throws NotFoundError — category not found
  */
 export async function getCategoryById(id: string) {
@@ -42,6 +54,9 @@ export async function getCategoryById(id: string) {
 
 /**
  * Create a new category.
+ *
+ * @param data - Category name, description, and optional parent
+ * @returns The newly created category
  */
 export async function createCategory(data: CreateCategoryInput) {
   const { name, description, parentCategory } = data;
@@ -53,6 +68,9 @@ export async function createCategory(data: CreateCategoryInput) {
 /**
  * Update an existing category.
  *
+ * @param id - Category ObjectId
+ * @param data - Fields to update
+ * @returns The updated category
  * @throws NotFoundError — category not found
  */
 export async function updateCategory(id: string, data: UpdateCategoryInput) {
@@ -72,6 +90,7 @@ export async function updateCategory(id: string, data: UpdateCategoryInput) {
 /**
  * Delete a category.
  *
+ * @param id - Category ObjectId
  * @throws NotFoundError — category not found
  */
 export async function deleteCategory(id: string): Promise<void> {

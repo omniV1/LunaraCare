@@ -1,3 +1,11 @@
+/**
+ * @module services/providerService
+ * Provider profile management, availability scheduling, client invitations,
+ * and analytics dashboard aggregation. Handles the Provider model along
+ * with cross-model queries for appointments, check-ins, messages, resources,
+ * and blog posts.
+ */
+
 import mongoose from 'mongoose';
 import crypto from 'crypto';
 import AvailabilitySlot from '../models/AvailabilitySlot';
@@ -31,6 +39,7 @@ const CERT_LABEL_TO_ENUM: Record<string, string> = {
 
 // ── Input / Result types ─────────────────────────────────────────────────────
 
+/** Mutable fields for updating a provider's professional profile. */
 export interface UpdateProviderProfileInput {
   firstName?: string;
   lastName?: string;
@@ -55,6 +64,7 @@ export interface UpdateProviderProfileInput {
   maxClients?: number;
 }
 
+/** Fields for creating a provider availability slot. */
 export interface AvailabilitySlotInput {
   date: string;
   startTime: string;
@@ -63,12 +73,14 @@ export interface AvailabilitySlotInput {
   dayOfWeek?: number;
 }
 
+/** Fields for inviting a new client via email. */
 export interface InviteClientInput {
   email: string;
   firstName: string;
   lastName: string;
 }
 
+/** Aggregated dashboard analytics for a provider. */
 export interface ProviderAnalytics {
   totalClients: number;
   activeClients: number;
@@ -88,6 +100,9 @@ export interface ProviderAnalytics {
 
 /**
  * Get or create the current provider's profile.
+ *
+ * @param userId - Provider's user ObjectId
+ * @returns Provider profile with populated user data
  */
 export async function getMyProfile(userId: mongoose.Types.ObjectId): Promise<IProviderDocument> {
   let provider = await Provider.findOne({ userId }).populate('userId', 'firstName lastName email');
@@ -105,6 +120,9 @@ export async function getMyProfile(userId: mongoose.Types.ObjectId): Promise<IPr
 /**
  * Update the current provider's profile and optional user name.
  *
+ * @param userId - Provider's user ObjectId
+ * @param data - Profile fields to update
+ * @returns Updated provider profile
  * @throws NotFoundError -- provider profile not found
  */
 export async function updateMyProfile(
@@ -176,6 +194,9 @@ export async function updateMyProfile(
 
 /**
  * Get clients assigned to the current provider.
+ *
+ * @param providerId - Provider's user ObjectId
+ * @returns Populated client records sorted newest-first
  */
 export async function getMyClients(
   providerId: mongoose.Types.ObjectId,
@@ -189,6 +210,10 @@ export async function getMyClients(
 
 /**
  * List all active providers (with aggregation for display names).
+ *
+ * @param currentUserId - Calling user's ObjectId (ensures own profile is included)
+ * @param currentUserRole - Calling user's role
+ * @returns Enriched provider records with display names
  */
 export async function listProviders(
   currentUserId: mongoose.Types.ObjectId | undefined,
@@ -288,6 +313,11 @@ export async function listProviders(
 
 /**
  * Get provider availability slots for a date range.
+ *
+ * @param providerId - Provider's user ID string
+ * @param fromDate - Range start (defaults to today)
+ * @param toDate - Range end (defaults to 30 days from now)
+ * @returns Unbooked availability slots within the range
  */
 export async function getAvailability(
   providerId: string,
@@ -318,6 +348,10 @@ export async function getAvailability(
 
 /**
  * Create availability slots for a provider.
+ *
+ * @param providerId - Provider's user ID string
+ * @param slots - Array of slot definitions
+ * @returns Array of created availability slot documents
  */
 export async function createAvailabilitySlots(
   providerId: string,
@@ -340,6 +374,9 @@ export async function createAvailabilitySlots(
 /**
  * Create a client account and send an invite email.
  *
+ * @param data - Client name and email
+ * @param provider - Authenticated provider user
+ * @returns Sanitised new user record
  * @throws ConflictError -- email already exists
  */
 export async function inviteClient(
@@ -400,6 +437,9 @@ export async function inviteClient(
 
 /**
  * Get analytics dashboard data for the current provider.
+ *
+ * @param providerId - Provider's user ObjectId
+ * @returns Aggregated metrics across clients, appointments, messages, etc.
  */
 export async function getAnalytics(
   providerId: mongoose.Types.ObjectId,

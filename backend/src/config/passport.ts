@@ -1,3 +1,19 @@
+/**
+ * @module config/passport
+ * Passport.js authentication strategy configuration.
+ *
+ * Registers three strategies:
+ * - **JWT** – Extracts a bearer token from the Authorization header and
+ *   verifies it against `JWT_SECRET` with HS256 + issuer/audience claims.
+ * - **Local** – Email/password login with bcrypt comparison and account
+ *   lock-out awareness.
+ * - **Google OAuth 2.0** – Optional; activated when `GOOGLE_CLIENT_ID` and
+ *   `GOOGLE_CLIENT_SECRET` are present. Links or matches existing users by
+ *   provider ID and email, but never auto-creates accounts.
+ *
+ * Also configures serialize/deserialize hooks for session compatibility
+ * (sessions are not used in the API but Passport requires the hooks).
+ */
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';

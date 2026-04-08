@@ -1,6 +1,13 @@
+/**
+ * @module ResourceVersion
+ * Immutable snapshot of a Resource at a point in time.
+ * Maps to the MongoDB `resourceversions` collection.
+ * Created on every resource update for full revision history,
+ * including content, metadata, targeting weeks, and publication state.
+ */
 import mongoose, { Schema, Document } from 'mongoose';
 
-// Interface for Resource Version document
+/** Immutable version record capturing a resource's state at a revision point. */
 export interface IResourceVersion extends Document {
   resourceId: mongoose.Types.ObjectId;
   versionNumber: number;
@@ -78,8 +85,9 @@ const resourceVersionSchema = new Schema<IResourceVersion>(
   }
 );
 
-// Compound index for efficient queries
+/** @index resourceId + versionNumber — fast look-up of a specific revision. */
 resourceVersionSchema.index({ resourceId: 1, versionNumber: -1 });
+/** @index resourceId + createdAt — chronological version history. */
 resourceVersionSchema.index({ resourceId: 1, createdAt: -1 });
 
 // Add virtual id property

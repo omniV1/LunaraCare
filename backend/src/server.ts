@@ -1,3 +1,17 @@
+/**
+ * @module server
+ * Express application entry point for the LUNARA backend.
+ *
+ * Configures the middleware pipeline (Helmet, CORS, compression, rate limiting,
+ * cookie parsing, body parsing, request sanitization, Morgan logging, Passport),
+ * registers all twenty API route modules under `/api`, mounts Swagger UI at
+ * `/api-docs`, initialises a Socket.IO server for real-time messaging with JWT
+ * authentication, connects to MongoDB, seeds default data, and starts the
+ * appointment reminder scheduler.
+ *
+ * Exports the Express app, the raw HTTP server, and the Socket.IO instance so
+ * they can be consumed by integration tests or external orchestration.
+ */
 import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -99,14 +113,24 @@ if (process.env.NODE_ENV === 'production' && process.env.SKIP_EMAIL_VERIFICATION
   process.exit(1);
 }
 
-/** Host segment of MONGODB_URI without userinfo (for logs only; never log full URI). */
+/**
+ * Extract the host segment from a MongoDB connection URI, stripping credentials.
+ * Used exclusively for safe diagnostic logging; the full URI is never printed.
+ * @param uri - Full MongoDB connection string
+ * @returns Host portion of the URI (e.g. "cluster0.abc.mongodb.net")
+ */
 function mongoHostFromUri(uri: string): string {
   const at = uri.lastIndexOf('@');
   const tail = at >= 0 ? uri.slice(at + 1) : uri.replace(/^mongodb(\+srv)?:\/\//i, '');
   return tail.split('/')[0]?.split('?')[0] || 'unknown';
 }
 
-// MongoDB Connection
+/**
+ * Connect to MongoDB, initialise GridFS, seed default categories and content
+ * when the database is empty, and log the connection summary.
+ * Called once at startup; connection failures are logged but do not crash the
+ * process so the health endpoint can still report status.
+ */
 const connectDatabase = async (): Promise<void> => {
   try {
     const uri = process.env.MONGODB_URI ?? 'mongodb://localhost:27017/lunara';
@@ -251,6 +275,12 @@ const LOCALHOST_IPV6 = process.env.LOCALHOST_IPV6 ?? WELL_KNOWN_LOCALHOST_IPV6;
 const LOCALHOST_IPV4_MAPPED_PREFIX =
   process.env.LOCALHOST_IPV4_MAPPED_PREFIX ?? WELL_KNOWN_LOCALHOST_IPV4_MAPPED;
 
+/**
+ * Check whether an IP address resolves to localhost.
+ * Used to skip rate limiting during local development.
+ * @param ip - The request IP to test
+ * @returns True when the IP matches a well-known localhost representation
+ */
 const isLocalhost = (ip: string | undefined): boolean => {
   if (!ip) return false;
   return (
@@ -340,7 +370,11 @@ const swaggerOptions = {
 
 const specs = swaggerJsdoc(swaggerOptions);
 
-// FIXED: Proper CSP middleware function
+/**
+ * Apply a Content-Security-Policy header tailored for Swagger UI.
+ * Swagger requires inline scripts and styles, so CSP is configured
+ * specifically for the `/api-docs` route rather than globally.
+ */
 function swaggerCSPMiddleware(_req: Request, res: Response, next: NextFunction): void {
   res.setHeader(
     'Content-Security-Policy',
@@ -394,7 +428,9 @@ app.get('/api/health', (_req: Request, res: Response) => {
   });
 });
 
-// Socket.io for real-time messaging
+/**
+ * Payload shape emitted by clients over the `send_message` Socket.IO event.
+ */
 interface MessageData {
   conversationId: string;
   message: string;

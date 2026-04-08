@@ -1,5 +1,13 @@
+/**
+ * @module CarePlan
+ * Mongoose model for personalised postpartum care plans.
+ * Maps to the MongoDB `careplans` collection.
+ * A care plan is built from sections containing milestones; progress (0-100)
+ * is auto-calculated on save. Optionally seeded from a {@link CarePlanTemplate}.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** A single trackable goal within a care-plan section. */
 export interface IMilestone {
   title: string;
   description?: string;
@@ -10,12 +18,14 @@ export interface IMilestone {
   notes?: string;
 }
 
+/** Logical grouping of milestones (e.g. "Physical Recovery", "Emotional Wellness"). */
 export interface ISection {
   title: string;
   description?: string;
   milestones: IMilestone[];
 }
 
+/** Care plan document linking a client to a provider with progress tracking. */
 export interface ICarePlanDocument extends Document {
   clientId: mongoose.Types.ObjectId;
   providerId: mongoose.Types.ObjectId;
@@ -31,8 +41,11 @@ export interface ICarePlanDocument extends Document {
   updatedAt: Date;
 }
 
+/** Static helpers on the CarePlan model. */
 export interface ICarePlanModel extends Model<ICarePlanDocument> {
+  /** Return all care plans for a client, newest first. */
   findByClient(clientId: mongoose.Types.ObjectId): Promise<ICarePlanDocument[]>;
+  /** Return all care plans managed by a provider, newest first. */
   findByProvider(providerId: mongoose.Types.ObjectId): Promise<ICarePlanDocument[]>;
 }
 
@@ -138,7 +151,10 @@ const carePlanSchema = new Schema<ICarePlanDocument>(
   { timestamps: true }
 );
 
-// Recalculate progress before save
+/**
+ * Pre-save hook: recalculates `progress` as the percentage of milestones
+ * that are completed or skipped across all sections.
+ */
 carePlanSchema.pre<ICarePlanDocument>('save', function (next) {
   const allMilestones = this.sections.flatMap(s => s.milestones);
   if (allMilestones.length === 0) {

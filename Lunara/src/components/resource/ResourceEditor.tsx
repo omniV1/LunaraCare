@@ -1,15 +1,23 @@
+/**
+ * @module components/resource/ResourceEditor
+ * Form for creating or editing a provider-authored resource.
+ * Supports title, description, rich content, category, tags,
+ * target pregnancy/postpartum weeks, difficulty, and publish status.
+ */
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useResource } from '../../contexts/useResource';
 import { Card } from '../ui/Card';
 import { CreateResourceData } from '../../services/resourceService';
 
+/** Props for {@link ResourceEditor}. */
 interface ResourceEditorProps {
   resourceId?: string;
   onSave?: () => void;
   onCancel?: () => void;
 }
 
+/** Renders a create/edit form for a single resource with validation and category selection. */
 export const ResourceEditor: React.FC<ResourceEditorProps> = ({ resourceId, onSave, onCancel }) => {
   const {
     selectedResource,

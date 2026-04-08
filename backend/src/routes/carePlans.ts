@@ -1,3 +1,8 @@
+/**
+ * @module routes/carePlans
+ * Care plan and template CRUD, milestone tracking endpoints.
+ * Mounted at `/api/care-plans`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 import { body, param } from 'express-validator';
@@ -12,6 +17,7 @@ function uid(req: AuthenticatedRequest): mongoose.Types.ObjectId {
   return req.user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing care plan and template management endpoints. */
 const router: Router = express.Router();
 
 const requireProviderOrAdmin = requireRole(['provider', 'admin']);

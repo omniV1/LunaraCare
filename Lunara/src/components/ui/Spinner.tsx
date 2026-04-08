@@ -1,5 +1,11 @@
+/**
+ * @module components/ui/Spinner
+ * Animated SVG loading spinner used as a global loading indicator
+ * throughout the LUNARA application.
+ */
 import React from 'react';
 
+/** Renders a centered, animated circular spinner with configurable pixel size. */
 export const Spinner: React.FC<{ size?: number }> = ({ size = 32 }) => (
   <div className="flex items-center justify-center w-full h-full py-12">
     <svg

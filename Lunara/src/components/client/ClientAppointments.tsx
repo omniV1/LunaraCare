@@ -1,3 +1,8 @@
+/**
+ * @module components/client/ClientAppointments
+ * Client appointment management view with a monthly calendar, day detail
+ * panel, slot booking, and proposed-time request flows.
+ */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
@@ -6,6 +11,7 @@ import { STATUS_COLORS, STATUS_BADGE, STATUS_LABELS, dateKey, formatTime, format
 import { ClientCalendarGrid } from './ClientCalendarGrid';
 import { ClientDayDetailPanel } from './ClientDayDetailPanel';
 
+/** Client-facing appointment view with calendar, day panel, and upcoming list. */
 export const ClientAppointments: React.FC = () => {
   const api = ApiClient.getInstance();
 

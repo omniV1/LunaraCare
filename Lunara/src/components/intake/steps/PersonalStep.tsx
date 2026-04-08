@@ -1,6 +1,12 @@
+/**
+ * @module components/intake/steps/PersonalStep
+ * Wizard-step variant of PersonalStep using the shared StepProps interface
+ * for personal/contact data collection within ClientIntakeWizard.
+ */
 import React from 'react';
 import type { StepProps } from '../intakeUtils';
 
+/** Renders the personal & contact information wizard step. */
 export const PersonalStep: React.FC<StepProps> = ({ data, errors, update }) => (
   <div className="space-y-5">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

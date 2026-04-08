@@ -1,4 +1,8 @@
-// Site-wide footer with legal links, partner logos, and copyright.
+/**
+ * @module components/layout/SimpleFooter
+ * Site-wide footer with Privacy Policy / Terms links, partner logos,
+ * and copyright notice. Optionally fixed to the viewport bottom.
+ */
 import { type FC } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,6 +11,7 @@ interface SimpleFooterProps {
   fixed?: boolean;
 }
 
+/** Renders the site footer with legal links, partner logos, and copyright. */
 export const SimpleFooter: FC<SimpleFooterProps> = ({ fixed = true }) => {
   return (
     <footer className={`${fixed ? 'fixed bottom-0' : ''} left-0 right-0 z-20 w-full max-w-[100vw] overflow-x-hidden pb-[env(safe-area-inset-bottom)]`}>

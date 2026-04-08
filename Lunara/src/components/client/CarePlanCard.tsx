@@ -1,3 +1,8 @@
+/**
+ * @module components/client/CarePlanCard
+ * Expandable card that displays a single care plan with sections,
+ * milestones, progress bar, and inline editing capabilities.
+ */
 import React, { useState } from 'react';
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -34,6 +39,7 @@ const PLAN_STATUS_COLORS: Record<string, string> = {
   archived: 'bg-[#FAF7F2] text-[#6B4D37]',
 };
 
+/** A single trackable milestone within a care plan section. */
 export interface CarePlanMilestone {
   _id: string;
   title?: string;
@@ -45,6 +51,7 @@ export interface CarePlanMilestone {
   notes?: string;
 }
 
+/** Logical grouping of milestones inside a care plan. */
 export interface CarePlanSection {
   _id?: string;
   title?: string;
@@ -52,6 +59,7 @@ export interface CarePlanSection {
   milestones?: CarePlanMilestone[];
 }
 
+/** Top-level care plan document with sections and overall progress. */
 export interface CarePlan {
   _id: string;
   title?: string;
@@ -127,6 +135,7 @@ function deepCloneSections(sections: CarePlanSection[]): CarePlanSectionDraft[] 
 
 // ── Component ──────────────────────────────────────────────────────────────
 
+/** Expandable card rendering a care plan's progress, sections, milestones, and edit mode. */
 export const CarePlanCard: React.FC<CarePlanCardProps> = ({
   plan,
   isExpanded,

@@ -1,38 +1,37 @@
+/**
+ * @module User
+ * Central identity model for all LUNARA users (clients, providers, admins).
+ * Maps to the MongoDB `users` collection.
+ * Handles authentication (bcrypt passwords, Google OAuth, MFA/TOTP),
+ * email verification, account locking, refresh-token rotation,
+ * and role-based permission resolution. Extended by {@link Client}
+ * and {@link Provider} profiles via a `userId` foreign key.
+ */
 import mongoose, { Document, Schema, Model } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 
-/**
- * LUNARA USER MODEL
- *
- * This model represents ALL users in the system (clients, providers).
- * It stores basic account information and authentication data.
- *
- * For clients: This links to a Client document with postpartum-specific info
- * For providers: This links to a Provider document with professional info
- */
-
-// Interface for OAuth Provider (Google login)
+/** OAuth provider credentials (currently Google only). */
 interface IOAuthProvider {
   provider: 'google'; // Which social login service
   providerId: string; // Their ID from that service
   email: string; // Email from that service
 }
 
-// Interface for user profile
+/** User profile sub-document (phone, timezone, preferences). */
 interface IProfile {
   phone?: string;
   timezone: string;
   preferences: Record<string, unknown>;
 }
 
-// Interface for refresh tokens
+/** A JWT refresh token with auto-expiry (7 days TTL via MongoDB). */
 interface IRefreshToken {
   token: string;
   createdAt: Date;
 }
 
-// Interface for the User document
+/** User document with authentication state, profile, and security fields. */
 export interface IUser extends Document {
   firstName: string;
   lastName: string;
@@ -70,8 +69,9 @@ export interface IUser extends Document {
   getPermissions(): string[];
 }
 
-// Interface for the User model
+/** Static helpers on the User model. */
 export interface IUserModel extends Model<IUser> {
+  /** Case-insensitive email look-up. */
   findByEmail(email: string): Promise<IUser | null>;
 }
 
@@ -149,12 +149,6 @@ export interface IUserModel extends Model<IUser> {
  *           description: When the intake form was marked complete
  */
 
-/**
- * USER SCHEMA DEFINITION
- *
- * This defines the structure and validation rules for user documents in MongoDB.
- * Each field has validation rules that MongoDB will enforce automatically.
- */
 const userSchema = new Schema<IUser>(
   {
     // Basic Personal Information
@@ -327,12 +321,15 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-// Virtual for full name
+/** @virtual fullName — concatenation of firstName and lastName. */
 userSchema.virtual('fullName').get(function (this: IUser) {
   return `${this.firstName} ${this.lastName}`;
 });
 
-// Pre-save middleware to hash password
+/**
+ * Pre-save hook: hashes the password with bcrypt when modified.
+ * Salt rounds default to 12 (~250ms); configurable via `BCRYPT_ROUNDS` env var.
+ */
 userSchema.pre<IUser>('save', async function (next) {
   // Only hash the password if it has been modified (or is new)
   if (!this.isModified('password')) return next();
@@ -350,7 +347,11 @@ userSchema.pre<IUser>('save', async function (next) {
   }
 });
 
-// Instance method to check password
+/**
+ * Compare a plaintext password against this user's hashed password.
+ * @param candidatePassword - The plaintext password to verify.
+ * @returns `true` if the password matches; `false` otherwise or if no password is set.
+ */
 userSchema.methods.comparePassword = async function (
   this: IUser,
   candidatePassword: string
@@ -359,17 +360,20 @@ userSchema.methods.comparePassword = async function (
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Instance method to check if user can login
+/** @returns `true` if the user's email has been verified. */
 userSchema.methods.canLogin = function (this: IUser): boolean {
   return this.isEmailVerified;
 };
 
-// Instance method to check if account is temporarily locked
+/** @returns `true` if the account is temporarily locked due to failed login attempts. */
 userSchema.methods.isLocked = function (this: IUser): boolean {
   return !!(this.lockUntil && this.lockUntil > new Date());
 };
 
-// Instance method to get user's role permissions
+/**
+ * Resolve the list of permission strings granted to this user's role.
+ * @returns Array of `"action:scope"` permission strings.
+ */
 userSchema.methods.getPermissions = function (this: IUser): string[] {
   const permissions: Record<string, string[]> = {
     client: [

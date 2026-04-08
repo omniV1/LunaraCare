@@ -1,3 +1,9 @@
+/**
+ * @module utils/logger
+ * Configures and exports a Winston logger instance used
+ * for structured, timestamped logging throughout the backend.
+ */
+
 import winston from 'winston';
 
 const level = process.env.LOG_LEVEL ?? (process.env.NODE_ENV === 'production' ? 'info' : 'debug');
@@ -16,4 +22,5 @@ const logger = winston.createLogger({
   transports: [new winston.transports.Console()],
 });
 
+/** Pre-configured Winston logger instance for application-wide logging. */
 export default logger;

@@ -1,5 +1,9 @@
-/** Shared types and helpers used across ProviderDashboard tab components. */
+/**
+ * @module providerDashboardUtils
+ * Shared types and helpers used across ProviderDashboard tab components.
+ */
 
+/** Minimal user shape returned by populated or unpopulated Mongoose refs. */
 export type UserLike = {
   _id?: string;
   id?: string;
@@ -8,6 +12,7 @@ export type UserLike = {
   email?: string;
 };
 
+/** A client record as returned by the provider-facing client list endpoint. */
 export interface ProviderClientItem {
   _id?: string;
   id?: string;
@@ -17,6 +22,7 @@ export interface ProviderClientItem {
   assignedProvider?: UserLike | string;
 }
 
+/** Aggregate counts shown on the provider dashboard overview. */
 export interface DashboardStats {
   totalClients: number;
   upcomingAppointments: number;
@@ -24,6 +30,7 @@ export interface DashboardStats {
   pendingAppointmentRequests: number;
 }
 
+/** A client check-in summary surfaced in the provider's review queue. */
 export interface CheckinReviewItem {
   clientName?: string;
   clientUserId?: string;
@@ -36,11 +43,13 @@ export interface CheckinReviewItem {
   }>;
 }
 
+/** Minimal appointment shape used for dashboard activity feeds. */
 export interface AppointmentLike {
   startTime?: string;
   clientId?: UserLike | string;
 }
 
+/** Minimal document shape used for dashboard activity feeds. */
 export interface DocumentLike {
   title?: string;
   createdAt?: string;
@@ -48,6 +57,7 @@ export interface DocumentLike {
   uploadedBy?: UserLike | string;
 }
 
+/** Normalised activity-feed entry displayed in the provider overview. */
 export interface ActivityItem {
   type: string;
   date: string;
@@ -55,6 +65,7 @@ export interface ActivityItem {
   subtitle?: string;
 }
 
+/** Form payload for registering a new client from the provider dashboard. */
 export interface ClientFormData {
   firstName: string;
   lastName: string;
@@ -62,12 +73,20 @@ export interface ClientFormData {
   password: string;
 }
 
-// Defensive helpers for API responses that may return populated user objects
-// or bare ObjectId strings depending on the endpoint and Mongoose .populate() usage.
+/**
+ * Type guard: checks whether a value is a non-null, non-array plain object.
+ * @param v - Value to inspect.
+ * @returns `true` if `v` is a plain object.
+ */
 export function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
+/**
+ * Extracts a user ID from a value that may be a string ObjectId or a populated user object.
+ * @param v - A bare ObjectId string or a user-like object with `_id` / `id`.
+ * @returns The extracted ID string, or an empty string if unresolvable.
+ */
 export function getUserId(v: unknown): string {
   if (typeof v === 'string') return v;
   if (!isRecord(v)) return '';
@@ -77,6 +96,12 @@ export function getUserId(v: unknown): string {
   return raw != null ? String(raw) : '';
 }
 
+/**
+ * Extracts a display name (and optional email) from a value that may be
+ * a populated user object or an unresolvable reference.
+ * @param v - A user-like object or unknown value.
+ * @returns An object with `name` (falls back to "Unknown") and optional `email`.
+ */
 export function getUserName(v: unknown): { name: string; email?: string } {
   if (!isRecord(v)) return { name: 'Unknown' };
   const u = v as UserLike;
@@ -86,6 +111,11 @@ export function getUserName(v: unknown): { name: string; email?: string } {
   return { name: full || u.email || 'Unknown', email: u.email };
 }
 
+/**
+ * Safely extracts `response.data` from an Axios-style error object.
+ * @param error - The caught error value.
+ * @returns The nested `response.data` payload, or `undefined`.
+ */
 export function getErrorResponseData(error: unknown): unknown {
   if (!isRecord(error)) return undefined;
   const response = error.response;

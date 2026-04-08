@@ -1,3 +1,8 @@
+/**
+ * @module useResourceOperations
+ * React hook encapsulating CRUD state and actions for educational resources.
+ * Supports filtering by category, difficulty, target weeks, and search queries.
+ */
 import { useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -11,6 +16,11 @@ import {
 
 const resourceService = ResourceService.getInstance();
 
+/**
+ * Hook that manages resource list state and provides CRUD, search, and filter operations.
+ * @param handleError - Callback invoked with the caught error and a human-readable operation label.
+ * @returns Resource state (`resources`, `selectedResource`, `loading`) and action functions.
+ */
 export function useResourceOperations(handleError: (error: unknown, operation: string) => void) {
   const [resources, setResources] = useState<Resource[]>([]);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);

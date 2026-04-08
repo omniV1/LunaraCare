@@ -1,8 +1,14 @@
+/**
+ * @module components/PushNotificationToggle
+ * Toggle switch for subscribing/unsubscribing to browser push notifications.
+ * Shows permission-denied or unsupported warnings when applicable.
+ */
 import { useState, useEffect, useCallback } from 'react';
 import PushNotificationService from '../services/pushService';
 
 type BrowserNotificationPermission = 'default' | 'granted' | 'denied';
 
+/** Renders a push notification on/off toggle with permission state feedback. */
 export function PushNotificationToggle() {
   const pushService = PushNotificationService.getInstance();
   const supported = pushService.isSupported();

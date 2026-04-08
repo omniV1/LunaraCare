@@ -1,3 +1,8 @@
+/**
+ * @module components/client/ClientSettings
+ * Multi-section settings page for clients: profile editing, password change,
+ * notification preferences, 2FA management, and account deletion.
+ */
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../contexts/useAuth';
 import { UserService } from '../../services/userService';
@@ -19,6 +24,7 @@ function getErrorMessage(e: unknown, fallback: string): string {
 
 type SettingsSection = 'profile' | 'password' | 'notifications' | 'security' | 'danger';
 
+/** Tabbed settings page covering profile, password, notifications, 2FA, and account deletion. */
 export const ClientSettings: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();

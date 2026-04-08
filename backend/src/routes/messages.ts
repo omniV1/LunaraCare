@@ -1,3 +1,8 @@
+/**
+ * @module routes/messages
+ * Messaging, conversations, unread counts, and read/dismiss operations.
+ * Mounted at `/api/messages`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 import { authenticate } from '../middleware';
@@ -11,6 +16,7 @@ function uid(req: AuthenticatedRequest): mongoose.Types.ObjectId {
   return req.user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing messaging and conversation endpoints. */
 const router: Router = express.Router();
 
 

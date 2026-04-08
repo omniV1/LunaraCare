@@ -1,3 +1,8 @@
+/**
+ * @module LandingPage
+ * Public-facing landing page with hero, about section, client login CTA,
+ * service offerings accordion, and an inquiry contact form.
+ */
 // Landing page — hero, about, client login, offerings accordion, and inquiry form.
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -33,6 +38,12 @@ const OFFERINGS = [
   { title: 'Photography', content: 'Birth and family photography.' },
 ];
 
+/**
+ * Landing page component rendered at the root route (`/`).
+ * Renders the hero banner, "Dear Parent" letter, client login link,
+ * service offerings accordion, and a contact inquiry form.
+ * @returns The full public landing page layout.
+ */
 const LandingPage = () => {
   const [openOfferingIndex, setOpenOfferingIndex] = useState<number | null>(null);
 

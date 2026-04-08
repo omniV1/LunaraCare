@@ -1,3 +1,8 @@
+/**
+ * @module components/client/ProviderClientProfileEdit
+ * Provider-facing modal for editing a client's profile, intake data,
+ * and accessing their care plans.
+ */
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
@@ -45,6 +50,7 @@ interface ProviderClientProfileEditProps {
   onSaved?: () => void;
 }
 
+/** Provider-side modal for editing a client's profile, intake, and care plans. */
 export const ProviderClientProfileEdit: React.FC<ProviderClientProfileEditProps> = ({
   clientId,
   onClose,

@@ -1,3 +1,8 @@
+/**
+ * @module routes/blog
+ * Blog post CRUD, drafts, and version history endpoints.
+ * Mounted at `/api/blog`.
+ */
 import express, { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -8,6 +13,7 @@ import logger from '../utils/logger';
 import * as blogService from '../services/blogService';
 import { APIError } from '../utils/errors';
 
+/** Express router exposing blog post management endpoints. */
 const router: Router = express.Router();
 const requireProvider = requireRole(['provider']);
 

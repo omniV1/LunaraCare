@@ -1,3 +1,8 @@
+/**
+ * @module LoginPage
+ * Client login page with email/password form, Google OAuth, and MFA challenge.
+ * Handles OAuth callback query-params and redirects authenticated users to their dashboard.
+ */
 // Login page aligned with Figma design (node 415:154): client-only, minimal header, logo, frosted form.
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -7,6 +12,12 @@ import { toast } from 'react-toastify';
 import { getBaseApiUrl, getGoogleOAuthStartUrl } from '../utils/getBaseApiUrl';
 import { SimpleFooter } from '../components/layout/SimpleFooter';
 
+/**
+ * Login page component rendered at `/login`.
+ * Provides email/password authentication, Google OAuth sign-in,
+ * and a TOTP MFA challenge step when two-factor is enabled.
+ * @returns The login page with conditional MFA form.
+ */
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

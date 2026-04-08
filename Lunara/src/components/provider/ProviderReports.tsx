@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/ProviderReports
+ * Analytics dashboard showing client stats, appointment breakdowns,
+ * engagement metrics (messages, resources, blog), and recent activity.
+ */
 import React, { useState, useEffect } from 'react';
 import { ApiClient } from '../../api/apiClient';
 import { DashboardStatSkeleton } from '../ui/Skeleton';
@@ -53,6 +58,7 @@ const STATUS_STYLES: Record<string, string> = {
   'no-show': 'bg-[#EDE8E0]/60 text-dash-text-primary',
 };
 
+/** Provider analytics dashboard with stat cards, charts, and recent activity. */
 export const ProviderReports: React.FC = () => {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);

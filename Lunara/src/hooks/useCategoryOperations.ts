@@ -1,3 +1,8 @@
+/**
+ * @module useCategoryOperations
+ * React hook encapsulating CRUD state and actions for resource categories.
+ * Used by provider-side resource management components.
+ */
 import { useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -9,12 +14,19 @@ import {
 
 const resourceService = ResourceService.getInstance();
 
+/** Default categories used when the API returns an empty list or fails. */
 const FALLBACK_CATEGORIES: Category[] = [
   { id: '1', name: 'General', description: 'General resources', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
   { id: '2', name: 'Pregnancy', description: 'Pregnancy-related resources', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
   { id: '3', name: 'Postpartum', description: 'Postpartum-related resources', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
 ];
 
+/**
+ * Hook that manages category list state and provides CRUD operations.
+ * Falls back to hardcoded categories when the API is unreachable.
+ * @param handleError - Callback invoked with the caught error and a human-readable operation label.
+ * @returns Category state (`categories`, `selectedCategory`, `loading`) and CRUD actions.
+ */
 export function useCategoryOperations(handleError: (error: unknown, operation: string) => void) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);

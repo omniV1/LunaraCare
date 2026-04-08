@@ -1,3 +1,10 @@
+/**
+ * @module services/messageService
+ * In-app messaging between users: inbox, conversations, send/read/dismiss
+ * actions. Enforces relationship-based access (clients can only message
+ * their assigned provider and vice-versa). Operates on the Message model.
+ */
+
 import mongoose from 'mongoose';
 import Message, { IMessageDocument } from '../models/Message';
 import User from '../models/User';
@@ -6,6 +13,7 @@ import { NotFoundError, ForbiddenError } from '../utils/errors';
 
 // ── Input types ──────────────────────────────────────────────────────────────
 
+/** Fields for sending a new message. */
 export interface SendMessageInput {
   conversationId?: string;
   receiver: string;
@@ -24,6 +32,11 @@ interface ConversationEntry {
 
 /**
  * Get all messages for a user (inbox).
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @param page - 1-based page number
+ * @param limit - Maximum messages per page
+ * @returns Paginated messages sorted newest-first
  */
 export async function getAllMessages(
   userId: mongoose.Types.ObjectId,
@@ -41,6 +54,11 @@ export async function getAllMessages(
 
 /**
  * Get unread messages for a user.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @param page - 1-based page number
+ * @param limit - Maximum messages per page
+ * @returns Unread messages sorted newest-first
  */
 export async function getUnreadMessages(
   userId: mongoose.Types.ObjectId,
@@ -57,6 +75,9 @@ export async function getUnreadMessages(
 
 /**
  * Get unread message count.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @returns Number of unread messages
  */
 export async function getUnreadCount(userId: mongoose.Types.ObjectId): Promise<number> {
   return Message.countDocuments({ receiver: userId, read: false });
@@ -64,6 +85,9 @@ export async function getUnreadCount(userId: mongoose.Types.ObjectId): Promise<n
 
 /**
  * List conversations (distinct conversationIds) for a user.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @returns Conversations with their most recent message, sorted newest-first
  */
 export async function listConversations(
   userId: mongoose.Types.ObjectId
@@ -103,6 +127,11 @@ export async function listConversations(
 
 /**
  * Get messages sent to/from the authenticated user.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @param page - 1-based page number
+ * @param limit - Maximum messages per page
+ * @returns Messages sorted chronologically
  */
 export async function getMessagesForMe(
   userId: mongoose.Types.ObjectId,
@@ -123,6 +152,10 @@ export async function getMessagesForMe(
 
 /**
  * Get conversation thread with a specific user.
+ *
+ * @param meId - Authenticated user's ObjectId
+ * @param otherUserId - The other participant's user ID
+ * @returns Conversation ID (if any) and chronological message list
  */
 export async function getConversationWithUser(
   meId: mongoose.Types.ObjectId,
@@ -174,6 +207,10 @@ export async function getConversationMessages(
 /**
  * Send a new message, verifying the receiver exists and the sender has a relationship.
  *
+ * @param data - Message content and receiver info
+ * @param senderId - Sender's ObjectId
+ * @param senderRole - Sender's role (determines relationship check)
+ * @returns The created and populated message
  * @throws NotFoundError  — receiver not found
  * @throws ForbiddenError — no relationship between sender and receiver
  */
@@ -216,6 +253,8 @@ export async function sendMessage(
 
 /**
  * Mark all messages as read for a user.
+ *
+ * @param userId - Recipient user's ObjectId
  */
 export async function markAllAsRead(userId: mongoose.Types.ObjectId): Promise<void> {
   await Message.updateMany({ receiver: userId, read: false }, { read: true });
@@ -224,6 +263,10 @@ export async function markAllAsRead(userId: mongoose.Types.ObjectId): Promise<vo
 /**
  * Mark a single message as read.
  *
+ * @param messageId - Message ObjectId
+ * @param userId - Caller's user ID
+ * @param userRole - Caller's role
+ * @returns Updated message
  * @throws NotFoundError  — message not found
  * @throws ForbiddenError — caller is not the recipient
  */
@@ -249,6 +292,8 @@ export async function markMessageAsRead(
 /**
  * Dismiss (permanently delete) a message.
  *
+ * @param messageId - Message ObjectId
+ * @param userId - Caller's ObjectId (must be sender or receiver)
  * @throws NotFoundError — message not found or caller is not sender/receiver
  */
 export async function dismissMessage(

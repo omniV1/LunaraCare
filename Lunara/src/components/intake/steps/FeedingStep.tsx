@@ -1,8 +1,14 @@
+/**
+ * @module components/intake/steps/FeedingStep
+ * Wizard-step variant of FeedingStep using the shared StepProps interface
+ * for feeding-preference collection within ClientIntakeWizard.
+ */
 import React from 'react';
 import { FEEDING_OPTIONS } from '../intakeTypes';
 import type { StepProps } from '../intakeUtils';
 import { splitCsv, toggleArrayValue } from '../intakeUtils';
 
+/** Renders the feeding preferences wizard step. */
 export const FeedingStep: React.FC<StepProps> = ({ data, update, setData }) => (
   <div className="space-y-5">
     <p className="text-sm text-[#6B4D37]">

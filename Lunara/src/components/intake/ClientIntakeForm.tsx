@@ -1,12 +1,20 @@
+/**
+ * @module components/intake/ClientIntakeForm
+ * Single-page intake form for new postpartum clients — collects personal,
+ * family, feeding, support, health, communication, and goals data with
+ * save-draft and submit capabilities.
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
 import { FEEDING_OPTIONS, SUPPORT_OPTIONS, type IntakeData } from './intakeTypes';
 
+/** Props for the client intake form. */
 interface ClientIntakeFormProps {
   onComplete?: () => void;
 }
 
+/** Renders the full single-page postpartum intake form with draft saving. */
 export const ClientIntakeForm: React.FC<ClientIntakeFormProps> = ({ onComplete }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

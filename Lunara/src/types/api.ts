@@ -5,14 +5,14 @@
  * These types describe the shapes of specific API request/response payloads.
  */
 
-// ── Generic response wrappers ───────────────────────────────────────────────
-
+/** Generic API response envelope wrapping a typed payload. */
 export interface ApiResponse<T> {
   data: T;
   message?: string;
   status: number;
 }
 
+/** Pagination metadata returned alongside paginated lists. */
 export interface PaginationMeta {
   currentPage: number;
   totalPages: number;
@@ -20,10 +20,12 @@ export interface PaginationMeta {
   totalCount: number;
 }
 
+/** API response that wraps an array of items with pagination metadata. */
 export interface PaginatedResponse<T> extends ApiResponse<T[]> {
   meta: PaginationMeta;
 }
 
+/** Common query-string parameters accepted by list/search endpoints. */
 export interface QueryParams {
   page?: number;
   pageSize?: number;
@@ -35,17 +37,15 @@ export interface QueryParams {
   providerId?: number;
 }
 
-// ── Auth response types ─────────────────────────────────────────────────────
-
-// Refresh token is now sent via httpOnly cookie, no request body needed.
+/** Empty request body — refresh token is sent via httpOnly cookie. */
 export type RefreshTokenRequest = Record<string, never>;
 
+/** Response from the token-refresh endpoint containing a new access token. */
 export interface RefreshTokenResponse {
   token: string;
 }
 
-// ── User / profile types ────────────────────────────────────────────────────
-
+/** Extended user profile including postpartum-specific intake fields. */
 export interface UserProfile {
   id: string;
   email: string;
@@ -64,8 +64,7 @@ export interface UserProfile {
   updatedAt: string;
 }
 
-// ── Appointment types ───────────────────────────────────────────────────────
-
+/** Full appointment record as returned by the appointments API. */
 export interface Appointment {
   id: string;
   clientId: string;
@@ -78,6 +77,7 @@ export interface Appointment {
   notes?: string;
 }
 
+/** Request payload for scheduling a new appointment. */
 export interface CreateAppointmentRequest {
   clientId: string;
   providerId: string;
@@ -87,20 +87,21 @@ export interface CreateAppointmentRequest {
   notes?: string;
 }
 
+/** Request payload for updating an existing appointment's status or details. */
 export interface UpdateAppointmentRequest {
   status?: 'scheduled' | 'completed' | 'cancelled';
   location?: string;
   notes?: string;
 }
 
-// ── Provider types ──────────────────────────────────────────────────────────
-
+/** A single availability slot for a provider on a given day of the week. */
 export interface ProviderAvailability {
   dayOfWeek: number;
   startTime: string;
   endTime: string;
 }
 
+/** Request payload for updating a provider's availability for a specific day. */
 export interface UpdateAvailabilityRequest {
   dayOfWeek: number;
   startTime: string;
@@ -108,6 +109,7 @@ export interface UpdateAvailabilityRequest {
   isAvailable: boolean;
 }
 
+/** Lightweight provider record embedded in appointment and client responses. */
 export interface Provider {
   id: string;
   firstName: string;
@@ -116,8 +118,7 @@ export interface Provider {
   specialties?: string[];
 }
 
-// ── Message types ───────────────────────────────────────────────────────────
-
+/** A single message record in a conversation thread. */
 export interface Message {
   id: string;
   senderId: string;
@@ -128,6 +129,7 @@ export interface Message {
   updatedAt: string;
 }
 
+/** Request payload for sending a new message to a recipient. */
 export interface SendMessageRequest {
   recipientId: string;
   content: string;

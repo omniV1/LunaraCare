@@ -1,3 +1,9 @@
+/**
+ * @module components/documents/DocumentsList
+ * Client-facing document list with search, type/status/date filters,
+ * inline editing, submit-to-provider workflow, and AI-driven document
+ * recommendations based on postpartum week.
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { documentService, ClientDocument, DocumentFilters } from '../../services/documentService';
@@ -9,11 +15,13 @@ import { useAuth } from '../../contexts/useAuth';
 import { ClientDocumentEdit } from './ClientDocumentEdit';
 import { DocumentRecommendationsPanel } from './DocumentRecommendations';
 
+/** Props for the client documents list view. */
 interface DocumentsListProps {
   onView?: (document: ClientDocument, filePath?: string) => void;
   onRefresh?: () => void;
 }
 
+/** Renders the filterable, searchable list of client documents with recommendations. */
 export const DocumentsList: React.FC<DocumentsListProps> = ({ onView, onRefresh }) => {
   const [documents, setDocuments] = useState<ClientDocument[]>([]);
   const [loading, setLoading] = useState(true);

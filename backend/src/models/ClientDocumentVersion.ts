@@ -1,7 +1,14 @@
+/**
+ * @module ClientDocumentVersion
+ * Immutable snapshot of a ClientDocument at a point in time.
+ * Maps to the MongoDB `clientdocumentversions` collection.
+ * Created on every update to a client document, preserving file attachments,
+ * form data, and submission state for audit and rollback purposes.
+ */
 import mongoose, { Schema, Document } from 'mongoose';
 import { IFileAttachment, ISubmissionData } from './ClientDocument';
 
-// Interface for Client Document Version document
+/** Immutable version record capturing a client document's state at a revision point. */
 export interface IClientDocumentVersion extends Document {
   documentId: mongoose.Types.ObjectId;
   versionNumber: number;
@@ -105,8 +112,9 @@ const clientDocumentVersionSchema = new Schema<IClientDocumentVersion>(
   }
 );
 
-// Compound index for efficient queries
+/** @index documentId + versionNumber — fast look-up of a specific version. */
 clientDocumentVersionSchema.index({ documentId: 1, versionNumber: -1 });
+/** @index documentId + createdAt — chronological version history. */
 clientDocumentVersionSchema.index({ documentId: 1, createdAt: -1 });
 
 // Add virtual id property

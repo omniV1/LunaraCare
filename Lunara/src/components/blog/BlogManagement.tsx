@@ -1,12 +1,19 @@
+/**
+ * @module components/blog/BlogManagement
+ * Provider-facing blog management dashboard — lists all posts with
+ * search, category/tag/author filters, and publish/unpublish/delete actions.
+ */
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { blogService, BlogPost, BlogPostFilters } from '../../services/blogService';
 
+/** Props for the blog management list view. */
 interface BlogManagementProps {
   onEditPost?: (post: BlogPost) => void;
   onCreatePost?: () => void;
 }
 
+/** Renders the searchable, filterable blog post management table for providers. */
 export const BlogManagement: React.FC<BlogManagementProps> = ({ onEditPost, onCreatePost }) => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);

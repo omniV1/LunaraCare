@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/ClientsTab
+ * Client management tab: provider's assigned clients, all-clients list
+ * with assign/unassign/delete, invite flow, bulk document upload, and documents list.
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../../api/apiClient';
@@ -18,6 +23,7 @@ interface ClientsTabProps {
   onCarePlan: (clientId: string, clientUserId: string, clientName: string) => void;
 }
 
+/** Client roster with invite, assign/unassign, profile editing, and document management. */
 export const ClientsTab: React.FC<ClientsTabProps> = ({ user, onEditClient, onCarePlan }) => {
   const [myClients, setMyClients] = useState<ProviderClientItem[]>([]);
   const [allClients, setAllClients] = useState<ProviderClientItem[]>([]);

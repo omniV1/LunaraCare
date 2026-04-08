@@ -1,8 +1,18 @@
+/**
+ * @module ResetPasswordPage
+ * Password-reset completion page. Reads the reset token from the URL,
+ * validates a new password, and submits the change to the backend.
+ */
 import React, { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SimpleFooter } from '../components/layout/SimpleFooter';
 import { getBaseApiUrl } from '../utils/getBaseApiUrl';
 
+/**
+ * Reset-password page rendered at `/reset-password?token=...`.
+ * Validates the token from search params and presents a new-password form.
+ * @returns The new-password form, a success message, or an invalid-token error.
+ */
 const ResetPasswordPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');

@@ -1,3 +1,10 @@
+/**
+ * @module services/appointmentReminderService
+ * Polls for upcoming confirmed/scheduled appointments and sends reminder
+ * emails to both client and provider 24 hours before the appointment.
+ * Designed to run on a recurring interval via {@link startReminderScheduler}.
+ */
+
 import Appointment from '../models/Appointment';
 import User from '../models/User';
 import { sendAppointmentNotification } from './appointmentNotificationService';
@@ -12,6 +19,8 @@ const REMINDER_LEAD_MS = 24 * 60 * 60 * 1000;
  * and haven't had one sent yet.
  *
  * Intended to be called periodically (e.g. via setInterval or a cron job).
+ *
+ * @returns The number of reminders successfully sent this cycle
  */
 export async function processAppointmentReminders(): Promise<number> {
   const now = new Date();

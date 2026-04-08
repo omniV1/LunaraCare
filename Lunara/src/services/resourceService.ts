@@ -13,10 +13,10 @@
 
 import { ApiClient } from '../api/apiClient';
 
-// Type aliases
+/** Allowed difficulty levels for resources. */
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
-// Resource Types
+/** A postpartum care resource with metadata, versioning, and categorisation. */
 export interface Resource {
   id: string;
   title: string;
@@ -43,6 +43,7 @@ export interface Resource {
   updatedAt: string;
 }
 
+/** A resource category for grouping and filtering. */
 export interface Category {
   id: string;
   name: string;
@@ -51,6 +52,7 @@ export interface Category {
   updatedAt: string;
 }
 
+/** Optional query filters for listing resources. */
 export interface ResourceFilters {
   category?: string;
   difficulty?: Difficulty;
@@ -62,6 +64,7 @@ export interface ResourceFilters {
   author?: string;
 }
 
+/** Payload for creating a new resource. */
 export interface CreateResourceData {
   title: string;
   description: string;
@@ -76,6 +79,7 @@ export interface CreateResourceData {
   isPublished?: boolean;
 }
 
+/** Payload for updating an existing resource. */
 export interface UpdateResourceData {
   title?: string;
   description?: string;
@@ -90,11 +94,13 @@ export interface UpdateResourceData {
   isPublished?: boolean;
 }
 
+/** Payload for creating a new category. */
 export interface CreateCategoryData {
   name: string;
   description?: string;
 }
 
+/** Payload for updating an existing category. */
 export interface UpdateCategoryData {
   name?: string;
   description?: string;
@@ -326,7 +332,7 @@ export class ResourceService {
   }
 }
 
-// Version type for resource history
+/** Snapshot of a resource at a specific version for history tracking. */
 export interface ResourceVersion {
   id: string;
   versionNumber: number;

@@ -1,3 +1,10 @@
+/**
+ * @module services/userService
+ * Authenticated user self-service operations: profile retrieval/update,
+ * password change, account deletion with cascading data cleanup, and
+ * notification preference management.
+ */
+
 import mongoose from 'mongoose';
 import User, { IUser } from '../models/User';
 import Client, { IClientDocument } from '../models/Client';
@@ -15,11 +22,13 @@ import { UnauthorizedError, NotFoundError, BadRequestError } from '../utils/erro
 
 type RoleProfile = IClientDocument | IProviderDocument | null;
 
+/** User document paired with their role-specific profile (Client or Provider). */
 export interface ProfileResponse {
   user: IUser;
   profile: RoleProfile;
 }
 
+/** Mutable fields when updating a user's profile. */
 export interface UpdateProfileInput {
   firstName?: string;
   lastName?: string;
@@ -29,6 +38,7 @@ export interface UpdateProfileInput {
   birthDate?: string;
 }
 
+/** Result after a successful profile update. */
 export interface UpdateProfileResult {
   message: string;
   user: IUser;
@@ -41,6 +51,7 @@ interface ClientDateUpdates {
   birthDate?: string;
 }
 
+/** Per-channel notification preferences stored in the user profile. */
 export interface NotificationPreferences {
   emailNotifications: boolean;
   appointmentReminders: boolean;
@@ -106,6 +117,9 @@ const getRoleProfile = async (
 
 /**
  * Get the current user's profile with role-specific data.
+ *
+ * @param user - Authenticated user document
+ * @returns User and their role-specific profile (Client or Provider)
  */
 export async function getProfile(user: IUser): Promise<ProfileResponse> {
   const userId = user._id;
@@ -124,6 +138,9 @@ export async function getProfile(user: IUser): Promise<ProfileResponse> {
 /**
  * Update the current user's profile.
  *
+ * @param user - Authenticated user document
+ * @param updates - Fields to update (name, profile, dates)
+ * @returns Success message with updated user and profile
  * @throws BadRequestError -- invalid date format
  */
 export async function updateProfile(
@@ -161,6 +178,10 @@ export async function updateProfile(
 /**
  * Change the user's password, revoke all sessions, and send notification email.
  *
+ * @param userId - User's ObjectId
+ * @param currentPassword - Current password for re-authentication
+ * @param newPassword - New password to set
+ * @returns Success message
  * @throws NotFoundError -- user not found
  * @throws UnauthorizedError -- current password is incorrect
  */
@@ -196,6 +217,9 @@ export async function changePassword(
 /**
  * Delete a user account permanently, removing all associated data.
  *
+ * @param userId - User's ObjectId
+ * @param password - Current password for confirmation
+ * @returns Success message
  * @throws NotFoundError -- user not found
  * @throws UnauthorizedError -- password is incorrect
  */
@@ -243,6 +267,9 @@ export async function deleteAccount(
 
 /**
  * Get notification preferences.
+ *
+ * @param user - Authenticated user document
+ * @returns Current notification preference settings with defaults applied
  */
 export function getPreferences(user: IUser): { preferences: NotificationPreferences } {
   const defaults: NotificationPreferences = {
@@ -263,6 +290,10 @@ export function getPreferences(user: IUser): { preferences: NotificationPreferen
 
 /**
  * Update notification preferences.
+ *
+ * @param user - Authenticated user document
+ * @param updates - Preference toggles to change
+ * @returns Success message and the updated preferences
  */
 export async function updatePreferences(
   user: IUser,

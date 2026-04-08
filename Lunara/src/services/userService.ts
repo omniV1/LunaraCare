@@ -1,7 +1,14 @@
+/**
+ * @module userService
+ * Singleton service for user profile management, password changes,
+ * account deletion, and notification preference operations.
+ */
+
 import { ApiClient } from '../api/apiClient';
 import { UserProfile, PaginatedResponse, QueryParams } from '../types/api';
 import { User } from '../types/user';
 
+/** User notification preference flags. */
 export interface NotificationPreferences {
   emailNotifications: boolean;
   appointmentReminders: boolean;
@@ -89,18 +96,38 @@ export class UserService {
     return this.api.get<PaginatedResponse<User>>(`/users/clients${queryString}`);
   }
 
+  /**
+   * Changes the authenticated user's password.
+   * @param currentPassword - The user's current password for verification.
+   * @param newPassword - The new password to set.
+   * @returns Confirmation message.
+   */
   public async changePassword(currentPassword: string, newPassword: string): Promise<{ message: string }> {
     return this.api.post<{ message: string }>('/users/change-password', { currentPassword, newPassword });
   }
 
+  /**
+   * Permanently deletes the authenticated user's account.
+   * @param password - Current password for confirmation.
+   * @returns Confirmation message.
+   */
   public async deleteAccount(password: string): Promise<{ message: string }> {
     return this.api.delete<{ message: string }>('/users/account', { data: { password } });
   }
 
+  /**
+   * Fetches the authenticated user's notification preferences.
+   * @returns Object containing {@link NotificationPreferences}.
+   */
   public async getPreferences(): Promise<{ preferences: NotificationPreferences }> {
     return this.api.get<{ preferences: NotificationPreferences }>('/users/preferences');
   }
 
+  /**
+   * Updates the authenticated user's notification preferences.
+   * @param prefs - Partial preference updates.
+   * @returns Confirmation message and the full updated preferences.
+   */
   public async updatePreferences(prefs: Partial<NotificationPreferences>): Promise<{ message: string; preferences: NotificationPreferences }> {
     return this.api.put<{ message: string; preferences: NotificationPreferences }>('/users/preferences', prefs);
   }

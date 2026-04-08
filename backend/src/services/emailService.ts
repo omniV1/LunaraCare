@@ -1,3 +1,11 @@
+/**
+ * @module services/emailService
+ * Transactional email delivery via Nodemailer/Gmail SMTP. Provides
+ * HTML+text templates for welcome, password-reset, login-notification,
+ * and appointment lifecycle emails. Includes XSS-safe data escaping
+ * and Gmail sender-address resolution.
+ */
+
 import nodemailer, { Transporter, SendMailOptions } from 'nodemailer';
 import logger from '../utils/logger';
 
@@ -19,6 +27,7 @@ function escData(data: EmailTemplateData): EmailTemplateData {
   return safe;
 }
 
+/** Template interpolation variables keyed by placeholder name. */
 export interface EmailTemplateData {
   firstName?: string;
   verificationUrl?: string;
@@ -32,12 +41,14 @@ export interface EmailTemplateData {
   [key: string]: string | undefined;
 }
 
+/** An email template with subject line and HTML/text renderers. */
 export interface EmailTemplate {
   subject: string;
   html: (data: EmailTemplateData) => string;
   text: (data: EmailTemplateData) => string;
 }
 
+/** Options for sending a templated email. */
 export interface SendEmailOptions {
   to: string;
   template: string;
@@ -45,6 +56,7 @@ export interface SendEmailOptions {
   subject?: string;
 }
 
+/** Options for sending a raw (non-templated) email. */
 export interface SendRawEmailOptions {
   to: string;
   subject: string;

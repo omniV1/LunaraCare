@@ -1,3 +1,11 @@
+/**
+ * @module services/clientService
+ * Client profile management for the provider/admin dashboard. Handles
+ * listing, assignment, onboarding fields, intake data, and cascading
+ * deletion of a client and all associated records (appointments,
+ * care plans, check-ins, documents, messages).
+ */
+
 import mongoose from 'mongoose';
 import Appointment from '../models/Appointment';
 import CarePlan from '../models/CarePlan';
@@ -11,6 +19,7 @@ import logger from '../utils/logger';
 
 // ── Input types ──────────────────────────────────────────────────────────────
 
+/** Mutable fields when updating a client profile. */
 export interface UpdateClientInput {
   babyBirthDate?: string;
   dueDate?: string;
@@ -68,6 +77,11 @@ export async function getMyClientProfile(
 
 /**
  * List clients (provider's assigned or all).
+ *
+ * @param userId - Authenticated user's ObjectId (used as provider filter)
+ * @param userRole - Caller's role
+ * @param showAll - When true and caller is provider/admin, returns all clients
+ * @returns Enriched client records with display names and user details
  */
 export async function listClients(
   userId: mongoose.Types.ObjectId,
@@ -174,6 +188,9 @@ export async function listClients(
 /**
  * Assign a client to the current provider.
  *
+ * @param clientId - Client document ObjectId
+ * @param providerId - Provider's user ObjectId
+ * @returns Updated client document with populated provider
  * @throws NotFoundError — client not found
  */
 export async function assignClient(
@@ -214,6 +231,9 @@ export async function assignClient(
 /**
  * Remove a client from the provider's list.
  *
+ * @param clientId - Client document ObjectId
+ * @param providerId - Provider's user ObjectId
+ * @returns Updated client document with provider cleared
  * @throws NotFoundError  — client not found
  * @throws ForbiddenError — client is not assigned to the caller
  */
@@ -242,6 +262,10 @@ export async function unassignClient(
 /**
  * Get a single client profile by ID (provider/admin only).
  *
+ * @param clientId - Client document ObjectId
+ * @param userId - Authenticated user's ID for authorization
+ * @param userRole - Caller's role
+ * @returns Populated client document
  * @throws NotFoundError  — client not found
  * @throws ForbiddenError — not authorized
  */
@@ -268,6 +292,11 @@ export async function getClientById(
 /**
  * Update a client profile (provider/admin only).
  *
+ * @param clientId - Client document ObjectId
+ * @param data - Fields to update
+ * @param userId - Authenticated user's ID for authorization
+ * @param userRole - Caller's role
+ * @returns Updated client document
  * @throws NotFoundError  — client not found
  * @throws ForbiddenError — not authorized
  */
@@ -321,6 +350,8 @@ export async function updateClient(
 /**
  * Permanently delete a client and all associated data.
  *
+ * @param clientId - Client document ObjectId
+ * @param deletedByUserId - ID of the user performing the deletion (for audit)
  * @throws NotFoundError — client not found
  */
 export async function deleteClient(

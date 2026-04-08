@@ -1,3 +1,11 @@
+/**
+ * @module services/appointmentService
+ * Core appointment lifecycle management: CRUD, request/confirm/cancel flows,
+ * availability-slot management, and bulk scheduling. Operates on the
+ * Appointment and AvailabilitySlot models and sends email notifications
+ * for state transitions.
+ */
+
 import mongoose from 'mongoose';
 import Appointment, { IAppointmentDocument } from '../models/Appointment';
 import AvailabilitySlot, { IAvailabilitySlotDocument } from '../models/AvailabilitySlot';
@@ -8,6 +16,7 @@ import { NotFoundError, ForbiddenError, ConflictError, BadRequestError } from '.
 
 // ── Input / result types ────────────────────────────────────────────────────
 
+/** Fields for directly creating a scheduled appointment. */
 export interface CreateAppointmentInput {
   clientId: string;
   providerId: string;
@@ -17,6 +26,7 @@ export interface CreateAppointmentInput {
   notes?: string;
 }
 
+/** Mutable fields when updating an existing appointment. */
 export interface UpdateAppointmentInput {
   status?: 'scheduled' | 'completed' | 'cancelled' | 'requested' | 'confirmed';
   startTime?: string;
@@ -24,6 +34,7 @@ export interface UpdateAppointmentInput {
   notes?: string;
 }
 
+/** Fields for requesting an appointment by booking an availability slot. */
 export interface RequestAppointmentInput {
   providerId: string;
   slotId: string;
@@ -31,6 +42,7 @@ export interface RequestAppointmentInput {
   notes?: string;
 }
 
+/** Fields for requesting an appointment at a proposed date/time (no slot). */
 export interface RequestProposedInput {
   providerId: string;
   startTime: string;
@@ -39,6 +51,7 @@ export interface RequestProposedInput {
   notes?: string;
 }
 
+/** Fields for creating a provider availability slot. */
 export interface CreateAvailabilitySlotInput {
   date: string;
   startTime: string;
@@ -46,6 +59,7 @@ export interface CreateAvailabilitySlotInput {
   recurring?: boolean;
 }
 
+/** Single item in a bulk-create appointment request. */
 export interface BulkAppointmentItem {
   clientId: string;
   startTime: string;
@@ -54,6 +68,7 @@ export interface BulkAppointmentItem {
   notes?: string;
 }
 
+/** Minimal authenticated user context passed from the route layer. */
 export interface CallerUser {
   _id: mongoose.Types.ObjectId | string;
   role: 'client' | 'provider' | 'admin';
@@ -65,6 +80,12 @@ export interface CallerUser {
 
 /**
  * List appointments for a user with role-based filtering and pagination.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @param role - User role (determines filter: providerId vs clientId)
+ * @param page - 1-based page number
+ * @param limit - Maximum results per page
+ * @returns Populated appointment documents sorted by start time descending
  */
 export async function listAppointments(
   userId: mongoose.Types.ObjectId,
@@ -87,6 +108,11 @@ export async function listAppointments(
 
 /**
  * Upcoming appointments with active-status filter.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @param role - User role (determines filter key)
+ * @param limit - Maximum results to return
+ * @returns Future appointments sorted chronologically
  */
 export async function getUpcomingAppointments(
   userId: mongoose.Types.ObjectId,
@@ -112,6 +138,12 @@ export async function getUpcomingAppointments(
 
 /**
  * Calendar appointments within a date range.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @param role - User role
+ * @param startDate - Range start (inclusive)
+ * @param endDate - Range end (inclusive)
+ * @returns Appointments within the range sorted chronologically
  */
 export async function getCalendarAppointments(
   userId: mongoose.Types.ObjectId,
@@ -135,6 +167,11 @@ export async function getCalendarAppointments(
 
 /**
  * Calendar availability slots for a provider within a date range.
+ *
+ * @param providerId - Provider's user ID
+ * @param startDate - Range start (truncated to start-of-day)
+ * @param endDate - Range end (inclusive)
+ * @returns Availability slots sorted by date and start time
  */
 export async function getCalendarAvailability(
   providerId: string,
@@ -190,6 +227,9 @@ export async function getAppointmentById(
 /**
  * Create an appointment. Only providers/admins can schedule for another user.
  *
+ * @param data - Appointment details
+ * @param user - Authenticated caller context
+ * @returns The created and populated appointment document
  * @throws ForbiddenError — non-provider/admin trying to schedule for another client
  */
 export async function createAppointment(
@@ -546,6 +586,10 @@ export async function cancelAppointment(
 
 /**
  * Create an availability slot for a provider.
+ *
+ * @param providerId - Provider's ObjectId
+ * @param data - Slot date, time range, and recurrence flag
+ * @returns The newly created availability slot
  */
 export async function createAvailabilitySlot(
   providerId: mongoose.Types.ObjectId,
@@ -591,6 +635,10 @@ export async function deleteAvailabilitySlot(
 
 /**
  * Bulk create appointments for a provider.
+ *
+ * @param appointments - Array of appointment items to create
+ * @param providerId - Provider's ObjectId assigned to all appointments
+ * @returns Array of created appointment documents
  */
 export async function bulkCreateAppointments(
   appointments: BulkAppointmentItem[],

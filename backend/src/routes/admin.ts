@@ -1,3 +1,8 @@
+/**
+ * @module routes/admin
+ * Administrative endpoints for provider/user management.
+ * Mounted at `/api/admin`.
+ */
 import express, { Request, Response, NextFunction } from 'express';
 
 import { body } from 'express-validator';
@@ -5,6 +10,7 @@ import { requireRole, handleValidationErrors, authenticate } from '../middleware
 import logger from '../utils/logger';
 import * as adminService from '../services/adminService';
 
+/** Express router exposing admin management endpoints. */
 const router = express.Router();
 
 

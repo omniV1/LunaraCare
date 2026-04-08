@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/QuickActionsSection
+ * Grid of shortcut buttons on the provider overview: create client,
+ * schedule appointment, view clients, and blog/resources.
+ */
 import React from 'react';
 import { toast } from 'react-toastify';
 
@@ -8,6 +13,7 @@ interface QuickActionsSectionProps {
   onNavigate: (tab: string) => void;
 }
 
+/** Grid of quick-action buttons for common provider workflows. */
 export const QuickActionsSection: React.FC<QuickActionsSectionProps> = ({
   user,
   onCreateClient,

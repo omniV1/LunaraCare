@@ -1,4 +1,5 @@
 /**
+ * @module utils/queryOptimization
  * Common query optimization helpers.
  *
  * Usage in routes:

@@ -1,9 +1,17 @@
+/**
+ * @module services/interactionService
+ * Tracks user interactions with resources: views, downloads, favorites,
+ * and ratings. Provides aggregate statistics per resource and manages
+ * the UserResourceInteraction model.
+ */
+
 import mongoose from 'mongoose';
 import UserResourceInteraction, { IUserResourceInteraction } from '../models/UserResourceInteraction';
 import { BadRequestError, NotFoundError } from '../utils/errors';
 
 // ── Input types ──────────────────────────────────────────────────────────────
 
+/** Fields for recording a resource interaction. */
 export interface RecordInteractionInput {
   resourceId: string;
   interactionType: string;
@@ -12,6 +20,7 @@ export interface RecordInteractionInput {
 
 // ── Result types ─────────────────────────────────────────────────────────────
 
+/** Aggregate interaction statistics for a single resource. */
 export interface ResourceStats {
   viewCount: number;
   downloadCount: number;
@@ -26,6 +35,9 @@ export interface ResourceStats {
  * Record a user interaction with a resource. Handles rating upsert,
  * favorite toggle, and view/download creation.
  *
+ * @param userId - Authenticated user's ObjectId
+ * @param data - Interaction details (type, resource, optional rating)
+ * @returns Interaction result and HTTP status code
  * @throws BadRequestError — missing fields, invalid type, or invalid rating
  */
 export async function recordInteraction(
@@ -89,6 +101,9 @@ export async function recordInteraction(
 
 /**
  * Get current user's favorited resources.
+ *
+ * @param userId - Authenticated user's ObjectId
+ * @returns Favorite interactions with populated resource details
  */
 export async function getFavorites(
   userId: mongoose.Types.ObjectId
@@ -101,6 +116,9 @@ export async function getFavorites(
 
 /**
  * Get interaction stats for a resource.
+ *
+ * @param resourceId - Resource ObjectId string
+ * @returns Aggregated view, download, favorite, and rating statistics
  */
 export async function getResourceStats(resourceId: string): Promise<ResourceStats> {
   const [viewCount, downloadCount, favoriteCount, ratingAgg] = await Promise.all([
@@ -133,6 +151,8 @@ export async function getResourceStats(resourceId: string): Promise<ResourceStat
 /**
  * Remove a resource from favorites.
  *
+ * @param userId - Authenticated user's ObjectId
+ * @param resourceId - Resource ObjectId string
  * @throws NotFoundError — favorite not found
  */
 export async function removeFavorite(

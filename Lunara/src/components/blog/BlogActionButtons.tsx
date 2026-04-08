@@ -1,5 +1,11 @@
+/**
+ * @module components/blog/BlogActionButtons
+ * Provides Cancel, Publish, and Save Draft action buttons for the blog
+ * post editor form, with loading-state awareness.
+ */
 import React from 'react';
 
+/** Props for the blog editor action button bar. */
 export interface BlogActionButtonsProps {
   isLoading: boolean;
   isEditing: boolean;
@@ -7,6 +13,7 @@ export interface BlogActionButtonsProps {
   onPublish: () => void;
 }
 
+/** Renders the Cancel / Publish / Save Draft buttons at the bottom of the blog editor. */
 export const BlogActionButtons: React.FC<BlogActionButtonsProps> = ({
   isLoading,
   isEditing,

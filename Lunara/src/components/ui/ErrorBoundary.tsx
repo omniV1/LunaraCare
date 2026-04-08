@@ -1,11 +1,19 @@
+/**
+ * @module components/ui/ErrorBoundary
+ * React error boundary components that catch render-time exceptions.
+ * Provides a base ErrorBoundary class, a reusable ErrorFallback display,
+ * and a full-page PageErrorBoundary wrapper.
+ */
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
+/** Props for the base {@link ErrorBoundary} class component. */
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
+/** Internal state for {@link ErrorBoundary}. */
 interface State {
   hasError: boolean;
   error: Error | null;
@@ -95,6 +103,7 @@ export class ErrorBoundary extends Component<Props, State> {
 /**
  * ErrorFallback - A reusable error display component
  */
+/** Props for {@link ErrorFallback}. */
 interface ErrorFallbackProps {
   error?: Error | null;
   resetError?: () => void;

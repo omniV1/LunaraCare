@@ -1,7 +1,14 @@
+/**
+ * @module components/security/MfaSetup
+ * Multi-step TOTP two-factor authentication setup and management.
+ * Guides users through QR scanning, code verification, backup-code display,
+ * and provides a disable flow requiring password + auth code confirmation.
+ */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
 
+/** Props for {@link MfaSetup}. */
 interface MfaSetupProps {
   mfaEnabled: boolean;
   onStatusChange: (enabled: boolean) => void;
@@ -9,6 +16,7 @@ interface MfaSetupProps {
 
 type Step = 'idle' | 'qr' | 'backup-codes';
 
+/** Renders the MFA setup wizard or current MFA status with enable/disable controls. */
 const MfaSetup: React.FC<MfaSetupProps> = ({ mfaEnabled, onStatusChange }) => {
   const [step, setStep] = useState<Step>('idle');
   const [qrCode, setQrCode] = useState('');

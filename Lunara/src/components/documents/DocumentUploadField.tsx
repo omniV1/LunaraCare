@@ -1,6 +1,13 @@
+/**
+ * @module components/documents/DocumentUploadField
+ * Reusable file-upload drop zone with click-to-browse, optional validation,
+ * selected-file preview, and remove button. Used by DocumentUpload and
+ * ClientDocumentEdit.
+ */
 import React from 'react';
 import { toast } from 'react-toastify';
 
+/** Props for the shared document upload field component. */
 interface DocumentUploadFieldProps {
   label: string;
   accept?: string;
@@ -11,6 +18,7 @@ interface DocumentUploadFieldProps {
   helperNote?: string;
 }
 
+/** Renders a dashed drop-zone with file input, preview, and remove controls. */
 export const DocumentUploadField: React.FC<DocumentUploadFieldProps> = ({
   label,
   accept = '.pdf',

@@ -1,14 +1,29 @@
+/**
+ * @module BlogPage
+ * Public blog listing page. Fetches published posts from the blog API
+ * and renders them as cards with excerpts and "Read More" links.
+ */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { blogService, BlogPost } from '../services/blogService';
 
-// Helper to truncate excerpt text
+/**
+ * Truncates a text string to a maximum word count.
+ * @param text - The source string to truncate.
+ * @param wordLimit - Maximum number of words to keep (default 30).
+ * @returns The original text if within the limit, otherwise truncated with ellipsis.
+ */
 const truncateText = (text: string, wordLimit: number = 30): string => {
   const words = text.split(' ');
   if (words.length <= wordLimit) return text;
   return words.slice(0, wordLimit).join(' ') + '...';
 };
 
+/**
+ * Blog listing page rendered at `/blog`.
+ * Displays a responsive grid of published blog post cards.
+ * @returns The blog post grid, a loading indicator, or an error message.
+ */
 const BlogPage: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);

@@ -1,3 +1,11 @@
+/**
+ * @module services/authService
+ * Authentication and account-security flows: registration, login (with MFA),
+ * JWT token rotation, email verification, password reset, and session
+ * management. Enforces rate-limiting on failed logins and supports TOTP-based
+ * multi-factor authentication.
+ */
+
 import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import { TOTP, Secret } from 'otpauth';
@@ -33,6 +41,7 @@ export function addRefreshToken(user: IUser, token: string): void {
 
 // ── Return types ─────────────────────────────────────────────────────────────
 
+/** Fields required to register a new user account. */
 export interface RegisterInput {
   firstName: string;
   lastName: string;
@@ -42,6 +51,7 @@ export interface RegisterInput {
   providerId?: string;
 }
 
+/** Sanitised user data returned after successful registration. */
 export interface RegisterResult {
   id: unknown;
   firstName: string;
@@ -51,6 +61,7 @@ export interface RegisterResult {
   isEmailVerified: boolean;
 }
 
+/** Payload returned on a successful (non-MFA) login. */
 export interface LoginResult {
   user: {
     id: unknown;
@@ -66,11 +77,13 @@ export interface LoginResult {
   refreshToken: string;
 }
 
+/** Returned when login succeeds but MFA verification is still required. */
 export interface MfaChallengeResult {
   mfaRequired: true;
   mfaToken: string;
 }
 
+/** New token pair returned after a successful refresh-token rotation. */
 export interface RefreshResult {
   accessToken: string;
   newRefreshToken: string;

@@ -1,3 +1,9 @@
+/**
+ * @module components/resource/ResourceLibrary
+ * Browsable, filterable library of postpartum/pregnancy resources.
+ * Displays personalized recommendations for clients and supports search,
+ * category, difficulty, week-range, and author filters.
+ */
 import React, { useState, useEffect } from 'react';
 import { useResource } from '../../contexts/useResource';
 import { useAuth } from '../../contexts/useAuth';
@@ -8,11 +14,13 @@ import {
   ResourceRecommendation,
 } from '../../services/recommendationService';
 
+/** Props for {@link ResourceLibrary}. */
 interface ResourceLibraryProps {
   showFilters?: boolean;
   onResourceSelect?: (resource: Resource) => void;
 }
 
+/** Renders the resource library grid with optional filter panel and recommendation section. */
 export const ResourceLibrary: React.FC<ResourceLibraryProps> = ({
   showFilters = true,
   onResourceSelect,

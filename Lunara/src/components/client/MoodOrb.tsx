@@ -1,3 +1,8 @@
+/**
+ * @module components/client/MoodOrb
+ * Three.js-powered 3D orb that reflects the client's current mood via
+ * color, distortion intensity, and particle animation.
+ */
 import React, { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -305,6 +310,7 @@ function Particles({ color, intensity }: MoodOrbProps) {
 
 /* ─── Export ─── */
 
+/** Canvas-wrapped 3D orb with noise displacement, glow layers, and orbiting particles. */
 export const MoodOrb = React.memo(function MoodOrb({ color, intensity, label }: MoodOrbProps) {
   return (
     <div className="w-full h-[240px] sm:h-[280px]" role="img" aria-label={label ?? 'Mood orb visualization'}>

@@ -1,8 +1,17 @@
+/**
+ * @module services/appointmentNotificationService
+ * Sends lifecycle email notifications for appointments (request, confirm,
+ * cancel, reminder). Selects the correct email template and recipient
+ * based on the event type.
+ */
+
 import { sendEmail } from './emailService';
 import logger from '../utils/logger';
 
+/** Appointment lifecycle events that trigger an email notification. */
 export type AppointmentEvent = 'requested' | 'confirmed' | 'cancelled' | 'reminder';
 
+/** Data needed to compose and send an appointment notification email. */
 export interface NotificationPayload {
   recipientEmail: string;
   recipientName: string;
@@ -36,6 +45,9 @@ function formatTime(d: Date): string {
  * - 'confirmed'  → 'appointment'         template  (sent to client)
  * - 'cancelled'  → 'appointment-cancelled' template (sent to the other party)
  * - 'reminder'   → 'appointment'         template  (sent to client)
+ *
+ * @param event - The lifecycle event that triggered this notification
+ * @param payload - Recipient and appointment details for the email
  */
 export async function sendAppointmentNotification(
   event: AppointmentEvent,

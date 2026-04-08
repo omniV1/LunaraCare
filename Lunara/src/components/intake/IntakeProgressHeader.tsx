@@ -1,7 +1,13 @@
+/**
+ * @module components/intake/IntakeProgressHeader
+ * Progress bar and step navigator for the multi-step intake wizard,
+ * showing current step, completion percentage, and auto-save status.
+ */
 import React from 'react';
 import type { StepId } from './intakeValidation';
 import { stepLabels } from './intakeValidation';
 
+/** Props for the intake wizard progress header. */
 export interface IntakeProgressHeaderProps {
   steps: StepId[];
   step: StepId;
@@ -12,6 +18,7 @@ export interface IntakeProgressHeaderProps {
   onStepChange: (step: StepId) => void;
 }
 
+/** Renders the step progress bar, mobile step selector, and save-status indicator. */
 export const IntakeProgressHeader: React.FC<IntakeProgressHeaderProps> = ({
   steps,
   step,

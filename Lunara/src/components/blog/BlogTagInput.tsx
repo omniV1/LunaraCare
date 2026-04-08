@@ -1,5 +1,11 @@
+/**
+ * @module components/blog/BlogTagInput
+ * Tag management widget for blog posts — lets the provider type a tag,
+ * add it on Enter/click, and remove existing tags via pill badges.
+ */
 import React from 'react';
 
+/** Props for the blog tag input and tag-list display. */
 export interface BlogTagInputProps {
   tags: string[];
   tagInput: string;
@@ -8,6 +14,7 @@ export interface BlogTagInputProps {
   onTagRemove: (tag: string) => void;
 }
 
+/** Renders the tag text input, Add button, and removable tag pills. */
 export const BlogTagInput: React.FC<BlogTagInputProps> = ({
   tags,
   tagInput,

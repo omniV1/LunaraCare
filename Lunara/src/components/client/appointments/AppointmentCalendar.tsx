@@ -1,3 +1,8 @@
+/**
+ * @module components/client/appointments/AppointmentCalendar
+ * Monthly calendar with navigation, day cells showing appointment dots
+ * and available-slot badges. Used inside the refactored appointments view.
+ */
 import React, { useMemo } from 'react';
 import {
   Appointment,
@@ -9,6 +14,7 @@ import {
   isSameDay,
 } from './types';
 
+/** Props for the monthly appointment calendar component. */
 export interface AppointmentCalendarProps {
   currentMonth: Date;
   selectedDate: Date | null;
@@ -21,6 +27,7 @@ export interface AppointmentCalendarProps {
   onSelectDate: (date: Date) => void;
 }
 
+/** Monthly calendar with day cells, appointment dots, slot badges, and navigation. */
 export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
   currentMonth,
   selectedDate,

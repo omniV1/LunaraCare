@@ -1,3 +1,8 @@
+/**
+ * @module components/client/MoodCheckIn
+ * Quick mood check-in widget with a 3D orb visualization. Clients select a
+ * mood level, optionally share with their provider, and observe a cooldown.
+ */
 import React, { Suspense, useState, useEffect, useCallback } from 'react';
 import { ApiClient } from '../../api/apiClient';
 import { useAuth } from '../../contexts/useAuth';
@@ -35,6 +40,7 @@ function formatTimeLeft(ms: number): string {
   return `${mins}m`;
 }
 
+/** Interactive mood selector with a 3D orb preview and hourly cooldown. */
 export const MoodCheckIn: React.FC = () => {
   const { user } = useAuth();
   const userId = user?.id;

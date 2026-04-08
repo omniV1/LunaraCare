@@ -1,3 +1,11 @@
+/**
+ * @module middleware/cacheMiddleware
+ * Express middleware for in-memory response caching.
+ *
+ * Wraps `res.json` to transparently store successful GET responses in the
+ * application-level TTL cache ({@link ../services/cacheService}) and replay
+ * them on subsequent identical requests, avoiding redundant database queries.
+ */
 import { Request, Response, NextFunction } from 'express';
 import cache from '../services/cacheService';
 

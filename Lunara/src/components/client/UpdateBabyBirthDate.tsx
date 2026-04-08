@@ -1,3 +1,8 @@
+/**
+ * @module components/client/UpdateBabyBirthDate
+ * Small card that lets clients set or update their delivery date,
+ * which drives personalized postpartum recommendations.
+ */
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/useAuth';
 import { UserService } from '../../services/userService';
@@ -46,6 +51,7 @@ const parseBirthDate = (rawValue: unknown): Date | null => {
   }
 };
 
+/** Card for viewing and updating the client's delivery date. */
 export const UpdateBabyBirthDate: React.FC = () => {
   const { user } = useAuth();
   const [babyBirthDate, setBabyBirthDate] = useState('');

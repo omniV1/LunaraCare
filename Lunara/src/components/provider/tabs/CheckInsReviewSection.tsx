@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/CheckInsReviewSection
+ * Card listing clients whose recent check-ins need provider review,
+ * with severity-coded alert badges and mark-reviewed actions.
+ */
 import React from 'react';
 import type { CheckinReviewItem } from '../../../pages/providerDashboardUtils';
 
@@ -8,6 +13,7 @@ interface CheckInsReviewSectionProps {
   onMarkReviewed: (clientUserId: string) => void;
 }
 
+/** List of clients with flagged check-ins, including detail/review actions and alert badges. */
 export const CheckInsReviewSection: React.FC<CheckInsReviewSectionProps> = ({
   checkinsNeedingReview,
   checkinsLoading,

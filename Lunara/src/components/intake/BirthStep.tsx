@@ -1,12 +1,19 @@
+/**
+ * @module components/intake/BirthStep
+ * Intake wizard step for pregnancy and birth history — collects first-birth
+ * status, number of children, complications, and most recent birth details.
+ */
 import React from 'react';
 import type { IntakeData } from './intakeTypes';
 import { splitCsv } from './intakeValidation';
 
+/** Props for the standalone BirthStep component. */
 export interface BirthStepProps {
   data: IntakeData;
   onUpdate: (path: string, value: unknown) => void;
 }
 
+/** Renders the pregnancy & birth history intake step. */
 export const BirthStep: React.FC<BirthStepProps> = ({ data, onUpdate }) => (
   <div className="space-y-5">
     <p className="text-sm text-[#6B4D37]">

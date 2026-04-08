@@ -1,3 +1,9 @@
+/**
+ * @module appointmentService
+ * Singleton service for appointment CRUD, availability checks, and
+ * provider schedule management via the backend `/appointments` endpoints.
+ */
+
 import { ApiClient } from '../api/apiClient';
 import {
   Appointment,
@@ -9,6 +15,7 @@ import {
   UpdateAvailabilityRequest,
 } from '../types/api';
 
+/** Minimal provider reference used in appointment contexts. */
 export interface Provider {
   id: number;
   firstName: string;

@@ -1,5 +1,13 @@
+/**
+ * @module PushSubscription
+ * Web Push API subscription records for browser notifications.
+ * Maps to the MongoDB `pushsubscriptions` collection.
+ * Stores the push-service endpoint and VAPID encryption keys.
+ * The `endpoint` field has a unique index to prevent duplicate registrations.
+ */
 import mongoose, { Document, Schema } from 'mongoose';
 
+/** A single Web Push subscription bound to a user. */
 export interface IPushSubscription extends Document {
   userId: mongoose.Types.ObjectId;
   endpoint: string;
@@ -66,6 +74,7 @@ const pushSubscriptionSchema = new Schema<IPushSubscription>(
   }
 );
 
+/** @index userId + endpoint — efficient look-up when sending per-user notifications. */
 pushSubscriptionSchema.index({ userId: 1, endpoint: 1 });
 
 const PushSubscription = mongoose.model<IPushSubscription>(

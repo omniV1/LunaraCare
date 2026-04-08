@@ -1,3 +1,9 @@
+/**
+ * @module utils/errors
+ * Custom API error classes and error-conversion helpers for
+ * consistent HTTP error responses across the application.
+ */
+
 import { Error as MongooseError } from 'mongoose';
 import { JsonWebTokenError, TokenExpiredError, NotBeforeError } from 'jsonwebtoken';
 

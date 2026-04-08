@@ -1,8 +1,19 @@
+/**
+ * @module VerifyEmailPage
+ * Email verification page. Reads a one-time token from the URL and
+ * calls the backend to confirm the user's email address.
+ */
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SimpleFooter } from '../components/layout/SimpleFooter';
 import { getBaseApiUrl } from '../utils/getBaseApiUrl';
 
+/**
+ * Email verification page rendered at `/verify-email?token=...`.
+ * Automatically calls the backend verify-email endpoint on mount
+ * and displays a spinner, success, or error state.
+ * @returns The verification status UI with a link back to login.
+ */
 const VerifyEmailPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');

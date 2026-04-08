@@ -1,3 +1,8 @@
+/**
+ * @module components/client/ClientDayDetailPanel
+ * Side panel showing a selected day's appointments, available provider
+ * slots, and forms for booking or proposing a custom time.
+ */
 import React, { useState } from 'react';
 import type { Appointment, Slot } from './appointmentTypes';
 import { STATUS_COLORS, STATUS_BADGE, STATUS_LABELS, dateKey, formatTime } from './appointmentTypes';
@@ -17,6 +22,7 @@ interface ClientDayDetailPanelProps {
   onRequestProposed: (date: string, startTime: string, endTime: string) => void;
 }
 
+/** Day detail sidebar showing appointments, available slots, and booking/proposed-time forms. */
 export const ClientDayDetailPanel: React.FC<ClientDayDetailPanelProps> = React.memo(({
   selectedDate,
   selectedAppts,

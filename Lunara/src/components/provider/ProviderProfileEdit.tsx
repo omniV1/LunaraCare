@@ -1,3 +1,9 @@
+/**
+ * @module components/provider/ProviderProfileEdit
+ * Two-tab settings page for providers: professional profile editing
+ * (bio, certs, services, availability) and account settings (password,
+ * notifications, 2FA, account deletion).
+ */
 import React, { useState, useEffect } from 'react';
 import { ApiClient } from '../../api/apiClient';
 import { UserService } from '../../services/userService';
@@ -92,6 +98,7 @@ type ActiveTab = 'profile' | 'settings';
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
+/** Provider profile and account settings with tabbed sub-navigation. */
 export const ProviderProfileEdit: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();

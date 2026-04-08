@@ -1,5 +1,13 @@
+/**
+ * @module services/cacheService
+ * Lightweight in-memory cache with TTL expiration and prefix-based
+ * invalidation. Serves as a drop-in replacement point for Redis
+ * when horizontal scaling is needed.
+ */
+
 import logger from '../utils/logger';
 
+/** Internal storage record with expiration timestamp. */
 interface CacheEntry<T> {
   data: T;
   expiresAt: number;
@@ -86,5 +94,6 @@ class CacheService {
   }
 }
 
+/** Singleton cache instance shared across the application. */
 export const cache = new CacheService();
 export default cache;

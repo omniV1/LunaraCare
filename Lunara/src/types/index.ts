@@ -1,4 +1,8 @@
-// Barrel export — import from '@/types' or '../types'
+/**
+ * @module types
+ * Barrel re-export of all shared frontend types.
+ * Import from `@/types` or `../types` instead of individual files.
+ */
 
 export * from './models';
 export * from './auth';

@@ -1,6 +1,12 @@
+/**
+ * @module components/blog/BlogMetadataForm
+ * Title, category, and excerpt fields for the blog editor form.
+ * Uses the shared BLOG_CATEGORIES constant for the category dropdown.
+ */
 import React from 'react';
 import { BLOG_CATEGORIES } from './blogCategories';
 
+/** Props for the blog post metadata fields (title, category, excerpt). */
 export interface BlogMetadataFormProps {
   title: string;
   category: string;
@@ -8,6 +14,7 @@ export interface BlogMetadataFormProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
 }
 
+/** Renders the title input, category selector, and excerpt textarea. */
 export const BlogMetadataForm: React.FC<BlogMetadataFormProps> = ({
   title,
   category,

@@ -1,3 +1,9 @@
+/**
+ * @module seeds/seedContent
+ * Idempotent seeder that populates the database with initial
+ * blog posts and educational resources on first run.
+ */
+
 import mongoose from 'mongoose';
 import logger from '../utils/logger';
 import BlogPost from '../models/BlogPost';
@@ -899,6 +905,11 @@ function resolveCategoryId(categoryName: string, categoryMap: Map<string, string
   return id;
 }
 
+/**
+ * Seed blog posts and resources into the database if they don't already exist.
+ * Also applies one-time data-fix migrations (provider name, category IDs).
+ * @returns Resolves when seeding completes or is skipped
+ */
 export async function seedContent(): Promise<void> {
   try {
     // Fix provider display name: Sarah Johnson -> Sarah L (legacy)

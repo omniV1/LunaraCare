@@ -1,6 +1,12 @@
+/**
+ * @module components/layout/ConstructionAlert
+ * Dismissable yellow banner shown at the top of the page to inform
+ * visitors that the site is under construction.
+ */
 import React, { useState } from 'react';
 import { FaHardHat, FaTimes } from 'react-icons/fa';
 
+/** Renders a dismissable "under construction" alert banner. */
 const ConstructionAlert: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
 

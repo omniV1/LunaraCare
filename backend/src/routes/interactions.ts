@@ -1,3 +1,8 @@
+/**
+ * @module routes/interactions
+ * Resource interaction tracking: views, downloads, favorites, and ratings.
+ * Mounted at `/api/interactions`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -11,6 +16,7 @@ function uid(req: AuthenticatedRequest): mongoose.Types.ObjectId {
   return req.user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing resource interaction and favorites endpoints. */
 const router: Router = express.Router();
 
 

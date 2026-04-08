@@ -1,3 +1,9 @@
+/**
+ * @module components/ScheduleAppointmentModal
+ * Modal dialog for scheduling a new appointment — loads available clients
+ * and providers, lets the user pick a time range and type (virtual/in-person),
+ * then creates the appointment via the API.
+ */
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../api/apiClient';
@@ -19,12 +25,14 @@ interface ProviderOption {
   email?: string;
 }
 
+/** Props for the schedule appointment modal. */
 interface ScheduleAppointmentModalProps {
   open: boolean;
   onClose: () => void;
   onScheduled?: () => void;
 }
 
+/** Renders the appointment scheduling modal with client/provider selectors and time fields. */
 export const ScheduleAppointmentModal: React.FC<ScheduleAppointmentModalProps> = ({
   open,
   onClose,

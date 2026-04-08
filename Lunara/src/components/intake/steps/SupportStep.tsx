@@ -1,8 +1,14 @@
+/**
+ * @module components/intake/steps/SupportStep
+ * Wizard-step variant of SupportStep using the shared StepProps interface
+ * for support-needs collection within ClientIntakeWizard.
+ */
 import React from 'react';
 import { SUPPORT_OPTIONS } from '../intakeTypes';
 import type { StepProps } from '../intakeUtils';
 import { splitCsv, toggleArrayValue } from '../intakeUtils';
 
+/** Renders the support needs wizard step with checkboxes and free-text fields. */
 export const SupportStep: React.FC<StepProps> = ({ data, update, setData }) => (
   <div className="space-y-5">
     <div>

@@ -1,3 +1,8 @@
+/**
+ * @module routes/categories
+ * Resource category CRUD endpoints.
+ * Mounted at `/api/categories`.
+ */
 import express, { Request, Response } from 'express';
 
 import { body, param, validationResult } from 'express-validator';
@@ -5,6 +10,7 @@ import { authenticate } from '../middleware';
 import logger from '../utils/logger';
 import * as categoryService from '../services/categoryService';
 
+/** Express router exposing category management endpoints. */
 const router = express.Router();
 
 

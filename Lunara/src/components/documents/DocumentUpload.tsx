@@ -1,3 +1,9 @@
+/**
+ * @module components/documents/DocumentUpload
+ * Document upload form for clients — accepts a file with metadata
+ * (title, description, category, tags), validates size/type, uploads
+ * via GridFS, and creates the document record.
+ */
 import React, { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { documentService } from '../../services/documentService';
@@ -11,6 +17,7 @@ interface DocumentMetadata {
   tags: string[];
 }
 
+/** Props for the document upload form. */
 interface DocumentUploadProps {
   onUpload?: (file: File, metadata: DocumentMetadata) => void;
   onCancel?: () => void;
@@ -19,6 +26,7 @@ interface DocumentUploadProps {
   acceptedTypes?: string[];
 }
 
+/** Renders the file upload form with metadata fields and validation. */
 export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   onUpload,
   onCancel,

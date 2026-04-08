@@ -1,3 +1,8 @@
+/**
+ * @module routes/providers
+ * Provider profile, client list, availability, invitation, and analytics endpoints.
+ * Mounted at `/api/providers`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -10,6 +15,7 @@ import logger from '../utils/logger';
 import * as providerService from '../services/providerService';
 import { APIError } from '../utils/errors';
 
+/** Express router exposing provider profile and availability endpoints. */
 const router: Router = express.Router();
 
 

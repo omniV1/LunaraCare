@@ -1,6 +1,13 @@
+/**
+ * @module UserResourceInteraction
+ * Tracks how users engage with educational resources (views, downloads, favourites, ratings).
+ * Maps to the MongoDB `userresourceinteractions` collection.
+ * Powers analytics dashboards and the resource recommendation engine.
+ * Only `createdAt` is recorded — interactions are append-only.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-// User Resource Interaction interface
+/** A single user interaction event with a resource. */
 export interface IUserResourceInteraction extends Document {
   user: mongoose.Types.ObjectId;
   resource: mongoose.Types.ObjectId;
@@ -9,7 +16,7 @@ export interface IUserResourceInteraction extends Document {
   createdAt: Date;
 }
 
-// User Interaction Model interface
+/** Model interface (no custom statics currently). */
 export interface IUserResourceInteractionModel extends Model<IUserResourceInteraction> {}
 
 /**
@@ -70,6 +77,7 @@ const userResourceInteractionSchema = new Schema<IUserResourceInteraction>(
   }
 );
 
+/** @index user + resource + interactionType — efficient per-user interaction queries and dedup checks. */
 userResourceInteractionSchema.index({ user: 1, resource: 1, interactionType: 1 });
 
 const UserResourceInteraction = mongoose.model<

@@ -1,3 +1,10 @@
+/**
+ * @module pushService
+ * Singleton service for Web Push notification subscription management.
+ * Handles VAPID key retrieval, service worker registration, and
+ * subscribe/unsubscribe flows via the backend `/push` endpoints.
+ */
+
 import { ApiClient } from '../api/apiClient';
 
 // Web Push VAPID keys use URL-safe base64 (RFC 4648 §5), but the browser's
@@ -13,18 +20,22 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
   return outputArray;
 }
 
+/** Response shape from the VAPID public key endpoint. */
 interface VapidResponse {
   success: boolean;
   data: { vapidPublicKey: string };
 }
 
+/** Response shape from the push subscription endpoint. */
 interface SubscribeResponse {
   success: boolean;
   message: string;
 }
 
+/** Browser Notification permission states. */
 type BrowserNotificationPermission = 'default' | 'granted' | 'denied';
 
+/** Manages Web Push notification lifecycle. */
 class PushNotificationService {
   private static instance: PushNotificationService;
   private api: ApiClient;
@@ -33,6 +44,10 @@ class PushNotificationService {
     this.api = ApiClient.getInstance();
   }
 
+  /**
+   * Returns the singleton PushNotificationService instance.
+   * @returns The shared {@link PushNotificationService}.
+   */
   static getInstance(): PushNotificationService {
     if (!PushNotificationService.instance) {
       PushNotificationService.instance = new PushNotificationService();
@@ -40,11 +55,19 @@ class PushNotificationService {
     return PushNotificationService.instance;
   }
 
+  /**
+   * Fetches the server's VAPID public key used for push subscription.
+   * @returns The VAPID public key string.
+   */
   async getVapidPublicKey(): Promise<string> {
     const res = await this.api.get<VapidResponse>('/push/vapid-public-key');
     return res.data.vapidPublicKey;
   }
 
+  /**
+   * Registers a service worker and subscribes the browser to push notifications.
+   * @returns `true` on success, `false` if push is not supported.
+   */
   async subscribe(): Promise<boolean> {
     if (!this.isSupported()) return false;
 
@@ -68,6 +91,10 @@ class PushNotificationService {
     return true;
   }
 
+  /**
+   * Unsubscribes the browser from push notifications and removes the
+   * subscription from the server.
+   */
   async unsubscribe(): Promise<void> {
     if (!this.isSupported()) return;
 
@@ -84,10 +111,18 @@ class PushNotificationService {
     });
   }
 
+  /**
+   * Checks whether the browser supports push notifications.
+   * @returns `true` if Service Worker and PushManager APIs are available.
+   */
   isSupported(): boolean {
     return 'serviceWorker' in navigator && 'PushManager' in window;
   }
 
+  /**
+   * Returns the current browser notification permission state.
+   * @returns `"default"`, `"granted"`, or `"denied"`.
+   */
   async getPermissionState(): Promise<BrowserNotificationPermission> {
     return Notification.permission;
   }

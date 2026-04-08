@@ -1,3 +1,8 @@
+/**
+ * @module components/client/ClientCheckIns
+ * Daily mood and physical-symptom check-in form with history and trend
+ * summaries. Lets clients track wellbeing and optionally share with their provider.
+ */
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
@@ -54,6 +59,7 @@ const SYMPTOMS: Array<{ id: PhysicalSymptom; label: string }> = [
 
 const todayStr = () => new Date().toISOString().split('T')[0];
 
+/** Renders the daily check-in form, recent history list, and mood trend summary. */
 export const ClientCheckIns: React.FC = () => {
   const { user } = useAuth();
   const [date, setDate] = useState(todayStr);

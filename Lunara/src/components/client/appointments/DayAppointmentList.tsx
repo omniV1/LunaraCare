@@ -1,12 +1,19 @@
+/**
+ * @module components/client/appointments/DayAppointmentList
+ * Lists a client's appointments for a selected day with status badges,
+ * time ranges, and virtual/in-person indicators.
+ */
 import React from 'react';
 import { Appointment, STATUS_COLORS, formatTime } from './types';
 import { AppointmentStatusBadge } from './AppointmentStatusBadge';
 
+/** Props for the day appointment list. */
 export interface DayAppointmentListProps {
   appointments: Appointment[];
   providerName: string;
 }
 
+/** Renders a list of client appointments for a single selected day. */
 export const DayAppointmentList: React.FC<DayAppointmentListProps> = ({ appointments, providerName }) => (
   <div className="p-4">
     <h4 className="text-xs font-semibold uppercase tracking-wider text-[#6B4D37]/70 mb-3">

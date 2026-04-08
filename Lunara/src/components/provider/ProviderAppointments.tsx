@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/ProviderAppointments
+ * List-based appointment management view for providers with pending-approval
+ * actions (approve/decline) and a chronological appointment list.
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
@@ -12,6 +17,7 @@ interface Appointment {
   clientId?: { _id: string; firstName?: string; lastName?: string; email?: string };
 }
 
+/** Provider appointment list with pending-approval section and confirm/decline actions. */
 export const ProviderAppointments: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);

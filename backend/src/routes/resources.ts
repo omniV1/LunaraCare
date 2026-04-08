@@ -1,3 +1,8 @@
+/**
+ * @module routes/resources
+ * Resource library CRUD, version history, and restore endpoints.
+ * Mounted at `/api/resources`.
+ */
 import express, { Router, Response } from 'express';
 
 import { AuthenticatedRequest } from '../types';
@@ -16,6 +21,7 @@ import {
 } from '../services/resourceService';
 import type { ResourceListQuery, UpdateResourceInput } from '../services/resourceService';
 
+/** Express router exposing resource library endpoints. */
 const router: Router = express.Router();
 
 /**

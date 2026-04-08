@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/ProviderTodoList
+ * Local-storage-backed personal to-do list for providers with
+ * priority levels (High/Mid/Low), completion toggling, and removal.
+ */
 import React, { useState, useEffect } from 'react';
 
 type Priority = 'HIGH' | 'MID' | 'LOW';
@@ -18,6 +23,7 @@ const PRIORITY_CONFIG: Record<Priority, { label: string; color: string; bg: stri
 
 const STORAGE_KEY = 'lunara_provider_todos';
 
+/** Priority-sorted personal task list persisted in localStorage. */
 export const ProviderTodoList: React.FC = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [newText, setNewText] = useState('');

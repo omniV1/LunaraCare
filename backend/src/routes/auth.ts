@@ -1,3 +1,8 @@
+/**
+ * @module routes/auth
+ * Authentication endpoints: register, login, OAuth, token refresh, password reset, and MFA verify.
+ * Mounted at `/api/auth`.
+ */
 import express, { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { isGoogleOAuthEnabled } from '../config/passport';
@@ -52,6 +57,7 @@ function getRefreshToken(req: Request): string | undefined {
   return req.cookies?.refreshToken || req.body?.refreshToken;
 }
 
+/** Express router exposing authentication and account-security endpoints. */
 const router = express.Router();
 
 // Tight limit on login/register/password-reset to slow credential-stuffing attacks.
@@ -535,6 +541,7 @@ const allowedRedirectOrigins = new Set<string>(
     .filter(Boolean)
 );
 
+/** Resolve the post-OAuth redirect origin, falling back to FRONTEND_URL if the origin is not in the allowlist. */
 function getRedirectOrigin(stateOrigin: string | undefined): string {
   const fallback = process.env.FRONTEND_URL ?? 'https://www.lunaracare.org';
   if (!stateOrigin || typeof stateOrigin !== 'string') return fallback;
@@ -561,6 +568,7 @@ function getRedirectOrigin(stateOrigin: string | undefined): string {
  *     summary: Initiate Google OAuth login
  *     tags: [Auth]
  */
+/** Check whether an origin is in the static allowlist or matches a trusted subdomain pattern. */
 function isAllowedRedirectOrigin(origin: string): boolean {
   if (allowedRedirectOrigins.has(origin)) return true;
   try {

@@ -1,6 +1,12 @@
+/**
+ * @module components/provider/PendingApprovalsBanner
+ * Alert banner listing appointment requests awaiting provider approval
+ * with inline approve/decline buttons.
+ */
 import React from 'react';
 import { Appointment, clientName, formatDate, formatTime } from './calendarTypes';
 
+/** Props for the pending approvals banner. */
 export interface PendingApprovalsBannerProps {
   pendingApprovals: Appointment[];
   actionId: string | null;
@@ -8,6 +14,7 @@ export interface PendingApprovalsBannerProps {
   onDecline: (id: string) => void;
 }
 
+/** Banner listing pending appointment requests with approve/decline actions. */
 export const PendingApprovalsBanner: React.FC<PendingApprovalsBannerProps> = ({
   pendingApprovals,
   actionId,

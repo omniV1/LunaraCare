@@ -1,5 +1,13 @@
+/**
+ * @module Inquiry
+ * Public-facing contact/inquiry form submissions.
+ * Maps to the MongoDB `inquiries` collection.
+ * Tracks the lifecycle of prospective-client inquiries from `new` through
+ * `contacted`, `converted` (to registered client), or `closed`.
+ */
 import mongoose, { Document, Schema } from 'mongoose';
 
+/** A contact-form submission from a prospective client. */
 export interface IInquiry extends Document {
   name: string;
   email: string;
@@ -92,6 +100,7 @@ const inquirySchema = new Schema<IInquiry>(
   }
 );
 
+/** @index status + createdAt — newest-first listing filtered by workflow state. */
 inquirySchema.index({ status: 1, createdAt: -1 });
 inquirySchema.index({ email: 1 });
 

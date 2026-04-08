@@ -1,7 +1,14 @@
+/**
+ * @module components/ui/RichTextEditor
+ * WYSIWYG rich-text editor wrapper around ReactQuill.
+ * Used for composing resource content and blog posts with formatting,
+ * lists, links, images, and code blocks.
+ */
 import React, { useMemo, useRef } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
+/** Props for {@link RichTextEditor}. */
 interface RichTextEditorProps {
   value: string;
   onChange: (value: string) => void;
@@ -9,6 +16,7 @@ interface RichTextEditorProps {
   height?: number;
 }
 
+/** Renders a Quill-based rich-text editor with a full formatting toolbar. */
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   value,
   onChange,

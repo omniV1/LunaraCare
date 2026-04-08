@@ -1,8 +1,19 @@
+/**
+ * @module BlogPostDetail
+ * Single blog post detail page. Fetches a post by slug, sanitizes its
+ * HTML content, and renders the full article with metadata and tags.
+ */
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { blogService, BlogPost } from '../services/blogService';
 
+/**
+ * Blog post detail page rendered at `/blog/:slug`.
+ * Loads a single post by its URL slug and displays the full article
+ * with featured image, tags, reading time, view count, and sanitized HTML content.
+ * @returns The full blog post article, a loading spinner, or a not-found error.
+ */
 const BlogPostDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);

@@ -1,17 +1,29 @@
+/**
+ * @module types
+ * Shared TypeScript interfaces and type aliases used across
+ * controllers, middleware, and service layers.
+ */
+
 import { Request } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { IUser } from '../models/User';
 
+/** Express request enriched with the authenticated user after JWT middleware. */
 export interface AuthenticatedRequest extends Request {
   user?: IUser;
 }
 
+/** Decoded JWT payload carrying user identity and role. */
 export interface JWTPayload extends JwtPayload {
   id: string;
   email: string;
   role: 'client' | 'provider' | 'admin';
 }
 
+/**
+ * Standard envelope for all JSON API responses.
+ * @typeParam T - Shape of the `data` payload
+ */
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
@@ -22,6 +34,7 @@ export interface ApiResponse<T = unknown> {
   mfaToken?: string;
 }
 
+/** Query-string parameters accepted by paginated list endpoints. */
 export interface PaginationOptions {
   page?: number;
   limit?: number;
@@ -29,6 +42,10 @@ export interface PaginationOptions {
   order?: 'asc' | 'desc';
 }
 
+/**
+ * API response wrapper that includes pagination metadata.
+ * @typeParam T - Shape of each item in the `data` array
+ */
 export interface PaginatedResponse<T> extends ApiResponse<T[]> {
   pagination?: {
     current_page: number;
@@ -40,12 +57,14 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
   };
 }
 
+/** Common fields present on every Mongoose document. */
 export interface MongooseDocument {
   _id: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
+/** Base user fields shared by both client and provider profiles. */
 export interface UserBase extends MongooseDocument {
   email: string;
   password: string;
@@ -60,6 +79,7 @@ export interface UserBase extends MongooseDocument {
   passwordResetExpires?: Date;
 }
 
+/** Full client profile including pregnancy, postpartum, and preference data. */
 export interface ClientDocument extends UserBase {
   role: 'client';
   dateOfBirth: Date;
@@ -115,6 +135,7 @@ export interface ClientDocument extends UserBase {
   }[];
 }
 
+/** Full provider profile including credentials, services, availability, and earnings. */
 export interface ProviderDocument extends UserBase {
   role: 'provider';
   businessName?: string;
@@ -234,6 +255,7 @@ export interface ProviderDocument extends UserBase {
   };
 }
 
+/** Appointment record linking a client to a provider at a scheduled time. */
 export interface AppointmentDocument extends MongooseDocument {
   client: string;
   provider: string;
@@ -257,6 +279,7 @@ export interface AppointmentDocument extends MongooseDocument {
   };
 }
 
+/** Single message within a conversation thread. */
 export interface MessageDocument extends MongooseDocument {
   conversation: string;
   sender: string;
@@ -273,6 +296,7 @@ export interface MessageDocument extends MongooseDocument {
   }[];
 }
 
+/** Conversation thread between two or more participants. */
 export interface ConversationDocument extends MongooseDocument {
   participants: string[];
   lastMessage?: string;
@@ -281,8 +305,11 @@ export interface ConversationDocument extends MongooseDocument {
   type: 'direct' | 'group';
 }
 
+/** Allowed user roles within the application. */
 export type UserRole = 'client' | 'provider';
+/** Categories of appointments a client can schedule. */
 export type AppointmentType = 'consultation' | 'prenatal' | 'labor' | 'postpartum' | 'follow_up';
+/** Lifecycle states an appointment passes through. */
 export type AppointmentStatus =
   | 'scheduled'
   | 'confirmed'
@@ -290,7 +317,9 @@ export type AppointmentStatus =
   | 'completed'
   | 'cancelled'
   | 'no_show';
+/** Payment states for an appointment's billing record. */
 export type PaymentStatus = 'pending' | 'paid' | 'refunded';
+/** Classification of uploaded user documents. */
 export type DocumentType =
   | 'certification'
   | 'license'

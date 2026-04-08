@@ -1,3 +1,8 @@
+/**
+ * @module ClientDashboard
+ * Primary dashboard for authenticated clients. Provides tabbed navigation
+ * across overview stats, messages, appointments, and profile/documents.
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/useAuth';
 import { Navigate } from 'react-router-dom';
@@ -18,8 +23,16 @@ import { ApiClient } from '../api/apiClient';
 import { useResource } from '../contexts/useResource';
 import { ClientDashboardLayout, type NavItem } from '../components/client/ClientDashboardLayout';
 
+/** Identifiers for the client dashboard navigation tabs. */
 type TabId = 'overview' | 'messages' | 'appointments' | 'profile';
 
+/**
+ * Client dashboard page rendered at `/client/dashboard`.
+ * Shows stats cards, mood check-ins, blog suggestions, resources,
+ * messaging, appointments, and profile/document management.
+ * Redirects to `/login` if the user is not a client.
+ * @returns The tabbed client dashboard layout.
+ */
 const ClientDashboard: React.FC = () => {
   const { isClient } = useAuth();
   const { resources } = useResource();
@@ -409,12 +422,22 @@ const ClientDashboard: React.FC = () => {
   );
 };
 
+/** Color accent theme presets for the dashboard stat cards. */
 const STAT_ACCENTS = [
   { bg: 'bg-[#6B4D37]', iconBg: 'bg-[#6B4D37]/10', iconText: 'text-[#6B4D37]', bar: 'from-[#6B4D37] to-[#A27B5C]' },
   { bg: 'bg-[#3F4E4F]', iconBg: 'bg-[#3F4E4F]/10', iconText: 'text-[#3F4E4F]', bar: 'from-[#3F4E4F] to-[#8C9A8C]' },
   { bg: 'bg-[#AA6641]', iconBg: 'bg-[#AA6641]/10', iconText: 'text-[#AA6641]', bar: 'from-[#AA6641] to-[#D4956B]' },
 ];
 
+/**
+ * Compact stat card used in the client dashboard overview row.
+ * @param props.icon - SVG icon element displayed beside the label.
+ * @param props.label - Short descriptor (e.g. "My Documents").
+ * @param props.value - Numeric count to display.
+ * @param props.onClick - Callback when the card is clicked.
+ * @param props.accentIndex - Index into {@link STAT_ACCENTS} for theming.
+ * @returns A styled clickable stat card.
+ */
 const StatCard: React.FC<{
   icon: React.ReactNode;
   label: string;

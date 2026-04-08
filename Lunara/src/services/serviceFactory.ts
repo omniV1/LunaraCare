@@ -1,3 +1,9 @@
+/**
+ * @module serviceFactory
+ * Centralised factory for creating and caching service singletons.
+ * Provides a single entry point for dependency injection and teardown.
+ */
+
 import { AppointmentService } from './appointmentService';
 import { MessageService } from './messageService';
 

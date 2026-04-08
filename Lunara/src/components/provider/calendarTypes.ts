@@ -1,5 +1,10 @@
-// ── Shared types, constants, and helpers for ProviderCalendar ────────────────
+/**
+ * @module components/provider/calendarTypes
+ * Shared TypeScript types, status color maps, and date/time helpers
+ * for the provider calendar and its sub-components.
+ */
 
+/** User document populated by Mongoose on appointment queries. */
 export interface PopulatedUser {
   _id: string;
   firstName: string;
@@ -7,6 +12,7 @@ export interface PopulatedUser {
   email: string;
 }
 
+/** Provider-side appointment with populated client and provider user refs. */
 export interface Appointment {
   _id: string;
   clientId: PopulatedUser;
@@ -18,6 +24,7 @@ export interface Appointment {
   notes?: string;
 }
 
+/** A provider's bookable time slot on a given date. */
 export interface AvailabilitySlot {
   _id: string;
   date: string;

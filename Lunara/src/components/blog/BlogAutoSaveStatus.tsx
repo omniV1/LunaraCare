@@ -1,11 +1,18 @@
+/**
+ * @module components/blog/BlogAutoSaveStatus
+ * Displays real-time auto-save feedback (saving spinner, last-saved timestamp,
+ * unsaved-changes warning) inside the blog editor header.
+ */
 import React from 'react';
 
+/** Props controlling the visual state of the auto-save indicator. */
 export interface BlogAutoSaveStatusProps {
   isSaving: boolean;
   lastSaved: Date | null;
   hasUnsavedChanges: boolean;
 }
 
+/** Renders the auto-save status indicator for the blog editor. */
 export const BlogAutoSaveStatus: React.FC<BlogAutoSaveStatusProps> = ({
   isSaving,
   lastSaved,

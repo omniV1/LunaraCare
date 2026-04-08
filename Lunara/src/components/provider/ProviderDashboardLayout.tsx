@@ -1,6 +1,12 @@
+/**
+ * @module components/provider/ProviderDashboardLayout
+ * Responsive shell for the provider dashboard with sidebar navigation,
+ * mobile drawer, and logout. Wraps all provider-facing tab content.
+ */
 import { useState, useEffect, useRef, type FC, type ReactNode } from 'react';
 import { useAuth } from '../../contexts/useAuth';
 
+/** Single navigation entry rendered in the provider sidebar/drawer. */
 export interface NavItem {
   id: string;
   label: string;
@@ -15,6 +21,7 @@ interface ProviderDashboardLayoutProps {
   children: ReactNode;
 }
 
+/** Responsive provider dashboard shell with desktop sidebar and mobile drawer. */
 export const ProviderDashboardLayout: FC<ProviderDashboardLayoutProps> = ({
   navItems,
   activeTab,

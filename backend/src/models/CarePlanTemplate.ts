@@ -1,5 +1,13 @@
+/**
+ * @module CarePlanTemplate
+ * Reusable template for generating personalised care plans.
+ * Maps to the MongoDB `careplantemplates` collection.
+ * Providers create templates targeting specific conditions (e.g. cesarean recovery);
+ * templates are cloned into {@link CarePlan} instances when assigned to a client.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** Blueprint for a single milestone inside a template section. */
 export interface ITemplateMilestone {
   title: string;
   description?: string;
@@ -7,12 +15,14 @@ export interface ITemplateMilestone {
   category: 'physical' | 'emotional' | 'feeding' | 'self_care' | 'general';
 }
 
+/** Blueprint for a care-plan section containing milestone templates. */
 export interface ITemplateSection {
   title: string;
   description?: string;
   milestones: ITemplateMilestone[];
 }
 
+/** Care plan template document with sections, target condition, and active flag. */
 export interface ICarePlanTemplateDocument extends Document {
   name: string;
   description?: string;
@@ -24,7 +34,9 @@ export interface ICarePlanTemplateDocument extends Document {
   updatedAt: Date;
 }
 
+/** Static helpers on the CarePlanTemplate model. */
 export interface ICarePlanTemplateModel extends Model<ICarePlanTemplateDocument> {
+  /** Return all active templates sorted alphabetically by name. */
   findActive(): Promise<ICarePlanTemplateDocument[]>;
 }
 

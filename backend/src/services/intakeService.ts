@@ -1,9 +1,17 @@
+/**
+ * @module services/intakeService
+ * Client intake form management. Handles retrieval, auto-save, and
+ * completion of the onboarding intake questionnaire. Supports both
+ * self-service (client) and provider-side access with authorization.
+ */
+
 import Client from '../models/Client';
 import User from '../models/User';
 import { NotFoundError } from '../utils/errors';
 
 // ── Result types ─────────────────────────────────────────────────────────────
 
+/** Intake form data with completion status. */
 export interface IntakeResult {
   intakeCompleted: boolean;
   intake: Record<string, unknown> | null;
@@ -11,6 +19,7 @@ export interface IntakeResult {
   clientId: string | null;
 }
 
+/** Result after saving intake form data. */
 export interface IntakeSaveResult {
   message: string;
   intakeCompleted: boolean;
@@ -35,6 +44,11 @@ async function updateUserIntakeStatus(userId: string, completed: boolean): Promi
 
 /**
  * Check if a caller can access a user's intake data.
+ *
+ * @param callerId - Requesting user's ID
+ * @param callerRole - Requesting user's role
+ * @param targetUserId - Owner of the intake data
+ * @returns true if the caller has access
  */
 export async function canAccessUserIntake(
   callerId: string,
@@ -54,6 +68,9 @@ export async function canAccessUserIntake(
 
 /**
  * Get intake form for the authenticated client.
+ *
+ * @param userId - Client's user ID
+ * @returns Intake data and completion status
  */
 export async function getMyIntake(userId: string): Promise<IntakeResult> {
   const client = await Client.findOne({ userId });
@@ -70,6 +87,10 @@ export async function getMyIntake(userId: string): Promise<IntakeResult> {
 
 /**
  * Create or update intake form for the authenticated client.
+ *
+ * @param userId - Client's user ID
+ * @param body - Intake form data (set isComplete=true to finalise)
+ * @returns Save confirmation with current intake state
  */
 export async function saveMyIntake(
   userId: string,
@@ -105,6 +126,8 @@ export async function saveMyIntake(
 /**
  * Get intake form for a specific user (by userId).
  *
+ * @param userId - Target user's ID
+ * @returns Intake data and completion status
  * @throws NotFoundError — client not found
  */
 export async function getIntakeByUserId(userId: string): Promise<IntakeResult> {
@@ -123,6 +146,9 @@ export async function getIntakeByUserId(userId: string): Promise<IntakeResult> {
 /**
  * Update a client's intake (provider/admin).
  *
+ * @param userId - Target user's ID
+ * @param body - Intake fields to merge
+ * @returns Save confirmation with updated state
  * @throws NotFoundError — client not found
  */
 export async function updateIntakeByUserId(
@@ -161,6 +187,10 @@ export async function updateIntakeByUserId(
 /**
  * Partially update an intake form section (auto-save).
  *
+ * @param userId - Client's user ID
+ * @param sectionId - Section identifier (used in response message)
+ * @param body - Section data to merge
+ * @returns Save confirmation with updated state
  * @throws NotFoundError — intake form not found
  */
 export async function updateIntakeSection(

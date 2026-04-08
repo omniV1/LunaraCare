@@ -1,3 +1,8 @@
+/**
+ * @module ProviderDashboard
+ * Primary dashboard for authenticated providers. Tabbed layout covering
+ * overview stats, client management, scheduling, blog authoring, and profile.
+ */
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/useAuth';
 import { ProviderClientProfileEdit } from '../components/client/ProviderClientProfileEdit';
@@ -13,8 +18,15 @@ import { ClientsTab } from '../components/provider/tabs/ClientsTab';
 import { BlogTab } from '../components/provider/tabs/BlogTab';
 import { CreateProviderTab } from '../components/provider/tabs/CreateProviderTab';
 
+/** Identifiers for the provider dashboard navigation tabs. */
 type TabId = 'overview' | 'clients' | 'schedule' | 'blog' | 'profile' | 'createProvider';
 
+/**
+ * Provider dashboard page rendered at `/provider/dashboard`.
+ * Contains overview analytics, client list, calendar/scheduling,
+ * blog management, profile editing, and new-provider creation.
+ * @returns The tabbed provider dashboard layout with overlay modals.
+ */
 const ProviderDashboard: React.FC = () => {
   const { user, isProvider, registerClient } = useAuth();
   const [activeTab, setActiveTab] = useState<TabId>('overview');

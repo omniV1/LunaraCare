@@ -1,3 +1,10 @@
+/**
+ * @module components/client/appointmentTypes
+ * Shared TypeScript types, constants, and date helpers used across
+ * the client appointment calendar and detail panels.
+ */
+
+/** Provider availability time slot. */
 export interface Slot {
   _id: string;
   date: string;
@@ -6,6 +13,7 @@ export interface Slot {
   isBooked: boolean;
 }
 
+/** A scheduled or requested appointment between client and provider. */
 export interface Appointment {
   _id: string;
   startTime: string;

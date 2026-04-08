@@ -1,7 +1,13 @@
+/**
+ * @module components/intake/steps/HealthStep
+ * Wizard-step variant of HealthStep using the shared StepProps interface
+ * for health-information collection within ClientIntakeWizard.
+ */
 import React from 'react';
 import type { StepProps } from '../intakeUtils';
 import { splitCsv } from '../intakeUtils';
 
+/** Renders the health information wizard step. */
 export const HealthStep: React.FC<StepProps> = ({ data, update }) => (
   <div className="space-y-5">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

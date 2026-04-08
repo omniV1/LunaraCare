@@ -1,3 +1,10 @@
+/**
+ * @module services/checkinService
+ * Daily wellness check-in management for clients. Handles check-in
+ * submission, retrieval, trend/alert analysis, and provider review
+ * workflows. Operates on the CheckIn and Client models.
+ */
+
 import mongoose from 'mongoose';
 import CheckIn, { ICheckInDocument, PhysicalSymptom } from '../models/CheckIn';
 import Client from '../models/Client';
@@ -6,6 +13,7 @@ import { ForbiddenError, ConflictError } from '../utils/errors';
 
 // ── Input / Result types ─────────────────────────────────────────────────────
 
+/** Fields for submitting a daily wellness check-in. */
 export interface CreateCheckInInput {
   date: string;
   moodScore: number;
@@ -14,12 +22,14 @@ export interface CreateCheckInInput {
   sharedWithProvider?: boolean;
 }
 
+/** Result after recording a check-in, including any triggered alerts. */
 export interface CreateCheckInResult {
   message: string;
   checkIn: ICheckInDocument;
   alerts: AlertInfo[];
 }
 
+/** Summary of a client that has unreviewed check-in alerts for their provider. */
 export interface NeedsReviewItem {
   clientId: mongoose.Types.ObjectId;
   clientUserId: mongoose.Types.ObjectId;
@@ -46,6 +56,9 @@ export function canAccessUserCheckins(
 /**
  * Submit a daily check-in.
  *
+ * @param data - Mood score, symptoms, and notes
+ * @param userId - Authenticated client's ObjectId
+ * @returns The saved check-in and any active alerts
  * @throws ConflictError -- duplicate check-in for this date
  */
 export async function createCheckIn(
@@ -85,6 +98,11 @@ export async function createCheckIn(
 /**
  * Get check-ins for a user.
  *
+ * @param callerId - Requesting user's ID
+ * @param callerRole - Requesting user's role
+ * @param targetUserId - User whose check-ins to retrieve
+ * @param limit - Maximum records to return
+ * @returns Check-in documents and count
  * @throws ForbiddenError -- access denied
  */
 export async function getUserCheckIns(
@@ -107,6 +125,11 @@ export async function getUserCheckIns(
 /**
  * Get check-in trends and alerts for a user.
  *
+ * @param callerId - Requesting user's ID
+ * @param callerRole - Requesting user's role
+ * @param targetUserId - User whose trends to analyse
+ * @param days - Number of days to include in the trend window
+ * @returns Trend data and active alerts
  * @throws ForbiddenError -- access denied
  */
 export async function getUserTrends(
@@ -127,6 +150,9 @@ export async function getUserTrends(
 
 /**
  * Get clients with unreviewed check-in alerts (provider/admin).
+ *
+ * @param providerId - Provider's ObjectId to scope the client list
+ * @returns Clients needing review and their alert details
  */
 export async function getNeedsReview(
   providerId: mongoose.Types.ObjectId,
@@ -207,6 +233,8 @@ export async function getNeedsReview(
 
 /**
  * Mark a client's recent check-ins as reviewed (provider/admin).
+ *
+ * @param targetUserId - Client user ID whose check-ins to mark as reviewed
  */
 export async function markCheckInsReviewed(targetUserId: string): Promise<void> {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);

@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/InviteClient
+ * Expandable card that lets providers invite new clients by entering
+ * name and email; sends an invitation via the API.
+ */
 import React, { useState } from 'react';
 import { ApiClient } from '../../api/apiClient';
 import { toast } from 'react-toastify';
@@ -17,6 +22,7 @@ interface Props {
   onInvited?: () => void;
 }
 
+/** Collapsible invite form that sends a client invitation email on submit. */
 export const InviteClient: React.FC<Props> = ({ onInvited }) => {
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');

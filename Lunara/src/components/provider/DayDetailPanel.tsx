@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/DayDetailPanel
+ * Side panel for a selected calendar day showing the day's appointments
+ * with approve/decline actions, and availability slots with add/delete controls.
+ */
 import React, { useState } from 'react';
 import {
   Appointment,
@@ -9,6 +14,7 @@ import {
   formatTime,
 } from './calendarTypes';
 
+/** Props for the provider day detail panel. */
 export interface DayDetailPanelProps {
   selectedDate: Date | null;
   selectedAppts: Appointment[];
@@ -21,6 +27,7 @@ export interface DayDetailPanelProps {
   slotSaving: boolean;
 }
 
+/** Day sidebar with appointment cards, approve/decline actions, and availability slot management. */
 export const DayDetailPanel: React.FC<DayDetailPanelProps> = ({
   selectedDate,
   selectedAppts,

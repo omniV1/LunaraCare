@@ -1,3 +1,8 @@
+/**
+ * @module routes/checkins
+ * Daily wellness check-in submission, trends, and provider review endpoints.
+ * Mounted at `/api/checkins`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 import { body, param, query } from 'express-validator';
@@ -8,6 +13,7 @@ import logger from '../utils/logger';
 import * as checkinService from '../services/checkinService';
 import { APIError } from '../utils/errors';
 
+/** Express router exposing check-in and wellness-trend endpoints. */
 const router: Router = express.Router();
 
 

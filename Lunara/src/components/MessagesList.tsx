@@ -1,3 +1,9 @@
+/**
+ * @module components/MessagesList
+ * Unread notifications feed — polls for unread messages every 10 seconds
+ * and receives real-time updates via WebSocket. Supports batch "clear all"
+ * and distinguishes system (document/appointment) from personal messages.
+ */
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../api/apiClient';
@@ -19,6 +25,7 @@ interface MessagesListProps {
   onNotificationCleared?: () => void;
 }
 
+/** Renders the unread notifications list with real-time updates and clear-all. */
 export const MessagesList: React.FC<MessagesListProps> = ({ onNotificationCleared }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);

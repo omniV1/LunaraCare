@@ -1,7 +1,13 @@
+/**
+ * @module useSocket
+ * React hook for managing a Socket.io connection to the LUNARA real-time
+ * messaging server. Handles auth-token lifecycle and reconnection.
+ */
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { getSocketUrl } from '../utils/getBaseApiUrl';
 
+/** Payload shape emitted by the server on the `new_message` event. */
 export interface NewMessagePayload {
   id: string;
   conversationId: string;
@@ -13,6 +19,11 @@ export interface NewMessagePayload {
   createdAt: string;
 }
 
+/**
+ * Creates and returns a new Socket.io client authenticated with the given JWT.
+ * @param token - JWT access token sent in the socket `auth` payload.
+ * @returns A connected Socket.io client instance.
+ */
 function connectSocket(token: string) {
   const socketUrl = getSocketUrl();
   return io(socketUrl, {
@@ -21,6 +32,11 @@ function connectSocket(token: string) {
   });
 }
 
+/**
+ * Hook that establishes and maintains a Socket.io connection for real-time messaging.
+ * Automatically reconnects when the auth token is refreshed or changed in another tab.
+ * @returns `connected` status flag and helper functions: `joinConversation`, `sendMessage`, `onNewMessage`.
+ */
 export function useSocket() {
   const [connected, setConnected] = useState(false);
   const socketRef = useRef<Socket | null>(null);

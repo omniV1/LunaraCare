@@ -1,6 +1,13 @@
+/**
+ * @module Category
+ * Hierarchical taxonomy model for organising resources and blog posts.
+ * Maps to the MongoDB `categories` collection.
+ * Supports parent/child relationships with automatic subcategory management,
+ * circular-reference prevention, and recursive tree building.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-// Interface for the category document
+/** A category node in the hierarchical taxonomy tree. */
 export interface ICategoryDocument extends Document {
   name: string;
   description: string;
@@ -18,11 +25,18 @@ export interface ICategoryDocument extends Document {
   moveToParent(newParentId?: mongoose.Types.ObjectId): Promise<void>;
 }
 
-// Interface for the category model
+/** Static query helpers and tree-building methods for Category. */
 export interface ICategoryModel extends Model<ICategoryDocument> {
+  /** Return top-level categories (no parent), sorted by name. */
   findRootCategories(): Promise<ICategoryDocument[]>;
+  /** Return direct children of a given parent category. */
   findByParent(parentId: mongoose.Types.ObjectId): Promise<ICategoryDocument[]>;
+  /** Return every category sorted by name. */
   findAllCategories(): Promise<ICategoryDocument[]>;
+  /**
+   * Build the full category tree recursively from root categories.
+   * @throws {Error} If nesting exceeds the safety depth limit (circular reference guard).
+   */
   getCategoryTree(): Promise<ICategoryDocument[]>;
 }
 
@@ -124,9 +138,12 @@ categorySchema.virtual('hasSubcategories').get(function (this: ICategoryDocument
   return this.subcategories && this.subcategories.length > 0;
 });
 
-// Helper to store old parentCategory before update
 let oldParentCategoryCache: mongoose.Types.ObjectId | null = null;
 
+/**
+ * Pre-save hook: prevents a category from being its own parent and caches
+ * the previous parentCategory so the post-save hook can update subcategory arrays.
+ */
 categorySchema.pre<ICategoryDocument>('save', async function (next) {
   // Prevent circular references
   if (this.parentCategory?.equals(this._id as mongoose.Types.ObjectId)) {
@@ -146,7 +163,7 @@ categorySchema.pre<ICategoryDocument>('save', async function (next) {
   next();
 });
 
-// Handle parent update after save
+/** Post-save hook: syncs the subcategory arrays on old and new parent categories. */
 categorySchema.post<ICategoryDocument>('save', async function (doc) {
   // Remove from old parent's subcategories if parent changed
   if (oldParentCategoryCache && !doc.parentCategory?.equals(oldParentCategoryCache)) {
@@ -289,9 +306,9 @@ categorySchema.statics.getCategoryTree = async function (
   return buildTree(rootCategories, 1);
 };
 
-// Indexes for performance
 categorySchema.index({ parentCategory: 1 });
-categorySchema.index({ name: 'text', description: 'text' }); // Text search (includes name)
+/** @index Full-text search across category name and description. */
+categorySchema.index({ name: 'text', description: 'text' });
 
 const Category = mongoose.model<ICategoryDocument, ICategoryModel>('Category', categorySchema);
 

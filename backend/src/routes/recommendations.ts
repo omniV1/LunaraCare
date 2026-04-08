@@ -1,3 +1,8 @@
+/**
+ * @module routes/recommendations
+ * Personalized resource and document recommendations based on client progress.
+ * Mounted at `/api/recommendations`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 import { authenticate } from '../middleware';
@@ -10,6 +15,7 @@ function uid(req: AuthenticatedRequest): mongoose.Types.ObjectId {
   return req.user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing recommendation endpoints. */
 const router: Router = express.Router();
 
 

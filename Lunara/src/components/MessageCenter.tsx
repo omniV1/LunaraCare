@@ -1,3 +1,9 @@
+/**
+ * @module components/MessageCenter
+ * Provider-facing real-time messaging panel — shows a client list sidebar,
+ * per-client conversation thread, and message compose input. Uses WebSocket
+ * for live delivery with REST fallback for first messages.
+ */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ApiClient } from '../api/apiClient';
 import { useSocket } from '../hooks/useSocket';
@@ -50,6 +56,7 @@ interface MessageItem {
   read?: boolean;
 }
 
+/** Renders the provider message center with client list and conversation thread. */
 export const MessageCenter: React.FC = () => {
   const [clients, setClients] = useState<ClientItem[]>([]);
   const [selectedClient, setSelectedClient] = useState<ClientItem | null>(null);

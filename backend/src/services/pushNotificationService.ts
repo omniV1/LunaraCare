@@ -1,3 +1,10 @@
+/**
+ * @module services/pushNotificationService
+ * Web Push (VAPID) notification delivery. Sends push notifications to
+ * individual subscriptions or all subscriptions for a user. Automatically
+ * cleans up expired/gone subscriptions on HTTP 410 responses.
+ */
+
 import webpush from 'web-push';
 import PushSubscription, { IPushSubscription } from '../models/PushSubscription';
 import logger from '../utils/logger';
@@ -32,6 +39,7 @@ function initVapid(): void {
 
 initVapid();
 
+/** Payload sent as the push notification content. */
 export interface PushPayload {
   title: string;
   body: string;
@@ -43,8 +51,11 @@ export interface PushPayload {
 
 /**
  * Send a push notification to a single subscription.
- * Returns true on success, false on failure.
  * Automatically removes subscriptions that return HTTP 410 (Gone).
+ *
+ * @param subscription - The push subscription to deliver to
+ * @param payload - Notification content
+ * @returns true on success, false on failure
  */
 export async function sendPushNotification(
   subscription: IPushSubscription,
@@ -80,7 +91,10 @@ export async function sendPushNotification(
 
 /**
  * Send a push notification to all subscriptions belonging to a user.
- * Returns the number of successful deliveries.
+ *
+ * @param userId - Target user's ID
+ * @param payload - Notification content
+ * @returns Number of successful deliveries
  */
 export async function sendToUser(userId: string, payload: PushPayload): Promise<number> {
   if (!vapidInitialized) {

@@ -1,6 +1,12 @@
+/**
+ * @module components/intake/intakeUtils
+ * Pure utility helpers for the intake wizard: CSV splitting, deep get/set
+ * on nested objects, and array-toggle for checkbox groups.
+ */
 import type { Dispatch, SetStateAction } from 'react';
 import type { IntakeData } from './intakeTypes';
 
+/** Splits a comma-separated string into a trimmed, non-empty array. */
 export function splitCsv(s: string): string[] {
   return s
     .split(',')
@@ -12,6 +18,7 @@ function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
+/** Safely retrieves a deeply nested value from an object using a dot-separated path. */
 export function get<T = unknown>(obj: unknown, path: string): T | undefined {
   const value = path.split('.').reduce<unknown>((acc, k) => {
     if (!isRecord(acc)) return undefined;
@@ -20,6 +27,7 @@ export function get<T = unknown>(obj: unknown, path: string): T | undefined {
   return value as T | undefined;
 }
 
+/** Immutably sets a value at a dot-separated path, creating intermediate objects as needed. */
 export function setPath<T extends object>(obj: T | undefined, path: string, value: unknown): T {
   const parts = path.split('.');
   const next = { ...(obj ?? ({} as T)) } as Record<string, unknown>;
@@ -34,6 +42,7 @@ export function setPath<T extends object>(obj: T | undefined, path: string, valu
   return next as unknown as T;
 }
 
+/** Toggles a string value in/out of an array located at the given path within IntakeData. */
 export function toggleArrayValue(prev: IntakeData, path: string, value: string): IntakeData {
   const cur = get<unknown>(prev, path);
   const arr = Array.isArray(cur) ? (cur as unknown[]).filter((x): x is string => typeof x === 'string') : [];
@@ -41,6 +50,7 @@ export function toggleArrayValue(prev: IntakeData, path: string, value: string):
   return setPath(prev, path, next.length === 0 ? undefined : next);
 }
 
+/** Shared props passed to each wizard step component. */
 export interface StepProps {
   data: IntakeData;
   errors: Record<string, string>;

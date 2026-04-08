@@ -1,5 +1,13 @@
+/**
+ * @module ClientDocument
+ * Mongoose model for client-uploaded documents (surveys, assessments, logs).
+ * Maps to the MongoDB `clientdocuments` collection.
+ * Supports file attachments via GridFS, a submission/review workflow,
+ * configurable privacy levels, and full-text search on title and notes.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** Metadata for a single file attached to a client document. */
 export interface IFileAttachment {
   cloudinaryUrl: string; // URL to access the file (GridFS or legacy)
   originalFileName: string;
@@ -10,6 +18,7 @@ export interface IFileAttachment {
   supabasePath?: string; // Legacy field for backwards compatibility
 }
 
+/** Tracking timestamps and provider feedback for the submission workflow. */
 export interface ISubmissionData {
   submittedDate?: Date;
   reviewedDate?: Date;
@@ -17,6 +26,7 @@ export interface ISubmissionData {
   providerFeedback?: string;
 }
 
+/** Client document record with files, submission state, and privacy controls. */
 export interface IClientDocument extends Document {
   title: string;
   documentType:
@@ -42,9 +52,13 @@ export interface IClientDocument extends Document {
   updatedAt: Date;
 }
 
+/** Static query helpers on the ClientDocument model. */
 export interface IClientDocumentModel extends Model<IClientDocument> {
+  /** Return all documents uploaded by a user, newest first, with user and provider populated. */
   findByUser(userId: mongoose.Types.ObjectId): Promise<IClientDocument[]>;
+  /** Return documents visible to a provider (excludes client-only privacy), newest first. */
   findByProvider(providerId: mongoose.Types.ObjectId): Promise<IClientDocument[]>;
+  /** Return documents matching a specific submission status. */
   findByStatus(status: string): Promise<IClientDocument[]>;
 }
 
@@ -242,13 +256,12 @@ clientDocumentSchema.virtual('id').get(function (this: { _id: mongoose.Types.Obj
   return this._id ? this._id.toHexString() : undefined;
 });
 
-// Indexes
 clientDocumentSchema.index({ uploadedBy: 1, documentType: 1 });
 clientDocumentSchema.index({ assignedProvider: 1, submissionStatus: 1 });
 clientDocumentSchema.index({ submissionStatus: 1 });
 clientDocumentSchema.index({ dueDate: 1 });
 clientDocumentSchema.index({ createdAt: -1 });
-// Text index for search across title and notes
+/** @index Full-text search across document title and notes. */
 clientDocumentSchema.index({ title: 'text', notes: 'text' });
 
 // Static: find documents by user

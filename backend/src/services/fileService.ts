@@ -1,9 +1,22 @@
+/**
+ * @module services/fileService
+ * High-level file operations (upload, download, info, delete) backed by
+ * GridFS. Adds filename sanitisation and role-based access control on
+ * top of the low-level gridfsService.
+ */
+
 import path from 'node:path';
 import gridfsService from './gridfsService';
 import { NotFoundError, ForbiddenError } from '../utils/errors';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
+/**
+ * Strip unsafe characters from a filename for safe storage and download headers.
+ *
+ * @param raw - Original user-supplied filename
+ * @returns Sanitised filename (max 255 chars)
+ */
 export function sanitizeFilename(raw: string): string {
   const basename = path.basename(raw);
   const safe = basename
@@ -15,6 +28,7 @@ export function sanitizeFilename(raw: string): string {
 
 // ── Result types ─────────────────────────────────────────────────────────────
 
+/** Result returned after a successful file upload. */
 export interface UploadResult {
   fileId: string;
   url: string;
@@ -24,6 +38,7 @@ export interface UploadResult {
   uploadDate: Date;
 }
 
+/** Streamable file payload with metadata for download responses. */
 export interface FileDownloadResult {
   stream: NodeJS.ReadableStream;
   contentType: string;
@@ -31,6 +46,7 @@ export interface FileDownloadResult {
   filename: string;
 }
 
+/** File metadata with a computed download URL. */
 export interface FileInfoResult {
   url: string;
   [key: string]: unknown;
@@ -40,6 +56,13 @@ export interface FileInfoResult {
 
 /**
  * Upload a file to GridFS storage.
+ *
+ * @param buffer - File contents
+ * @param originalName - User-supplied filename (will be sanitised)
+ * @param mimetype - MIME type of the file
+ * @param userId - Uploader's user ID (stored as metadata)
+ * @param folder - Logical folder label (default "documents")
+ * @returns Upload result with fileId and URL
  */
 export async function uploadFile(
   buffer: Buffer,

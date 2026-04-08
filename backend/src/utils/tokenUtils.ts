@@ -1,3 +1,9 @@
+/**
+ * @module utils/tokenUtils
+ * JWT token generation, verification, and introspection utilities
+ * for access and refresh token lifecycle management.
+ */
+
 import jwt from 'jsonwebtoken';
 import { Types } from 'mongoose';
 

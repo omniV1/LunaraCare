@@ -1,5 +1,12 @@
+/**
+ * @module documentService
+ * Service for client document lifecycle: CRUD, submission workflow,
+ * provider review, file uploads via GridFS, and display helpers.
+ */
+
 import { ApiClient } from '../api/apiClient';
 
+/** Metadata for a file stored in GridFS / Cloudinary. */
 export interface FileAttachment {
   cloudinaryUrl: string;
   originalFileName: string;
@@ -9,6 +16,7 @@ export interface FileAttachment {
   supabasePath?: string;
 }
 
+/** Tracks document submission and review timestamps/notes. */
 export interface SubmissionData {
   submittedDate?: string;
   reviewedDate?: string;
@@ -16,6 +24,7 @@ export interface SubmissionData {
   providerFeedback?: string;
 }
 
+/** Full client document record including files, status, and metadata. */
 export interface ClientDocument {
   id: string;
   title: string;
@@ -51,6 +60,7 @@ export interface ClientDocument {
   updatedAt: string;
 }
 
+/** Payload for creating a new client document. */
 export interface CreateDocumentData {
   title: string;
   documentType: string;
@@ -62,6 +72,7 @@ export interface CreateDocumentData {
   notes?: string;
 }
 
+/** Payload for updating an existing client document. */
 export interface UpdateDocumentData {
   title?: string;
   notes?: string;
@@ -69,12 +80,14 @@ export interface UpdateDocumentData {
   files?: FileAttachment[];
 }
 
+/** Payload for a provider reviewing a submitted document. */
 export interface ReviewDocumentData {
   providerNotes?: string;
   providerFeedback?: string;
   status?: 'reviewed-by-provider' | 'completed';
 }
 
+/** Query filters for listing client documents. */
 export interface DocumentFilters {
   documentType?:
     | 'emotional-survey'
@@ -94,6 +107,7 @@ export interface DocumentFilters {
   page?: number;
 }
 
+/** Paginated document list response. */
 export interface DocumentResponse {
   documents: ClientDocument[];
   pagination: {
@@ -104,10 +118,16 @@ export interface DocumentResponse {
   };
 }
 
+/** Encapsulates document API interactions and formatting helpers. */
 class DocumentService {
   private readonly baseUrl = '/documents';
   private readonly apiClient = ApiClient.getInstance();
 
+  /**
+   * Lists client documents matching optional filters.
+   * @param filters - Optional type, status, date, and pagination filters.
+   * @returns Array of documents or a paginated response.
+   */
   async getDocuments(filters?: DocumentFilters): Promise<ClientDocument[] | DocumentResponse> {
     const params = new URLSearchParams();
 
@@ -127,6 +147,12 @@ class DocumentService {
     return response as unknown as ClientDocument[] | DocumentResponse;
   }
 
+  /**
+   * Searches documents by text query with optional additional filters.
+   * @param query - Search text.
+   * @param filters - Additional filters (excluding `search`).
+   * @returns Matching documents.
+   */
   async searchDocuments(
     query: string,
     filters?: Omit<DocumentFilters, 'search'>
@@ -134,25 +160,50 @@ class DocumentService {
     return this.getDocuments({ ...filters, search: query });
   }
 
+  /**
+   * Fetches a single document by ID.
+   * @param id - Document identifier.
+   * @returns The matching {@link ClientDocument}.
+   */
   async getDocument(id: string): Promise<ClientDocument> {
     const response = await this.apiClient.get<ClientDocument>(`${this.baseUrl}/${id}`);
     return response as unknown as ClientDocument;
   }
 
+  /**
+   * Creates a new client document.
+   * @param data - Document creation payload.
+   * @returns The newly created {@link ClientDocument}.
+   */
   async createDocument(data: CreateDocumentData): Promise<ClientDocument> {
     const response = await this.apiClient.post<ClientDocument>(this.baseUrl, data);
     return response as unknown as ClientDocument;
   }
 
+  /**
+   * Updates an existing client document.
+   * @param id - Document identifier.
+   * @param data - Partial update payload.
+   * @returns The updated {@link ClientDocument}.
+   */
   async updateDocument(id: string, data: UpdateDocumentData): Promise<ClientDocument> {
     const response = await this.apiClient.put<ClientDocument>(`${this.baseUrl}/${id}`, data);
     return response as unknown as ClientDocument;
   }
 
+  /**
+   * Deletes a client document.
+   * @param id - Document identifier.
+   */
   async deleteDocument(id: string): Promise<void> {
     await this.apiClient.delete(`${this.baseUrl}/${id}`);
   }
 
+  /**
+   * Submits a draft document to the assigned provider for review.
+   * @param id - Document identifier.
+   * @returns Confirmation message and updated document.
+   */
   async submitDocument(id: string): Promise<{ message: string; document: ClientDocument }> {
     const response = await this.apiClient.post<{ message: string; document: ClientDocument }>(
       `${this.baseUrl}/${id}/submit`,
@@ -161,6 +212,12 @@ class DocumentService {
     return response as unknown as { message: string; document: ClientDocument };
   }
 
+  /**
+   * Provider reviews a submitted document with notes/feedback.
+   * @param id - Document identifier.
+   * @param data - Review payload (notes, feedback, status).
+   * @returns Confirmation message and updated document.
+   */
   async reviewDocument(
     id: string,
     data: ReviewDocumentData
@@ -172,7 +229,12 @@ class DocumentService {
     return response as unknown as { message: string; document: ClientDocument };
   }
 
-  // Upload file to backend GridFS storage
+  /**
+   * Uploads a file to backend GridFS storage.
+   * @param file - Browser File object to upload.
+   * @returns {@link FileAttachment} metadata for the stored file.
+   * @throws When the upload fails.
+   */
   async uploadFile(file: File): Promise<FileAttachment> {
     const formData = new FormData();
     formData.append('file', file);
@@ -217,7 +279,11 @@ class DocumentService {
     }
   }
 
-  // Helper function to format file size
+  /**
+   * Formats a byte count into a human-readable size string.
+   * @param bytes - File size in bytes.
+   * @returns Formatted string (e.g. "1.5 MB").
+   */
   formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -226,7 +292,11 @@ class DocumentService {
     return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
-  // Helper function to get document type label
+  /**
+   * Maps a document type slug to a display label.
+   * @param type - Document type key (e.g. `"emotional-survey"`).
+   * @returns Human-readable label.
+   */
   getDocumentTypeLabel(type: string): string {
     const labels: Record<string, string> = {
       'emotional-survey': 'Emotional Wellness Survey',
@@ -242,7 +312,11 @@ class DocumentService {
     return labels[type] ?? type;
   }
 
-  // Helper function to get status label
+  /**
+   * Maps a submission status slug to a display label.
+   * @param status - Status key (e.g. `"submitted-to-provider"`).
+   * @returns Human-readable label.
+   */
   getStatusLabel(status: string): string {
     const labels: Record<string, string> = {
       draft: 'Draft',
@@ -253,7 +327,11 @@ class DocumentService {
     return labels[status] ?? status;
   }
 
-  // Helper function to format date
+  /**
+   * Formats an ISO date string for display (e.g. "January 1, 2025").
+   * @param dateString - ISO 8601 date string.
+   * @returns Locale-formatted date string.
+   */
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -264,4 +342,5 @@ class DocumentService {
   }
 }
 
+/** Pre-instantiated singleton document service. */
 export const documentService = new DocumentService();

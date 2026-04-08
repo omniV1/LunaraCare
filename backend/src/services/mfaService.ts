@@ -1,3 +1,11 @@
+/**
+ * @module services/mfaService
+ * Multi-factor authentication setup, confirmation, and teardown using
+ * TOTP (RFC 6238). Generates QR codes for authenticator apps, issues
+ * one-time backup codes, and verifies TOTP/backup codes during the
+ * enable/disable flows.
+ */
+
 import crypto from 'node:crypto';
 import { TOTP, Secret } from 'otpauth';
 import QRCode from 'qrcode';
@@ -30,12 +38,14 @@ function generateBackupCodes(): string[] {
 
 // ── Result types ─────────────────────────────────────────────────────────────
 
+/** Data returned when initiating MFA setup (secret + QR code). */
 export interface MfaSetupResult {
   secret: string;
   qrCode: string;
   otpauthUrl: string;
 }
 
+/** Data returned after successfully confirming MFA setup. */
 export interface MfaConfirmResult {
   message: string;
   backupCodes: string[];
@@ -46,6 +56,10 @@ export interface MfaConfirmResult {
 /**
  * Generate a TOTP secret and return a QR code. Does NOT enable MFA yet.
  *
+ * @param userId - User's ObjectId
+ * @param email - User's email (used as the TOTP label)
+ * @param mfaEnabled - Whether MFA is currently enabled
+ * @returns Secret, QR code data URL, and otpauth URI
  * @throws BadRequestError — MFA is already enabled
  */
 export async function setupMfa(
@@ -82,6 +96,10 @@ export async function setupMfa(
 /**
  * Verify a TOTP code to confirm MFA setup, then enable MFA and return backup codes.
  *
+ * @param userId - User's ObjectId
+ * @param mfaEnabled - Whether MFA is currently enabled
+ * @param code - 6-digit TOTP code from authenticator app
+ * @returns Success message and plaintext backup codes (shown once)
  * @throws BadRequestError — MFA already enabled, no secret found, or invalid code
  */
 export async function confirmMfaSetup(
@@ -120,6 +138,11 @@ export async function confirmMfaSetup(
 /**
  * Disable MFA after verifying the user's password and a TOTP/backup code.
  *
+ * @param userId - User's ObjectId
+ * @param mfaEnabled - Whether MFA is currently enabled
+ * @param password - User's current password for re-authentication
+ * @param code - TOTP or backup code
+ * @returns Success message
  * @throws BadRequestError  — MFA is not enabled
  * @throws NotFoundError    — user not found
  * @throws UnauthorizedError — invalid password or verification code

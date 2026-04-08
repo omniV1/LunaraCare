@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/CreateProviderTab
+ * Admin-only form for creating new provider accounts with name,
+ * email, and password fields.
+ */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../../api/apiClient';
@@ -10,6 +15,7 @@ interface CreateProviderFormData {
   password: string;
 }
 
+/** Admin form for registering a new provider account. */
 export const CreateProviderTab: React.FC = () => {
   const [providerFormData, setProviderFormData] = useState<CreateProviderFormData>({
     firstName: '',

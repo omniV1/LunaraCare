@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/CalendarGrid
+ * Monthly calendar grid for the provider calendar view. Renders day cells
+ * with appointment status dots, availability slot counts, and pending indicators.
+ */
 import React, { useMemo } from 'react';
 import {
   Appointment,
@@ -10,6 +15,7 @@ import {
   formatTime,
 } from './calendarTypes';
 
+/** Props for the provider calendar grid component. */
 export interface CalendarGridProps {
   year: number;
   month: number;
@@ -19,6 +25,7 @@ export interface CalendarGridProps {
   onSelectDate: (date: Date) => void;
 }
 
+/** Grid of day cells with appointment dots, slot badges, and pending-approval indicator. */
 export const CalendarGrid: React.FC<CalendarGridProps> = React.memo(({
   year,
   month,

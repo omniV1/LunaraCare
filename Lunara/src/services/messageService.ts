@@ -1,3 +1,9 @@
+/**
+ * @module messageService
+ * Singleton service for secure messaging between clients and providers.
+ * Covers sending, reading, conversation threading, and unread counts.
+ */
+
 import { ApiClient } from '../api/apiClient';
 import { Message, SendMessageRequest, PaginatedResponse, QueryParams } from '../types/api';
 

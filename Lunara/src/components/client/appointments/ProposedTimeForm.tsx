@@ -1,6 +1,12 @@
+/**
+ * @module components/client/appointments/ProposedTimeForm
+ * Form that lets a client propose a custom date/time for an appointment
+ * when no pre-set slots fit their schedule.
+ */
 import React from 'react';
 import { dateKey } from './types';
 
+/** Props for the proposed-time request form. */
 export interface ProposedTimeFormProps {
   selectedDate: Date;
   proposedDate: string;
@@ -17,6 +23,7 @@ export interface ProposedTimeFormProps {
   onSubmit: (e: React.FormEvent) => void;
 }
 
+/** Form allowing clients to propose a custom date/time for an appointment. */
 export const ProposedTimeForm: React.FC<ProposedTimeFormProps> = ({
   selectedDate,
   proposedDate,

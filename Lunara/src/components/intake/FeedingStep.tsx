@@ -1,13 +1,20 @@
+/**
+ * @module components/intake/FeedingStep
+ * Intake wizard step for feeding preferences — method checkboxes,
+ * challenges text input, and goals textarea.
+ */
 import React from 'react';
 import { FEEDING_OPTIONS, type IntakeData } from './intakeTypes';
 import { splitCsv, toggleArrayValue } from './intakeValidation';
 
+/** Props for the standalone FeedingStep component. */
 export interface FeedingStepProps {
   data: IntakeData;
   onUpdate: (path: string, value: unknown) => void;
   onSetData: React.Dispatch<React.SetStateAction<IntakeData>>;
 }
 
+/** Renders the feeding preferences intake step. */
 export const FeedingStep: React.FC<FeedingStepProps> = ({ data, onUpdate, onSetData }) => (
   <div className="space-y-5">
     <p className="text-sm text-[#6B4D37]">

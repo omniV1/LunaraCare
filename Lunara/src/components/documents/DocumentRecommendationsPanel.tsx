@@ -1,3 +1,8 @@
+/**
+ * @module components/documents/DocumentRecommendationsPanel
+ * Displays AI-generated document suggestions based on the client's postpartum
+ * week and intake data, with one-click template creation.
+ */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { documentService } from '../../services/documentService';
@@ -28,6 +33,7 @@ type IntakeLike = Partial<{
   allergies: string[];
 }>;
 
+/** Builds a human-readable intake summary string relevant to the given document type. */
 function intakeSummaryForType(intake: IntakeLike | null, type: string): string {
   if (!intake) return '';
   const parts: string[] = [];
@@ -73,6 +79,7 @@ function getPriorityBadgeClass(priority: 'high' | 'medium' | 'low'): string {
   return 'px-2 py-1 text-xs rounded-full bg-[#DED7CD]/50 text-[#4E1B00]';
 }
 
+/** Props for the document recommendations panel (exported variant). */
 export interface DocumentRecommendationsPanelProps {
   recommendations: DocumentRecommendations;
   isClient: boolean;
@@ -81,6 +88,7 @@ export interface DocumentRecommendationsPanelProps {
   onRecommendationsRefreshed: (recs: DocumentRecommendations) => void;
 }
 
+/** Renders postpartum-week-based document suggestion cards with template creation. */
 export const DocumentRecommendationsPanel: React.FC<DocumentRecommendationsPanelProps> = ({
   recommendations,
   isClient,

@@ -1,4 +1,9 @@
 /**
+ * @module utils/env
+ * Environment-variable helpers that work across Vite, Node, and Jest runtimes.
+ */
+
+/**
  * Get environment variable value safely across different environments
  * (Node.js, Jest test runtime, and Vite when process.env is polyfilled).
  *

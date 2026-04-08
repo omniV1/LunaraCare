@@ -1,3 +1,9 @@
+/**
+ * @module App
+ * Root component of the LUNARA frontend. Defines top-level routing,
+ * context providers, error boundaries, and lazy-loaded page code-splitting.
+ */
+
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import AuthProvider from './contexts/AuthContext';
@@ -20,7 +26,10 @@ const ProviderDashboard = React.lazy(() => import('./pages/ProviderDashboard'));
 const ClientDashboard = React.lazy(() => import('./pages/ClientDashboard'));
 const SecuritySettingsPage = React.lazy(() => import('./pages/SecuritySettingsPage'));
 
-// Component to handle navigation logging
+/**
+ * Invisible component that listens to route changes for analytics tracking.
+ * @returns Always returns `null`; renders nothing.
+ */
 const NavigationLogger: React.FC = () => {
   const location = useLocation();
 
@@ -32,6 +41,11 @@ const NavigationLogger: React.FC = () => {
   return null;
 };
 
+/**
+ * Application shell that wraps the entire SPA in error boundaries,
+ * authentication/resource context providers, and the React Router.
+ * @returns The rendered application with all routes and layout.
+ */
 const App: React.FC = () => {
   return (
     <PageErrorBoundary>

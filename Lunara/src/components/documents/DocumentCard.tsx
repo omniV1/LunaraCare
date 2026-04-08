@@ -1,6 +1,12 @@
+/**
+ * @module components/documents/DocumentCard
+ * Renders a single client document as a card with status badge, file list,
+ * provider feedback, and action buttons (edit, view, submit, delete).
+ */
 import React from 'react';
 import { documentService, ClientDocument } from '../../services/documentService';
 
+/** Props for an individual document card in the documents list. */
 export interface DocumentCardProps {
   document: ClientDocument;
   submitting: string | null;
@@ -10,6 +16,7 @@ export interface DocumentCardProps {
   onDelete: (documentId: string) => void;
 }
 
+/** Returns a Tailwind class string for the submission-status badge color. */
 function getStatusBadgeClass(status: ClientDocument['submissionStatus']): string {
   switch (status) {
     case 'submitted-to-provider':
@@ -23,6 +30,7 @@ function getStatusBadgeClass(status: ClientDocument['submissionStatus']): string
   }
 }
 
+/** Renders a document card with metadata, attached files, and action buttons. */
 export const DocumentCard: React.FC<DocumentCardProps> = ({
   document: doc,
   submitting,

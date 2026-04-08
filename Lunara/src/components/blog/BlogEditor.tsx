@@ -1,3 +1,9 @@
+/**
+ * @module components/blog/BlogEditor
+ * Full blog post editor used by providers to create and update posts.
+ * Combines metadata, featured image, tags, and rich-text content with
+ * 30-second auto-save, image upload via GridFS, and publish workflow.
+ */
 import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -19,12 +25,14 @@ const BlogContentEditor = React.lazy(() =>
   import('./BlogContentEditor').then(mod => ({ default: mod.BlogContentEditor }))
 );
 
+/** Props for the BlogEditor; pass an existing post for edit mode. */
 interface BlogEditorProps {
   blogPost?: BlogPost;
   onSave?: (blogPost: BlogPost) => void;
   onCancel?: () => void;
 }
 
+/** Renders the full blog post editor form with auto-save and publish support. */
 export const BlogEditor: React.FC<BlogEditorProps> = ({ blogPost, onSave, onCancel }) => {
   const { user } = useAuth();
 

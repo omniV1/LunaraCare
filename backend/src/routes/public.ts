@@ -1,3 +1,8 @@
+/**
+ * @module routes/public
+ * Public-facing endpoints (platform info, contact form) and inquiry management.
+ * Mounted at `/api/public`.
+ */
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -8,6 +13,7 @@ import { AuthenticatedRequest } from '../types';
 import { requireRole, handleValidationErrors, authenticate } from '../middleware';
 import * as inquiryService from '../services/inquiryService';
 
+/** Express router exposing public website and inquiry endpoints. */
 const router = express.Router();
 
 const contactFormLimiter = rateLimit({

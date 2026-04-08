@@ -1,6 +1,15 @@
+/**
+ * @module Provider
+ * Extended profile for users with the `provider` role (doulas/specialists).
+ * Maps to the MongoDB `providers` collection.
+ * Stores professional credentials, service areas, availability/scheduling,
+ * client roster, pricing, performance metrics, and notification settings.
+ * One-to-one with {@link User} via a unique `userId` reference.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import validator from 'validator';
 
+/** Certifications, specialties, education, and bio for a provider. */
 export interface IProfessionalInfo {
   certifications: Array<
     | 'DONA_Birth_Doula'
@@ -44,6 +53,7 @@ export interface IProfessionalInfo {
   languages: string[];
 }
 
+/** Business contact channels and social media links. */
 export interface IContactInfo {
   businessPhone?: string;
   businessEmail?: string;
@@ -55,6 +65,7 @@ export interface IContactInfo {
   };
 }
 
+/** Weekly availability grid (one entry per day). */
 export interface ISchedule {
   monday: { available?: boolean; hours?: string };
   tuesday: { available?: boolean; hours?: string };
@@ -65,6 +76,7 @@ export interface ISchedule {
   sunday: { available?: boolean; hours?: string };
 }
 
+/** Provider availability settings including max clients, schedule, and time-off. */
 export interface IAvailability {
   isAcceptingClients: boolean;
   maxClients: number;
@@ -77,6 +89,7 @@ export interface IAvailability {
   }>;
 }
 
+/** Embedded record of a client assigned to this provider. */
 export interface IClientAssignment {
   clientId: mongoose.Types.ObjectId;
   assignedDate: Date;
@@ -84,6 +97,7 @@ export interface IClientAssignment {
   serviceType?: 'prenatal' | 'birth' | 'postpartum' | 'comprehensive';
 }
 
+/** Hourly and package-based pricing information. */
 export interface IPricing {
   hourlyRate?: number;
   packageRates: Array<{
@@ -95,6 +109,7 @@ export interface IPricing {
   currency: string;
 }
 
+/** Aggregated performance metrics for a provider. */
 export interface IMetrics {
   totalClients: number;
   averageRating: number;
@@ -102,6 +117,7 @@ export interface IMetrics {
   responseTime: number;
 }
 
+/** Provider notification and auto-assignment preferences. */
 export interface ISettings {
   emailNotifications: {
     newClientAssignment: boolean;
@@ -115,6 +131,7 @@ export interface ISettings {
   };
 }
 
+/** Provider profile document with credentials, roster, availability, and metrics. */
 export interface IProviderDocument extends Document {
   userId: mongoose.Types.ObjectId;
   professionalInfo: IProfessionalInfo;
@@ -150,8 +167,11 @@ export interface IProviderDocument extends Document {
   canAcceptNewClient(): boolean;
 }
 
+/** Static query helpers on the Provider model. */
 export interface IProviderModel extends Model<IProviderDocument> {
+  /** Return active providers serving a given area who are accepting clients. */
   findAvailableInArea(serviceArea: string): Promise<IProviderDocument[]>;
+  /** Return active providers with a specific specialty. */
   findBySpecialty(specialty: string): Promise<IProviderDocument[]>;
 }
 
@@ -465,12 +485,12 @@ const providerSchema = new Schema<IProviderDocument>(
   }
 );
 
-// Virtual for current client count
+/** @virtual currentClientCount — number of clients with status `active`. */
 providerSchema.virtual('currentClientCount').get(function (this: IProviderDocument): number {
   return this.clients.filter(client => client.status === 'active').length;
 });
 
-// Virtual for availability status
+/** @virtual availabilityStatus — derived from isAcceptingClients and current load. */
 providerSchema.virtual('availabilityStatus').get(function (
   this: IProviderDocument
 ): 'not_accepting' | 'full' | 'available' {
@@ -484,7 +504,10 @@ providerSchema.virtual('displayName').get(function (this: IProviderDocument): st
   return `${this.professionalInfo.certifications.join(', ')} Certified Doula`;
 });
 
-// Pre-save middleware to update metrics
+/**
+ * Pre-save hook: syncs `metrics.totalClients` from the clients array and
+ * auto-disables `isAcceptingClients` when the roster reaches capacity.
+ */
 providerSchema.pre<IProviderDocument>('save', function (next) {
   // Update total clients count
   this.metrics.totalClients = this.clients.length;
@@ -497,7 +520,13 @@ providerSchema.pre<IProviderDocument>('save', function (next) {
   next();
 });
 
-// Instance method to add client
+/**
+ * Add a client to this provider's roster.
+ * @param clientId - The client's User ObjectId.
+ * @param serviceType - Type of service (defaults to `"postpartum"`).
+ * @returns The modified provider document (unsaved).
+ * @throws {Error} If the client is already assigned or the provider is full.
+ */
 providerSchema.methods.addClient = function (
   this: IProviderDocument,
   clientId: mongoose.Types.ObjectId,
@@ -530,7 +559,14 @@ providerSchema.methods.addClient = function (
   return this;
 };
 
-// Instance method to remove/complete client
+/**
+ * Transition a client's assignment status (e.g. active → completed).
+ * Re-opens availability if completing a client frees capacity.
+ * @param clientId - The client's User ObjectId.
+ * @param status - New status value.
+ * @returns The modified provider document (unsaved).
+ * @throws {Error} If the client is not found in the roster.
+ */
 providerSchema.methods.updateClientStatus = function (
   this: IProviderDocument,
   clientId: mongoose.Types.ObjectId,
@@ -552,7 +588,10 @@ providerSchema.methods.updateClientStatus = function (
   return this;
 };
 
-// Instance method to check if can accept new client
+/**
+ * Check whether this provider can accept a new client.
+ * @returns `true` if accepting, below capacity, and status is `active`.
+ */
 providerSchema.methods.canAcceptNewClient = function (this: IProviderDocument): boolean {
   return (
     this.availability.isAcceptingClients &&

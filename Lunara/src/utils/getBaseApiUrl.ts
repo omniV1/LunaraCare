@@ -1,3 +1,14 @@
+/**
+ * @module utils/getBaseApiUrl
+ * Resolves the backend API base URL and derived URLs (OAuth, Socket.io)
+ * from Vite build-time defines or process.env, with a `/api` fallback.
+ */
+
+/**
+ * Resolves the backend API base URL from Vite defines or process.env.
+ * Falls back to `/api` for local dev-proxy setups.
+ * @returns The API base URL string (e.g. `https://lunara.onrender.com/api` or `/api`).
+ */
 export const getBaseApiUrl = (): string => {
   // Vite build-time replacement (see vite.config.ts)
   const viteDefine =

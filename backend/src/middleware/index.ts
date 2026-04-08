@@ -1,3 +1,21 @@
+/**
+ * @module middleware
+ * Centralised Express middleware barrel.
+ *
+ * Exports reusable middleware consumed by `server.ts` and individual route
+ * modules. Includes:
+ * - {@link requestLogger} – request timing and structured logging
+ * - {@link handleValidationErrors} – express-validator result formatter
+ * - {@link asyncHandler} – promise-to-callback bridge for async route handlers
+ * - {@link errorHandler} – global error handler (APIError, Mongoose, JWT, generic)
+ * - {@link requireRole} – role-based access control guard
+ * - {@link notFoundHandler} – 404 catch-all
+ * - {@link rateLimitHandler} – 429 response formatter
+ * - {@link securityHeaders} – supplementary HTTP security headers
+ * - {@link sanitizeRequest} – recursive body string trimmer
+ * - {@link responseFormatter} – `res.success` / `res.error` helpers
+ * - {@link authenticate} – Passport JWT authentication shorthand
+ */
 import { Request, Response, NextFunction } from 'express';
 import { ValidationError as ExpressValidationError, validationResult } from 'express-validator';
 import passport from 'passport';

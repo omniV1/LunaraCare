@@ -1,5 +1,13 @@
+/**
+ * @module AvailabilitySlot
+ * Mongoose model for provider time-slot availability.
+ * Maps to the MongoDB `availabilityslots` collection.
+ * Each slot represents a bookable window (HH:mm format) on a given date,
+ * optionally recurring on a specific day of the week.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** A single bookable time-slot owned by a provider. */
 export interface IAvailabilitySlotDocument extends Document {
   providerId: mongoose.Types.ObjectId;
   date: Date;
@@ -13,7 +21,14 @@ export interface IAvailabilitySlotDocument extends Document {
   updatedAt: Date;
 }
 
+/** Static helpers on the AvailabilitySlot model. */
 export interface IAvailabilitySlotModel extends Model<IAvailabilitySlotDocument> {
+  /**
+   * Return unbooked slots for a provider within a date range, sorted chronologically.
+   * @param providerId - Provider's ObjectId.
+   * @param from - Start of the date range (inclusive).
+   * @param to - End of the date range (inclusive).
+   */
   findAvailable(
     providerId: mongoose.Types.ObjectId,
     from: Date,
@@ -108,7 +123,9 @@ availabilitySlotSchema.statics.findAvailable = function (
   }).sort({ date: 1, startTime: 1 });
 };
 
+/** @index providerId + date — fast calendar look-ups for a given provider. */
 availabilitySlotSchema.index({ providerId: 1, date: 1 });
+/** @index providerId + isBooked — quickly find open slots. */
 availabilitySlotSchema.index({ providerId: 1, isBooked: 1 });
 
 const AvailabilitySlot = mongoose.model<

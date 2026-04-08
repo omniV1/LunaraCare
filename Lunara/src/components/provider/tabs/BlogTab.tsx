@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/BlogTab
+ * Blog and resource management tab: create/edit posts, manage existing
+ * posts, create resources, and browse the resource library.
+ */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { BlogManagement } from '../../blog/BlogManagement';
@@ -8,6 +13,7 @@ import { ResourceViewModal } from '../../resource/ResourceViewModal';
 import type { Resource } from '../../../services/resourceService';
 import type { BlogPost } from '../../../services/blogService';
 
+/** Tabbed blog post editor/manager combined with resource creation and library. */
 export const BlogTab: React.FC = () => {
   const [blogSubTab, setBlogSubTab] = useState<'manage' | 'create'>('manage');
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);

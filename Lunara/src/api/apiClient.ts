@@ -1,3 +1,9 @@
+/**
+ * @module apiClient
+ * Singleton Axios wrapper used by every frontend service. Handles base URL
+ * resolution, JWT injection, 401 token refresh, and 429 retry with backoff.
+ */
+
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { getBaseApiUrl } from '../utils/getBaseApiUrl';
 
@@ -125,6 +131,10 @@ export class ApiClient {
     };
   }
 
+  /**
+   * Returns the singleton ApiClient instance, creating it on first call.
+   * @returns The shared {@link ApiClient} instance.
+   */
   public static getInstance(): ApiClient {
     if (!this._instance) {
       this._instance = new ApiClient();
@@ -132,6 +142,12 @@ export class ApiClient {
     return this._instance;
   }
 
+  /**
+   * Performs a GET request with optional query parameters.
+   * @param url - Relative endpoint path.
+   * @param params - Optional query parameters (undefined/null values are stripped).
+   * @returns The response payload of type `T`.
+   */
   public async get<T>(url: string, params?: unknown): Promise<T> {
     // Ensure params are properly serialized
     // Axios automatically serializes params, but we need to make sure they're in the right format
@@ -156,21 +172,45 @@ export class ApiClient {
     return res as unknown as Blob;
   }
 
+  /**
+   * Performs a POST request.
+   * @param url - Relative endpoint path.
+   * @param data - Optional request body.
+   * @returns The response payload of type `T`.
+   */
   public async post<T>(url: string, data?: unknown): Promise<T> {
     const res = await this.axios.post<T, T>(url, data);
     return res;
   }
 
+  /**
+   * Performs a PUT request.
+   * @param url - Relative endpoint path.
+   * @param data - Optional request body.
+   * @returns The response payload of type `T`.
+   */
   public async put<T>(url: string, data?: unknown): Promise<T> {
     const res = await this.axios.put<T, T>(url, data);
     return res;
   }
 
+  /**
+   * Performs a DELETE request.
+   * @param url - Relative endpoint path.
+   * @param config - Optional Axios config (e.g. `{ data: ... }` for request body).
+   * @returns The response payload of type `T`.
+   */
   public async delete<T>(url: string, config?: { data?: unknown }): Promise<T> {
     const res = await this.axios.delete<T, T>(url, config);
     return res;
   }
 
+  /**
+   * Performs a PATCH request.
+   * @param url - Relative endpoint path.
+   * @param data - Optional request body.
+   * @returns The response payload of type `T`.
+   */
   public async patch<T>(url: string, data?: unknown): Promise<T> {
     const res = await this.axios.patch<T, T>(url, data);
     return res;

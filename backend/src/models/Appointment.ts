@@ -1,5 +1,13 @@
+/**
+ * @module Appointment
+ * Mongoose model for client–provider appointments in LUNARA.
+ * Maps to the MongoDB `appointments` collection.
+ * Tracks scheduling lifecycle (requested → confirmed → completed/cancelled)
+ * and links to {@link AvailabilitySlot} for calendar integration.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** Appointment document stored in MongoDB. */
 export interface IAppointmentDocument extends Document {
   clientId: mongoose.Types.ObjectId;
   providerId: mongoose.Types.ObjectId;
@@ -19,9 +27,17 @@ export interface IAppointmentDocument extends Document {
   updatedAt: Date;
 }
 
+/** Static methods available on the Appointment model. */
 export interface IAppointmentModel extends Model<IAppointmentDocument> {
+  /** Return all appointments for a client, newest first. */
   findByClient(clientId: mongoose.Types.ObjectId): Promise<IAppointmentDocument[]>;
+  /** Return all appointments for a provider, newest first. */
   findByProvider(providerId: mongoose.Types.ObjectId): Promise<IAppointmentDocument[]>;
+  /**
+   * Return future non-terminal appointments for a user.
+   * @param userId - The user's ObjectId.
+   * @param role - `"provider"` or `"client"` to determine the query filter.
+   */
   findUpcoming(userId: mongoose.Types.ObjectId, role: string): Promise<IAppointmentDocument[]>;
 }
 
@@ -168,9 +184,12 @@ appointmentSchema.static(
   }
 );
 
+/** @index clientId + startTime — optimises per-client timeline queries. */
 appointmentSchema.index({ clientId: 1, startTime: -1 });
+/** @index providerId + startTime — optimises per-provider schedule queries. */
 appointmentSchema.index({ providerId: 1, startTime: -1 });
 appointmentSchema.index({ status: 1 });
+/** @index startTime + status — used by findUpcoming to filter active future appointments. */
 appointmentSchema.index({ startTime: 1, status: 1 });
 
 const Appointment = mongoose.model<IAppointmentDocument, IAppointmentModel>(

@@ -1,9 +1,19 @@
+/**
+ * @module services/checkinTrendService
+ * Analyses client check-in history to compute mood trends, symptom
+ * frequency maps, and alert conditions (low mood streaks, declining
+ * trends, persistent symptoms). Consumed by the checkinService and
+ * provider dashboard.
+ */
+
 import mongoose from 'mongoose';
 import CheckIn, { ICheckInDocument } from '../models/CheckIn';
 import logger from '../utils/logger';
 
+/** Direction a client's mood is heading based on recent check-ins. */
 type MoodTrend = 'improving' | 'stable' | 'declining';
 
+/** Aggregated mood and symptom trend data for a given period. */
 export interface TrendData {
   period: string;
   averageMood: number;
@@ -13,6 +23,7 @@ export interface TrendData {
   moodTrend: MoodTrend;
 }
 
+/** A wellness alert triggered by check-in pattern analysis. */
 export interface AlertInfo {
   type: 'low_mood' | 'declining_trend' | 'persistent_symptom';
   message: string;
@@ -26,6 +37,13 @@ const ALERT_THRESHOLDS = {
   PERSISTENT_SYMPTOM_DAYS: 5,
 };
 
+/**
+ * Compute mood and symptom trends for a user over a rolling window.
+ *
+ * @param userId - Target user's ID
+ * @param days - Number of days to look back (default 30)
+ * @returns Aggregated trend data including average mood and symptom frequencies
+ */
 export async function getCheckInTrends(
   userId: string,
   days = 30
@@ -59,6 +77,13 @@ export async function getCheckInTrends(
   };
 }
 
+/**
+ * Evaluate recent check-ins against alert thresholds and return
+ * any active warnings (low mood streak, declining trend, persistent symptom).
+ *
+ * @param userId - Target user's ID
+ * @returns Array of triggered alerts, possibly empty
+ */
 export async function getCheckInAlerts(userId: string): Promise<AlertInfo[]> {
   const alerts: AlertInfo[] = [];
   const recent = await CheckIn.find({

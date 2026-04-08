@@ -1,3 +1,8 @@
+/**
+ * @module routes/client
+ * Client profile retrieval, assignment, and management endpoints.
+ * Mounted at `/api/client`.
+ */
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -12,6 +17,7 @@ function uid(req: Request): mongoose.Types.ObjectId {
   return (req as AuthenticatedRequest).user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing client profile and assignment endpoints. */
 const router = express.Router();
 
 

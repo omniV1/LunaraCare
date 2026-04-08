@@ -1,8 +1,14 @@
+/**
+ * @module components/documents/ProviderDocumentsList
+ * Provider-facing list of client-submitted documents with search, filters
+ * (type, status, date range), and inline review via ProviderDocumentReview.
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { documentService, ClientDocument, DocumentFilters } from '../../services/documentService';
 import { ProviderDocumentReview } from './ProviderDocumentReview';
 
+/** Renders the provider's searchable, filterable client document queue. */
 export const ProviderDocumentsList: React.FC = () => {
   const [documents, setDocuments] = useState<ClientDocument[]>([]);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,14 @@
+/**
+ * @module Resource
+ * Educational resources (articles, guides, media) for postpartum care.
+ * Maps to the MongoDB `resources` collection.
+ * Resources are targeted by postpartum week and pregnancy week for the
+ * recommendation engine, support difficulty levels, full-text search,
+ * and a draft/publish workflow.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-// Interface for the Resource document
+/** Resource document with content, targeting metadata, and publication state. */
 export interface IResource extends Document {
   title: string;
   description: string;
@@ -19,8 +27,9 @@ export interface IResource extends Document {
   updatedAt: Date;
 }
 
-// Interface for the resource model
+/** Static query helpers on the Resource model. */
 export interface IResourceModel extends Model<IResource> {
+  /** Return published resources with optional extra filters, sorted newest first. */
   findPublished(filters?: Partial<Record<string, unknown>>): Promise<IResource[]>;
 }
 
@@ -156,7 +165,7 @@ resourceSchema.virtual('id').get(function (this: { _id: mongoose.Types.ObjectId 
   return this._id ? this._id.toHexString() : undefined;
 });
 
-// Text index for search across multiple fields
+/** @index Full-text search across title, description, content, and tags. */
 resourceSchema.index({ title: 'text', description: 'text', content: 'text', tags: 'text' });
 resourceSchema.index({ category: 1, isPublished: 1 });
 resourceSchema.index({ targetWeeks: 1, difficulty: 1 });

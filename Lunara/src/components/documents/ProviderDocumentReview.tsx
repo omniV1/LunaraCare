@@ -1,14 +1,22 @@
+/**
+ * @module components/documents/ProviderDocumentReview
+ * Provider-side document review form — shows attached files, client notes,
+ * and lets the provider add internal notes, client-facing feedback, and
+ * update the submission status.
+ */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
 import { documentService, ClientDocument } from '../../services/documentService';
 
+/** Props for the provider document review modal. */
 interface ProviderDocumentReviewProps {
   document: ClientDocument;
   onClose?: () => void;
   onUpdated?: () => void;
 }
 
+/** Renders the provider document review form with file viewer and feedback fields. */
 export const ProviderDocumentReview: React.FC<ProviderDocumentReviewProps> = ({
   document,
   onClose,

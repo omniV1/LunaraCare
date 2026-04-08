@@ -1,6 +1,13 @@
+/**
+ * @module BlogPostVersion
+ * Immutable snapshot of a BlogPost at a point in time.
+ * Maps to the MongoDB `blogpostversions` collection.
+ * Created whenever a blog post is updated, enabling full revision history
+ * and rollback capability for provider-authored content.
+ */
 import mongoose, { Schema, Document } from 'mongoose';
 
-// Interface for Blog Post Version document
+/** Immutable version record of a blog post revision. */
 export interface IBlogPostVersion extends Document {
   blogPostId: mongoose.Types.ObjectId;
   versionNumber: number;
@@ -72,8 +79,9 @@ const blogPostVersionSchema = new Schema<IBlogPostVersion>(
   }
 );
 
-// Compound index for efficient queries
+/** @index blogPostId + versionNumber — fast look-up of a specific revision. */
 blogPostVersionSchema.index({ blogPostId: 1, versionNumber: -1 });
+/** @index blogPostId + createdAt — chronological history listing. */
 blogPostVersionSchema.index({ blogPostId: 1, createdAt: -1 });
 
 // Add virtual id property

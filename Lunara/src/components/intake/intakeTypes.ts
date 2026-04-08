@@ -1,8 +1,15 @@
+/**
+ * @module components/intake/intakeTypes
+ * TypeScript types and constant option arrays for the client intake form —
+ * defines IntakeData shape, contact methods, birth types, and selectable
+ * support/feeding options.
+ */
 export type PreferredContactMethod = 'phone' | 'text' | 'email' | 'app';
 
 export type BirthType = 'vaginal' | 'cesarean' | 'vbac';
 export type BirthLocation = 'hospital' | 'birth_center' | 'home';
 
+/** Shape of all data collected across intake wizard steps. */
 export interface IntakeData {
   partnerName?: string;
   partnerPhone?: string;

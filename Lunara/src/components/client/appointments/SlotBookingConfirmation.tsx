@@ -1,6 +1,12 @@
+/**
+ * @module components/client/appointments/SlotBookingConfirmation
+ * Confirmation panel shown after a client selects an available slot,
+ * allowing them to choose type, add notes, and submit the booking request.
+ */
 import React from 'react';
 import { Slot } from './types';
 
+/** Props for the slot booking confirmation panel. */
 export interface SlotBookingConfirmationProps {
   selectedSlot: Slot;
   providerName: string;
@@ -13,6 +19,7 @@ export interface SlotBookingConfirmationProps {
   onConfirm: () => void;
 }
 
+/** Confirmation UI for a selected slot with type selector, notes, and submit/cancel. */
 export const SlotBookingConfirmation: React.FC<SlotBookingConfirmationProps> = ({
   selectedSlot,
   providerName,

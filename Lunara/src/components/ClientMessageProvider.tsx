@@ -1,3 +1,9 @@
+/**
+ * @module components/ClientMessageProvider
+ * Client-facing messaging view for communicating with the assigned provider.
+ * Loads the client profile to resolve the provider, then shows a single
+ * conversation thread with WebSocket live delivery and REST fallback.
+ */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ApiClient } from '../api/apiClient';
 import { useSocket } from '../hooks/useSocket';
@@ -57,6 +63,7 @@ interface ClientMeResponse {
   };
 }
 
+/** Renders the client-to-provider messaging thread with real-time support. */
 export const ClientMessageProvider: React.FC = () => {
   const [provider, setProvider] = useState<ClientMeResponse['assignedProvider']>(null);
   const [profileLoading, setProfileLoading] = useState(true);

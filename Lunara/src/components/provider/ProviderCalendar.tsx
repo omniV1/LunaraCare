@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/ProviderCalendar
+ * Full calendar view for providers: monthly grid with appointment dots,
+ * availability slot management, day detail panel, and filterable list.
+ */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
@@ -20,6 +25,7 @@ import { CalendarNavigation } from './CalendarNavigation';
 import { CalendarGrid } from './CalendarGrid';
 import { DayDetailPanel } from './DayDetailPanel';
 
+/** Calendar-centric appointment and availability manager for providers. */
 export const ProviderCalendar: React.FC = () => {
   const { user } = useAuth();
   const api = ApiClient.getInstance();

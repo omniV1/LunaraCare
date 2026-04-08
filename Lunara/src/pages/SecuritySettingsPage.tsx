@@ -1,8 +1,18 @@
+/**
+ * @module SecuritySettingsPage
+ * Security settings page where authenticated users can manage
+ * two-factor authentication (TOTP) for their account.
+ */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/useAuth';
 import MfaSetup from '../components/security/MfaSetup';
 
+/**
+ * Security settings page rendered at `/security`.
+ * Allows clients and providers to enable or disable TOTP-based MFA.
+ * @returns The MFA setup section with a back-to-dashboard link.
+ */
 const SecuritySettingsPage: React.FC = () => {
   const { user } = useAuth();
   const [mfaEnabled, setMfaEnabled] = useState(user?.mfaEnabled ?? false);

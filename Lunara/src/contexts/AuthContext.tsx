@@ -1,3 +1,9 @@
+/**
+ * @module AuthContext
+ * Provides application-wide authentication state and actions (login, logout,
+ * registration, MFA) via React Context consumed through the {@link useAuth} hook.
+ */
+
 import React, { createContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -13,10 +19,21 @@ import { AuthService, MfaChallengeError } from '../services/authService';
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const authService = AuthService.getInstance();
 
+/**
+ * Type guard that narrows an unknown value to a plain object.
+ * @param v - Value to check.
+ * @returns `true` when `v` is a non-null, non-array object.
+ */
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
+/**
+ * Extracts a human-readable message from an Axios-style error or falls back.
+ * @param error - The caught error value.
+ * @param fallback - Default message when no specific message is found.
+ * @returns A user-facing error string.
+ */
 function getErrorMessage(error: unknown, fallback: string): string {
   if (isRecord(error) && isRecord(error.response) && isRecord(error.response.data)) {
     const msg = error.response.data.message;
@@ -25,6 +42,11 @@ function getErrorMessage(error: unknown, fallback: string): string {
   return error instanceof Error ? error.message : fallback;
 }
 
+/**
+ * Context provider that manages authentication lifecycle: auto-restoring
+ * sessions on mount, handling login/logout/MFA, and cross-tab sync.
+ * @param props.children - Child components that can access auth state via {@link useAuth}.
+ */
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);

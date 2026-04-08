@@ -1,3 +1,10 @@
+/**
+ * @module services/blogService
+ * Blog post CRUD, versioning, and client notification logic.
+ * Supports drafts, full-text search, version history with rollback,
+ * and real-time Socket.io notifications when a provider publishes content.
+ */
+
 import mongoose from 'mongoose';
 import type { Server } from 'socket.io';
 import BlogPost, { IBlogPost } from '../models/BlogPost';
@@ -14,6 +21,7 @@ const getIO = () => (globalThis as unknown as { io?: Server }).io;
 
 // ── Input / Result types ─────────────────────────────────────────────────────
 
+/** Query parameters for filtering and paginating published posts. */
 export interface BlogListQuery {
   category?: string;
   tag?: string;
@@ -23,6 +31,7 @@ export interface BlogListQuery {
   page?: string | number;
 }
 
+/** Paginated list of blog posts with metadata. */
 export interface BlogListResult {
   posts: IBlogPost[];
   pagination: {
@@ -33,6 +42,7 @@ export interface BlogListResult {
   };
 }
 
+/** Fields for creating a new blog post. */
 export interface CreateBlogPostInput {
   title: string;
   excerpt: string;
@@ -43,6 +53,7 @@ export interface CreateBlogPostInput {
   isPublished?: boolean;
 }
 
+/** Mutable fields when updating a blog post (all optional). */
 export interface UpdateBlogPostInput {
   title?: string;
   excerpt?: string;
@@ -174,6 +185,9 @@ function applyBlogUpdates(
 
 /**
  * List published blog posts with filtering, sorting, and pagination.
+ *
+ * @param query - Filter, search, and pagination parameters
+ * @returns Paginated post list with total counts
  */
 export async function listPublishedPosts(query: BlogListQuery): Promise<BlogListResult> {
   const { category, tag, search, author, limit = 10, page = 1 } = query;
@@ -220,6 +234,10 @@ export async function listPublishedPosts(query: BlogListQuery): Promise<BlogList
 
 /**
  * List all blog posts (published and drafts) belonging to a provider.
+ *
+ * @param authorId - Provider's ObjectId
+ * @param limit - Maximum posts to return
+ * @returns Posts sorted by creation date descending
  */
 export async function listAllPostsByAuthor(
   authorId: mongoose.Types.ObjectId,
@@ -236,6 +254,8 @@ export async function listAllPostsByAuthor(
 /**
  * Get a published blog post by slug and increment its view count.
  *
+ * @param slug - URL-friendly post identifier
+ * @returns The blog post document
  * @throws NotFoundError -- post not found
  */
 export async function getPostBySlug(slug: string): Promise<IBlogPost> {
@@ -251,6 +271,9 @@ export async function getPostBySlug(slug: string): Promise<IBlogPost> {
 /**
  * Create a new blog post, snapshot a version, and notify clients if published.
  *
+ * @param data - Blog post content and metadata
+ * @param user - Authenticated author
+ * @returns The created blog post
  * @throws BadRequestError -- missing required fields
  * @throws ConflictError -- slug already exists
  */
@@ -302,6 +325,10 @@ export async function createBlogPost(
 /**
  * Update an existing blog post.
  *
+ * @param id - Blog post ObjectId
+ * @param data - Fields to update
+ * @param user - Authenticated caller (must be author or provider)
+ * @returns The updated blog post
  * @throws NotFoundError -- post not found
  * @throws ForbiddenError -- not the author or provider
  */
@@ -338,6 +365,8 @@ export async function updateBlogPost(
 /**
  * Delete a blog post.
  *
+ * @param id - Blog post ObjectId
+ * @param user - Authenticated caller (must be author or provider)
  * @throws NotFoundError -- post not found
  * @throws ForbiddenError -- not the author or provider
  */
@@ -359,6 +388,9 @@ export async function deleteBlogPost(
 
 /**
  * Get draft blog posts for a provider.
+ *
+ * @param authorId - Provider's ObjectId
+ * @returns Unpublished posts sorted by last saved date
  */
 export async function getDraftPosts(authorId: mongoose.Types.ObjectId): Promise<IBlogPost[]> {
   const drafts = await BlogPost.find({
@@ -374,6 +406,9 @@ export async function getDraftPosts(authorId: mongoose.Types.ObjectId): Promise<
 /**
  * Get version history for a blog post.
  *
+ * @param id - Blog post ObjectId
+ * @param user - Authenticated caller
+ * @returns All version snapshots sorted newest-first
  * @throws NotFoundError -- post not found
  * @throws ForbiddenError -- not the author or provider
  */
@@ -400,6 +435,10 @@ export async function getVersionHistory(
 /**
  * Get a specific version of a blog post.
  *
+ * @param id - Blog post ObjectId
+ * @param versionId - Version snapshot ObjectId
+ * @param user - Authenticated caller
+ * @returns The requested version snapshot
  * @throws NotFoundError -- post or version not found
  * @throws ForbiddenError -- not the author or provider
  */
@@ -430,6 +469,10 @@ export async function getVersion(
 /**
  * Restore a blog post to a previous version.
  *
+ * @param id - Blog post ObjectId
+ * @param versionId - Version snapshot to restore
+ * @param user - Authenticated caller
+ * @returns The restored blog post
  * @throws NotFoundError -- post or version not found
  * @throws ForbiddenError -- not the author or provider
  */

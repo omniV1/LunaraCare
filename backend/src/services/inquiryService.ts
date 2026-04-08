@@ -1,3 +1,10 @@
+/**
+ * @module services/inquiryService
+ * Public contact-form submission and provider-side inquiry management.
+ * Stores inquiries in MongoDB, sends email notifications to providers,
+ * and supports status tracking and pagination.
+ */
+
 import mongoose from 'mongoose';
 import Inquiry, { IInquiry } from '../models/Inquiry';
 import { sendRawEmail } from './emailService';
@@ -6,6 +13,7 @@ import logger from '../utils/logger';
 
 // ── Input types ──────────────────────────────────────────────────────────────
 
+/** Fields submitted via the public contact form. */
 export interface SubmitContactInput {
   name: string;
   email: string;
@@ -15,11 +23,13 @@ export interface SubmitContactInput {
   ipAddress?: string;
 }
 
+/** Mutable fields for updating an inquiry (provider/admin). */
 export interface UpdateInquiryInput {
   status?: string;
   notes?: string;
 }
 
+/** Query parameters for filtering and paginating inquiries. */
 export interface InquiryListQuery {
   status?: string;
   page?: string;
@@ -28,6 +38,7 @@ export interface InquiryListQuery {
 
 // ── Result types ─────────────────────────────────────────────────────────────
 
+/** Paginated list of inquiries. */
 export interface InquiryListResult {
   data: IInquiry[];
   pagination: {
@@ -42,6 +53,9 @@ export interface InquiryListResult {
 
 /**
  * Submit a contact form inquiry and send an email notification.
+ *
+ * @param data - Contact form fields from the public site
+ * @returns Success message
  */
 export async function submitContactForm(
   data: SubmitContactInput
@@ -95,6 +109,9 @@ export async function submitContactForm(
 
 /**
  * List inquiries with filtering and pagination (provider/admin).
+ *
+ * @param query - Status filter and pagination parameters
+ * @returns Paginated inquiry list
  */
 export async function listInquiries(query: InquiryListQuery): Promise<InquiryListResult> {
   const { status, page = '1', limit = '20' } = query;
@@ -127,6 +144,10 @@ export async function listInquiries(query: InquiryListQuery): Promise<InquiryLis
 /**
  * Update an inquiry's status/notes (provider/admin).
  *
+ * @param inquiryId - Inquiry ObjectId
+ * @param data - Fields to update
+ * @param responderId - ID of the user responding
+ * @returns Updated inquiry
  * @throws NotFoundError — inquiry not found
  */
 export async function updateInquiry(

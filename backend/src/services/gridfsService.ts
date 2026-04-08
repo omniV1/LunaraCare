@@ -1,3 +1,10 @@
+/**
+ * @module services/gridfsService
+ * Low-level MongoDB GridFS wrapper for binary file storage. Provides
+ * upload, download, metadata lookup, existence checks, and deletion
+ * using the "uploads" bucket. Used by fileService and documentService.
+ */
+
 import mongoose from 'mongoose';
 import { Readable } from 'stream';
 import logger from '../utils/logger';
@@ -37,6 +44,7 @@ export const getBucket = (): GridFSBucketType => {
   return bucket;
 };
 
+/** Result returned after a successful GridFS upload. */
 export interface UploadResult {
   fileId: string;
   filename: string;
@@ -46,7 +54,13 @@ export interface UploadResult {
 }
 
 /**
- * Upload a file to GridFS
+ * Upload a file to GridFS.
+ *
+ * @param buffer - File contents as a Buffer
+ * @param filename - Name to store the file under
+ * @param contentType - MIME type
+ * @param metadata - Optional metadata to attach to the file
+ * @returns Upload result with generated fileId
  */
 export const uploadFile = async (
   buffer: Buffer,
@@ -87,7 +101,11 @@ export const uploadFile = async (
 };
 
 /**
- * Download a file from GridFS by ID
+ * Download a file from GridFS by ID.
+ *
+ * @param fileId - GridFS ObjectId string
+ * @returns Readable stream with file metadata
+ * @throws Error if fileId is invalid or file not found
  */
 export const downloadFile = async (fileId: string): Promise<{
   stream: NodeJS.ReadableStream;
@@ -121,7 +139,10 @@ export const downloadFile = async (fileId: string): Promise<{
 };
 
 /**
- * Delete a file from GridFS by ID
+ * Delete a file from GridFS by ID.
+ *
+ * @param fileId - GridFS ObjectId string
+ * @throws Error if fileId is invalid
  */
 export const deleteFile = async (fileId: string): Promise<void> => {
   if (!mongoose.Types.ObjectId.isValid(fileId)) {
@@ -135,7 +156,10 @@ export const deleteFile = async (fileId: string): Promise<void> => {
 };
 
 /**
- * Check if a file exists in GridFS
+ * Check if a file exists in GridFS.
+ *
+ * @param fileId - GridFS ObjectId string
+ * @returns true if the file exists, false otherwise
  */
 export const fileExists = async (fileId: string): Promise<boolean> => {
   try {
@@ -149,7 +173,10 @@ export const fileExists = async (fileId: string): Promise<boolean> => {
 };
 
 /**
- * Get file metadata without downloading
+ * Get file metadata without downloading.
+ *
+ * @param fileId - GridFS ObjectId string
+ * @returns File metadata or null if not found
  */
 export const getFileInfo = async (fileId: string): Promise<{
   fileId: string;
@@ -185,7 +212,10 @@ export const getFileInfo = async (fileId: string): Promise<{
 };
 
 /**
- * Generate a URL path for accessing a file
+ * Generate a URL path for accessing a file via the API.
+ *
+ * @param fileId - GridFS ObjectId string
+ * @returns Fully qualified URL to the file download endpoint
  */
 export const getFileUrl = (fileId: string): string => {
   const baseUrl = process.env.API_URL ?? 'http://localhost:5000/api';

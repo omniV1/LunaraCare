@@ -1,3 +1,10 @@
+/**
+ * @module services/carePlanService
+ * CRUD and milestone tracking for client care plans. Supports template-based
+ * plan creation, section/milestone updates, and progress calculation.
+ * Operates on the CarePlan and CarePlanTemplate models.
+ */
+
 import mongoose from 'mongoose';
 import CarePlan, { ICarePlanDocument, ISection, IMilestone } from '../models/CarePlan';
 import CarePlanTemplate, { ICarePlanTemplateDocument } from '../models/CarePlanTemplate';
@@ -5,6 +12,7 @@ import { NotFoundError, ForbiddenError } from '../utils/errors';
 
 // ── Input types ──────────────────────────────────────────────────────────────
 
+/** Fields for creating a new care plan (optionally from a template). */
 export interface CreateCarePlanInput {
   clientId: string;
   title: string;
@@ -13,6 +21,7 @@ export interface CreateCarePlanInput {
   sections?: unknown[];
 }
 
+/** Mutable fields when updating an existing care plan. */
 export interface UpdateCarePlanInput {
   title?: string;
   description?: string;
@@ -20,6 +29,7 @@ export interface UpdateCarePlanInput {
   sections?: unknown[];
 }
 
+/** Fields for updating a milestone's status and notes. */
 export interface UpdateMilestoneInput {
   status: string;
   notes?: string;
@@ -68,6 +78,8 @@ function applyMilestoneUpdate(
 
 /**
  * List active care plan templates.
+ *
+ * @returns Templates sorted alphabetically by name
  */
 export async function listTemplates(): Promise<ICarePlanTemplateDocument[]> {
   return CarePlanTemplate.find({ isActive: true }).sort({ name: 1 });
@@ -75,6 +87,10 @@ export async function listTemplates(): Promise<ICarePlanTemplateDocument[]> {
 
 /**
  * Create a care plan template.
+ *
+ * @param data - Template name, condition, and section/milestone structure
+ * @param userId - ID of the user creating the template
+ * @returns The newly created template document
  */
 export async function createTemplate(
   data: {
@@ -119,6 +135,9 @@ export async function createTemplate(
 
 /**
  * Get care plans for the authenticated client.
+ *
+ * @param userId - Client's user ObjectId
+ * @returns Care plans and total count
  */
 export async function getMyCarePlans(
   userId: mongoose.Types.ObjectId
@@ -129,6 +148,9 @@ export async function getMyCarePlans(
 
 /**
  * Get care plans for a specific client (provider/admin view).
+ *
+ * @param clientUserId - Target client's user ID string
+ * @returns Care plans and total count
  */
 export async function getCarePlansByClient(
   clientUserId: string
@@ -140,6 +162,9 @@ export async function getCarePlansByClient(
 /**
  * Create a care plan, optionally from a template.
  *
+ * @param data - Plan details including optional templateId
+ * @param providerId - Provider's ObjectId assigned as plan owner
+ * @returns The newly created care plan
  * @throws NotFoundError — template not found
  */
 export async function createCarePlan(
@@ -182,6 +207,11 @@ export async function createCarePlan(
 /**
  * Update a care plan.
  *
+ * @param carePlanId - Care plan ObjectId
+ * @param data - Fields to update
+ * @param userId - Authenticated user's ObjectId
+ * @param userRole - Caller's role for authorization
+ * @returns The updated care plan
  * @throws NotFoundError  — care plan not found
  * @throws ForbiddenError — caller is not the owner and not provider/admin
  */
@@ -209,6 +239,12 @@ export async function updateCarePlan(
 /**
  * Update a milestone within a care plan.
  *
+ * @param carePlanId - Care plan ObjectId
+ * @param milestoneId - Milestone subdocument ID
+ * @param data - New status and optional notes
+ * @param userId - Authenticated user's ObjectId
+ * @param userRole - Caller's role for authorization
+ * @returns Updated care plan and recalculated progress percentage
  * @throws NotFoundError  — care plan or milestone not found
  * @throws ForbiddenError — caller not authorized
  */

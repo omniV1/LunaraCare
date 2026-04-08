@@ -1,3 +1,8 @@
+/**
+ * @module components/intake/intakeValidation
+ * Zod schemas for each intake wizard step, plus shared utility functions
+ * (CSV splitting, deep get/set, array toggle) used across step components.
+ */
 import { z } from 'zod';
 import type { IntakeData } from './intakeTypes';
 
@@ -91,6 +96,7 @@ export const schemas: Record<StepId, z.ZodTypeAny> = {
   }),
 };
 
+/** Splits a comma-separated string into a trimmed, non-empty array. */
 export function splitCsv(s: string): string[] {
   return s
     .split(',')
@@ -102,6 +108,7 @@ function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
+/** Safely retrieves a deeply nested value from an object using a dot-separated path. */
 export function get<T = unknown>(obj: unknown, path: string): T | undefined {
   const value = path.split('.').reduce<unknown>((acc, k) => {
     if (!isRecord(acc)) return undefined;
@@ -110,6 +117,7 @@ export function get<T = unknown>(obj: unknown, path: string): T | undefined {
   return value as T | undefined;
 }
 
+/** Immutably sets a value at a dot-separated path, creating intermediate objects as needed. */
 export function setPath<T extends object>(obj: T | undefined, path: string, value: unknown): T {
   const parts = path.split('.');
   const next = { ...(obj ?? ({} as T)) } as Record<string, unknown>;
@@ -124,6 +132,7 @@ export function setPath<T extends object>(obj: T | undefined, path: string, valu
   return next as unknown as T;
 }
 
+/** Toggles a string value in/out of an array at the given path in IntakeData. */
 export function toggleArrayValue(prev: IntakeData, path: string, value: string): IntakeData {
   const cur = get<unknown>(prev, path);
   const arr = Array.isArray(cur) ? (cur as unknown[]).filter((x): x is string => typeof x === 'string') : [];

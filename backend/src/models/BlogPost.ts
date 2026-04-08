@@ -1,6 +1,13 @@
+/**
+ * @module BlogPost
+ * Mongoose model for provider-authored blog content.
+ * Maps to the MongoDB `blogposts` collection.
+ * Supports draft/publish workflow, auto-generated slugs, estimated read time,
+ * full-text search across title/excerpt/content/tags, and view tracking.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-// Interface for the BlogPost document
+/** Blog post document including content, publishing state, and analytics. */
 export interface IBlogPost extends Document {
   title: string;
   slug: string;
@@ -19,10 +26,13 @@ export interface IBlogPost extends Document {
   updatedAt: Date;
 }
 
-// Interface for the blog post model
+/** Static query helpers on the BlogPost model. */
 export interface IBlogPostModel extends Model<IBlogPost> {
+  /** Return published posts with optional extra filters, sorted by publish date. */
   findPublished(filters?: Partial<Record<string, unknown>>): Promise<IBlogPost[]>;
+  /** Look up a single published post by its URL slug. */
   findBySlug(slug: string): Promise<IBlogPost | null>;
+  /** Atomically increment the view counter for a post. */
   incrementViewCount(id: string): Promise<void>;
 }
 
@@ -179,18 +189,21 @@ const blogPostSchema = new Schema<IBlogPost>(
   }
 );
 
-// Add a virtual id property to match other models
+/** @virtual id — hex-string alias for `_id`, consistent with other models. */
 blogPostSchema.virtual('id').get(function (this: { _id: mongoose.Types.ObjectId }) {
   return this._id ? this._id.toHexString() : undefined;
 });
 
-// Text index for search across multiple fields
+/** @index Full-text search across title, excerpt, content, and tags. */
 blogPostSchema.index({ title: 'text', excerpt: 'text', content: 'text', tags: 'text' });
 blogPostSchema.index({ category: 1, isPublished: 1 });
 blogPostSchema.index({ publishDate: -1 });
 blogPostSchema.index({ createdAt: -1 });
 
-// Pre-save middleware to generate slug from title
+/**
+ * Pre-save hook: auto-generates a URL slug from the title (if missing),
+ * updates `lastSaved`, and estimates read time (~200 wpm).
+ */
 blogPostSchema.pre<IBlogPost>('save', function (next) {
   if (this.isModified('title') && !this.slug) {
     this.slug = this.title

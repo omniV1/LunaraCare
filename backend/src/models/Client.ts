@@ -1,5 +1,14 @@
+/**
+ * @module Client
+ * Extended profile for users with the `client` role (postpartum mothers).
+ * Maps to the MongoDB `clients` collection.
+ * Stores intake/onboarding data, birth experience, feeding preferences,
+ * care-plan assignments, and computes postpartum week from baby's birth date.
+ * One-to-one with {@link User} via a unique `userId` reference.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** Comprehensive intake questionnaire data collected during onboarding. */
 export interface IClientProfile {
   // Personal Information
   partnerName?: string;
@@ -86,12 +95,14 @@ export interface IClientProfile {
   completedAt?: Date;
 }
 
+/** Embedded reference to a care plan assigned to this client. */
 export interface ICarePlan {
   planId: mongoose.Types.ObjectId;
   assignedDate: Date;
   status: 'active' | 'completed' | 'paused';
 }
 
+/** Boolean flags for each step in the client onboarding flow. */
 export interface IOnboardingSteps {
   profileCreated: boolean;
   intakeCompleted: boolean;
@@ -100,6 +111,7 @@ export interface IOnboardingSteps {
   careplanAssigned: boolean;
 }
 
+/** Computed onboarding progress returned by `getOnboardingProgress()`. */
 export interface IOnboardingProgress {
   percentage: number;
   completed: number;
@@ -107,6 +119,7 @@ export interface IOnboardingProgress {
   nextStep: string;
 }
 
+/** Client profile document with intake data, care plans, and onboarding state. */
 export interface IClientDocument extends Document {
   userId: mongoose.Types.ObjectId;
   birthDate?: Date;
@@ -131,8 +144,14 @@ export interface IClientDocument extends Document {
   getNextOnboardingStep(): string;
 }
 
+/** Static helpers on the Client model. */
 export interface IClientModel extends Model<IClientDocument> {
+  /** Return all clients assigned to a specific provider, with user details populated. */
   findByProvider(providerId: mongoose.Types.ObjectId): Promise<IClientDocument[]>;
+  /**
+   * Return clients requiring follow-up: incomplete intake after 3 days,
+   * no provider after intake, or no first contact after provider assignment.
+   */
   findNeedingAttention(): Promise<IClientDocument[]>;
 }
 
@@ -389,8 +408,10 @@ const clientSchema = new Schema<IClientDocument>(
   }
 );
 
-// Used by the recommendation engine to surface week-appropriate resources.
-// Math.abs handles both pre- and post-birth dates; Math.ceil ensures day 1 = week 1.
+/**
+ * @virtual currentPostpartumWeek — weeks since baby's birth date.
+ * Used by the recommendation engine to surface week-appropriate resources.
+ */
 clientSchema.virtual('currentPostpartumWeek').get(function (this: IClientDocument): number {
   if (!this.babyBirthDate) return 0;
 
@@ -401,7 +422,7 @@ clientSchema.virtual('currentPostpartumWeek').get(function (this: IClientDocumen
   return Math.floor(diffDays / 7);
 });
 
-// Virtual to check if client is in fourth trimester (first 12 weeks postpartum)
+/** @virtual isFourthTrimester — true during the first 12 weeks postpartum. */
 clientSchema.virtual('isFourthTrimester').get(function (this: IClientDocument): boolean {
   return this.currentPostpartumWeek <= 12;
 });
@@ -417,7 +438,10 @@ clientSchema.virtual('estimatedDueDate').get(function (this: IClientDocument): D
   return null;
 });
 
-// Pre-save middleware to update postpartum week
+/**
+ * Pre-save hook: syncs `postpartumWeek` from the virtual, and marks
+ * onboarding steps (intakeCompleted, providerAssigned) when conditions are met.
+ */
 clientSchema.pre<IClientDocument>('save', function (next) {
   if (this.babyBirthDate) {
     this.postpartumWeek = this.currentPostpartumWeek;

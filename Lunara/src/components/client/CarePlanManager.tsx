@@ -1,3 +1,8 @@
+/**
+ * @module components/client/CarePlanManager
+ * Full-screen overlay for viewing, creating, and editing care plans.
+ * Used by both providers (CRUD) and clients (read-only own plans).
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../api/apiClient';
@@ -32,6 +37,7 @@ function unwrapCarePlan(res: unknown): CarePlan {
   return res as CarePlan;
 }
 
+/** Full-screen care plan manager with create, expand, edit, and status-update flows. */
 export const CarePlanManager: React.FC<CarePlanManagerProps> = ({
   clientId: _clientId,
   clientUserId,

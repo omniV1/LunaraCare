@@ -1,5 +1,11 @@
+/**
+ * @module components/blog/BlogFeaturedImage
+ * Featured-image picker for blog posts — handles upload input, preview
+ * thumbnail with remove button, and an uploading spinner.
+ */
 import React from 'react';
 
+/** Props for the featured-image upload/preview section. */
 export interface BlogFeaturedImageProps {
   featuredImage: string;
   imageUploading: boolean;
@@ -7,6 +13,7 @@ export interface BlogFeaturedImageProps {
   onImageRemove: () => void;
 }
 
+/** Renders the featured image file input, preview, and upload progress. */
 export const BlogFeaturedImage: React.FC<BlogFeaturedImageProps> = ({
   featuredImage,
   imageUploading,

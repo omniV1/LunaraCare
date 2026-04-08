@@ -1,3 +1,8 @@
+/**
+ * @module components/client/ClientCalendarGrid
+ * Monthly calendar grid for the client appointments view. Renders day
+ * cells with appointment status dots and available-slot counts.
+ */
 import React, { useMemo } from 'react';
 import type { Appointment, Slot } from './appointmentTypes';
 import { WEEKDAYS, STATUS_COLORS, STATUS_LABELS, dateKey, isSameDay } from './appointmentTypes';
@@ -11,6 +16,7 @@ interface ClientCalendarGridProps {
   onSelectDate: (date: Date) => void;
 }
 
+/** Grid of day cells for the given month with appointment dots and slot indicators. */
 export const ClientCalendarGrid: React.FC<ClientCalendarGridProps> = React.memo(({
   year,
   month,

@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/DashboardStatsSection
+ * Top bar of the provider overview showing active-client and pending-inquiry
+ * counts as pill badges, plus a notification bell.
+ */
 import React from 'react';
 import { DashboardStatSkeleton } from '../../ui/Skeleton';
 import type { DashboardStats } from '../../../pages/providerDashboardUtils';
@@ -9,6 +14,7 @@ interface DashboardStatsSectionProps {
   onNavigate: (tab: string) => void;
 }
 
+/** Dashboard stat pills and notification bell rendered at the top of the overview. */
 export const DashboardStatsSection: React.FC<DashboardStatsSectionProps> = ({
   stats,
   statsLoading,

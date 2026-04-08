@@ -1,3 +1,8 @@
+/**
+ * @module routes/files
+ * File upload, download, metadata, and deletion via GridFS.
+ * Mounted at `/api/files`.
+ */
 import express, { Response } from 'express';
 
 import multer from 'multer';
@@ -6,6 +11,7 @@ import { AuthenticatedRequest } from '../types';
 import logger from '../utils/logger';
 import * as fileService from '../services/fileService';
 
+/** Express router exposing file upload and retrieval endpoints. */
 const router = express.Router();
 
 

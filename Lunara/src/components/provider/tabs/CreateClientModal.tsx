@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/CreateClientModal
+ * Modal dialog for creating a new client account with optional
+ * auto-generated password, used from the provider overview quick actions.
+ */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import type { ClientFormData } from '../../../pages/providerDashboardUtils';
@@ -51,6 +56,7 @@ const generateTempPassword = (): string => {
   return chars.join('');
 };
 
+/** Modal form for registering a new client with auto-generated or manual password. */
 export const CreateClientModal: React.FC<CreateClientModalProps> = ({
   userId,
   registerClient,

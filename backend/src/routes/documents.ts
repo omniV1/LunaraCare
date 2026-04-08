@@ -1,3 +1,8 @@
+/**
+ * @module routes/documents
+ * Client document CRUD, submission workflow, provider review, and bulk upload.
+ * Mounted at `/api/documents`.
+ */
 import express, { Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -12,6 +17,7 @@ import { APIError } from '../utils/errors';
 const requireProviderOrAdmin = requireRole(['provider', 'admin']);
 const requireProvider = requireRole(['provider']);
 
+/** Express router exposing document management and review endpoints. */
 const router = express.Router();
 
 /**

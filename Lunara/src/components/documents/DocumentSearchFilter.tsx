@@ -1,6 +1,12 @@
+/**
+ * @module components/documents/DocumentSearchFilter
+ * Reusable search bar and filter controls (type, status, date range)
+ * for filtering document lists on both client and provider views.
+ */
 import React from 'react';
 import { DocumentFilters } from '../../services/documentService';
 
+/** Props for the document search and filter toolbar. */
 export interface DocumentSearchFilterProps {
   searchQuery: string;
   onSearchQueryChange: (query: string) => void;
@@ -10,6 +16,7 @@ export interface DocumentSearchFilterProps {
   onClearFilters: () => void;
 }
 
+/** Renders search input and filter dropdowns for document type, status, and date. */
 export const DocumentSearchFilter: React.FC<DocumentSearchFilterProps> = ({
   searchQuery,
   onSearchQueryChange,

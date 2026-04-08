@@ -1,5 +1,13 @@
+/**
+ * @module Message
+ * Real-time messaging between clients and providers.
+ * Maps to the MongoDB `messages` collection.
+ * Supports text, image, file, and system message types.
+ * Only `createdAt` is tracked (no `updatedAt`) — messages are immutable once sent.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** A single message within a conversation thread. */
 export interface IMessageDocument extends Document {
   conversationId: mongoose.Types.ObjectId;
   sender: mongoose.Types.ObjectId;
@@ -11,7 +19,9 @@ export interface IMessageDocument extends Document {
   createdAt: Date;
 }
 
+/** Static helpers on the Message model. */
 export interface IMessageModel extends Model<IMessageDocument> {
+  /** Return all messages in a conversation, sorted chronologically. */
   findConversation(conversationId: mongoose.Types.ObjectId): Promise<IMessageDocument[]>;
 }
 
@@ -88,7 +98,9 @@ const messageSchema = new Schema<IMessageDocument>(
   }
 );
 
+/** @index conversationId + createdAt — paginated conversation loading. */
 messageSchema.index({ conversationId: 1, createdAt: 1 });
+/** @index receiver + read + createdAt — unread-message badge counts. */
 messageSchema.index({ receiver: 1, read: 1, createdAt: -1 });
 
 messageSchema.static('findConversation', function (conversationId: mongoose.Types.ObjectId) {

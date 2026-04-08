@@ -1,6 +1,12 @@
+/**
+ * @module components/client/ClientDashboardLayout
+ * Responsive shell for the client dashboard with sidebar navigation,
+ * mobile drawer, and logout. Wraps all client-facing tab content.
+ */
 import { useState, useEffect, useRef, type FC, type ReactNode } from 'react';
 import { useAuth } from '../../contexts/useAuth';
 
+/** Single navigation entry rendered in the sidebar/drawer. */
 export interface NavItem {
   id: string;
   label: string;
@@ -15,6 +21,7 @@ interface ClientDashboardLayoutProps {
   children: ReactNode;
 }
 
+/** Responsive dashboard shell with desktop sidebar and mobile drawer navigation. */
 export const ClientDashboardLayout: FC<ClientDashboardLayoutProps> = ({
   navItems,
   activeTab,

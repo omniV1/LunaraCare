@@ -1,3 +1,8 @@
+/**
+ * @module routes/pushNotifications
+ * Web push notification subscription management and VAPID key distribution.
+ * Mounted at `/api/push`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 import passport from 'passport';
@@ -11,6 +16,7 @@ function uid(req: AuthenticatedRequest): mongoose.Types.ObjectId {
   return req.user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing push notification subscription endpoints. */
 const router: Router = express.Router();
 const authenticate = passport.authenticate('jwt', { session: false });
 

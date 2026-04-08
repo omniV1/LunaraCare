@@ -1,3 +1,10 @@
+/**
+ * @module ResourceContext
+ * Provides centralised resource and category state to the component tree.
+ * Auto-loads data when the user is authenticated and exposes CRUD + filtering
+ * operations via the {@link useResource} hook.
+ */
+
 import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -13,10 +20,16 @@ import { useAuth } from './useAuth';
 import { useResourceOperations } from '../hooks/useResourceOperations';
 import { useCategoryOperations } from '../hooks/useCategoryOperations';
 
+/**
+ * Type guard narrowing an unknown value to a plain object.
+ * @param v - Value to test.
+ * @returns `true` when `v` is a non-null, non-array object.
+ */
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
+/** Shape of the value exposed by {@link ResourceContext}. */
 export interface ResourceContextType {
   resources: Resource[];
   categories: Category[];
@@ -51,6 +64,11 @@ export interface ResourceContextType {
 // eslint-disable-next-line react-refresh/only-export-components -- context + provider module
 export const ResourceContext = createContext<ResourceContextType | undefined>(undefined);
 
+/**
+ * Context provider that composes resource and category hooks, handles errors,
+ * and auto-fetches initial data when the user becomes authenticated.
+ * @param props.children - Components that consume resource state via {@link useResource}.
+ */
 export const ResourceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
   const [error, setError] = useState<string | null>(null);

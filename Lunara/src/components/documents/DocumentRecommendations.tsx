@@ -1,3 +1,8 @@
+/**
+ * @module components/documents/DocumentRecommendations
+ * Alternate implementation of the document recommendations panel that
+ * renders intake-aware suggestion cards with inline template creation.
+ */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { documentService } from '../../services/documentService';
@@ -28,6 +33,7 @@ type IntakeLike = Partial<{
   allergies: string[];
 }>;
 
+/** Builds a human-readable intake summary string relevant to the given document type. */
 function intakeSummaryForType(intake: IntakeLike | null, type: string): string {
   if (!intake) return '';
   const parts: string[] = [];
@@ -54,6 +60,7 @@ function intakeSummaryForType(intake: IntakeLike | null, type: string): string {
   return parts.length ? parts.join(' | ') : '';
 }
 
+/** Props for the inline document recommendations panel. */
 interface DocumentRecommendationsPanelProps {
   recommendations: RecommendationsType;
   isClient: boolean;
@@ -62,6 +69,7 @@ interface DocumentRecommendationsPanelProps {
   onRecommendationsUpdated: (recs: RecommendationsType) => void;
 }
 
+/** Renders postpartum-week document suggestions with one-click template creation. */
 export const DocumentRecommendationsPanel: React.FC<DocumentRecommendationsPanelProps> = ({
   recommendations,
   isClient,

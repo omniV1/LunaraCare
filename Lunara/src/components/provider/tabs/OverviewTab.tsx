@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/OverviewTab
+ * Provider dashboard overview assembling stats, check-in alerts, quick
+ * actions, upcoming appointments, to-do list, message center, and activity feed.
+ */
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { ApiClient } from '../../../api/apiClient';
@@ -39,6 +44,7 @@ interface OverviewTabProps {
   onPendingAppointmentRequestsChange?: (count: number) => void;
 }
 
+/** Main overview tab composing stats, check-in review, quick actions, and activity. */
 export const OverviewTab: React.FC<OverviewTabProps> = ({
   user,
   isProvider,

@@ -1,3 +1,8 @@
+/**
+ * @module components/documents/ClientDocumentEdit
+ * Modal form for clients to edit draft documents — update title, notes,
+ * add/remove file attachments, and save changes.
+ */
 import React, { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -7,6 +12,7 @@ import {
 } from '../../services/documentService';
 import { DocumentUploadField } from './DocumentUploadField';
 
+/** Props for the client document edit modal. */
 interface ClientDocumentEditProps {
   document: ClientDocument;
   onClose: () => void;
@@ -16,6 +22,7 @@ interface ClientDocumentEditProps {
 const ACCEPTED_TYPES = '.pdf,.doc,.docx,.txt,.jpg,.jpeg,.png';
 const MAX_FILE_MB = 10;
 
+/** Renders the document-edit modal with title, notes, and file management. */
 export const ClientDocumentEdit: React.FC<ClientDocumentEditProps> = ({
   document,
   onClose,

@@ -1,3 +1,8 @@
+/**
+ * @module components/resource/ResourceViewModal
+ * Modal overlay for viewing a single resource's content, metadata, and download link.
+ * Tracks view/download interactions for the recommendation engine.
+ */
 import React, { useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { Resource } from '../../services/resourceService';
@@ -16,6 +21,7 @@ function decodeHtmlEntities(html: string): string {
   return div.innerHTML;
 }
 
+/** Props for {@link ResourceViewModal}. */
 interface ResourceViewModalProps {
   resource: Resource | null;
   onClose: () => void;

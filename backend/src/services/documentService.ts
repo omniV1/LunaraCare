@@ -1,3 +1,11 @@
+/**
+ * @module services/documentService
+ * Client document lifecycle: upload, versioning, submission to provider,
+ * provider review with feedback, and bulk assignment. Manages file
+ * attachments through GridFS and sends real-time Socket.io + in-app
+ * notifications on submit/review events.
+ */
+
 import mongoose from 'mongoose';
 import type { Server } from 'socket.io';
 import ClientDocument, { IClientDocument, IFileAttachment } from '../models/ClientDocument';
@@ -15,6 +23,7 @@ const getIO = () => (globalThis as unknown as { io?: Server }).io;
 
 // ── Input / Result types ─────────────────────────────────────────────────────
 
+/** Query parameters for filtering and paginating client documents. */
 export interface DocumentListQuery {
   documentType?: string;
   submissionStatus?: string;
@@ -26,6 +35,7 @@ export interface DocumentListQuery {
   page?: string | number;
 }
 
+/** Paginated list of client documents with metadata. */
 export interface DocumentListResult {
   documents: IClientDocument[];
   pagination: {
@@ -36,6 +46,7 @@ export interface DocumentListResult {
   };
 }
 
+/** Fields for creating a new client document. */
 export interface CreateDocumentInput {
   title: string;
   documentType: string;
@@ -47,6 +58,7 @@ export interface CreateDocumentInput {
   notes?: string;
 }
 
+/** Mutable fields when updating a client document. */
 export interface UpdateDocumentInput {
   title?: string;
   notes?: string;
@@ -54,12 +66,14 @@ export interface UpdateDocumentInput {
   files?: unknown;
 }
 
+/** Fields a provider submits when reviewing a document. */
 export interface ReviewDocumentInput {
   providerNotes?: string;
   providerFeedback?: string;
   status?: string;
 }
 
+/** Single item in a bulk document assignment request. */
 export interface BulkDocumentItem {
   title: string;
   documentType: string;
@@ -219,6 +233,10 @@ async function deleteStoredFiles(document: IClientDocument): Promise<void> {
 
 /**
  * List documents with role-based filtering, pagination, and search.
+ *
+ * @param query - Filters, search, and pagination parameters
+ * @param user - Authenticated user (determines visibility scope)
+ * @returns Paginated document list
  */
 export async function listDocuments(
   query: DocumentListQuery,
@@ -311,6 +329,9 @@ export async function listDocuments(
 /**
  * Create a new client document.
  *
+ * @param data - Document metadata and file attachments
+ * @param user - Authenticated uploader
+ * @returns The created document with populated references
  * @throws BadRequestError -- invalid files payload
  */
 export async function createDocument(
@@ -355,6 +376,9 @@ export async function createDocument(
 /**
  * Get a document by ID with permission check.
  *
+ * @param id - Document ObjectId
+ * @param user - Authenticated caller
+ * @returns The document with populated references
  * @throws NotFoundError -- document not found
  * @throws ForbiddenError -- access denied
  */
@@ -384,6 +408,10 @@ export async function getDocumentById(
 /**
  * Update a document.
  *
+ * @param id - Document ObjectId
+ * @param data - Fields to update
+ * @param user - Authenticated caller (must be uploader)
+ * @returns Updated document
  * @throws NotFoundError -- document not found
  * @throws ForbiddenError -- access denied
  * @throws BadRequestError -- invalid files payload
@@ -423,6 +451,8 @@ export async function updateDocument(
 /**
  * Delete a document and its stored files.
  *
+ * @param id - Document ObjectId
+ * @param user - Authenticated caller
  * @throws NotFoundError -- document not found
  * @throws ForbiddenError -- access denied
  */
@@ -450,6 +480,9 @@ export async function deleteDocument(
 /**
  * Submit a document to the provider for review.
  *
+ * @param id - Document ObjectId
+ * @param user - Authenticated uploader
+ * @returns Confirmation message and updated document
  * @throws NotFoundError -- document not found
  * @throws ForbiddenError -- only the uploader can submit
  */
@@ -540,6 +573,10 @@ export async function submitDocument(
 /**
  * Review a document (provider/admin).
  *
+ * @param id - Document ObjectId
+ * @param data - Review notes, feedback, and new status
+ * @param user - Authenticated reviewer
+ * @returns Confirmation message and updated document
  * @throws NotFoundError -- document not found
  * @throws ForbiddenError -- not authorized to review
  */
@@ -634,6 +671,10 @@ export async function reviewDocument(
 
 /**
  * Bulk create document assignments (provider only).
+ *
+ * @param documents - Array of document items to create
+ * @param providerId - Provider's ObjectId (fallback for assignedProvider)
+ * @returns Array of created document records
  */
 export async function bulkCreateDocuments(
   documents: BulkDocumentItem[],

@@ -1,4 +1,8 @@
-// Site-wide header with responsive navigation and animated hamburger menu.
+/**
+ * @module components/layout/SimpleHeader
+ * Site-wide header with responsive navigation and animated hamburger menu.
+ * Shows Blog link plus Login/Dashboard based on auth state.
+ */
 import { useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/useAuth';
@@ -6,6 +10,7 @@ import { useAuth } from '../../contexts/useAuth';
 /** Primary navigation links rendered in both desktop and mobile menus. */
 const NAV_LINKS = [{ to: '/blog', label: 'Blog' }];
 
+/** Renders the site header with desktop nav, mobile hamburger menu, and auth link. */
 export const SimpleHeader: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, user, getDashboardRoute } = useAuth();

@@ -1,3 +1,11 @@
+/**
+ * @module services/recommendationService
+ * Personalised resource and document-template recommendations for clients.
+ * Uses the client's postpartum week and document submission history to
+ * suggest relevant resources and fourth-trimester document templates
+ * at the right stage of recovery.
+ */
+
 import mongoose from 'mongoose';
 import Resources from '../models/Resources';
 import Client from '../models/Client';
@@ -8,6 +16,7 @@ import logger from '../utils/logger';
 
 // ── Result types ─────────────────────────────────────────────────────────────
 
+/** Personalised resource list with postpartum-week context. */
 export interface ResourceRecommendationResult {
   resources: Record<string, unknown>[];
   postpartumWeek: number;
@@ -23,6 +32,7 @@ type Suggestion = {
   reason: string;
 };
 
+/** Document-template suggestions based on client progress. */
 export interface DocumentRecommendationResult {
   suggestions: Suggestion[];
   postpartumWeek: number;
@@ -147,6 +157,9 @@ const createWeekBasedSuggestions = (
 /**
  * Get personalized resource recommendations for a client.
  *
+ * @param userId - Client's user ObjectId
+ * @param userRole - Caller's role (must be "client")
+ * @returns Recommended resources and postpartum context
  * @throws ForbiddenError — caller is not a client
  * @throws NotFoundError  — client profile not found
  */
@@ -236,6 +249,9 @@ export async function getResourceRecommendations(
 /**
  * Get document template suggestions based on client progress.
  *
+ * @param userId - Client's user ObjectId
+ * @param userRole - Caller's role (must be "client")
+ * @returns Prioritised suggestions and already-submitted document types
  * @throws ForbiddenError — caller is not a client
  * @throws NotFoundError  — client profile not found
  */

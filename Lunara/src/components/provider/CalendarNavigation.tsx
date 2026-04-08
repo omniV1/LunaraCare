@@ -1,5 +1,11 @@
+/**
+ * @module components/provider/CalendarNavigation
+ * Month navigation bar with prev/next arrows and a "Today" shortcut
+ * used above the provider calendar grid.
+ */
 import React from 'react';
 
+/** Props for the calendar month navigation bar. */
 export interface CalendarNavigationProps {
   monthLabel: string;
   onPrevMonth: () => void;
@@ -7,6 +13,7 @@ export interface CalendarNavigationProps {
   onGoToToday: () => void;
 }
 
+/** Prev/next month buttons with centered label and a "Today" jump button. */
 export const CalendarNavigation: React.FC<CalendarNavigationProps> = ({
   monthLabel,
   onPrevMonth,

@@ -1,3 +1,10 @@
+/**
+ * @module services/pushSubscriptionService
+ * Manages Web Push subscription registration and removal. Stores
+ * VAPID push subscriptions per user in MongoDB so notifications can
+ * be delivered via {@link module:services/pushNotificationService}.
+ */
+
 import mongoose from 'mongoose';
 import PushSubscription from '../models/PushSubscription';
 import { BadRequestError, NotFoundError } from '../utils/errors';
@@ -5,6 +12,7 @@ import logger from '../utils/logger';
 
 // ── Input types ──────────────────────────────────────────────────────────────
 
+/** Fields for registering a push subscription. */
 export interface SubscribeInput {
   endpoint: string;
   keys: {
@@ -18,6 +26,9 @@ export interface SubscribeInput {
 /**
  * Save or update a push subscription for a user.
  *
+ * @param userId - User's ObjectId
+ * @param data - Push subscription endpoint and keys
+ * @returns Whether the subscription was created or updated
  * @throws BadRequestError — missing required fields
  */
 export async function subscribe(
@@ -49,6 +60,8 @@ export async function subscribe(
 /**
  * Remove a push subscription.
  *
+ * @param userId - User's ObjectId
+ * @param endpoint - Push subscription endpoint URL to remove
  * @throws BadRequestError — missing endpoint
  * @throws NotFoundError   — subscription not found
  */

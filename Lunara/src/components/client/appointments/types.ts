@@ -1,5 +1,10 @@
-// Shared types and helpers for the ClientAppointments feature
+/**
+ * @module components/client/appointments/types
+ * Shared TypeScript types, status color maps, and date/time helpers
+ * for the refactored client appointments feature.
+ */
 
+/** Provider availability time slot. */
 export interface Slot {
   _id: string;
   date: string;
@@ -8,6 +13,7 @@ export interface Slot {
   isBooked: boolean;
 }
 
+/** A scheduled or requested appointment between client and provider. */
 export interface Appointment {
   _id: string;
   startTime: string;

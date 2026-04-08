@@ -1,8 +1,18 @@
+/**
+ * @module ForgotPasswordPage
+ * Password-reset request page. Collects the user's email and triggers
+ * a reset-link email via the backend auth API.
+ */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SimpleFooter } from '../components/layout/SimpleFooter';
 import { getBaseApiUrl } from '../utils/getBaseApiUrl';
 
+/**
+ * Forgot-password page rendered at `/forgot-password`.
+ * Displays an email input form and sends a password-reset link on submit.
+ * @returns The forgot-password form or a success confirmation message.
+ */
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);

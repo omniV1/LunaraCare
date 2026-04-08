@@ -1,3 +1,8 @@
+/**
+ * @module routes/appointments
+ * Appointment scheduling, booking workflow, and availability management.
+ * Mounted at `/api/appointments`.
+ */
 import express, { Router, Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -30,6 +35,7 @@ function userId(req: AuthenticatedRequest): mongoose.Types.ObjectId {
   return req.user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing appointment CRUD, calendar, and booking endpoints. */
 const router: Router = express.Router();
 
 

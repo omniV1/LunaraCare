@@ -1,5 +1,14 @@
+/**
+ * @module CheckIn
+ * Daily wellness check-in submitted by postpartum clients.
+ * Maps to the MongoDB `checkins` collection.
+ * Records mood score (1-10), physical symptoms from a fixed vocabulary,
+ * and optional free-text notes. A unique compound index on userId + date
+ * enforces one check-in per client per day.
+ */
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+/** Allowed physical symptom values for check-in forms. */
 export const PHYSICAL_SYMPTOMS = [
   'fatigue',
   'sleep_issues',
@@ -13,8 +22,10 @@ export const PHYSICAL_SYMPTOMS = [
   'bleeding',
 ] as const;
 
+/** Union type derived from the PHYSICAL_SYMPTOMS tuple. */
 export type PhysicalSymptom = (typeof PHYSICAL_SYMPTOMS)[number];
 
+/** A single daily check-in record for a client. */
 export interface ICheckInDocument extends Document {
   userId: mongoose.Types.ObjectId;
   date: Date;
@@ -27,7 +38,13 @@ export interface ICheckInDocument extends Document {
   updatedAt: Date;
 }
 
+/** Static helpers on the CheckIn model. */
 export interface ICheckInModel extends Model<ICheckInDocument> {
+  /**
+   * Return recent check-ins for a user, newest first.
+   * @param userId - The client's ObjectId.
+   * @param limit - Maximum results (default 30).
+   */
   findByUser(
     userId: mongoose.Types.ObjectId,
     limit?: number
@@ -113,6 +130,7 @@ checkInSchema.statics.findByUser = function (
   return this.find({ userId }).sort({ date: -1 }).limit(limit).exec();
 };
 
+/** @index Unique compound index — enforces one check-in per user per day. */
 checkInSchema.index({ userId: 1, date: -1 }, { unique: true });
 
 const CheckIn = mongoose.model<ICheckInDocument, ICheckInModel>(

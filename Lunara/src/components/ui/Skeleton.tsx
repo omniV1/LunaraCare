@@ -1,5 +1,13 @@
+/**
+ * @module components/ui/Skeleton
+ * Shimmer/pulse placeholder components shown while data loads.
+ * Provides shape variants (text, circular, rectangular, rounded) and
+ * pre-composed skeletons for cards, tables, dashboards, lists, blog posts,
+ * resource cards, forms, and full pages.
+ */
 import React from 'react';
 
+/** Props for the base {@link Skeleton} placeholder. */
 interface SkeletonProps {
   className?: string;
   variant?: 'text' | 'circular' | 'rectangular' | 'rounded';

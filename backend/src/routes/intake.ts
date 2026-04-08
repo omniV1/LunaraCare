@@ -1,3 +1,8 @@
+/**
+ * @module routes/intake
+ * Client intake form retrieval, creation, and section-level updates.
+ * Mounted at `/api/intake`.
+ */
 import express, { Router, Response } from 'express';
 
 import { body, param, validationResult } from 'express-validator';
@@ -6,6 +11,7 @@ import { handleValidationErrors, authenticate } from '../middleware';
 import logger from '../utils/logger';
 import * as intakeService from '../services/intakeService';
 
+/** Express router exposing intake form endpoints. */
 const router: Router = express.Router();
 
 /**

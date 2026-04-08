@@ -1,12 +1,19 @@
+/**
+ * @module components/intake/HealthStep
+ * Intake wizard step for health information — medications, allergies,
+ * medical history, mental health, and postpartum mood concerns.
+ */
 import React from 'react';
 import type { IntakeData } from './intakeTypes';
 import { splitCsv } from './intakeValidation';
 
+/** Props for the standalone HealthStep component. */
 export interface HealthStepProps {
   data: IntakeData;
   onUpdate: (path: string, value: unknown) => void;
 }
 
+/** Renders the health information intake step. */
 export const HealthStep: React.FC<HealthStepProps> = ({ data, onUpdate }) => (
   <div className="space-y-5">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

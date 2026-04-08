@@ -1,13 +1,20 @@
+/**
+ * @module components/intake/SupportStep
+ * Intake wizard step for support needs — checkboxes for common postpartum
+ * support areas, goals, concerns, expectations, and prior doula experience.
+ */
 import React from 'react';
 import { SUPPORT_OPTIONS, type IntakeData } from './intakeTypes';
 import { splitCsv, toggleArrayValue } from './intakeValidation';
 
+/** Props for the standalone SupportStep component. */
 export interface SupportStepProps {
   data: IntakeData;
   onUpdate: (path: string, value: unknown) => void;
   onSetData: React.Dispatch<React.SetStateAction<IntakeData>>;
 }
 
+/** Renders the support needs intake step with checkboxes and free-text fields. */
 export const SupportStep: React.FC<SupportStepProps> = ({ data, onUpdate, onSetData }) => (
   <div className="space-y-5">
     <div>

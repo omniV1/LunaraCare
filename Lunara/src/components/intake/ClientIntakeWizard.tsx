@@ -1,3 +1,8 @@
+/**
+ * @module components/intake/ClientIntakeWizard
+ * Multi-step intake wizard with Zod validation, debounced autosave,
+ * step navigation, and final submission for postpartum client onboarding.
+ */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
@@ -108,10 +113,12 @@ const StepComponent: Record<StepId, React.FC<import('./intakeUtils').StepProps>>
   health: HealthStep,
 };
 
+/** Props for the multi-step intake wizard. */
 interface ClientIntakeWizardProps {
   onComplete?: () => void;
 }
 
+/** Renders the 5-step intake wizard with autosave, validation, and submit. */
 export const ClientIntakeWizard: React.FC<ClientIntakeWizardProps> = ({ onComplete }) => {
   const { user } = useAuth();
   const userId = user?.id;

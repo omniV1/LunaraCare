@@ -1,3 +1,10 @@
+/**
+ * @module services/adminService
+ * Administrative operations for managing provider accounts.
+ * Handles provider creation with User + Provider profile setup
+ * and triggers email verification on registration.
+ */
+
 import crypto from 'node:crypto';
 import User from '../models/User';
 import Provider from '../models/Provider';
@@ -7,6 +14,7 @@ import { ConflictError } from '../utils/errors';
 
 // ── Input / Result types ─────────────────────────────────────────────────────
 
+/** Fields required to create a new provider account. */
 export interface CreateProviderInput {
   firstName: string;
   lastName: string;
@@ -14,6 +22,7 @@ export interface CreateProviderInput {
   password: string;
 }
 
+/** Sanitised provider data returned after successful creation. */
 export interface CreateProviderResult {
   id: unknown;
   firstName: string;
@@ -29,6 +38,8 @@ export interface CreateProviderResult {
  * Create a new provider user, associated Provider profile, and send a
  * verification email.
  *
+ * @param data - Provider registration fields
+ * @returns Sanitised provider record (no password or tokens)
  * @throws ConflictError — user with this email already exists
  */
 export async function createProvider(

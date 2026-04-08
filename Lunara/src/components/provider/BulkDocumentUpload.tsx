@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/BulkDocumentUpload
+ * Expandable form that lets providers create multiple client document
+ * assignments at once by selecting client, type, and title per row.
+ */
 import React, { useState, useEffect } from 'react';
 import { ApiClient } from '../../api/apiClient';
 import { toast } from 'react-toastify';
@@ -45,6 +50,7 @@ function getClientInfo(c: ClientOption) {
   return { uid, name, email: u?.email ?? '' };
 }
 
+/** Multi-row form for bulk-creating document assignments across clients. */
 export const BulkDocumentUpload: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
   const [rows, setRows] = useState<DocRow[]>([emptyRow()]);
   const [clients, setClients] = useState<ClientOption[]>([]);

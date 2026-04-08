@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/tabs/UpcomingAppointmentsSection
+ * Card listing the provider's next scheduled appointments extracted
+ * from the recent-activity feed.
+ */
 import React from 'react';
 import type { ActivityItem } from '../../../pages/providerDashboardUtils';
 
@@ -6,6 +11,7 @@ interface UpcomingAppointmentsSectionProps {
   activityLoading: boolean;
 }
 
+/** Upcoming-appointments card filtered from recent activity items. */
 export const UpcomingAppointmentsSection: React.FC<UpcomingAppointmentsSectionProps> = ({
   recentActivity,
   activityLoading,

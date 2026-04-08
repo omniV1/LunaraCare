@@ -1,3 +1,8 @@
+/**
+ * @module routes/mfa
+ * Multi-factor authentication setup, confirmation, and disable endpoints.
+ * Mounted at `/api/auth/mfa`.
+ */
 import express, { Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -12,6 +17,7 @@ function uid(req: AuthenticatedRequest): mongoose.Types.ObjectId {
   return req.user!._id as mongoose.Types.ObjectId;
 }
 
+/** Express router exposing TOTP MFA lifecycle endpoints. */
 const router = express.Router();
 
 /**

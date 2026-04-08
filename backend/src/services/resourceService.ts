@@ -1,3 +1,11 @@
+/**
+ * @module services/resourceService
+ * Resource library CRUD, versioning, and client notifications.
+ * Manages educational resources with category resolution, full-text search,
+ * GridFS file storage for attachments, version history with rollback,
+ * and real-time Socket.io notifications on publish.
+ */
+
 import mongoose from 'mongoose';
 import Resources, { IResource } from '../models/Resources';
 import Category from '../models/Category';
@@ -34,6 +42,7 @@ const ALLOWED_UPDATE_FIELDS = [
 
 // ── Input / Result types ─────────────────────────────────────────────────────
 
+/** Query parameters for filtering and paginating resources. */
 export interface ResourceListQuery {
   category?: string;
   difficulty?: string;
@@ -47,6 +56,7 @@ export interface ResourceListQuery {
   page?: string | number;
 }
 
+/** Paginated resource list with category-resolved entries. */
 export interface ResourceListResult {
   resources: Record<string, unknown>[];
   pagination: {
@@ -57,6 +67,7 @@ export interface ResourceListResult {
   };
 }
 
+/** Fields for creating a new resource. */
 export interface CreateResourceInput {
   title: string;
   description: string;
@@ -72,6 +83,7 @@ export interface CreateResourceInput {
   [key: string]: unknown;
 }
 
+/** Mutable fields when updating a resource. */
 export interface UpdateResourceInput {
   title?: string;
   description?: string;
@@ -491,6 +503,9 @@ function formatChangedBy(
 /**
  * List resources with filtering, sorting, and pagination.
  *
+ * @param query - Filter, search, and pagination parameters
+ * @param userRole - Caller's role (providers see drafts too)
+ * @returns Paginated, category-resolved resource list
  * @throws APIError 500 — database failure
  */
 export async function listResources(
@@ -526,6 +541,8 @@ export async function listResources(
 /**
  * Get a single resource by its ID.
  *
+ * @param id - Resource ObjectId
+ * @returns Category-resolved resource
  * @throws APIError 404 — resource not found
  */
 export async function getResourceById(id: string): Promise<Record<string, unknown>> {
@@ -539,6 +556,9 @@ export async function getResourceById(id: string): Promise<Record<string, unknow
 /**
  * Create a new resource, snapshot a version, and notify clients if published.
  *
+ * @param data - Resource content and metadata
+ * @param user - Authenticated author
+ * @returns Success message and the created resource
  * @throws APIError 401 — no authenticated user
  */
 export async function createResource(
@@ -569,6 +589,10 @@ export async function createResource(
  * Update an existing resource: authorize, clean up replaced files, apply
  * publish-state changes, snapshot a version, and notify clients.
  *
+ * @param id - Resource ObjectId
+ * @param data - Fields to update
+ * @param user - Authenticated caller (must be author or admin)
+ * @returns Success message and the updated resource
  * @throws APIError 404 — resource not found
  * @throws APIError 403 — not the author or admin
  */
@@ -614,6 +638,9 @@ export async function updateResource(
 /**
  * Delete a resource: authorize, clean up files, and remove from DB.
  *
+ * @param id - Resource ObjectId
+ * @param user - Authenticated caller (must be author or admin)
+ * @returns Success message
  * @throws APIError 404 — resource not found
  * @throws APIError 403 — not the author or admin
  */
@@ -639,6 +666,8 @@ export async function deleteResource(
 /**
  * Get version history for a resource, with categories resolved.
  *
+ * @param resourceId - Resource ObjectId
+ * @returns All version snapshots sorted newest-first
  * @throws APIError 404 — resource not found
  */
 export async function getVersionHistory(
@@ -694,6 +723,10 @@ export async function getVersionHistory(
 /**
  * Restore a resource to a previous version snapshot.
  *
+ * @param resourceId - Resource ObjectId
+ * @param versionId - Version snapshot ObjectId to restore
+ * @param user - Authenticated caller
+ * @returns Success message and the restored resource
  * @throws APIError 404 — resource or version not found
  * @throws APIError 401 — no authenticated user
  */

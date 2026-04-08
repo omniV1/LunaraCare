@@ -1,3 +1,8 @@
+/**
+ * @module components/provider/ProviderClientCheckIns
+ * Modal overlay showing a selected client's recent check-in history,
+ * 30-day trend summary, and clinical alerts for the provider to review.
+ */
 import React, { useEffect, useState } from 'react';
 import { ApiClient } from '../../api/apiClient';
 import { toast } from 'react-toastify';
@@ -44,6 +49,7 @@ interface ProviderClientCheckInsProps {
   onClose: () => void;
 }
 
+/** Modal displaying a client's check-in history, mood trends, and alerts. */
 export const ProviderClientCheckIns: React.FC<ProviderClientCheckInsProps> = ({
   clientUserId,
   clientName,

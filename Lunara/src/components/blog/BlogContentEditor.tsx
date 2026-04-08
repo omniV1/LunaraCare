@@ -1,11 +1,18 @@
+/**
+ * @module components/blog/BlogContentEditor
+ * Wraps the RichTextEditor (Quill) for blog post body content,
+ * lazy-loaded by BlogEditor to keep the initial bundle small.
+ */
 import React from 'react';
 import { RichTextEditor } from '../ui/RichTextEditor';
 
+/** Props for the blog rich-text content editor. */
 export interface BlogContentEditorProps {
   content: string;
   onContentChange: (value: string) => void;
 }
 
+/** Renders the rich-text editor field for the blog post body. */
 export const BlogContentEditor: React.FC<BlogContentEditorProps> = ({
   content,
   onContentChange,

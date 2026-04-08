@@ -1,3 +1,8 @@
+/**
+ * @module routes/users
+ * User profile, password management, account deletion, and notification preferences.
+ * Mounted at `/api/users`.
+ */
 import express, { Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -8,6 +13,7 @@ import logger from '../utils/logger';
 import * as userService from '../services/userService';
 import { APIError } from '../utils/errors';
 
+/** Express router exposing user profile and account management endpoints. */
 const router = express.Router();
 
 /**
