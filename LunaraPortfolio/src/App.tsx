@@ -14,8 +14,10 @@ import {
   portfolioStats,
   posterBoardNotes,
   runSteps,
+  securityDetails,
   showcaseSections,
   teamLinks,
+  testingDetails,
 } from './siteContent';
 
 type EditorialLayout = {
@@ -283,6 +285,34 @@ function App() {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
+              </article>
+            ))}
+          </div>
+        </Section>
+
+        <Section
+          title="Security posture"
+          description="Authentication, transport security, rate limiting, and data safety are deliberate architecture decisions, not afterthoughts."
+        >
+          <div className="column-grid">
+            {securityDetails.map((item) => (
+              <article key={item.title} className="content-card">
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+        </Section>
+
+        <Section
+          title="Testing and quality assurance"
+          description="Every layer of the stack is covered by automated tests, and every merge is gated by CI checks and static analysis."
+        >
+          <div className="column-grid">
+            {testingDetails.map((item) => (
+              <article key={item.title} className="content-card">
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
               </article>
             ))}
           </div>
