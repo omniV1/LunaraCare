@@ -14,7 +14,6 @@ import {
   architectureLayers,
   artifactLinks,
   brandImages,
-  codeSamples,
   featureColumns,
   heroNarrative,
   highlights,
@@ -621,25 +620,6 @@ function App() {
                 <p key={i}>{paragraph}</p>
               ))}
             </article>
-          </div>
-        </Section>
-
-        <Section
-          title="Code excerpts"
-          description="Small implementation slices show how the product handles seeded access, guarded workflows, and realtime communication."
-        >
-          <div className="snippet-grid">
-            {codeSamples.map((sample) => (
-              <article key={sample.title} className="snippet-card">
-                <div className="snippet-header">
-                  <h3>{sample.title}</h3>
-                  <span>{sample.language}</span>
-                </div>
-                <pre>
-                  <code>{sample.snippet}</code>
-                </pre>
-              </article>
-            ))}
           </div>
         </Section>
 
