@@ -1,0 +1,686 @@
+% ============================================================
+% LUNARA Capstone Project — Milestone 6: Final Completion and Release
+% CST-452 Senior Capstone — Grand Canyon University
+% Author: Owen Lindsey
+% Compile: xelatex (requires MiKTeX with fontspec)
+% ============================================================
+\documentclass[12pt,letterpaper]{article}
+
+% ── Page Geometry ──
+\usepackage[letterpaper, top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+
+% ── Typography ──
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}[Scale=0.85]
+\usepackage{setspace}
+\onehalfspacing
+\raggedbottom
+\widowpenalty=10000
+\clubpenalty=10000
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+
+% ── Color & Graphics ──
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\definecolor{GCUNavy}{HTML}{2D3748}
+\definecolor{LunaraBlue}{HTML}{4A90D9}
+\definecolor{CodeBG}{HTML}{F7F8FA}
+\definecolor{TableHeader}{HTML}{2D3748}
+\definecolor{TableHeaderText}{HTML}{FFFFFF}
+\definecolor{TableRowAlt}{HTML}{F0F4F8}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+
+% ── Float placement tuning ──
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{8}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.7}
+
+% ── Tables ──
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{colortbl}
+\renewcommand{\arraystretch}{1.3}
+
+% ── Longtable page-break settings ──
+\setlength{\LTpre}{0.8em}
+\setlength{\LTpost}{0.8em}
+
+% ── Code Listings ──
+\usepackage{listings}
+\lstdefinelanguage{TypeScript}{
+  keywords={import, from, export, default, const, let, var, function, return, if, else, for, of, in, new, try, catch, async, await, class, extends, implements, interface, type, enum, as, typeof, instanceof, void, null, undefined, true, false, this, super, switch, case, break, continue, throw, while, do, with, yield, static, public, private, protected, readonly, abstract, get, set},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={string, number, boolean, any, never, unknown, Promise, Array, Record, Date, Document, Schema, Express, Request, Response, NextFunction},
+  ndkeywordstyle=\color{teal}\bfseries,
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{orange!80!black},
+  string=[b]',
+  morestring=[b]",
+  morestring=[b]`,
+}
+\lstset{
+  language=TypeScript,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{CodeBG},
+  frame=single,
+  framerule=0.5pt,
+  rulecolor=\color{gray!40},
+  breaklines=true,
+  breakatwhitespace=false,
+  showstringspaces=false,
+  tabsize=2,
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=8pt,
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em,
+  aboveskip=1em,
+  belowskip=1em,
+  captionpos=b,
+  float=htbp,
+  floatplacement=htbp,
+  escapeinside={(*@}{@*)},
+  literate={=>}{{\textcolor{blue}{=>}}}{2}
+           {===}{{\textcolor{blue}{===}}}{3}
+           {!==}{{\textcolor{blue}{!==}}}{3}
+           {??}{{\textcolor{blue}{??}}}{2},
+}
+
+% ── Hyperlinks ──
+\usepackage[colorlinks=true, linkcolor=GCUNavy, urlcolor=LunaraBlue, citecolor=GCUNavy, bookmarks=true, bookmarksnumbered=true]{hyperref}
+\urlstyle{same}
+
+% ── Headers & Footers ──
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\addtolength{\topmargin}{-2pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{GCUNavy}{\textsc{LUNARA Capstone Project}}}
+\fancyhead[R]{\small\textcolor{GCUNavy}{\textsc{Milestone 6 --- Release}}}
+\fancyfoot[L]{\small\textcolor{gray}{Grand Canyon University}}
+\fancyfoot[C]{\small\textcolor{gray}{CST-452}}
+\fancyfoot[R]{\small\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.2pt}
+
+% ── Section Formatting ──
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{GCUNavy}}{\thesection}{1em}{}[\vspace{0.3em}{\color{LunaraBlue!40}\rule{\textwidth}{0.75pt}}\vspace{0.2em}]
+\titleformat{\subsection}{\large\bfseries\color{GCUNavy}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{GCUNavy}}{\thesubsubsection}{1em}{}
+
+% ── Math ──
+\usepackage{amsmath}
+
+% ── Captions ──
+\usepackage{caption}
+\captionsetup{font=small, labelfont={bf,color=GCUNavy}, textfont={color=black}, skip=8pt}
+
+% ── Enumerate / Itemize ──
+\usepackage{enumitem}
+
+% ── Page-break helpers ──
+\usepackage{needspace}
+
+% ── Prevent orphaned headings ──
+\usepackage{etoolbox}
+\pretocmd{\section}{\needspace{4\baselineskip}}{}{}
+\pretocmd{\subsection}{\needspace{3\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\needspace{3\baselineskip}}{}{}
+\pretocmd{\paragraph}{\needspace{3\baselineskip}}{}{}
+
+% ── PDF Metadata ──
+\hypersetup{
+  pdftitle={LUNARA Postpartum Support Platform --- Milestone 6: Final Completion and Release},
+  pdfauthor={Owen Lindsey},
+  pdfsubject={CST-452 Senior Capstone --- Grand Canyon University},
+  pdfkeywords={capstone, postpartum, LUNARA, full-stack, React, Node.js, MongoDB, release, portfolio},
+}
+
+% ── Custom Commands ──
+\newcommand{\screenshotfig}[3]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\textwidth,height=0.42\textheight,keepaspectratio]{#1}
+    \caption{#2}
+    \label{fig:#3}
+  \end{figure}
+}
+
+\newcommand{\ghrepo}{https://github.com/omniV1/lunaraCare}
+
+% ============================================================
+\begin{document}
+
+% ── TITLE PAGE ──
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[GCUNavy] (current page.south west) rectangle (current page.north east);
+  \draw[LunaraBlue!60, line width=2pt] ([xshift=1.5in, yshift=-14.5cm]current page.north west) -- ([xshift=-1.5in, yshift=-14.5cm]current page.north east);
+\end{tikzpicture}
+
+\begin{center}
+\vspace*{2.5cm}
+
+{\color{white}\fontsize{32}{38}\selectfont\textbf{LUNARA}}
+
+\vspace{0.4cm}
+
+{\color{LunaraBlue!70}\fontsize{14}{18}\selectfont\textsc{Postpartum Support Platform}}
+
+\vspace{1.2cm}
+
+{\color{white}\Large Milestone 6: Final Project Completion and Presentation}
+
+\vspace{0.3cm}
+
+{\color{white!80}\large Release Phase --- Capstone Project Paper Packet}
+
+\vspace{3cm}
+
+{\color{white}\large\textbf{Owen Lindsey}}
+
+\vspace{0.15cm}
+
+{\color{white!80}\normalsize Development Lead}
+
+\vspace{2.5cm}
+
+{\color{white!90}\normalsize Grand Canyon University}
+
+{\color{white!90}\normalsize College of Science, Engineering and Technology}
+
+{\color{white!90}\normalsize CST-452: Senior Capstone Project II}
+
+{\color{white!90}\normalsize Professor Amr Elchouemi}
+
+\vspace{0.5cm}
+
+{\color{LunaraBlue}\normalsize April 8, 2026}
+
+\vspace{0.6cm}
+
+{\color{LunaraBlue!80}\normalsize \url{https://www.lunaracare.org}}
+
+\vspace{0.15cm}
+
+{\color{LunaraBlue!80}\normalsize Portfolio: \url{https://lunara-profile.design}}
+
+\vspace{0.15cm}
+
+{\color{LunaraBlue!80}\normalsize Repository: \url{https://github.com/omniV1/lunaraCare}}
+
+\end{center}
+
+\newpage
+
+% ── TABLE OF CONTENTS ──
+\thispagestyle{fancy}
+\tableofcontents
+\newpage
+
+% ============================================================
+% SECTION 1: OBJECTIVE
+% ============================================================
+\section{Objective}
+
+Milestone~6 completes the capstone lifecycle by packaging the implemented and tested system into a release-grade deliverable, validating that the application is ready for deployment and ongoing maintenance, and presenting outcomes in a professional, portfolio-ready format suitable for both academic evaluation and prospective employers. The deliverable includes the completed final project with fully commented source code, executable application, final project artifacts (Project Proposal, Requirements Document, Architecture Plan), presentation, showcase poster, functional demonstration, and a .README file with a link to the private Git repository.
+
+\newpage
+
+% ============================================================
+% SECTION 2: PROJECT REVIEW
+% ============================================================
+\section{Project Review}
+
+\subsection{Requirements Status Assessment}
+
+Each functional requirement from the original Project Requirements document was evaluated against the delivered implementation. For each requirement, the table below states whether it was adequately met and, if not, explains why.
+
+{\small
+\begin{longtable}{|>{\raggedright\arraybackslash}p{1cm}|>{\raggedright\arraybackslash}p{3.2cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|}
+\caption{Functional Requirements Status}\label{tab:fr-status}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{ID}} & \textcolor{TableHeaderText}{\textbf{Requirement}} & \textcolor{TableHeaderText}{\textbf{Status}} & \textcolor{TableHeaderText}{\textbf{Evidence}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Table~\ref{tab:fr-status} continued from previous page}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{ID}} & \textcolor{TableHeaderText}{\textbf{Requirement}} & \textcolor{TableHeaderText}{\textbf{Status}} & \textcolor{TableHeaderText}{\textbf{Evidence}} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\
+\endfoot
+\hline
+\endlastfoot
+
+FR1 & Public Website \& Marketing & \textbf{Met} & Landing page with hero, offerings accordion, inquiry form at \texttt{/}; public routes at \texttt{/api/public} \\
+\hline
+\rowcolor{TableRowAlt}
+FR2 & Secure User Authentication \& Registration & \textbf{Met} & JWT + Passport.js local/JWT strategies; register, login, email verify, password reset, token refresh, MFA (TOTP); 19 auth-related test cases passing \\
+\hline
+FR3 & User Dashboard \& Navigation & \textbf{Met} & Provider dashboard with 10 tabs; Client dashboard with 10 tabs; role-based routing via \texttt{ProtectedRoute} \\
+\hline
+\rowcolor{TableRowAlt}
+FR4 & Dynamic Intake \& Onboarding Forms & \textbf{Met} & Five-step wizard (personal, birth, feeding, support, health) with Zod validation, auto-save, section-level PATCH; \texttt{ClientIntakeWizard.tsx} + \texttt{/api/intake} \\
+\hline
+FR5 & Real-time Secure Messaging & \textbf{Met} & Socket.IO with JWT auth, user rooms, conversation rooms, delivery confirmation, rate limiting; \texttt{MessageCenter.tsx} + \texttt{/api/messages} \\
+\hline
+\rowcolor{TableRowAlt}
+FR6 & Appointment Scheduling \& Management & \textbf{Met} & CRUD endpoints, upcoming/request/confirm/cancel flows, reminder and notification services; \texttt{ProviderCalendar.tsx} + \texttt{/api/appointments} \\
+\hline
+FR7 & Personalized Resource Library & \textbf{Met} & Resource CRUD with versioning and categories, client browsable library with detail modal, resource interactions; \texttt{/api/resources} + \texttt{/api/categories} \\
+\hline
+\rowcolor{TableRowAlt}
+FR8 & Daily Check-ins \& Mood Tracking & \textbf{Met} & Mood 1--10, 10 physical symptoms, notes, share toggle; trend computation with improving/stable/declining classification; clinical alerts; \texttt{ClientCheckIns.tsx} + \texttt{/api/checkins} \\
+\hline
+FR9 & Doula Client Management Dashboard & \textbf{Met} & Client listing with assign/unassign, client creation, check-in review panel with severity alerts, quick actions, reports \\
+\hline
+\rowcolor{TableRowAlt}
+FR10 & Care Plan Template System & \textbf{Met} & Templates with sections and milestones, plan CRUD, auto-progress calculation via pre-save hook, milestone status tracking; \texttt{CarePlanManager.tsx} + \texttt{/api/care-plans} \\
+\hline
+FR11 & Blog Publishing Platform & \textbf{Met} & Rich text editor, draft/publish workflow, versioning, public blog list and detail pages; \texttt{BlogEditor.tsx} + \texttt{/api/blog} \\
+\hline
+\rowcolor{TableRowAlt}
+FR12 & Digital Journaling Platform & \textbf{Deferred} & Lower priority; deferred to post-launch roadmap per mentor/instructor approval \\
+\hline
+FR13 & New Mama Horoscope \& Daily Insights & \textbf{Deferred} & Lower priority; deferred to post-launch roadmap per mentor/instructor approval \\
+\hline
+\rowcolor{TableRowAlt}
+FR14 & Sleep \& Feeding Trackers & \textbf{Deferred} & Lower priority; deferred to post-launch roadmap per mentor/instructor approval \\
+\hline
+FR15 & AI-Powered Note Summarization & \textbf{Deferred} & Future-priority feature; deferred to post-launch AI integration phase \\
+\hline
+\end{longtable}
+}
+
+\subsection{Non-Functional Requirements Status}
+
+{\small
+\begin{longtable}{|>{\raggedright\arraybackslash}p{1cm}|>{\raggedright\arraybackslash}p{3.2cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|}
+\caption{Non-Functional Requirements Status}\label{tab:nfr-status}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{ID}} & \textcolor{TableHeaderText}{\textbf{Requirement}} & \textcolor{TableHeaderText}{\textbf{Status}} & \textcolor{TableHeaderText}{\textbf{Evidence}} \\
+\hline
+\endfirsthead
+\multicolumn{4}{l}{\small\itshape\color{gray} Table~\ref{tab:nfr-status} continued from previous page}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{ID}} & \textcolor{TableHeaderText}{\textbf{Requirement}} & \textcolor{TableHeaderText}{\textbf{Status}} & \textcolor{TableHeaderText}{\textbf{Evidence}} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\small\itshape\color{gray} Continued on next page}\\
+\endfoot
+\hline
+\endlastfoot
+
+NFR1 & Data Security \& Privacy & \textbf{Met} & bcrypt (12 rounds), JWT with refresh rotation, Helmet, CORS, rate limiting, input validation, SonarQube A security rating \\
+\hline
+\rowcolor{TableRowAlt}
+NFR2 & Mobile Responsiveness & \textbf{Partially Met} & Tailwind CSS responsive utilities applied; enhanced mobile optimization identified as maintenance-phase improvement \\
+\hline
+NFR3 & System Reliability \& Performance & \textbf{Met} & Compression, database indexing, connection pooling, SonarQube A reliability rating \\
+\hline
+\rowcolor{TableRowAlt}
+NFR4 & Real-time Communication & \textbf{Met} & Socket.IO with JWT auth, fallback handling, rate limiting, delivery confirmation \\
+\hline
+NFR5 & Scalability \& Growth & \textbf{Met} & MongoDB indexing strategy, connection pooling, stateless JWT auth, Docker support \\
+\hline
+\rowcolor{TableRowAlt}
+NFR6 & User Experience \& Accessibility & \textbf{Partially Met} & Intuitive navigation, consistent design patterns; full WCAG 2.1 AA audit identified as maintenance-phase improvement \\
+\hline
+NFR7 & Data Backup \& Recovery & \textbf{Met} & MongoDB Atlas automated backups, documented recovery procedures \\
+\hline
+\rowcolor{TableRowAlt}
+NFR8 & Integration Capability & \textbf{Met} & RESTful API design, email service (Nodemailer), push notification service, Swagger documentation \\
+\hline
+NFR9 & Content Management & \textbf{Met} & Resource and blog versioning, rich text editor, category management \\
+\hline
+\rowcolor{TableRowAlt}
+NFR10 & Monitoring \& Analytics & \textbf{Met} & Morgan logging, SonarQube analysis, provider reports dashboard \\
+\hline
+\end{longtable}
+}
+
+\subsection{Planned Improvements (Maintenance Phase)}
+
+\begin{itemize}[nosep]
+  \item Enhanced mobile responsiveness with dedicated mobile testing pass
+  \item Full WCAG 2.1 AA accessibility audit and remediation
+  \item Expanded analytics dashboards with client progress reporting
+  \item Integration with external calendar services (Google Calendar, iCal export)
+  \item Implementation of deferred features (FR12--FR15) per post-launch roadmap
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% SECTION 3: INTEGRATED APPLICATION DELIVERY
+% ============================================================
+\section{Integrated Application Delivery}
+
+The final release package represents a coherent full-stack product. The system comprises twenty backend route modules exposing 127 Express route handlers, nineteen Mongoose models, twenty-nine service modules, and ninety-seven React components organized into role-specific dashboards, domain feature modules, and shared UI primitives. All code is written in TypeScript for end-to-end type safety.
+
+A provider logging into LUNARA is greeted by a dashboard that aggregates client metrics, surfaces appointments and check-ins needing attention (flagged with info, warning, or critical severity based on the check-in trend service's alert thresholds), and provides one-click access to every operational tool: client management, calendar scheduling, real-time messaging, document review with structured feedback, resource authoring, blog publishing, care-plan construction with milestone tracking, and practice analytics.
+
+A client logging in enters a parallel but appropriately scoped experience: a guided five-step intake wizard that builds a comprehensive clinical profile validated by Zod schemas with auto-save, daily check-in recording with mood on a one-to-ten scale and ten physical symptom self-assessments, document uploads with privacy controls (client-only, client-and-provider, care-team) and a status workflow from draft through provider review to completion, the resource library, care-plan milestone tracking with auto-calculated progress, appointment management, and direct messaging with the assigned provider through Socket.IO real-time communication.
+
+Both experiences are secured by JWT authentication with optional multi-factor verification via TOTP, role-enforced route guards on the frontend (\texttt{ProtectedRoute} component with \texttt{allowedRoles} prop) and middleware-gated API endpoints on the backend (\texttt{passport.authenticate('jwt', \{ session: false \})}), and security hardening through Helmet, CORS, rate limiting, and express-validator input validation.
+
+\subsection{Architecture Layers}
+
+The system architecture is organized into five layers:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4cm}|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Layer}} & \textcolor{TableHeaderText}{\textbf{Responsibility}} & \textcolor{TableHeaderText}{\textbf{Key Technologies}} \\
+\hline
+Experience & User-facing components, routing, state management & React 18, TypeScript, Tailwind CSS 3 \\
+\hline
+\rowcolor{TableRowAlt}
+Application & REST API, request validation, business logic & Express, Passport.js, express-validator \\
+\hline
+Coordination & Real-time events, background jobs, notifications & Socket.IO, Nodemailer, Web Push \\
+\hline
+\rowcolor{TableRowAlt}
+Persistence & Data storage, file management, indexing & MongoDB 7, Mongoose, GridFS \\
+\hline
+Operations & CI/CD, containerization, static analysis & Docker, GitHub Actions, SonarQube \\
+\hline
+\end{tabularx}
+\caption{System architecture layers}
+\end{table}
+
+\newpage
+
+% ============================================================
+% SECTION 4: DOCUMENTATION COMPLETION
+% ============================================================
+\section{Documentation Completion}
+
+Project documentation was reviewed and updated to reflect the final state of the system:
+
+{\small
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{5cm}|}
+\caption{Documentation Inventory}\label{tab:docs}\\
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Document}} & \textcolor{TableHeaderText}{\textbf{Location}} & \textcolor{TableHeaderText}{\textbf{Content}} \\
+\hline
+\endfirsthead
+\multicolumn{3}{l}{\small\itshape\color{gray} Table~\ref{tab:docs} continued from previous page}\\[0.5em]
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Document}} & \textcolor{TableHeaderText}{\textbf{Location}} & \textcolor{TableHeaderText}{\textbf{Content}} \\
+\hline
+\endhead
+\hline
+\multicolumn{3}{r}{\small\itshape\color{gray} Continued on next page}\\
+\endfoot
+\hline
+\endlastfoot
+
+Project README & \texttt{README.md} & High-level overview, quickstart instructions, repository links \\
+\hline
+\rowcolor{TableRowAlt}
+Backend README & \texttt{backend/README.md} & API architecture, environment configuration, route-module inventory \\
+\hline
+Frontend README & \texttt{Lunara/README.md} & Component structure, build pipeline, development workflow \\
+\hline
+\rowcolor{TableRowAlt}
+Portfolio Site README & \texttt{LunaraPortfolio/README.md} & Standalone employer-facing project website \\
+\hline
+Development Guide & \texttt{Docs/DEVELOPMENT\_GUIDE.md} & Local setup, coding standards, testing procedures, contributor onboarding \\
+\hline
+\rowcolor{TableRowAlt}
+Sprint Plan & \texttt{Docs/Planning/SPRINT\_PLAN.md} & Iteration-level progress, completion percentages, scope adjustments \\
+\hline
+SCA Guide & \texttt{Docs/SCA\_GUIDE.md} & SonarQube quality workflow, metrics interpretation \\
+\hline
+\rowcolor{TableRowAlt}
+Swagger API Docs & \texttt{/api-docs} endpoint & Interactive endpoint explorer for all 127 route handlers \\
+\hline
+Project Requirements & Final submission PDF artifact & Requirements and architecture document carried forward from CST-451 \\
+\hline
+\rowcolor{TableRowAlt}
+Development Phase Report & Final submission PDF artifact & Coding and testing report carried forward from the prior milestone package \\
+\hline
+Live Application & \url{https://www.lunaracare.org} & Deployed frontend and primary product experience for reviewers \\
+\hline
+\rowcolor{TableRowAlt}
+Portfolio Site (Live) & \url{https://lunara-profile.design} & Standalone project portfolio website deployed on a custom domain \\
+\hline
+Portfolio Site (Source) & \texttt{LunaraPortfolio/} & Source code for the portfolio site included in the repository \\
+\hline
+\rowcolor{TableRowAlt}
+Presentation Assets & \texttt{Docs/Presentations/} & Showcase poster source and exported PDFs used in Milestone~6 presentation materials \\
+\hline
+\end{longtable}
+}
+
+The Project Proposal and Requirements Document were updated to incorporate all prior instructor and mentor feedback. The Document History sections reflect what changed between iterations. Deferred requirements (FR12--FR15) are explicitly noted with justification.
+
+\newpage
+
+% ============================================================
+% SECTION 5: PROJECT DEMONSTRATION AND PRESENTATION
+% ============================================================
+\section{Project Demonstration and Presentation}
+
+The screencast demonstration follows a structured six-segment format designed to communicate the project's value within the five-to-ten-minute window:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.8cm}|c|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Segment}} & \textcolor{TableHeaderText}{\textbf{Duration}} & \textcolor{TableHeaderText}{\textbf{Content}} \\
+\hline
+Problem + Vision & 45s & Postpartum care-continuity gap; LUNARA's mission to connect mothers with doulas through a digital hub \\
+\hline
+\rowcolor{TableRowAlt}
+Architecture & 60s & React~18 + TypeScript frontend, Node.js/Express backend, MongoDB with Mongoose, Socket.IO real-time, GridFS file storage \\
+\hline
+Auth + Roles & 45s & Provider and client login flows, role-based dashboard routing, MFA setup \\
+\hline
+\rowcolor{TableRowAlt}
+Provider Flow & 90s & Client creation, appointment scheduling via calendar, message exchange in MessageCenter, document review with feedback, check-in alert review, care-plan construction with milestones \\
+\hline
+Client Flow & 90s & Intake wizard completion (5 steps), daily check-in submission, document upload with privacy controls, resource browsing, care-plan milestone viewing, provider messaging \\
+\hline
+\rowcolor{TableRowAlt}
+Quality + Maintenance & 60s & 1,044 Jest + 32 E2E tests, Jest/Sonar coverage metrics, SonarQube A/A/A ratings, maintenance transition \\
+\hline
+\end{tabularx}
+\caption{Screencast demonstration structure}
+\end{table}
+
+\subsection{Christian Worldview Integration}
+
+In the midst of building a platform that supports mothers through one of the most vulnerable periods of their lives, a Christian worldview served as a stabilizing anchor. The challenges encountered during development---scope adjustments when four features had to be deferred, technical complexity in implementing real-time messaging with security and rate limiting, and timeline pressures across the CST-451/452 cycle---were met with perseverance grounded in the belief that faithfulness in work reflects faithfulness to a larger purpose. The project's mission of care and support resonates with the principle that serving others through one's professional skills is a meaningful expression of faith. As noted in the GCU Statement on the Integration of Faith and Work, the Christian worldview helps stabilize life in the midst of challenges and struggles, serving as an anchor to link us to God's faithfulness and steadfastness (Grand Canyon University, n.d.).
+
+\newpage
+
+% ============================================================
+% SECTION 6: PROJECT PORTFOLIO
+% ============================================================
+\section{Project Portfolio}
+
+The Milestone~6 portfolio requirement is satisfied through a three-part presentation strategy:
+
+\begin{enumerate}[nosep]
+  \item The live LUNARA application at \url{https://www.lunaracare.org}, which lets reviewers experience the real product directly.
+  \item A standalone project portfolio website deployed at \url{https://lunara-profile.design}, built to summarize the capstone for employers and evaluators.
+  \item The source repository at \url{https://github.com/omniV1/lunaraCare} containing all code, documentation, and CI/CD configuration.
+\end{enumerate}
+
+\subsection{Portfolio Site Content}
+
+The standalone portfolio site at \url{https://lunara-profile.design} provides the following sections:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Section}} & \textcolor{TableHeaderText}{\textbf{Content}} \\
+\hline
+Project Overview & Narrative introduction covering the problem domain, platform scope, and technical summary with key metrics (97 components, 127 handlers, 19 models, 29 services) \\
+\hline
+\rowcolor{TableRowAlt}
+Architecture Layers & Five-layer architecture breakdown (Experience, Application, Coordination, Persistence, Operations) with specific technologies and component counts \\
+\hline
+Feature Coverage & Six feature columns covering authentication, wellness tracking, scheduling, resource management, document workflow, and messaging \\
+\hline
+\rowcolor{TableRowAlt}
+Security Posture & Authentication pipeline, MFA, transport/header hardening, rate limiting, and data safety documentation \\
+\hline
+Testing \& Quality & Backend unit tests, integration tests, frontend unit tests, Playwright E2E, SonarQube quality gates \\
+\hline
+\rowcolor{TableRowAlt}
+Code Excerpts & Six annotated code samples: JWT/Passport auth, Socket.IO messaging, Zod intake validation, Axios refresh/backoff, GridFS file upload, role-protected lazy routes \\
+\hline
+Implementation Notes & Five detailed implementation observations covering the Axios interceptor, real-time architecture, intake wizard, Docker orchestration, and health endpoint \\
+\hline
+\rowcolor{TableRowAlt}
+Artifacts \& Evidence & Links to Swagger API docs, GitHub repository, SonarQube dashboard, and the live application \\
+\hline
+Showcase Poster & Embedded PDF poster presenting the full product story in a presentation-ready visual format \\
+\hline
+\rowcolor{TableRowAlt}
+Team References & Developer portfolio links (\url{https://www.omniv.org/}, \url{https://www.carterwright.dev/}) as supplemental professional references \\
+\hline
+\end{tabularx}
+\caption{Portfolio site content sections}
+\end{table}
+
+\subsection{Portfolio Deployment}
+
+The portfolio site is built with React~18, TypeScript, and Vite~6, and deployed on Vercel with a custom domain at \texttt{lunara-profile.design}. The source code resides in the \texttt{LunaraPortfolio/} directory of the monorepo. A \texttt{vercel.json} configuration file handles SPA routing with a catch-all rewrite rule.
+
+\newpage
+
+% ============================================================
+% SECTION 7: RELEASE READINESS
+% ============================================================
+\section{Release Readiness}
+
+\[
+\text{Release Readiness} = \bigwedge_{d \in \text{Dimensions}} \text{Status}(d) = \text{Met}
+\]
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|c|>{\raggedright\arraybackslash}p{4.5cm}|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Dimension}} & \textcolor{TableHeaderText}{\textbf{Criteria}} & \textcolor{TableHeaderText}{\textbf{Status}} & \textcolor{TableHeaderText}{\textbf{Evidence}} \\
+\hline
+Feature Completeness & All in-scope FRs implemented & \textbf{Met} & FR1--FR11 implemented and demonstrated; FR12--FR15 formally deferred \\
+\hline
+\rowcolor{TableRowAlt}
+Quality \& Test Confidence & Automated testing with adequate coverage & \textbf{Met} & 1,044 Jest + 32 E2E, 100\% pass rate, coverage targets met, SonarQube A/A/A \\
+\hline
+Documentation Completeness & Onboarding and review materials & \textbf{Met} & README set, dev guide, sprint records, Swagger, capstone paper packet \\
+\hline
+\rowcolor{TableRowAlt}
+Operational Readiness & Deployment and security & \textbf{Met} & Docker, env-var config, Helmet, CORS, rate limiting, bcrypt, JWT \\
+\hline
+Portfolio Readiness & Internet-facing portfolio & \textbf{Met} & Live at \url{https://lunara-profile.design} with custom domain; source in \texttt{LunaraPortfolio/} \\
+\hline
+\end{tabularx}
+\caption{Release readiness assessment}
+\end{table}
+
+\newpage
+
+% ============================================================
+% SECTION 8: FINAL PROJECT SUBMISSION
+% ============================================================
+\section{Final Project Submission}
+
+The project folder and GitHub repository (\url{https://github.com/omniV1/lunaraCare}) contain:
+
+\begin{itemize}[nosep]
+  \item Updated Project Proposal and Requirements Document
+  \item Architecture Plan (87-page PDF)
+  \item Development Phase Report (56-page PDF)
+  \item .README file with link to private Git repository
+  \item Complete source code with TypeScript throughout (backend + frontend + standalone portfolio site)
+  \item 1,044 Jest tests (153 backend in \texttt{backend/tests/}, 891 frontend in \texttt{Lunara/src/tests/}) plus 32 Playwright E2E tests
+  \item Swagger/OpenAPI documentation at \texttt{/api-docs}
+  \item Capstone paper packet (this document set)
+  \item Presentation materials in \texttt{Docs/Presentations/} and screencast-ready demo structure
+  \item Live deployed application at \url{https://www.lunaracare.org}
+  \item Standalone project portfolio deployed at \url{https://lunara-profile.design} (source in \texttt{LunaraPortfolio/})
+\end{itemize}
+
+\subsection{Internet-Facing Deliverables Summary}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{5cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\rowcolor{TableHeader}\textcolor{TableHeaderText}{\textbf{Deliverable}} & \textcolor{TableHeaderText}{\textbf{URL}} & \textcolor{TableHeaderText}{\textbf{Purpose}} \\
+\hline
+Live Application & \url{https://www.lunaracare.org} & Production deployment of the LUNARA platform \\
+\hline
+\rowcolor{TableRowAlt}
+Project Portfolio & \url{https://lunara-profile.design} & Employer-facing project summary and architecture overview \\
+\hline
+Backend API Docs & \url{https://lunara.onrender.com/api-docs} & Interactive Swagger/OpenAPI endpoint explorer \\
+\hline
+\rowcolor{TableRowAlt}
+Source Repository & \url{https://github.com/omniV1/lunaraCare} & Full monorepo with code, docs, and CI/CD \\
+\hline
+Owen Lindsey Portfolio & \url{https://www.omniv.org/} & Supplemental developer reference \\
+\hline
+\rowcolor{TableRowAlt}
+Carter Wright Portfolio & \url{https://www.carterwright.dev/} & Supplemental developer reference \\
+\hline
+\end{tabularx}
+\caption{Internet-facing deliverables}
+\end{table}
+
+\vspace{1em}
+
+This submission represents the culmination of the senior capstone experience and the transition of LUNARA into a maintainable, portfolio-worthy software product.
+
+\newpage
+
+% ============================================================
+% SECTION 9: RECOMMENDED FIGURES
+% ============================================================
+\section{Recommended Figures}
+
+The following figures are recommended for inclusion in the final presentation materials:
+
+\begin{enumerate}[nosep]
+  \item End-to-end provider workflow from login through client creation to care-plan update
+  \item Architecture diagram showing React, Express, MongoDB, and Socket.IO integration
+  \item Test suite results showing 1,044 Jest tests passing and SonarQube A/A/A dashboard
+  \item Standalone portfolio website at \texttt{lunara-profile.design} showing project summary and architecture
+  \item GitHub repository showing commit history and branch structure
+  \item Swagger API documentation showing the route inventory and endpoint surface
+\end{enumerate}
+
+\end{document}
