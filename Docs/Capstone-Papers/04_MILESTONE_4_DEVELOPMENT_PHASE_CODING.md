@@ -36,7 +36,7 @@ The main objective of the development phase is to build the project code and cre
 
 ## Development Deliverables
 
-This document provides the complete submission of the Implementation Plan with detailed task breakdown, the Functional Requirements Mapping (Traceability Matrix), Module Test Cases with testing framework context, the Source Code Listing with architectural documentation, and the Application Demonstration plan. The code repository is hosted on GitHub at `https://github.com/omniV1/AQC`.
+This document provides the complete submission of the Implementation Plan with detailed task breakdown, the Functional Requirements Mapping (Traceability Matrix), Module Test Cases with testing framework context, the Source Code Listing with architectural documentation, and the Application Demonstration plan. The code repository is hosted on GitHub at `https://github.com/omniV1/lunaraCare`.
 
 \newpage
 
@@ -579,7 +579,7 @@ The Milestone 4 application demonstration is a screencast (5–10 minutes per GC
 
 ## MODULE TEST CASES (TEST PLAN)
 
-The following test cases were developed and executed during the Milestone 4 coding iteration. Each test case maps to one or more functional requirements from the Traceability Matrix. Testing was performed manually against the deployed staging environment (lunara.onrender.com) and locally via `npm run dev`. Automated unit tests supplement manual verification and are maintained in the repository under `backend/src/__tests__/`.
+The following test cases were developed and executed during the Milestone 4 coding iteration. Each test case maps to one or more functional requirements from the Traceability Matrix. Testing was performed manually against the deployed staging environment (`lunara.onrender.com`) and locally via `npm run dev`. Automated unit tests supplement manual verification and are maintained in the repository under `backend/tests/` and `Lunara/src/tests/`.
 
 | Test Case | Priority | Module | Test Objective |
 |---|---|---|---|

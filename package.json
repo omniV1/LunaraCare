@@ -6,7 +6,9 @@
     "coverage": "node scripts/run-coverage.js",
     "fix-lcov": "node scripts/fix-lcov-paths.js",
     "test": "node scripts/run-coverage.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "portfolio:dev": "cd LunaraPortfolio && npm run dev",
+    "portfolio:build": "cd LunaraPortfolio && npm run build"
   },
   "lint-staged": {
     "backend/src/**/*.ts": "cd backend && npx tsc --noEmit -p tsconfig.build.json",

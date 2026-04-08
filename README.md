@@ -116,11 +116,12 @@ Additional tools: Passport.js (JWT, Local, Google OAuth), Nodemailer, Web Push (
   <img src="Docs/img/Diagrams/SystemArchitecture.png" alt="System Architecture" width="85%"/>
 </p>
 
-The platform is a monorepo with two main packages. The **React frontend** (hosted on Vercel) communicates with the **Express API** (hosted on Render) over REST and WebSocket connections. MongoDB Atlas provides the data layer with GridFS handling file storage. GitHub Actions runs CI on every push, and SonarQube enforces quality gates.
+The platform is a monorepo with the production application, backend API, and a standalone portfolio site. The **React frontend** (hosted on Vercel) communicates with the **Express API** (hosted on Render) over REST and WebSocket connections. MongoDB Atlas provides the data layer with GridFS handling file storage. GitHub Actions runs CI on every push, and SonarQube enforces quality gates.
 
 ```
 lunaraCare/
 ├── Lunara/          React 18 frontend (Vite, Tailwind, Three.js)
+├── LunaraPortfolio/ Standalone project portfolio site (React, Vite, Pretext)
 ├── backend/         Express API (MongoDB, Socket.IO, Passport.js)
 ├── Docs/            Architecture docs, capstone papers, diagrams
 ├── .github/         CI/CD workflows (backend, frontend, SonarQube)
@@ -310,6 +311,22 @@ docker-compose up --build -d
 
 See the [backend README](./backend/README.md) and [frontend README](./Lunara/README.md) for full environment variable references and available scripts.
 
+### Demo Test Accounts
+
+Once the backend can connect to MongoDB, seed the disposable demo accounts used for local verification and screencast walkthroughs:
+
+```bash
+cd backend
+npm run seed:test-users
+```
+
+This creates or resets:
+
+- Provider: `testprovider@lunara.dev` / `Testing123!`
+- Client: `testclient@lunara.dev` / `Testing123!`
+
+The script also marks both accounts as verified, clears MFA/lockout state, and assigns the test client to the test provider. Because `@lunara.dev` is a login-only test domain, verification or alert emails sent to those addresses will not be received.
+
 ---
 
 ## Quality and Testing
@@ -351,6 +368,7 @@ Pre-commit hooks via Husky enforce TypeScript type-checking, ESLint (zero warnin
 |---|---|
 | [Backend README](./backend/README.md) | API endpoints, data models, authentication, Socket.IO events, setup |
 | [Frontend README](./Lunara/README.md) | Components, pages, services, routing, build config |
+| [Portfolio README](./LunaraPortfolio/README.md) | Standalone portfolio site, Pretext layout approach, and run instructions |
 | [Docs README](./Docs/README.md) | Documentation index and capstone paper inventory |
 | [Development Guide](./Docs/DEVELOPMENT_GUIDE.md) | Full architecture reference and troubleshooting |
 | [Sprint Plan](./Docs/Planning/SPRINT_PLAN.md) | 10-week roadmap, task breakdown, quality metrics |

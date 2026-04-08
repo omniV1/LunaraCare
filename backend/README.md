@@ -443,6 +443,21 @@ npm run dev
 
 `npm run dev` · `npm run build` · `npm start` · `npm test` · `npm run test:coverage` · `npm run create:admin` · `npm run seed:care-plan-templates` · `npm run seed:test-users` · `npm run email:verify` · lint/format/type-check variants as in `package.json`.
 
+### Disposable test accounts
+
+After `MONGODB_URI` is configured, seed the shared demo accounts used for local validation:
+
+```bash
+npm run seed:test-users
+```
+
+The script creates or resets:
+
+- Provider: `testprovider@lunara.dev` / `Testing123!`
+- Client: `testclient@lunara.dev` / `Testing123!`
+
+It also forces `isEmailVerified=true`, clears lockout and MFA flags, and makes sure the client profile is assigned to the seeded provider. The default `@lunara.dev` addresses are for login only and do not receive real email.
+
 ---
 
 ## Seed data

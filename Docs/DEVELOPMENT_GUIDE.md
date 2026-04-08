@@ -30,13 +30,13 @@ Complete setup, architecture, and API reference for the LUNARA platform.
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/omniV1/AQC.git
-cd AQC
+git clone https://github.com/omniV1/lunaraCare.git
+cd lunaraCare
 
 # Backend
 cd backend
 npm install
-cp env.example .env
+cp .env.example .env
 # Edit .env with your credentials
 
 # Frontend
@@ -52,8 +52,8 @@ cp .env.example .env
 # Terminal 1 - Backend
 cd backend
 npm run dev
-# API: http://localhost:5000
-# Docs: http://localhost:5000/api-docs
+# API: http://localhost:10000
+# Docs: http://localhost:10000/api-docs
 
 # Terminal 2 - Frontend
 cd Lunara
@@ -125,8 +125,8 @@ Create `backend/.env`:
 ```env
 # Server
 NODE_ENV=development
-PORT=5000
-API_URL=http://localhost:5000/api
+PORT=10000
+API_URL=http://localhost:10000/api
 FRONTEND_URL=http://localhost:5173
 
 # Database
@@ -177,7 +177,7 @@ npm run lint         # ESLint
 Create `Lunara/.env`:
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000/api
+VITE_API_BASE_URL=http://localhost:10000/api
 VITE_APP_NAME=Lunara
 VITE_APP_VERSION=1.0.0
 VITE_NODE_ENV=development
@@ -197,6 +197,20 @@ npm test             # Run tests
 npm run lint         # ESLint
 npm run format       # Prettier
 ```
+
+---
+
+## Portfolio Site Setup
+
+The repository also includes `LunaraPortfolio/`, a standalone project website created to package the application for Milestone 6 and employer-facing review. It is not the production app itself; instead, it summarizes the project and links back to `lunaracare.org`, the repository, and the supporting artifacts.
+
+```bash
+cd LunaraPortfolio
+npm install
+npm run dev
+```
+
+Use `npm run build` to create a production bundle for separate deployment if needed.
 
 ---
 
@@ -285,7 +299,7 @@ npm run format       # Prettier
 ### Using Swagger UI
 
 1. Start backend: `npm run dev`
-2. Open http://localhost:5000/api-docs
+2. Open http://localhost:10000/api-docs
 3. Login via `POST /auth/login`
 4. Copy `accessToken` from response
 5. Click "Authorize" button
@@ -296,13 +310,13 @@ npm run format       # Prettier
 
 ```bash
 # Login
-TOKEN=$(curl -s -X POST http://localhost:5000/api/auth/login \
+TOKEN=$(curl -s -X POST http://localhost:10000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Password123"}' \
   | jq -r '.data.accessToken')
 
 # Use token
-curl http://localhost:5000/api/users/profile \
+curl http://localhost:10000/api/users/profile \
   -H "Authorization: Bearer $TOKEN"
 ```
 
@@ -536,8 +550,8 @@ node -e "console.log(process.env.MONGODB_URI)"
 
 ## Resources
 
-- **API Docs**: http://localhost:5000/api-docs
-- **Repository**: https://github.com/omniV1/AQC
+- **API Docs**: http://localhost:10000/api-docs
+- **Repository**: https://github.com/omniV1/lunaraCare
 - **MongoDB Docs**: https://docs.mongodb.com
 - **Express Docs**: https://expressjs.com
 - **React Docs**: https://react.dev

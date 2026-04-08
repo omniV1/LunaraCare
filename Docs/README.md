@@ -41,8 +41,9 @@ This directory holds everything that isn't source code: architecture diagrams, f
 | Document | Purpose |
 |---|---|
 | [SPRINT_PLAN.md](./Planning/SPRINT_PLAN.md) | 10-week development roadmap (Feb 5 through Apr 16, 2026) with task breakdown, quality metrics, risk management, and checkpoint schedule |
-| [Project Requirements (PDF)](./Planning/LUNARA_ProjectRequirements.pdf) | Original formal requirements specification |
-| [Development Phase Report (PDF)](./Planning/LUNARA_Development_Phase_Report.pdf) | Sprint 1 completion report |
+| Project Requirements (submission PDF) | Original formal requirements specification carried into the final project package |
+| Development Phase Report (submission PDF) | Prior milestone report included with the final submission package |
+| [Portfolio Site README](../LunaraPortfolio/README.md) | Standalone employer-facing project website included alongside the core application |
 
 ---
 
@@ -118,6 +119,16 @@ The papers reference **69 screenshots** organized by role:
 
 Compiled PDFs for Milestone 4 and Milestone 5 are included alongside their LaTeX source files.
 
+### Presentation Assets
+
+Milestone 6 presentation materials currently included in the repository:
+
+| File | Purpose |
+|---|---|
+| [LUNARA_Showcase_Poster.pptx](./Presentations/LUNARA_Showcase_Poster.pptx) | Poster source deck |
+| [LUNARA_Showcase_Poster.pdf](./Presentations/LUNARA_Showcase_Poster.pdf) | Poster export |
+| [LUNARA_Showcase_Poster_REVISED.pdf](./Presentations/LUNARA_Showcase_Poster_REVISED.pdf) | Revised poster export for final submission |
+
 ---
 
 ## LaTeX Templates
@@ -155,6 +166,7 @@ Senior capstone project at Grand Canyon University, advised by Professor Amr Elc
 
 | Resource | URL |
 |---|---|
+| Standalone Portfolio Site Source | [LunaraPortfolio](../LunaraPortfolio) |
 | Live Application | [lunaracare.org](https://www.lunaracare.org) |
 | API Documentation (local) | http://localhost:10000/api-docs |
 | API Documentation (production) | [lunara.onrender.com/api-docs](https://lunara.onrender.com/api-docs) |

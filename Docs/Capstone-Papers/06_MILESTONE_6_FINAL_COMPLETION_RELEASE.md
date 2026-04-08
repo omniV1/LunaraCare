@@ -104,13 +104,16 @@ Project documentation was reviewed and updated to reflect the final state of the
 | Project README | `README.md` | High-level overview, quickstart instructions, repository links |
 | Backend README | `backend/README.md` | API architecture, environment configuration, route-module inventory |
 | Frontend README | `Lunara/README.md` | Component structure, build pipeline, development workflow |
+| Portfolio Site README | `LunaraPortfolio/README.md` | Standalone employer-facing project website and Pretext layout rationale |
 | Development Guide | `Docs/DEVELOPMENT_GUIDE.md` | Local setup, coding standards, testing procedures, contributor onboarding |
 | Sprint Plan | `Docs/Planning/SPRINT_PLAN.md` | Iteration-level progress, completion percentages, scope adjustments |
 | SCA Guide | `Docs/SCA_GUIDE.md` | SonarQube quality workflow, metrics interpretation |
 | Swagger API Docs | `/api-docs` endpoint | Interactive endpoint explorer for all 70+ routes |
-| Project Requirements | `Docs/Planning/LUNARA_ProjectRequirements.pdf` | 87-page requirements and architecture document (CST-451) |
-| Development Phase Report | `Docs/Planning/LUNARA_Development_Phase_Report.pdf` | 56-page coding and testing report (CST-451 Milestone 4) |
-| Live Application | `https://aqc-eight.vercel.app/` | Deployed frontend on Vercel; internet-facing portfolio and demo |
+| Project Requirements | Final submission PDF artifact | Requirements and architecture document carried forward from CST-451 |
+| Development Phase Report | Final submission PDF artifact | Coding and testing report carried forward from the prior milestone package |
+| Live Application | `https://www.lunaracare.org` | Deployed frontend and primary product experience for reviewers |
+| Portfolio Site Project | `LunaraPortfolio/` | Standalone project website source included in the final submission package |
+| Presentation Assets | `Docs/Presentations/` | Showcase poster source and exported PDFs used in Milestone 6 presentation materials |
 
 The Project Proposal and Requirements Document were updated to incorporate all prior instructor and mentor feedback. The Document History sections reflect what changed between iterations. Deferred requirements (FR12–FR15) are explicitly noted with justification.
 
@@ -137,17 +140,20 @@ In the midst of building a platform that supports mothers through one of the mos
 
 ## PROJECT PORTFOLIO
 
-The internet-facing Senior Project Portfolio is deployed at **[https://aqc-eight.vercel.app/](https://aqc-eight.vercel.app/)** and serves as both the live application demonstration and the portfolio entry point. The site is hosted on Vercel's global edge network, providing reliable access for potential employers and academic reviewers. The portfolio and live application contain:
+The Milestone 6 portfolio requirement is satisfied through a combined presentation strategy. The first component is the already deployed and internet-facing LUNARA application at **[https://www.lunaracare.org](https://www.lunaracare.org)**, which lets reviewers experience the real product directly. The second component is a standalone project website included in the repository under `LunaraPortfolio/`, built to summarize the capstone for employers and evaluators with a more editorial presentation style. Together these materials provide both interactive product access and portfolio-ready explanatory context.
 
-- **Project Overview:** The postpartum care-continuity problem LUNARA addresses, the platform's mission, and target users — accessible from the public landing page
-- **Architecture Diagrams:** Frontend/backend/database/real-time communication stack with technology justifications
-- **Live Application Demo:** Rather than static screenshots, the deployed application at `https://aqc-eight.vercel.app/` allows reviewers to interact with the actual platform, including the public landing page, authentication flows, and role-specific dashboards
-- **Code Snippets:** Annotated examples of key implementations (authentication middleware, check-in trend service, Socket.IO messaging, intake wizard validation)
-- **Testing & Quality:** Test suite metrics (1044 Jest, 32 E2E; Jest statement coverage per Milestone 5; Sonar aggregate coverage), SonarQube ratings, testing methodology
-- **Repository Access:** The source code is hosted on GitHub at `https://github.com/omniV1/AQC` with instructions for cloning and running the application locally with Docker or manual setup
-- **Background:** Approach to implementation, design decisions, challenges overcome, and maintenance roadmap
+The portfolio package contains:
 
-The portfolio is designed to communicate the project's scope, technical depth, and professional quality to potential employers who may evaluate it alongside the candidate's resume.
+- **Live Application:** `https://www.lunaracare.org` remains the main internet-facing product and demonstrates the public site, authentication flows, and role-specific dashboards in a working environment
+- **Standalone Portfolio Site:** `LunaraPortfolio/` presents the project overview, architecture summary, supporting artifacts, code excerpts, implementation background, and access instructions in a dedicated employer-facing format using Pretext for text-heavy editorial layout
+- **Architecture Diagrams:** The `Docs/` materials and portfolio site point to the frontend/backend/database/real-time communication stack and related design artifacts
+- **Code Snippets:** The portfolio site includes concise examples drawn from seeded account creation, protected routing, and the Pretext-based layout implementation itself
+- **Testing & Quality:** Test suite metrics (1044 Jest, 32 E2E; Jest statement coverage per Milestone 5; Sonar aggregate coverage), SonarQube ratings, and testing methodology remain part of the portfolio narrative
+- **Repository Access:** The source code is hosted on GitHub at `https://github.com/omniV1/lunaraCare` with instructions for cloning and running the application locally with Docker or manual setup
+- **Presentation Assets:** Poster assets are included under `Docs/Presentations/` as supporting materials for the final showcase
+- **Supplemental Personal Sites:** Developer websites `https://www.omniv.org/` and `https://www.carterwright.dev/` are referenced only as supplemental professional links. Andrew Mack does not currently have a linked public site in the submission package.
+
+This combined portfolio approach ensures that potential employers can both understand the project at a high level and immediately inspect the production application itself.
 
 \newpage
 
@@ -168,28 +174,29 @@ $$
 
 ## FINAL PROJECT SUBMISSION
 
-The project folder and GitHub repository (`https://github.com/omniV1/AQC`) contain:
+The project folder and GitHub repository (`https://github.com/omniV1/lunaraCare`) contain:
 
 - Updated Project Proposal and Requirements Document
 - Architecture Plan (87-page PDF)
 - Development Phase Report (56-page PDF)
 - .README file with link to private Git repository
-- Complete source code with TypeScript throughout (backend + frontend)
+- Complete source code with TypeScript throughout (backend + frontend + standalone portfolio site)
 - 1044 Jest tests (153 backend in `backend/tests/`, 891 frontend in `Lunara/src/tests/`) plus 32 Playwright E2E tests
 - Swagger/OpenAPI documentation at `/api-docs`
 - Capstone paper packet (this document set)
-- Presentation materials and screencast
-- Live deployed application at `https://aqc-eight.vercel.app/`
+- Presentation materials in `Docs/Presentations/` and screencast-ready demo structure in the Milestone documentation
+- Live deployed application at `https://www.lunaracare.org`
+- Standalone project portfolio source in `LunaraPortfolio/`
 
 This submission represents the culmination of the senior capstone experience and the transition of LUNARA into a maintainable, portfolio-worthy software product.
 
 ---
 
-## Suggested Figure Placeholders
+## Recommended Figures
 
-- `[SCREENSHOT_M6_01: End-to-end provider workflow from login through client creation to care-plan update]`
-- `[SCREENSHOT_M6_02: Architecture diagram showing React ↔ Express ↔ MongoDB ↔ Socket.IO stack]`
-- `[SCREENSHOT_M6_03: Test suite results showing 1044 Jest tests passing and SonarQube A/A/A dashboard]`
-- `[SCREENSHOT_M6_04: Portfolio website overview page with project summary and architecture]`
-- `[SCREENSHOT_M6_05: GitHub repository showing commit history and branch structure]`
-- `[SCREENSHOT_M6_06: Swagger API documentation showing 19 route modules and 70+ endpoints]`
+- End-to-end provider workflow from login through client creation to care-plan update
+- Architecture diagram showing React, Express, MongoDB, and Socket.IO integration
+- Test suite results showing 1044 Jest tests passing and SonarQube A/A/A dashboard
+- Standalone portfolio website overview page with project summary and architecture
+- GitHub repository showing commit history and branch structure
+- Swagger API documentation showing the route inventory and endpoint surface
