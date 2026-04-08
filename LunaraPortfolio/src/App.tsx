@@ -32,6 +32,7 @@ type EditorialLayout = {
   lineHeight: number;
   font: string;
   stacked: boolean;
+  textWidth: number;
 };
 
 type EditorialConfig = {
@@ -111,21 +112,22 @@ function buildEditorialLayout(stageWidth: number): EditorialLayout {
       lineHeight: 0,
       font: '',
       stacked: true,
+      textWidth: 0,
     };
   }
 
   const config = getEditorialConfig(stageWidth);
   const prepared = prepareWithSegments(heroNarrative, config.font);
-  const minimumWidth = Math.max(260, stageWidth - config.obstacleWidth - config.gap);
+  const textWidth = config.stacked
+    ? stageWidth
+    : Math.max(260, stageWidth - config.obstacleWidth - config.gap);
 
   let cursor = { segmentIndex: 0, graphemeIndex: 0 };
   let y = 0;
   const lines: EditorialLine[] = [];
 
   while (true) {
-    const availableWidth =
-      config.obstacleWidth > 0 && y < config.obstacleHeight ? minimumWidth : stageWidth;
-    const line = layoutNextLine(prepared, cursor, availableWidth);
+    const line = layoutNextLine(prepared, cursor, textWidth);
 
     if (!line) {
       break;
@@ -138,12 +140,13 @@ function buildEditorialLayout(stageWidth: number): EditorialLayout {
 
   return {
     lines,
-    height: Math.max(y, config.obstacleHeight),
+    height: y,
     obstacleWidth: config.obstacleWidth,
     obstacleHeight: config.obstacleHeight,
     lineHeight: config.lineHeight,
     font: config.font,
     stacked: config.stacked,
+    textWidth,
   };
 }
 
@@ -252,34 +255,21 @@ function App() {
                   {line.text}
                 </span>
               ))}
-
-              {!editorialLayout.stacked && editorialLayout.obstacleWidth > 0 ? (
-                <aside
-                  className="editorial-obstacle"
-                  style={{
-                    width: editorialLayout.obstacleWidth,
-                    minHeight: editorialLayout.obstacleHeight,
-                  }}
-                >
-                  <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
-                  <p className="obstacle-label">Operational snapshot</p>
-                  <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
-                  <p>
-                    The application ties together public discovery, provider coordination, and client
-                    engagement without breaking the emotional tone of the brand.
-                  </p>
-                  <ul>
-                    <li>Role-aware dashboards for providers and clients</li>
-                    <li>Realtime messaging, appointments, and document workflows</li>
-                    <li>Content, care plans, and recovery context in one system</li>
-                  </ul>
-                </aside>
-              ) : null}
             </div>
 
-            {editorialLayout.stacked ? (
+            {editorialLayout.obstacleWidth > 0 || editorialLayout.stacked ? (
               <aside
-                className="editorial-obstacle editorial-obstacle--stacked"
+                className={`editorial-obstacle ${
+                  editorialLayout.stacked ? 'editorial-obstacle--stacked' : ''
+                }`}
+                style={
+                  editorialLayout.stacked
+                    ? undefined
+                    : {
+                        width: editorialLayout.obstacleWidth,
+                        minHeight: Math.max(editorialLayout.height, editorialLayout.obstacleHeight),
+                      }
+                }
               >
                 <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
                 <p className="obstacle-label">Operational snapshot</p>

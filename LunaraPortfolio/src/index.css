@@ -269,15 +269,20 @@ pre {
 
 .editorial-stage {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 1.4rem;
+  align-items: start;
 }
 
 .editorial-stage--stacked {
-  display: grid;
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
 .editorial-text-layer {
   position: relative;
+  min-width: 0;
 }
 
 .editorial-line {
@@ -292,16 +297,15 @@ pre {
 
 .editorial-obstacle {
   position: relative;
-  margin-left: auto;
   padding: 1.5rem;
   border-radius: 1.8rem;
   background: linear-gradient(160deg, #2e1205 0%, #553425 100%);
   color: var(--lunara-cream);
   box-shadow: 0 26px 60px rgba(44, 16, 2, 0.22);
+  align-self: start;
 }
 
 .editorial-obstacle--stacked {
-  margin-left: 0;
   width: 100%;
   min-height: unset;
 }
