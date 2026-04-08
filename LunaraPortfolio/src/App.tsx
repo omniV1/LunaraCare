@@ -230,14 +230,29 @@ function App() {
 
         <section className="poster-board">
           <div className="poster-board-frame">
-            <iframe src={posterPdf} title="LUNARA showcase poster" />
+            <iframe
+              src={`${posterPdf}#view=FitH`}
+              title="LUNARA showcase poster"
+              className="poster-iframe"
+            />
+            <a
+              href={posterPdf}
+              target="_blank"
+              rel="noreferrer"
+              className="poster-fallback"
+            >
+              <img className="editorial-seal" src={brandImages.seal} alt="" />
+              <span className="poster-fallback-label">Showcase poster</span>
+              <span className="poster-fallback-action">Tap to open full poster (PDF)</span>
+            </a>
           </div>
           <div className="poster-board-copy">
-            <p className="eyebrow">Presentation asset</p>
-            <h2>The showcase poster sits beside the same implementation story the live app proves out.</h2>
+            <p className="eyebrow">Presentation artifact</p>
+            <h2>A visual summary of the architecture, workflows, and delivery evidence behind the release.</h2>
             <p>
-              The poster is only one artifact in the release package. It now lives directly inside this
-              deployment so reviewers can open it without depending on an external GitHub binary link.
+              The showcase poster captures the full product story in a single presentation-ready
+              format: system architecture, provider and client workflows, testing coverage, deployment
+              topology, and the technology decisions that shaped the build.
             </p>
             <ul className="bullet-list">
               {posterBoardNotes.map((item) => (

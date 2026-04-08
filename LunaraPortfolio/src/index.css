@@ -463,16 +463,47 @@ pre {
 }
 
 .poster-board-frame {
+  position: relative;
   min-height: 42rem;
   background: linear-gradient(180deg, rgba(36, 26, 20, 0.04), rgba(36, 26, 20, 0.1));
   border-right: 1px solid rgba(107, 77, 55, 0.08);
 }
 
-.poster-board-frame iframe {
+.poster-iframe {
   width: 100%;
   height: 100%;
   border: 0;
   background: white;
+}
+
+.poster-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  text-decoration: none;
+  text-align: center;
+  background: linear-gradient(160deg, #2e1205 0%, #553425 100%);
+  color: var(--lunara-cream);
+}
+
+.poster-fallback-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.poster-fallback-action {
+  font-size: 0.9rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(250, 247, 242, 0.3);
+  background: rgba(250, 247, 242, 0.12);
+  color: var(--lunara-cream);
 }
 
 .poster-board-copy {
@@ -733,9 +764,17 @@ pre {
   }
 
   .poster-board-frame {
-    min-height: 28rem;
+    min-height: 16rem;
     border-right: 0;
     border-bottom: 1px solid rgba(107, 77, 55, 0.08);
+  }
+
+  .poster-iframe {
+    display: none;
+  }
+
+  .poster-fallback {
+    display: flex;
   }
 
   .artifact-card {
@@ -809,7 +848,7 @@ pre {
   }
 
   .poster-board-frame {
-    min-height: 20rem;
+    min-height: 14rem;
   }
 
   .editorial-shell,
