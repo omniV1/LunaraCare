@@ -133,6 +133,12 @@ The screencast demonstration follows a structured six-segment format designed to
 | Client Flow | 90s | Intake wizard completion (5 steps), daily check-in submission, document upload with privacy controls, resource browsing, care-plan milestone viewing, provider messaging |
 | Quality + Maintenance | 60s | 1044 Jest + 32 E2E tests, Jest/Sonar coverage metrics, SonarQube A/A/A ratings, maintenance transition |
 
+### Video Demonstration
+
+The full screencast demonstration is available at:
+
+**[https://www.youtube.com/watch?v=EY6ncwOMFUQ](https://www.youtube.com/watch?v=EY6ncwOMFUQ)**
+
 ### Christian Worldview Integration
 
 In the midst of building a platform that supports mothers through one of the most vulnerable periods of their lives, a Christian worldview served as a stabilizing anchor. The challenges encountered during development—scope adjustments when four features had to be deferred, technical complexity in implementing real-time messaging with security and rate limiting, and timeline pressures across the CST-451/452 cycle—were met with perseverance grounded in the belief that faithfulness in work reflects faithfulness to a larger purpose. The project's mission of care and support resonates with the principle that serving others through one's professional skills is a meaningful expression of faith. As noted in the GCU Statement on the Integration of Faith and Work, the Christian worldview helps stabilize life in the midst of challenges and struggles, serving as an anchor to link us to God's faithfulness and steadfastness (Grand Canyon University, n.d.).
