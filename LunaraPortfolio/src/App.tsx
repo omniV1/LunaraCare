@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { layoutNextLine, prepareWithSegments } from '@chenglou/pretext';
 import posterPdf from './assets/lunara-showcase-poster-revised.pdf';
 import {
@@ -29,10 +29,19 @@ type EditorialLayout = {
   height: number;
   obstacleWidth: number;
   obstacleHeight: number;
+  lineHeight: number;
+  font: string;
+  stacked: boolean;
 };
 
-const BODY_FONT = '500 20px Georgia';
-const BODY_LINE_HEIGHT = 34;
+type EditorialConfig = {
+  font: string;
+  lineHeight: number;
+  obstacleWidth: number;
+  obstacleHeight: number;
+  stacked: boolean;
+  gap: number;
+};
 
 function useElementWidth<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
@@ -58,23 +67,64 @@ function useElementWidth<T extends HTMLElement>() {
   return { ref, width };
 }
 
-function buildEditorialLayout(stageWidth: number): EditorialLayout {
-  if (stageWidth <= 0) {
-    return { lines: [], height: 0, obstacleWidth: 0, obstacleHeight: 0 };
+function getEditorialConfig(stageWidth: number): EditorialConfig {
+  if (stageWidth < 640) {
+    return {
+      font: '500 16px "Luxurious Roman"',
+      lineHeight: 28,
+      obstacleWidth: 0,
+      obstacleHeight: 0,
+      stacked: true,
+      gap: 0,
+    };
   }
 
-  const prepared = prepareWithSegments(heroNarrative, BODY_FONT);
-  const obstacleWidth = stageWidth >= 940 ? 290 : stageWidth >= 720 ? 240 : 0;
-  const obstacleHeight = obstacleWidth > 0 ? 260 : 0;
-  const gap = obstacleWidth > 0 ? 28 : 0;
-  const minimumWidth = Math.max(260, stageWidth - obstacleWidth - gap);
+  if (stageWidth < 960) {
+    return {
+      font: '500 18px "Luxurious Roman"',
+      lineHeight: 31,
+      obstacleWidth: 0,
+      obstacleHeight: 0,
+      stacked: true,
+      gap: 0,
+    };
+  }
+
+  const obstacleWidth = stageWidth >= 1180 ? 320 : 280;
+  return {
+    font: '500 20px "Luxurious Roman"',
+    lineHeight: 34,
+    obstacleWidth,
+    obstacleHeight: 290,
+    stacked: false,
+    gap: 28,
+  };
+}
+
+function buildEditorialLayout(stageWidth: number): EditorialLayout {
+  if (stageWidth <= 0) {
+    return {
+      lines: [],
+      height: 0,
+      obstacleWidth: 0,
+      obstacleHeight: 0,
+      lineHeight: 0,
+      font: '',
+      stacked: true,
+    };
+  }
+
+  const config = getEditorialConfig(stageWidth);
+  const prepared = prepareWithSegments(heroNarrative, config.font);
+  const minimumWidth = Math.max(260, stageWidth - config.obstacleWidth - config.gap);
 
   let cursor = { segmentIndex: 0, graphemeIndex: 0 };
   let y = 0;
   const lines: EditorialLine[] = [];
 
   while (true) {
-    const availableWidth = obstacleWidth > 0 && y < obstacleHeight ? minimumWidth : stageWidth;
+    const availableWidth =
+      config.obstacleWidth > 0 && y < config.obstacleHeight ? minimumWidth : stageWidth;
     const line = layoutNextLine(prepared, cursor, availableWidth);
 
     if (!line) {
@@ -83,14 +133,17 @@ function buildEditorialLayout(stageWidth: number): EditorialLayout {
 
     lines.push({ text: line.text, top: y, width: line.width });
     cursor = line.end;
-    y += BODY_LINE_HEIGHT;
+    y += config.lineHeight;
   }
 
   return {
     lines,
-    height: Math.max(y, obstacleHeight),
-    obstacleWidth,
-    obstacleHeight,
+    height: Math.max(y, config.obstacleHeight),
+    obstacleWidth: config.obstacleWidth,
+    obstacleHeight: config.obstacleHeight,
+    lineHeight: config.lineHeight,
+    font: config.font,
+    stacked: config.stacked,
   };
 }
 
@@ -108,6 +161,16 @@ function App() {
         artifact.title === 'Showcase poster' ? { ...artifact, href: posterPdf } : artifact
       ),
     []
+  );
+
+  const editorialTextStyle = useMemo(
+    () =>
+      ({
+        minHeight: editorialLayout.height || 260,
+        ['--editorial-font']: editorialLayout.font,
+        ['--editorial-line-height']: `${editorialLayout.lineHeight}px`,
+      }) as CSSProperties,
+    [editorialLayout.font, editorialLayout.height, editorialLayout.lineHeight]
   );
 
   return (
@@ -171,24 +234,52 @@ function App() {
         </div>
 
         <div className="editorial-shell" ref={ref}>
-          <div className="editorial-stage" style={{ minHeight: editorialLayout.height || 260 }}>
-            {editorialLayout.lines.map((line) => (
-              <span
-                key={`${line.top}-${line.text}`}
-                className="editorial-line"
-                style={{ top: line.top, width: line.width }}
-              >
-                {line.text}
-              </span>
-            ))}
+          <div
+            className={`editorial-stage ${
+              editorialLayout.stacked ? 'editorial-stage--stacked' : ''
+            }`}
+          >
+            <div
+              className="editorial-text-layer"
+              style={editorialTextStyle}
+            >
+              {editorialLayout.lines.map((line) => (
+                <span
+                  key={`${line.top}-${line.text}`}
+                  className="editorial-line"
+                  style={{ top: line.top, width: line.width }}
+                >
+                  {line.text}
+                </span>
+              ))}
 
-            {editorialLayout.obstacleWidth > 0 ? (
+              {!editorialLayout.stacked && editorialLayout.obstacleWidth > 0 ? (
+                <aside
+                  className="editorial-obstacle"
+                  style={{
+                    width: editorialLayout.obstacleWidth,
+                    minHeight: editorialLayout.obstacleHeight,
+                  }}
+                >
+                  <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
+                  <p className="obstacle-label">Operational snapshot</p>
+                  <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
+                  <p>
+                    The application ties together public discovery, provider coordination, and client
+                    engagement without breaking the emotional tone of the brand.
+                  </p>
+                  <ul>
+                    <li>Role-aware dashboards for providers and clients</li>
+                    <li>Realtime messaging, appointments, and document workflows</li>
+                    <li>Content, care plans, and recovery context in one system</li>
+                  </ul>
+                </aside>
+              ) : null}
+            </div>
+
+            {editorialLayout.stacked ? (
               <aside
-                className="editorial-obstacle"
-                style={{
-                  width: editorialLayout.obstacleWidth,
-                  minHeight: editorialLayout.obstacleHeight,
-                }}
+                className="editorial-obstacle editorial-obstacle--stacked"
               >
                 <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
                 <p className="obstacle-label">Operational snapshot</p>
