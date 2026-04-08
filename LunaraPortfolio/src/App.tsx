@@ -112,13 +112,13 @@ function buildEditorialLayout(stageWidth: number): EditorialLayout {
       lineHeight: 0,
       font: '',
       stacked: true,
-      textWidth: 0,
+      textWidth: stageWidth,
     };
   }
 
   const config = getEditorialConfig(stageWidth);
   const prepared = prepareWithSegments(heroNarrative, config.font);
-  const textWidth = config.stacked
+  const narrowWidth = config.stacked
     ? stageWidth
     : Math.max(260, stageWidth - config.obstacleWidth - config.gap);
 
@@ -127,7 +127,11 @@ function buildEditorialLayout(stageWidth: number): EditorialLayout {
   const lines: EditorialLine[] = [];
 
   while (true) {
-    const line = layoutNextLine(prepared, cursor, textWidth);
+    const availableWidth =
+      !config.stacked && config.obstacleWidth > 0 && y < config.obstacleHeight
+        ? narrowWidth
+        : stageWidth;
+    const line = layoutNextLine(prepared, cursor, availableWidth);
 
     if (!line) {
       break;
@@ -140,13 +144,13 @@ function buildEditorialLayout(stageWidth: number): EditorialLayout {
 
   return {
     lines,
-    height: y,
+    height: Math.max(y, config.stacked ? 0 : config.obstacleHeight),
     obstacleWidth: config.obstacleWidth,
     obstacleHeight: config.obstacleHeight,
     lineHeight: config.lineHeight,
     font: config.font,
     stacked: config.stacked,
-    textWidth,
+    textWidth: stageWidth,
   };
 }
 
@@ -237,11 +241,7 @@ function App() {
         </div>
 
         <div className="editorial-shell" ref={ref}>
-          <div
-            className={`editorial-stage ${
-              editorialLayout.stacked ? 'editorial-stage--stacked' : ''
-            }`}
-          >
+          <div className="editorial-stage">
             <div
               className="editorial-text-layer"
               style={editorialTextStyle}
@@ -255,22 +255,32 @@ function App() {
                   {line.text}
                 </span>
               ))}
+
+              {!editorialLayout.stacked && editorialLayout.obstacleWidth > 0 && (
+                <aside
+                  className="editorial-obstacle"
+                  style={{
+                    width: editorialLayout.obstacleWidth,
+                  }}
+                >
+                  <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
+                  <p className="obstacle-label">Operational snapshot</p>
+                  <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
+                  <p>
+                    The application ties together public discovery, provider coordination, and client
+                    engagement without breaking the emotional tone of the brand.
+                  </p>
+                  <ul>
+                    <li>Role-aware dashboards for providers and clients</li>
+                    <li>Realtime messaging, appointments, and document workflows</li>
+                    <li>Content, care plans, and recovery context in one system</li>
+                  </ul>
+                </aside>
+              )}
             </div>
 
-            {editorialLayout.obstacleWidth > 0 || editorialLayout.stacked ? (
-              <aside
-                className={`editorial-obstacle ${
-                  editorialLayout.stacked ? 'editorial-obstacle--stacked' : ''
-                }`}
-                style={
-                  editorialLayout.stacked
-                    ? undefined
-                    : {
-                        width: editorialLayout.obstacleWidth,
-                        minHeight: Math.max(editorialLayout.height, editorialLayout.obstacleHeight),
-                      }
-                }
-              >
+            {editorialLayout.stacked && (
+              <aside className="editorial-obstacle editorial-obstacle--stacked">
                 <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
                 <p className="obstacle-label">Operational snapshot</p>
                 <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
@@ -284,7 +294,7 @@ function App() {
                   <li>Content, care plans, and recovery context in one system</li>
                 </ul>
               </aside>
-            ) : null}
+            )}
           </div>
           <p className="editorial-caption">
             A dense opening narrative establishes the full scope of the product before moving into the
