@@ -18,30 +18,10 @@ import {
   teamLinks,
 } from './siteContent';
 
-type EditorialLine = {
-  text: string;
-  top: number;
-  width: number;
-};
-
 type EditorialLayout = {
-  lines: EditorialLine[];
-  height: number;
-  obstacleWidth: number;
-  obstacleHeight: number;
+  lines: string[];
   lineHeight: number;
   font: string;
-  stacked: boolean;
-  textWidth: number;
-};
-
-type EditorialConfig = {
-  font: string;
-  lineHeight: number;
-  obstacleWidth: number;
-  obstacleHeight: number;
-  stacked: boolean;
-  gap: number;
 };
 
 function useElementWidth<T extends HTMLElement>() {
@@ -50,117 +30,50 @@ function useElementWidth<T extends HTMLElement>() {
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) {
-      return;
-    }
+    if (!element) return;
 
     const observer = new ResizeObserver((entries) => {
-      const nextWidth = entries[0]?.contentRect.width ?? 0;
-      setWidth(nextWidth);
+      setWidth(entries[0]?.contentRect.width ?? 0);
     });
 
     observer.observe(element);
     setWidth(element.getBoundingClientRect().width);
-
     return () => observer.disconnect();
   }, []);
 
   return { ref, width };
 }
 
-function getEditorialConfig(stageWidth: number): EditorialConfig {
-  if (stageWidth < 640) {
-    return {
-      font: '500 16px "Luxurious Roman"',
-      lineHeight: 28,
-      obstacleWidth: 0,
-      obstacleHeight: 0,
-      stacked: true,
-      gap: 0,
-    };
-  }
-
-  if (stageWidth < 960) {
-    return {
-      font: '500 18px "Luxurious Roman"',
-      lineHeight: 31,
-      obstacleWidth: 0,
-      obstacleHeight: 0,
-      stacked: true,
-      gap: 0,
-    };
-  }
-
-  const obstacleWidth = stageWidth >= 1180 ? 320 : 280;
-  return {
-    font: '500 20px "Luxurious Roman"',
-    lineHeight: 34,
-    obstacleWidth,
-    obstacleHeight: 290,
-    stacked: false,
-    gap: 28,
-  };
+function getEditorialFont(columnWidth: number): { font: string; lineHeight: number } {
+  if (columnWidth < 400) return { font: '500 16px "Luxurious Roman"', lineHeight: 28 };
+  if (columnWidth < 600) return { font: '500 18px "Luxurious Roman"', lineHeight: 31 };
+  return { font: '500 20px "Luxurious Roman"', lineHeight: 34 };
 }
 
-function buildEditorialLayout(stageWidth: number): EditorialLayout {
-  if (stageWidth <= 0) {
-    return {
-      lines: [],
-      height: 0,
-      obstacleWidth: 0,
-      obstacleHeight: 0,
-      lineHeight: 0,
-      font: '',
-      stacked: true,
-      textWidth: stageWidth,
-    };
-  }
+function buildEditorialLayout(columnWidth: number): EditorialLayout {
+  const fallback = { lines: [], lineHeight: 28, font: '500 16px "Luxurious Roman"' };
+  if (columnWidth <= 0) return fallback;
 
-  const config = getEditorialConfig(stageWidth);
-  const prepared = prepareWithSegments(heroNarrative, config.font);
-  const narrowWidth = config.stacked
-    ? stageWidth
-    : Math.max(260, stageWidth - config.obstacleWidth - config.gap);
+  const { font, lineHeight } = getEditorialFont(columnWidth);
+  const prepared = prepareWithSegments(heroNarrative, font);
 
   let cursor = { segmentIndex: 0, graphemeIndex: 0 };
-  let y = 0;
-  const lines: EditorialLine[] = [];
+  const lines: string[] = [];
 
   while (true) {
-    const availableWidth =
-      !config.stacked && config.obstacleWidth > 0 && y < config.obstacleHeight
-        ? narrowWidth
-        : stageWidth;
-    const line = layoutNextLine(prepared, cursor, availableWidth);
-
-    if (!line) {
-      break;
-    }
-
-    lines.push({ text: line.text, top: y, width: line.width });
+    const line = layoutNextLine(prepared, cursor, columnWidth);
+    if (!line) break;
+    lines.push(line.text);
     cursor = line.end;
-    y += config.lineHeight;
   }
 
-  return {
-    lines,
-    height: Math.max(y, config.stacked ? 0 : config.obstacleHeight),
-    obstacleWidth: config.obstacleWidth,
-    obstacleHeight: config.obstacleHeight,
-    lineHeight: config.lineHeight,
-    font: config.font,
-    stacked: config.stacked,
-    textWidth: stageWidth,
-  };
+  return { lines, lineHeight, font };
 }
 
 function App() {
   const { ref, width } = useElementWidth<HTMLDivElement>();
 
-  const editorialLayout = useMemo(() => {
-    const stageWidth = Math.max(320, width);
-    return buildEditorialLayout(stageWidth);
-  }, [width]);
+  const editorialLayout = useMemo(() => buildEditorialLayout(width), [width]);
 
   const resolvedArtifactLinks = useMemo(
     () =>
@@ -173,11 +86,10 @@ function App() {
   const editorialTextStyle = useMemo(
     () =>
       ({
-        minHeight: editorialLayout.height || 260,
         ['--editorial-font']: editorialLayout.font,
         ['--editorial-line-height']: `${editorialLayout.lineHeight}px`,
       }) as CSSProperties,
-    [editorialLayout.font, editorialLayout.height, editorialLayout.lineHeight]
+    [editorialLayout.font, editorialLayout.lineHeight]
   );
 
   return (
@@ -240,61 +152,30 @@ function App() {
           </div>
         </div>
 
-        <div className="editorial-shell" ref={ref}>
+        <div className="editorial-shell">
           <div className="editorial-stage">
-            <div
-              className="editorial-text-layer"
-              style={editorialTextStyle}
-            >
-              {editorialLayout.lines.map((line) => (
-                <span
-                  key={`${line.top}-${line.text}`}
-                  className="editorial-line"
-                  style={{ top: line.top, width: line.width }}
-                >
-                  {line.text}
+            <div className="editorial-text-layer" ref={ref} style={editorialTextStyle}>
+              {editorialLayout.lines.map((text, i) => (
+                <span key={i} className="editorial-line">
+                  {text}
                 </span>
               ))}
-
-              {!editorialLayout.stacked && editorialLayout.obstacleWidth > 0 && (
-                <aside
-                  className="editorial-obstacle"
-                  style={{
-                    width: editorialLayout.obstacleWidth,
-                  }}
-                >
-                  <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
-                  <p className="obstacle-label">Operational snapshot</p>
-                  <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
-                  <p>
-                    The application ties together public discovery, provider coordination, and client
-                    engagement without breaking the emotional tone of the brand.
-                  </p>
-                  <ul>
-                    <li>Role-aware dashboards for providers and clients</li>
-                    <li>Realtime messaging, appointments, and document workflows</li>
-                    <li>Content, care plans, and recovery context in one system</li>
-                  </ul>
-                </aside>
-              )}
             </div>
 
-            {editorialLayout.stacked && (
-              <aside className="editorial-obstacle editorial-obstacle--stacked">
-                <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
-                <p className="obstacle-label">Operational snapshot</p>
-                <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
-                <p>
-                  The application ties together public discovery, provider coordination, and client
-                  engagement without breaking the emotional tone of the brand.
-                </p>
-                <ul>
-                  <li>Role-aware dashboards for providers and clients</li>
-                  <li>Realtime messaging, appointments, and document workflows</li>
-                  <li>Content, care plans, and recovery context in one system</li>
-                </ul>
-              </aside>
-            )}
+            <aside className="editorial-obstacle">
+              <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
+              <p className="obstacle-label">Operational snapshot</p>
+              <h2>A single product surface for recovery, scheduling, messaging, and care planning.</h2>
+              <p>
+                The application ties together public discovery, provider coordination, and client
+                engagement without breaking the emotional tone of the brand.
+              </p>
+              <ul>
+                <li>Role-aware dashboards for providers and clients</li>
+                <li>Realtime messaging, appointments, and document workflows</li>
+                <li>Content, care plans, and recovery context in one system</li>
+              </ul>
+            </aside>
           </div>
           <p className="editorial-caption">
             A dense opening narrative establishes the full scope of the product before moving into the
