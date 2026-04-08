@@ -177,10 +177,6 @@ function App() {
               </ul>
             </aside>
           </div>
-          <p className="editorial-caption">
-            A dense opening narrative establishes the full scope of the product before moving into the
-            architecture, workflow, and submission evidence behind the release.
-          </p>
         </div>
       </header>
 
