@@ -1,6 +1,21 @@
 export const heroNarrative =
   'LUNARA is a full-stack postpartum support platform that brings client care, provider workflows, educational content, documentation, and quality evidence into one cohesive product. The application closes a real care-continuity gap by giving doulas and postpartum families a single place to communicate, schedule, track recovery, and manage care artifacts.';
 
+export const brandImages = {
+  hero: 'https://www.lunaracare.org/images/ollie%20head.png',
+  newborn: 'https://www.lunaracare.org/images/newborn.png',
+  belly: 'https://www.lunaracare.org/images/belly.png',
+  baby: 'https://www.lunaracare.org/images/baby.png',
+  seal: 'https://www.lunaracare.org/images/wax%20seal.png',
+};
+
+export const portfolioStats = [
+  { value: '1044', label: 'Jest tests' },
+  { value: '32', label: 'Playwright E2E' },
+  { value: '19+', label: 'Backend route modules' },
+  { value: '50+', label: 'React components' },
+];
+
 export const highlights = [
   {
     title: 'Why it matters',
@@ -55,6 +70,33 @@ export const featureColumns = [
       'Document review, check-in alerts, and care-plan management',
       'Admin/provider account tools and analytics surfaces',
     ],
+  },
+];
+
+export const showcaseSections = [
+  {
+    title: 'A warmer front door',
+    description:
+      'The public-facing experience establishes the tone of the brand: soft photography, storybook typography, and a calm visual rhythm that feels supportive instead of clinical.',
+    image: brandImages.hero,
+    align: 'image-right' as const,
+    kicker: 'Brand language',
+  },
+  {
+    title: 'A clear path into care',
+    description:
+      'Clients and providers move from landing page to role-specific workflows through a single product surface that connects scheduling, messaging, forms, documents, and education.',
+    image: brandImages.newborn,
+    align: 'image-left' as const,
+    kicker: 'Product journey',
+  },
+  {
+    title: 'Documentation with the same tone',
+    description:
+      'The portfolio site carries the same cream, brown, sage, and script-heavy aesthetic into the capstone narrative so the presentation feels like part of the product, not a disconnected artifact.',
+    image: brandImages.belly,
+    align: 'image-right' as const,
+    kicker: 'Milestone 6 packaging',
   },
 ];
 

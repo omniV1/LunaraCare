@@ -3,12 +3,15 @@ import { layoutNextLine, prepareWithSegments } from '@chenglou/pretext';
 import {
   architectureLayers,
   artifactLinks,
+  brandImages,
   codeSamples,
   featureColumns,
   heroNarrative,
   highlights,
   implementationNotes,
+  portfolioStats,
   runSteps,
+  showcaseSections,
   teamLinks,
 } from './siteContent';
 
@@ -99,24 +102,59 @@ function App() {
   return (
     <div className="page-shell">
       <header className="hero-shell">
-        <div className="hero-copy">
-          <p className="eyebrow">LUNARA PROJECT PORTFOLIO</p>
-          <h1>Postpartum care continuity, packaged as a production-ready full-stack platform.</h1>
-          <p className="hero-summary">
-            This standalone site exists to explain the application behind the capstone: what was built,
-            why it matters, how it works, and where reviewers can inspect the live product, source code,
-            documentation, and presentation artifacts.
-          </p>
-          <div className="hero-links">
+        <div className="topbar">
+          <div className="topbar-wordmark">
+            <span className="topbar-script">Lunara</span>
+            <span className="topbar-divider" />
+            <span className="topbar-label">Project Portfolio</span>
+          </div>
+          <nav className="topbar-nav">
             <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
-              Open the live application
+              Live App
             </a>
             <a href="https://github.com/omniV1/lunaraCare" target="_blank" rel="noreferrer">
-              Browse the repository
+              Repository
             </a>
             <a href="https://lunara.onrender.com/api-docs" target="_blank" rel="noreferrer">
-              Review the API surface
+              API Docs
             </a>
+          </nav>
+        </div>
+
+        <div className="hero-stage">
+          <div className="hero-backdrop">
+            <img src={brandImages.hero} alt="" />
+          </div>
+          <div className="hero-overlay" />
+          <div className="hero-stage-content">
+            <div className="hero-copy">
+              <p className="eyebrow">LUNARA PROJECT PORTFOLIO</p>
+              <h1>Postpartum care continuity, packaged as a production-ready full-stack platform.</h1>
+              <p className="hero-summary">
+                This standalone site explains the application behind the capstone through the same warm,
+                editorial visual language as the main LUNARA experience.
+              </p>
+              <div className="hero-links">
+                <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
+                  Open the live application
+                </a>
+                <a href="https://github.com/omniV1/lunaraCare" target="_blank" rel="noreferrer">
+                  Browse the repository
+                </a>
+                <a href="https://lunara.onrender.com/api-docs" target="_blank" rel="noreferrer">
+                  Review the API surface
+                </a>
+              </div>
+            </div>
+
+            <div className="hero-stats">
+              {portfolioStats.map((stat) => (
+                <article key={stat.label} className="stat-pill">
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -140,6 +178,7 @@ function App() {
                   minHeight: editorialLayout.obstacleHeight,
                 }}
               >
+                <img className="editorial-seal" src={brandImages.seal} alt="Lunara seal" />
                 <p className="obstacle-label">Why Pretext here?</p>
                 <h2>Editorial text flow without DOM reflow.</h2>
                 <p>
@@ -162,6 +201,26 @@ function App() {
       </header>
 
       <main className="content-shell">
+        <section className="showcase-rail">
+          {showcaseSections.map((section) => (
+            <article
+              key={section.title}
+              className={`showcase-card ${
+                section.align === 'image-left' ? 'showcase-card--reverse' : ''
+              }`}
+            >
+              <div className="showcase-media">
+                <img src={section.image} alt={section.title} />
+              </div>
+              <div className="showcase-copy">
+                <p className="eyebrow">{section.kicker}</p>
+                <h2>{section.title}</h2>
+                <p>{section.description}</p>
+              </div>
+            </article>
+          ))}
+        </section>
+
         <Section
           title="Project overview"
           description="LUNARA is the core deliverable; this site is the explanatory layer around it."
@@ -235,6 +294,21 @@ function App() {
           </div>
         </Section>
 
+        <section className="split-banner">
+          <div className="split-banner-copy">
+            <p className="eyebrow">Visual continuity</p>
+            <h2>The portfolio now borrows the same visual cues as the product itself.</h2>
+            <p>
+              Cream paper surfaces, deep brown framing, soft sage accents, large photography, and
+              serif/script typography all echo the main LUNARA website so the portfolio feels like part
+              of the same brand world.
+            </p>
+          </div>
+          <div className="split-banner-media">
+            <img src={brandImages.baby} alt="Lunara visual styling reference" />
+          </div>
+        </section>
+
         <Section
           title="Implementation notes"
           description="The portfolio requirement also needs practical access details, not just visuals."
@@ -299,6 +373,30 @@ function App() {
             ))}
           </div>
         </Section>
+
+        <footer className="portfolio-footer">
+          <div className="portfolio-footer-copy">
+            <span className="topbar-script">Lunara</span>
+            <p>
+              A capstone portfolio companion to the live application at{' '}
+              <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
+                lunaracare.org
+              </a>
+              .
+            </p>
+          </div>
+          <div className="portfolio-footer-links">
+            <a href="https://www.lunaracare.org" target="_blank" rel="noreferrer">
+              Live app
+            </a>
+            <a href="https://github.com/omniV1/lunaraCare" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a href="https://lunara.onrender.com/api-docs" target="_blank" rel="noreferrer">
+              API docs
+            </a>
+          </div>
+        </footer>
       </main>
     </div>
   );
