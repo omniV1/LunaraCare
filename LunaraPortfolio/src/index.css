@@ -26,16 +26,20 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   color: var(--lunara-text);
+  overflow-x: hidden;
 }
 
 a {
   color: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 
 code,
@@ -51,6 +55,7 @@ pre {
   width: min(1280px, calc(100% - 1.6rem));
   margin: 0 auto;
   padding: 1rem 0 5rem;
+  overflow-x: hidden;
 }
 
 .hero-shell {
@@ -234,6 +239,7 @@ pre {
   border-radius: 1.4rem;
   background: rgba(250, 247, 242, 0.16);
   border: 1px solid rgba(250, 247, 242, 0.18);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   color: var(--lunara-cream);
 }
@@ -265,6 +271,7 @@ pre {
   background: linear-gradient(180deg, rgba(244, 239, 231, 0.96), rgba(255, 250, 246, 0.98));
   border: 1px solid rgba(107, 77, 55, 0.12);
   box-shadow: var(--lunara-shadow);
+  overflow: hidden;
 }
 
 .editorial-stage {
@@ -276,7 +283,9 @@ pre {
 
 .editorial-text-layer {
   min-width: 0;
+  max-width: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .editorial-drop-cap {
@@ -348,6 +357,8 @@ pre {
 .pretext-narrative {
   position: relative;
   min-height: 200px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .pretext-line {
@@ -430,6 +441,8 @@ pre {
 /* ── Tabbed code showcase ── */
 
 .code-showcase {
+  min-width: 0;
+  max-width: 100%;
   opacity: 0;
   transform: translateY(16px);
   transition:
@@ -452,6 +465,7 @@ pre {
   scrollbar-width: thin;
   scrollbar-color: rgba(157, 152, 181, 0.3) transparent;
   -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
 }
 
 .code-tab-bar::-webkit-scrollbar {
@@ -477,6 +491,8 @@ pre {
   font-family: inherit;
   font-size: 0.82rem;
   cursor: pointer;
+  scroll-snap-align: start;
+  -webkit-tap-highlight-color: transparent;
   transition:
     background 200ms ease,
     color 200ms ease,
@@ -512,6 +528,7 @@ pre {
   border-radius: 0 0 14px 14px;
   background: #171324;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   animation: codePanelIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -777,6 +794,7 @@ pre {
   background: rgba(255, 252, 248, 0.82);
   border: 1px solid rgba(107, 77, 55, 0.1);
   box-shadow: var(--lunara-shadow);
+  overflow: hidden;
 }
 
 .section-heading {
@@ -1237,20 +1255,44 @@ pre {
 
   .code-line {
     font-size: 0.74rem;
+    line-height: 1.55;
   }
 
   .code-line-num {
-    width: 2.4rem;
-    padding-right: 0.6rem;
-    font-size: 0.68rem;
+    width: 2.2rem;
+    padding-right: 0.5rem;
+    font-size: 0.66rem;
   }
 
   .code-panel {
-    padding: 0.6rem 0;
+    padding: 0.5rem 0;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .code-tab-bar {
+    border-radius: 10px 10px 0 0;
   }
 
   .code-cursor {
-    margin-left: 2.4rem;
+    margin-left: 2.2rem;
+  }
+
+  .editorial-shell {
+    padding: 0.85rem;
+    border-radius: 1rem;
+  }
+
+  .editorial-stage {
+    gap: 0.9rem;
+  }
+
+  .editorial-obstacle h2 {
+    font-size: 1.15rem;
+  }
+
+  .editorial-obstacle p {
+    font-size: 0.9rem;
+    line-height: 1.55;
   }
 
   .portfolio-footer {
@@ -1266,34 +1308,152 @@ pre {
 
 @media (max-width: 400px) {
   .page-shell {
-    width: calc(100% - 0.75rem);
+    width: calc(100% - 0.5rem);
   }
 
   .hero-stage {
-    padding: 1rem;
-    border-radius: 1.2rem;
-    min-height: 24rem;
+    padding: 0.85rem;
+    border-radius: 1rem;
+    min-height: 22rem;
   }
 
   .hero-copy h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .hero-summary {
+    font-size: 0.88rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .stat-pill {
+    padding: 0.6rem 0.7rem;
+    border-radius: 1rem;
   }
 
   .stat-pill strong {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+  }
+
+  .stat-pill span {
+    font-size: 0.72rem;
   }
 
   .topbar {
-    padding: 0.75rem 0.85rem;
-    border-radius: 1.2rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 1rem;
   }
 
   .topbar-script {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+  }
+
+  .topbar-label {
+    font-size: 0.7rem;
+  }
+
+  .section-block {
+    padding: 0.75rem;
+    border-radius: 0.9rem;
   }
 
   .section-heading h2 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: 1.15;
+  }
+
+  .content-card,
+  .snippet-card {
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+  }
+
+  .content-card h3,
+  .snippet-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .content-card p {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .editorial-drop-cap {
+    display: none;
+  }
+
+  .editorial-line--indented {
+    padding-left: 0 !important;
+  }
+
+  .showcase-card {
+    border-radius: 1rem;
+  }
+
+  .showcase-media,
+  .split-banner-media {
+    min-height: 10rem;
+  }
+
+  .showcase-copy,
+  .split-banner-copy {
+    padding: 1rem;
+  }
+
+  .showcase-copy h2,
+  .split-banner-copy h2 {
+    font-size: 1.3rem;
+  }
+
+  .poster-board {
+    border-radius: 1rem;
+  }
+
+  .poster-board-copy {
+    padding: 1rem;
+  }
+
+  .poster-board-copy h2 {
+    font-size: 1.15rem;
+  }
+
+  .code-tab {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .code-line {
+    font-size: 0.68rem;
+  }
+
+  .code-line-num {
+    width: 2rem;
+    padding-right: 0.4rem;
+    font-size: 0.6rem;
+  }
+
+  .architecture-node {
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.9rem;
+  }
+
+  .artifact-card {
+    padding: 0.75rem 0.85rem;
+    border-radius: 0.9rem;
+  }
+
+  .highlight-item {
+    padding: 0.7rem;
+    border-radius: 0.8rem;
+  }
+
+  .hero-links a,
+  .content-card a {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.85rem;
   }
 }
