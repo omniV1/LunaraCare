@@ -733,10 +733,135 @@ This submission represents the culmination of the senior capstone experience and
 \newpage
 
 % ============================================================
-% SECTION 9: RECOMMENDED FIGURES
+% SECTION 9: APPLICATION SCREENSHOTS
 % ============================================================
-\section{Recommended Figures}
+\section{Application Screenshots}
 
-The following figures are recommended for inclusion in the final presentation materials. An \textbf{end-to-end provider workflow} screenshot sequence should trace the path from login through client creation to a care-plan milestone update, demonstrating the breadth of the provider experience. The \textbf{system architecture diagram} (available in \texttt{Docs/img/Diagrams/SystemArchitecture.png}) illustrates the React, Express, MongoDB, and Socket.IO integration that underpins the platform. A \textbf{test suite results} capture showing 1,044 Jest tests passing alongside the SonarQube A/A/A quality dashboard reinforces testing confidence. A screenshot of the \textbf{standalone portfolio website} at \texttt{www.lunara-profile.design} conveys how the project is presented to employers. A \textbf{GitHub repository view} highlighting the commit history and branch structure demonstrates source-control management best practices. Finally, the \textbf{Swagger API documentation} screenshot showing the route inventory and endpoint surface communicates the scope of the backend API.
+The following screenshots document the working application as delivered in the final release. They are organized by access level: the custom portfolio site, public pages, provider dashboard workflows, client dashboard workflows, and automated test results.
+
+% ── Portfolio Site ──
+\subsection{Project Portfolio Site}
+
+\screenshotfig{Photos/portfolio/portfolio-home.png}{Portfolio Site Home --- The standalone project portfolio at \texttt{www.lunara-profile.design} presents the capstone for employers and evaluators with architecture, security, testing metrics, code excerpts, and deliverable links.}{portfolio-home}
+
+% ── Public Website ──
+\subsection{Public Website (FR1)}
+
+\screenshotfig{Photos/public/HomePage.png}{Landing Page --- The public homepage features a hero section, the ``Dear Parent'' introduction, client login access, an interactive offerings accordion, and an inquiry contact form.}{landing-page}
+
+\screenshotfig{Photos/public/loginPage.png}{Login Page --- The login page supports email/password authentication with role-based redirection to the appropriate dashboard.}{login-page}
+
+\screenshotfig{Photos/public/publicBlog_page.png}{Public Blog List --- The public-facing blog displays published posts with excerpts, dates, and ``Read More'' links.}{public-blog}
+
+\screenshotfig{Photos/public/publicBlog_detailed.png}{Public Blog Post Detail --- A full blog post view with category tags, author attribution, read time, and view count.}{public-blog-detail}
+
+% ── Provider Dashboard ──
+\subsection{Provider Dashboard (FR3, FR9, FR11)}
+
+\screenshotfig{Photos/provider/provider_dashboard_overview.png}{Provider Dashboard Overview --- Active client count, pending inquiries, check-ins needing attention, quick action buttons, upcoming appointments, and personal to-do list.}{provider-dashboard}
+
+\screenshotfig{Photos/provider/provider_recent_activity.png}{Provider Recent Activity --- Upcoming appointments, document submissions from clients, and client assignment history.}{provider-activity}
+
+\screenshotfig{Photos/provider/provider_clients_page_names_resolved.png}{Provider Clients Page --- ``My clients'' (assigned) and ``All created clients'' with names, emails, provider assignments, and actions.}{provider-clients}
+
+\screenshotfig{Photos/provider/provider_invite_client_form.png}{Invite New Client Form --- Providers invite new clients by entering first name, last name, and email.}{invite-client}
+
+\screenshotfig{Photos/provider/provider_client_created.png}{New Client Created --- The new client appears in ``All created clients'' with an ``Add to my list'' option.}{client-created}
+
+\screenshotfig{Photos/provider/provider_schedule_appointment_complete.png}{Schedule Appointment Modal --- Client and provider selected, start/end times, type (Virtual), and notes.}{schedule-modal}
+
+\screenshotfig{Photos/provider/provider_schedule_calendar.png}{Provider Schedule Calendar --- Monthly calendar view with color-coded appointments and sidebar details.}{provider-calendar}
+
+\screenshotfig{Photos/provider/provider_schedule_availability_slots.png}{Provider Availability Slots --- Providers add availability time slots for specific dates.}{availability-slots}
+
+\screenshotfig{Photos/provider/provider_client_document_found.png}{Client Documents Search and Filter --- Search, filter by type, status, and date range with ``Review Now'' action.}{provider-docs}
+
+\screenshotfig{Photos/provider/provider_document_review_panel.png}{Document Review Panel --- Title, author, attached files, internal notes, client-facing feedback, and review status.}{doc-review}
+
+\screenshotfig{Photos/provider/provider_file_view_success.png}{Authenticated File Viewer --- Client-uploaded files viewed through an authenticated blob URL.}{file-viewer}
+
+\screenshotfig{Photos/provider/provider_document_review_completed.png}{Document Review Completed --- Status updates to ``Completed'' and the client is notified.}{review-done}
+
+\screenshotfig{Photos/provider/provider_blog_manage_empty.png}{Blog Management --- Manage Blog Posts page with search, filter by category/tag/author, and tabs.}{blog-manage}
+
+\screenshotfig{Photos/provider/provider_blog_create_post.png}{Create New Blog Post --- Blog editor with title, category, excerpt, featured image, tags, and rich text content.}{blog-create}
+
+\screenshotfig{Photos/provider/provider_blog_manage_with_post.png}{Blog Post Published --- Published post in management list with Edit, Publish, and Delete actions.}{blog-published}
+
+\screenshotfig{Photos/provider/provider_resource_create_blank.png}{Create New Resource (Blank Form) --- Title, category, description, content, difficulty, week selectors, tags, and publish.}{resource-blank}
+
+\screenshotfig{Photos/provider/provider_resource_create_filled.png}{Create New Resource (Completed Form) --- ``First Trimester: What to Expect'' with weeks 1--12 selected and content filled.}{resource-filled}
+
+\screenshotfig{Photos/provider/provider_resource_in_library.png}{Resource Published in Library --- Resource in library with detail modal showing content, category, difficulty, and week targeting.}{resource-library}
+
+\screenshotfig{Photos/provider/provider_profile_edit.png}{Provider Profile Edit --- Personal information, bio, certifications, specialties, languages, services, and availability.}{provider-profile}
+
+\screenshotfig{Photos/provider/provider_account_settings.png}{Account Settings --- Password change, notification preferences, 2FA toggle, and account deletion.}{account-settings}
+
+\screenshotfig{Photos/provider/provider_create_provider_form.png}{Create Provider Account --- First name, last name, email, and password with complexity requirements.}{create-provider}
+
+\screenshotfig{Photos/provider/provider_create_provider_success.png}{Provider Account Created --- Confirmation toast after successful provider creation.}{provider-created}
+
+\screenshotfig{Photos/provider/provider_messaging_center.png}{Provider Messaging Center --- Client list with real-time connection status, conversation view with message history and system notifications.}{provider-messaging}
+
+% ── Client Dashboard ──
+\subsection{Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}
+
+\screenshotfig{Photos/client/client_dashboard_overview.png}{Client Dashboard Overview --- Document count, resource count, upcoming appointments, daily mood check-in orb, suggested reading, and resource filter/search.}{client-dashboard}
+
+\screenshotfig{Photos/client/client_mood_need_support.png}{Mood Orb: ``Need Support Now'' --- The mood orb glows red when the client needs immediate provider attention.}{mood-support}
+
+\screenshotfig{Photos/client/client_mood_tough_day.png}{Mood Orb: ``Having a Tough Day'' --- Warm red-orange tone for the tough day state.}{mood-tough}
+
+\screenshotfig{Photos/client/client_mood_hanging_in_there.png}{Mood Orb: ``Hanging in There'' --- Golden-amber orb for the neutral mood state.}{mood-neutral}
+
+\screenshotfig{Photos/client/client_mood_doing_alright.png}{Mood Orb: ``Doing Alright'' --- Pink-magenta orb for the positive mood state.}{mood-alright}
+
+\screenshotfig{Photos/client/client_mood_doing_well.png}{Mood Orb: ``Doing Well'' --- Bright green orb for the most positive mood state.}{mood-well}
+
+\screenshotfig{Photos/client/client_resource_filtered.png}{Resource Library (Filtered) --- Filtered by category ``Postpartum'' and difficulty ``Beginner.''}{resource-filtered}
+
+\screenshotfig{Photos/client/client_resource_detail.png}{Resource Detail View --- ``Postpartum Daily Recovery'' content organized by week.}{resource-detail}
+
+\screenshotfig{Photos/client/client_resource_library_grid.png}{Resource Library Grid --- Full resource grid filtered by the client's postpartum stage.}{resource-grid}
+
+\screenshotfig{Photos/client/client_blog_post_detail.png}{Blog Post Detail (Client View) --- Published blog post with category tags, reading time, and full content.}{client-blog-detail}
+
+\screenshotfig{Photos/client/client_blog_list.png}{Blog List (Client View) --- Authenticated blog list showing published posts.}{client-blog-list}
+
+\screenshotfig{Photos/client/client_appointments_calendar.png}{Appointments Calendar --- Monthly calendar with status legend and upcoming appointments list.}{client-calendar}
+
+\screenshotfig{Photos/client/client_request_time_form.png}{Request a Specific Time --- Date picker, type selector, start/end time inputs, and optional notes.}{request-time}
+
+\screenshotfig{Photos/client/client_request_time_filled.png}{Request Time (Completed Form) --- March 19, 2026, 7:02--9:02 PM (Virtual), ``Casual check in.''}{request-filled}
+
+\screenshotfig{Photos/client/client_appointment_approved.png}{Appointment Approved --- Success toast confirms approval; appointment appears on calendar.}{appt-approved}
+
+\screenshotfig{Photos/client/client_appointment_confirmed.png}{Appointment Confirmed --- Confirmed appointment in upcoming list with date, time, type, and status badge.}{appt-confirmed}
+
+\screenshotfig{Photos/client/client_notifications_and_chat.png}{Client Notifications and Real-time Chat --- Notification badge with unread messages and real-time chat with provider.}{client-chat}
+
+\screenshotfig{Photos/client/client_messaging_with_notifications.png}{Client Messaging (Full View) --- Full messaging page with notification area and conversation history.}{client-messaging}
+
+\screenshotfig{Photos/client/client_profile_edit_and_upload.png}{Client Profile and Document Upload --- Profile edit form with sub-navigation and Upload Documents section.}{client-profile}
+
+\screenshotfig{Photos/client/client_document_upload_form.png}{Document Upload Form --- File selector, title, description, category dropdown, and tags.}{upload-form}
+
+\screenshotfig{Photos/client/client_document_upload_filled.png}{Document Upload (Completed Form) --- Selected image, title ``Intake,'' category ``Other,'' tag ``General.''}{upload-filled}
+
+\screenshotfig{Photos/client/client_document_upload_success.png}{Document Upload Success --- Confirmation toast ``Document uploaded successfully!''}{upload-success}
+
+\screenshotfig{Photos/client/client_profile_security_2fa.png}{Client Security Settings --- Two-Factor Authentication (2FA) status with manage option.}{client-2fa}
+
+% ── Test Results ──
+\subsection{Automated Test Results}
+
+\screenshotfig{Photos/tests/backend_cli_output.png}{Backend Test Results (CLI) --- 13 suites, 153 tests passing with per-file coverage breakdown showing statements, branches, functions, and lines. All suites pass in 9.8 seconds.}{test-backend-cli}
+
+\screenshotfig{Photos/tests/backend_jest_output.png}{Backend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 90.58\% statement coverage across middleware (87.38\%), services (91.21\%), and utils (91.66\%) directories.}{test-backend-html}
+
+\screenshotfig{Photos/tests/frontend_cli_output.png}{Frontend Test Results (CLI) --- 98 suites, 715 tests passing with per-file coverage breakdown. All suites pass in 15.8 seconds.}{test-frontend-cli}
+
+\screenshotfig{Photos/tests/Frontend_Jest_output.png}{Frontend Coverage Report (HTML) --- Istanbul/Jest HTML coverage report showing 63.35\% statement coverage across all frontend directories including components, services, pages, hooks, and contexts.}{test-frontend-html}
 
 \end{document}

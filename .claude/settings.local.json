@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where xelatex:*)",
+      "Bash(xelatex -interaction=nonstopmode 05_milestone_5.tex)",
+      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --msg-filter 'sed \"\"/Co-Authored-By/d\"\"' 750c3e2..HEAD)",
+      "Bash(gh repo:*)"
+    ]
+  }
+}

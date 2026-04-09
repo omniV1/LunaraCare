@@ -19,4 +19,9 @@
 \contentsline {paragraph}{Testing and quality.}{21}{section.8}%
 \contentsline {paragraph}{Deployments and presentation.}{21}{section.8}%
 \contentsline {subsection}{\numberline {8.1}Internet-Facing Deliverables Summary}{22}{subsection.8.1}%
-\contentsline {section}{\numberline {9}Recommended Figures}{23}{section.9}%
+\contentsline {section}{\numberline {9}Application Screenshots}{23}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Project Portfolio Site}{23}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Public Website (FR1)}{24}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Provider Dashboard (FR3, FR9, FR11)}{27}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Client Dashboard (FR3, FR4, FR5, FR6, FR7, FR8, Documents)}{38}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Automated Test Results}{50}{subsection.9.5}%
