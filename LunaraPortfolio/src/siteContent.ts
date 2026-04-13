@@ -277,8 +277,8 @@ export const teamLinks = [
   {
     name: 'Andrew Mack',
     role: 'Full Stack Developer',
-    href: '',
-    note: 'No public portfolio site provided in the final submission package',
+    href: 'https://andrewamack.com/',
+    note: 'Personal portfolio showcasing development work and projects',
   },
 ];
 
